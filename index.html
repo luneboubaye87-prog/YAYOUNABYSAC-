@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>YAYOUNABYSAC - Administration</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      color: #222;
+    }
+
+    header {
+      background: #111;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 26px;
+    }
+
+    header p {
+      margin: 8px 0 0;
+      font-size: 14px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 30px auto;
+      padding: 20px;
+    }
+
+    .box {
+      background: white;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+      margin-bottom: 20px;
+    }
+
+    h2 {
+      margin-top: 0;
+    }
+
+    input {
+      width: 100%;
+      padding: 13px;
+      margin: 8px 0;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+
+    button {
+      width: 100%;
+      padding: 13px;
+      margin-top: 10px;
+      border: none;
+      border-radius: 8px;
+      background: #111;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+
+    .secondary {
+      background: #777;
+    }
+
+    .link-button {
+      background: none;
+      color: #111;
+      text-decoration: underline;
+      padding: 8px;
+      margin-top: 5px;
+    }
+
+    .message {
+      display: none;
+      padding: 12px;
+      margin-top: 12px;
+      border-radius: 8px;
+      background: #eee;
+    }
+
+    .error {
+      background: #ffe5e5;
+      color: #a00000;
+    }
+
+    .success {
+      background: #e5f7e5;
+      color: #176b17;
+    }
+
+    .commande {
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 18px;
+      margin-top: 15px;
+      background: #fafafa;
+    }
+
+    .commande p {
+      margin: 7px 0;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .topbar button {
+      width: auto;
+      padding: 10px 18px;
+      margin: 0;
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        margin: 10px auto;
+        padding: 12px;
+      }
+
+      .box {
+        padding: 18px;
+      }
+
+      .topbar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .topbar button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>YAYOUNABYSAC</h1>
+  <p>Administration de la boutique</p>
+</header>
+
+<div class="container">
+
+  <!-- CONNEXION -->
+  <div id="connexionBox" class="box">
+
+    <h2>🔐 Connexion administrateur</h2>
+
+    <input
+      type="email"
+      id="email"
+      placeholder="Adresse e-mail"
+      autocomplete="email"
+    >
+
+    <input
+      type="password"
+      id="password"
+      placeholder="Mot de passe"
+      autocomplete="current-password"
+    >
+
+    <button onclick="connexionAdmin()">
+      Se connecter
+    </button>
+
+    <button
+      type="button"
+      class="link-button"
+      onclick="afficherRecuperation()"
+    >
+      Mot de passe oublié ?
+    </button>
+
+    <div id="loginMessage" class="message"></div>
+
+  </div>
+
+
+  <!-- RECUPERATION -->
+  <div id="recuperationBox" class="box hidden">
+
+    <h2>🔑 Récupération du mot de passe</h2>
+
+    <p>
+      Entre l'adresse e-mail de ton compte administrateur.
+    </p>
+
+    <input
+      type="email"
+      id="emailRecuperation"
+      placeholder="Adresse e-mail"
+      autocomplete="email"
+    >
+
+    <button onclick="envoyerRecuperation()">
+      Envoyer le lien de récupération
+    </button>
+
+    <button
+      type="button"
+      class="secondary"
+      onclick="retourConnexion()"
+    >
+      Retour à la connexion
+    </button>
+
+    <div id="recoveryMessage" class="message"></div>
+
+  </div>
+
+
+  <!-- NOUVEAU MOT DE PASSE -->
+  <div id="nouveauMotDePasseBox" class="box hidden">
+
+    <h2>🔐 Nouveau mot de passe</h2>
+
+    <p>
+      Choisis ton nouveau mot de passe.
+    </p>
+
+    <input
+      type="password"
+      id="nouveauMotDePasse"
+      placeholder="Nouveau mot de passe"
+      autocomplete="new-password"
+    >
+
+    <input
+      type="password"
+      id="confirmationMotDePasse"
+      placeholder="Confirmer le mot de passe"
+      autocomplete="new-password"
+    >
+
+    <button onclick="changerMotDePasse()">
+      Enregistrer le nouveau mot de passe
+    </button>
+
+    <div id="passwordMessage" class="message"></div>
+
+  </div>
+
+
+  <!-- ADMIN -->
+  <div id="adminBox" class="hidden">
+
+    <div class="topbar">
+
+      <h2>📦 Commandes</h2>
+
+      <button onclick="chargerCommandes()">
+        Actualiser
+      </button>
+
+    </div>
+
+    <div class="box">
+
+      <button
+        class="secondary"
+        onclick="deconnexionAdmin()"
+      >
+        Se déconnecter
+      </button>
+
+      <div id="commandes">
+        Chargement des commandes...
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<script>
+
+  /* =========================
+     SUPABASE
+  ========================= */
+
+  const SUPABASE_URL =
+    "https://ajprnhqphbtgfztspuio.supabase.co";
+
+  const SUPABASE_PUBLISHABLE_KEY =
+    "sb_publishable_Qxr7ftKtVgB3y3lmx1agWg_UQxqrviy";
+
+  const supabaseClient =
+    supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_PUBLISHABLE_KEY
+    );
+
+
+  /* =========================
+     URL ACTUELLE
+  ========================= */
+
+  const ADMIN_URL =
+    window.location.origin + window.location.pathname;
+
+
+  /* =========================
+     MESSAGE
+  ========================= */
+
+  function afficherMessage(elementId, texte, type) {
+
+    const message =
+      document.getElementById(elementId);
+
+    message.style.display = "block";
+
+    message.className =
+      "message " + type;
+
+    message.textContent = texte;
+  }
+
+
+  /* =========================
+     CONNEXION
+  ========================= */
+
+  async function connexionAdmin() {
+
+    const email =
+      document.getElementById("email")
+        .value
+        .trim();
+
+    const password =
+      document.getElementById("password")
+        .value;
+
+    if (!email || !password) {
+
+      afficherMessage(
+        "loginMessage",
+        "Entre ton e-mail et ton mot de passe.",
+        "error"
+      );
+
+      return;
+    }
+
+    afficherMessage(
+      "loginMessage",
+      "Connexion...",
+      "success"
+    );
+
+    const {
+      data,
+      error
+    } =
+      await supabaseClient.auth
+        .signInWithPassword({
+          email: email,
+          password: password
+        });
+
+    if (error) {
+
+      console.error(error);
+
+      afficherMessage(
+        "loginMessage",
+        "Erreur : " + error.message,
+        "error"
+      );
+
+      return;
+    }
+
+    afficherMessage(
+      "loginMessage",
+      "Connexion réussie.",
+      "success"
+    );
+
+    afficherAdmin();
+  }
+
+
+  /* =========================
+     AFFICHER ADMIN
+  ========================= */
+
+  function afficherAdmin() {
+
+    document
+      .getElementById("connexionBox")
+      .classList
+      .add("hidden");
+
+    document
+      .getElementById("recuperationBox")
+      .classList
+      .add("hidden");
+
+    document
+      .getElementById("nouveauMotDePasseBox")
+      .classList
+      .add("hidden");
+
+    document
+      .getElementById("adminBox")
+      .classList
+      .remove("hidden");
+
+    chargerCommandes();
+  }
+
+
+  /* =========================
+     AFFICHER RECUPERATION
+  ========================= */
+
+  function afficherRecuperation() {
+
+    document
+      .getElementById("connexionBox")
+      .classList
+      .add("hidden");
+
+    document
+      .getElementById("recuperationBox")
+      .classList
+      .remove("hidden");
+  }
+
+
+  function retourConnexion() {
+
+    document
+      .getElementById("recuperationBox")
+      .classList
+      .add("hidden");
+
+    document
+      .getElementById("connexionBox")
+      .classList
+      .remove("hidden");
+  }
+
+
+  /* =========================
+     ENVOYER RECUPERATION
+  ========================= */
+
+  async function envoyerRecuperation() {
+
+    const email =
+      document
+        .getElementById("emailRecuperation")
+        .value
+        .trim();
+
+    if (!email) {
+
+      afficherMessage(
+        "recoveryMessage",
+        "Entre d'abord ton adresse e-mail.",
+        "error"
+      );
+
+      return;
+    }
+
+    afficherMessage(
+      "recoveryMessage",
+      "Envoi du lien de récupération...",
+      "success"
+    );
+
+    const {
+      error
+    } =
+      await supabaseClient.auth
+        .resetPasswordForEmail(
+          email,
+          {
+            redirectTo: ADMIN_URL
+          }
+        );
+
+    if (error) {
+
+      console.error(error);
+
+      afficherMessage(
+        "recoveryMessage",
+        "Erreur : " + error.message,
+        "error"
+      );
+
+      return;
+    }
+
+    afficherMessage(
+      "recoveryMessage",
+      "Le lien de récupération a été envoyé. Vérifie ta boîte e-mail.",
+      "success"
+    );
+  }
+
+
+  /* =========================
+     AFFICHER NOUVEAU MOT DE PASSE
+     ========================= */
+
+  function afficherNouveauMotDePasse() {
+
+    document
+      .getElementById("connexionBox")
+      .classList
+      .add("hidden");
+
+    document
+      .getElementById("recuperationBox")
+      .classList
+      .add("hidden");
+
+    document
+      .getElementById("adminBox")
+      .classList
+      .add("hidden");
+
+    document
+      .getElementById("nouveauMotDePasseBox")
+      .classList
+      .remove("hidden");
+  }
+
+
+  /* =========================
+     CHANGER MOT DE PASSE
+  ========================= */
+
+  async function changerMotDePasse() {
+
+    const nouveau =
+      document
+        .getElementById("nouveauMotDePasse")
+        .value;
+
+    const confirmation =
+      document
+        .getElementById("confirmationMotDePasse")
+        .value;
+
+    if (!nouveau || !confirmation) {
+
+      afficherMessage(
+        "passwordMessage",
+        "Remplis les deux champs.",
+        "error"
+      );
+
+      return;
+    }
+
+    if (nouveau !== confirmation) {
+
+      afficherMessage(
+        "passwordMessage",
+        "Les deux mots de passe sont différents.",
+        "error"
+      );
+
+      return;
+    }
+
+    if (nouveau.length < 6) {
+
+      afficherMessage(
+        "passwordMessage",
+        "Le mot de passe doit contenir au moins 6 caractères.",
+        "error"
+      );
+
+      return;
+    }
+
+    afficherMessage(
+      "passwordMessage",
+      "Modification en cours...",
+      "success"
+    );
+
+    const {
+      error
+    } =
+      await supabaseClient.auth
+        .updateUser({
+          password: nouveau
+        });
+
+    if (error) {
+
+      console.error(error);
+
+      afficherMessage(
+        "passwordMessage",
+        "Erreur : " + error.message,
+        "error"
+      );
+
+      return;
+    }
+
+    afficherMessage(
+      "passwordMessage",
+      "Mot de passe modifié avec succès. Tu peux maintenant te connecter.",
+      "success"
+    );
+
+    document
+      .getElementById("nouveauMotDePasse")
+      .value = "";
+
+    document
+      .getElementById("confirmationMotDePasse")
+      .value = "";
+
+    setTimeout(() => {
+
+      window.history.replaceState(
+        {},
+        document.title,
+        ADMIN_URL
+      );
+
+      document
+        .getElementById("nouveauMotDePasseBox")
+        .classList
+        .add("hidden");
+
+      document
+        .getElementById("connexionBox")
+        .classList
+        .remove("hidden");
+
+    }, 2500);
+  }
+
+
+  /* =========================
+     DÉTECTION DU LIEN
+     DE RÉCUPÉRATION
+  ========================= */
+
+  supabaseClient.auth.onAuthStateChange(
+    async (event, session) => {
+
+      console.log(
+        "AUTH EVENT :",
+        event
+      );
+
+      if (event === "PASSWORD_RECOVERY") {
+
+        afficherNouveauMotDePasse();
+
+      }
+
+    }
+  );
+
+
+  /* =========================
+     CHARGER COMMANDES
+  ========================= */
+
+  async function chargerCommandes() {
+
+    const zone =
+      document.getElementById("commandes");
+
+    zone.innerHTML =
+      "Chargement des commandes...";
+
+    const {
+      data,
+      error
+    } =
+      await supabaseClient
+        .from("Orders")
+        .select("*")
+        .order("id", {
+          ascending: false
+        });
+
+    if (error) {
+
+      console.error(error);
+
+      zone.innerHTML =
+        "<p style='color:red;'>Erreur : "
+        + error.message
+        + "</p>";
+
+      return;
+    }
+
+    if (!data || data.length === 0) {
+
+      zone.innerHTML =
+        "<p>Aucune commande pour le moment.</p>";
+
+      return;
+    }
+
+    zone.innerHTML = "";
+
+    data.forEach(commande => {
+
+      const div =
+        document.createElement("div");
+
+      div.className =
+        "commande";
+
+      div.innerHTML = `
+        <p><strong>Commande n°${commande.id}</strong></p>
+
+        <p>
+          <strong>Date :</strong>
+          ${commande.created_at || ""}
+        </p>
+
+        <p>
+          <strong>Client :</strong>
+          ${commande.Customer_name || ""}
+        </p>
+
+        <p>
+          <strong>Téléphone :</strong>
+          ${commande.Phone || ""}
+        </p>
+
+        <p>
+          <strong>Adresse :</strong>
+          ${commande.Address || ""}
+        </p>
+
+        <p>
+          <strong>Total :</strong>
+          ${commande.Total || 0} FCFA
+        </p>
+
+        <p>
+          <strong>Statut :</strong>
+          ${commande.Status || ""}
+        </p>
+      `;
+
+      zone.appendChild(div);
+
+    });
+  }
+
+
+  /* =========================
+     DÉCONNEXION
+  ========================= */
+
+  async function deconnexionAdmin() {
+
+    await supabaseClient.auth.signOut();
+
+    document
+      .getElementById("adminBox")
+      .classList
+      .add("hidden");
+
+    document
+      .getElementById("connexionBox")
+      .classList
+      .remove("hidden");
+  }
+
+
+  /* =========================
+     VÉRIFIER SESSION
+  ========================= */
+
+  async function verifierSession() {
+
+    const {
+      data
+    } =
+      await supabaseClient.auth
+        .getSession();
+
+    if (data.session) {
+
+      afficherAdmin();
+
+    }
+
+  }
+
+
+  verifierSession();
+
+</script>
+
+</body>
+</html>
