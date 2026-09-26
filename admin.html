@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>YAYOUNABYSAC - Administration</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      color: #222;
+    }
+
+    header {
+      background: #111;
+      color: white;
+      padding: 18px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 22px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 20px auto;
+      padding: 15px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    }
+
+    input,
+    textarea,
+    select,
+    button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 8px;
+      margin-bottom: 12px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+
+    button {
+      background: #111;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+
+    .danger {
+      background: #c62828;
+    }
+
+    .success {
+      background: #2e7d32;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .message {
+      padding: 10px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      background: #eee;
+    }
+
+    .order {
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 15px;
+    }
+
+    .product {
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 15px;
+    }
+
+    .product img {
+      width: 100%;
+      max-width: 180px;
+      border-radius: 8px;
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    .logout {
+      background: #555;
+    }
+  </style>
+
+</head>
+
+<body>
+
+<header>
+  <h1>YAYOUNABYSAC — Administration</h1>
+</header>
+
+<div class="container">
+
+  <!-- CONNEXION -->
+
+  <div id="loginSection" class="card">
+    <h2>Connexion administrateur</h2>
+
+```
+<div id="loginMessage" class="message hidden"></div>
+
+<label>Email</label>
+<input
+  type="email"
+  id="email"
+  placeholder="Votre adresse email"
+>
+
+<label>Mot de passe</label>
+<input
+  type="password"
+  id="password"
+  placeholder="Votre mot de passe"
+>
+
+<button onclick="connexionAdmin()">
+  Se connecter
+</button>
+```
+
+  </div>
+
+  <!-- ADMIN -->
+
+  <div id="adminSection" class="hidden">
+
+```
+<div class="card">
+  <h2>Tableau de bord</h2>
+
+  <p>
+    Bienvenue dans l'administration de YAYOUNABYSAC.
+  </p>
+
+  <button class="logout" onclick="deconnexion()">
+    Se déconnecter
+  </button>
+</div>
+
+<!-- COMMANDES -->
+<div class="card">
+  <h2>Commandes</h2>
+
+  <button onclick="chargerCommandes()">
+    Actualiser les commandes
+  </button>
+
+  <div id="ordersList">
+    Chargement des commandes...
+  </div>
+</div>
+
+<!-- PRODUITS -->
+<div class="card">
+  <h2>Produits</h2>
+
+  <button onclick="chargerProduits()">
+    Actualiser les produits
+  </button>
+
+  <div id="productsList">
+    Chargement des produits...
+  </div>
+</div>
+```
+
+  </div>
+
+</div>
+
+<script>
+
+  /* =========================
+     CONFIGURATION SUPABASE
+  ========================= */
+
+  const SUPABASE_URL =
+    "https://ajprnhqphbtgfztspuio.supabase.co";
+
+  const SUPABASE_PUBLISHABLE_KEY =
+    "sb_publishable_Qxr7ftKtVgB3y3lmx1agWg_UQxqrviy";
+
+  const supabaseClient =
+    window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_PUBLISHABLE_KEY
+    );
+
+
+  /* =========================
+     MESSAGE
+  ========================= */
+
+  function afficherMessage(message, erreur = false) {
+
+    const element =
+      document.getElementById("loginMessage");
+
+    element.textContent = message;
+
+    element.classList.remove("hidden");
+
+    element.style.background =
+      erreur ? "#ffd6d6" : "#d8f5d8";
+  }
+
+
+  /* =========================
+     CONNEXION
+  ========================= */
+
+  async function connexionAdmin() {
+
+    const email =
+      document.getElementById("email").value.trim();
+
+    const password =
+      document.getElementById("password").value;
+
+    if (!email || !password) {
+
+      afficherMessage(
+        "Veuillez entrer votre email et votre mot de passe.",
+        true
+      );
+
+      return;
+    }
+
+    const { data, error } =
+      await supabaseClient.auth.signInWithPassword({
+        email: email,
+        password: password
+      });
+
+    if (error) {
+
+      console.error(error);
+
+      afficherMessage(
+        "Erreur : " + error.message,
+        true
+      );
+
+      return;
+    }
+
+    afficherMessage("Connexion réussie.");
+
+    afficherAdmin();
+  }
+
+
+  /* =========================
+     AFFICHER ADMIN
+  ========================= */
+
+  function afficherAdmin() {
+
+    document
+      .getElementById("loginSection")
+      .classList.add("hidden");
+
+    document
+      .getElementById("adminSection")
+      .classList.remove("hidden");
+
+    chargerCommandes();
+    chargerProduits();
+  }
+
+
+  /* =========================
+     VERIFIER SESSION
+  ========================= */
+
+  async function verifierSession() {
+
+    const {
+      data
+    } = await supabaseClient.auth.getSession();
+
+    if (data.session) {
+
+      afficherAdmin();
+
+    }
+
+  }
+
+
+  /* =========================
+     DECONNEXION
+  ========================= */
+
+  async function deconnexion() {
+
+    await supabaseClient.auth.signOut();
+
+    document
+      .getElementById("adminSection")
+      .classList.add("hidden");
+
+    document
+      .getElementById("loginSection")
+      .classList.remove("hidden");
+  }
+
+
+  /* =========================
+     COMMANDES
+  ========================= */
+
+  async function chargerCommandes() {
+
+    const container =
+      document.getElementById("ordersList");
+
+    container.innerHTML =
+      "Chargement des commandes...";
+
+    const {
+      data,
+      error
+    } = await supabaseClient
+      .from("Orders")
+      .select("*")
+      .order("created_at", {
+        ascending: false
+      });
+
+    if (error) {
+
+      console.error(error);
+
+      container.innerHTML =
+        "Erreur lors du chargement des commandes : "
+        + error.message;
+
+      return;
+    }
+
+    if (!data || data.length === 0) {
+
+      container.innerHTML =
+        "<p>Aucune commande pour le moment.</p>";
+
+      return;
+    }
+
+    container.innerHTML = "";
+
+    data.forEach(order => {
+
+      const div =
+        document.createElement("div");
+
+      div.className = "order";
+
+      div.innerHTML = `
+        <strong>Commande #${order.id}</strong>
+
+        <p>
+          <strong>Client :</strong>
+          ${order.Customer_name ?? ""}
+        </p>
+
+        <p>
+          <strong>Téléphone :</strong>
+          ${order.Phone ?? ""}
+        </p>
+
+        <p>
+          <strong>Adresse :</strong>
+          ${order.Address ?? ""}
+        </p>
+
+        <p>
+          <strong>Total :</strong>
+          ${order.Total ?? 0} FCFA
+        </p>
+
+        <p>
+          <strong>Statut :</strong>
+          ${order.Status ?? ""}
+        </p>
+
+        <p>
+          <strong>Date :</strong>
+          ${order.created_at ?? ""}
+        </p>
+      `;
+
+      container.appendChild(div);
+
+    });
+  }
+
+
+  /* =========================
+     PRODUITS
+  ========================= */
+
+  async function chargerProduits() {
+
+    const container =
+      document.getElementById("productsList");
+
+    container.innerHTML =
+      "Chargement des produits...";
+
+    const {
+      data,
+      error
+    } = await supabaseClient
+      .from("Products")
+      .select("*")
+      .order("id", {
+        ascending: true
+      });
+
+    if (error) {
+
+      console.error(error);
+
+      container.innerHTML =
+        "Erreur lors du chargement des produits : "
+        + error.message;
+
+      return;
+    }
+
+    if (!data || data.length === 0) {
+
+      container.innerHTML =
+        "<p>Aucun produit.</p>";
+
+      return;
+    }
+
+    container.innerHTML = "";
+
+    data.forEach(product => {
+
+      const div =
+        document.createElement("div");
+
+      div.className = "product";
+
+      div.innerHTML = `
+
+        ${
+          product.Image_url
+          ?
+          `<img src="${product.Image_url}" alt="${product.name}">`
+          :
+          ""
+        }
+
+        <h3>
+          ${product.name ?? ""}
+        </h3>
+
+        <p>
+          ${product.description ?? ""}
+        </p>
+
+        <p>
+          <strong>Prix :</strong>
+          ${product.Price ?? 0} FCFA
+        </p>
+
+        <p>
+          <strong>Stock :</strong>
+          ${product.Stock ?? 0}
+        </p>
+
+        <p>
+          <strong>Catégorie :</strong>
+          ${product.Category ?? ""}
+        </p>
+
+      `;
+
+      container.appendChild(div);
+
+    });
+  }
+
+
+  /* =========================
+     DEMARRAGE
+  ========================= */
+
+  verifierSession();
+
+</script>
+
+</body>
+</html>
