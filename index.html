@@ -225,6 +225,7 @@
 
 <header>
   <h1>YAYOUNABYSAC</h1>
+
   <input
     type="text"
     id="search"
@@ -239,6 +240,7 @@
 </section>
 
 <section id="cart">
+
   <h2>🛒 Mon panier</h2>
 
   <div id="cartItems">
@@ -248,9 +250,11 @@
   <div id="total">
     Total : 0 FCFA
   </div>
+
 </section>
 
 <section class="checkout">
+
   <h2>📦 Commander</h2>
 
   <input
@@ -279,13 +283,14 @@
   <button id="orderButton">
     Commander sur WhatsApp
   </button>
+
 </section>
 
 <script>
 
-  /* ==============================
+  /* ==========================
      SUPABASE
-  ============================== */
+  ========================== */
 
   const SUPABASE_URL =
     "https://ajprnhqphbtgfztspuio.supabase.co";
@@ -293,46 +298,56 @@
   const SUPABASE_PUBLISHABLE_KEY =
     "sb_publishable_Qxr7ftKtVgB3y3lmx1agWg_UQxqrviy";
 
-  const supabaseClient = window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_PUBLISHABLE_KEY
-  );
+  const supabaseClient =
+    window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_PUBLISHABLE_KEY
+    );
 
 
-  /* ==============================
+  /* ==========================
      VARIABLES
-  ============================== */
+  ========================== */
 
   let products = [];
+
   let cart = JSON.parse(
-    localStorage.getItem("yayounabysac_panier") || "[]"
+    localStorage.getItem(
+      "yayounabysac_panier"
+    ) || "[]"
   );
 
   let selectedCategory = "Tous";
 
 
-  /* ==============================
-     CHARGER LES PRODUITS
-  ============================== */
+  /* ==========================
+     CHARGER PRODUITS
+  ========================== */
 
   async function loadProducts() {
 
-    const productsContainer =
+    const container =
       document.getElementById("products");
 
-    productsContainer.innerHTML =
+    container.innerHTML =
       '<p class="empty">Chargement des produits...</p>';
 
-    const { data, error } = await supabaseClient
-      .from("Products")
-      .select("*")
-      .order("id", { ascending: true });
+    const { data, error } =
+      await supabaseClient
+        .from("Products")
+        .select("*")
+        .order("id", {
+          ascending: true
+        });
 
     if (error) {
 
-      console.error("Erreur produits :", error);
+      console.error(
+        "Erreur produits :",
+        error
+      );
 
-      productsContainer.innerHTML =
+      container.innerHTML =
         "<p class='empty'>Erreur lors du chargement des produits.</p>";
 
       return;
@@ -346,14 +361,16 @@
   }
 
 
-  /* ==============================
+  /* ==========================
      CATEGORIES
-  ============================== */
+  ========================== */
 
   function displayCategories() {
 
     const container =
-      document.getElementById("categories");
+      document.getElementById(
+        "categories"
+      );
 
     const categories = [
       "Tous",
@@ -375,7 +392,8 @@
 
       button.onclick = function() {
 
-        selectedCategory = category;
+        selectedCategory =
+          category;
 
         displayProducts();
       };
@@ -385,17 +403,20 @@
   }
 
 
-  /* ==============================
+  /* ==========================
      AFFICHER PRODUITS
-  ============================== */
+  ========================== */
 
   function displayProducts() {
 
     const container =
-      document.getElementById("products");
+      document.getElementById(
+        "products"
+      );
 
     const search =
-      document.getElementById("search")
+      document
+        .getElementById("search")
         .value
         .toLowerCase()
         .trim();
@@ -405,7 +426,8 @@
 
         const matchCategory =
           selectedCategory === "Tous" ||
-          product.Category === selectedCategory;
+          product.Category ===
+          selectedCategory;
 
         const matchSearch =
           !search ||
@@ -413,10 +435,15 @@
             .toLowerCase()
             .includes(search);
 
-        return matchCategory && matchSearch;
+        return (
+          matchCategory &&
+          matchSearch
+        );
       });
 
-    if (filteredProducts.length === 0) {
+    if (
+      filteredProducts.length === 0
+    ) {
 
       container.innerHTML =
         '<p class="empty">Aucun produit trouvé.</p>';
@@ -429,7 +456,9 @@
     filteredProducts.forEach(product => {
 
       const card =
-        document.createElement("div");
+        document.createElement(
+          "div"
+        );
 
       card.className = "product";
 
@@ -444,19 +473,23 @@
         Number(product.Stock || 0);
 
       card.innerHTML = `
+
         <img
           src="${image}"
           alt="${product.name || "Sac"}"
         >
 
-        <h3>${product.name || "Produit"}</h3>
+        <h3>
+          ${product.name || "Produit"}
+        </h3>
 
         <div class="description">
           ${product.description || ""}
         </div>
 
         <div class="price">
-          ${price.toLocaleString("fr-FR")} FCFA
+          ${price.toLocaleString("fr-FR")}
+          FCFA
         </div>
 
         <div class="stock">
@@ -467,7 +500,11 @@
           ${stock <= 0 ? "disabled" : ""}
           onclick="addToCart(${product.id})"
         >
-          ${stock <= 0 ? "Rupture de stock" : "Ajouter au panier"}
+          ${
+            stock <= 0
+              ? "Rupture de stock"
+              : "Ajouter au panier"
+          }
         </button>
       `;
 
@@ -476,43 +513,61 @@
   }
 
 
-  /* ==============================
+  /* ==========================
      RECHERCHE
-  ============================== */
+  ========================== */
 
   document
     .getElementById("search")
-    .addEventListener("input", displayProducts);
+    .addEventListener(
+      "input",
+      displayProducts
+    );
 
 
-  /* ==============================
+  /* ==========================
      AJOUT PANIER
-  ============================== */
+  ========================== */
 
   function addToCart(productId) {
 
     const product =
-      products.find(p => p.id === productId);
+      products.find(
+        p => p.id === productId
+      );
 
     if (!product) return;
 
     const existing =
-      cart.find(item => item.id === productId);
+      cart.find(
+        item => item.id === productId
+      );
 
     if (existing) {
 
-      if (existing.quantity < Number(product.Stock || 0)) {
+      if (
+        existing.quantity <
+        Number(product.Stock || 0)
+      ) {
         existing.quantity++;
       }
 
     } else {
 
       cart.push({
+
         id: product.id,
+
         name: product.name,
-        price: Number(product.Price || 0),
+
+        price:
+          Number(product.Price || 0),
+
         quantity: 1,
-        stock: Number(product.Stock || 0)
+
+        stock:
+          Number(product.Stock || 0)
+
       });
     }
 
@@ -521,9 +576,9 @@
   }
 
 
-  /* ==============================
-     PANIER
-  ============================== */
+  /* ==========================
+     SAUVEGARDER PANIER
+  ========================== */
 
   function saveCart() {
 
@@ -534,13 +589,21 @@
   }
 
 
+  /* ==========================
+     AFFICHER PANIER
+  ========================== */
+
   function displayCart() {
 
     const container =
-      document.getElementById("cartItems");
+      document.getElementById(
+        "cartItems"
+      );
 
     const totalElement =
-      document.getElementById("total");
+      document.getElementById(
+        "total"
+      );
 
     if (cart.length === 0) {
 
@@ -560,19 +623,28 @@
     cart.forEach(item => {
 
       const itemTotal =
-        item.price * item.quantity;
+        item.price *
+        item.quantity;
 
       total += itemTotal;
 
       const div =
-        document.createElement("div");
+        document.createElement(
+          "div"
+        );
 
-      div.className = "cart-item";
+      div.className =
+        "cart-item";
 
       div.innerHTML = `
+
         <div>
-          <strong>${item.name}</strong><br>
-          ${item.price.toLocaleString("fr-FR")} FCFA
+          <strong>
+            ${item.name}
+          </strong>
+          <br>
+          ${item.price.toLocaleString("fr-FR")}
+          FCFA
         </div>
 
         <div class="cart-controls">
@@ -583,7 +655,9 @@
             −
           </button>
 
-          <span>${item.quantity}</span>
+          <span>
+            ${item.quantity}
+          </span>
 
           <button
             onclick="changeQuantity(${item.id}, 1)"
@@ -611,19 +685,26 @@
   }
 
 
-  /* ==============================
+  /* ==========================
      QUANTITE
-  ============================== */
+  ========================== */
 
-  function changeQuantity(productId, change) {
+  function changeQuantity(
+    productId,
+    change
+  ) {
 
     const item =
-      cart.find(item => item.id === productId);
+      cart.find(
+        item => item.id === productId
+      );
 
     if (!item) return;
 
     const product =
-      products.find(p => p.id === productId);
+      products.find(
+        p => p.id === productId
+      );
 
     if (!product) return;
 
@@ -637,250 +718,340 @@
       return;
     }
 
-    if (newQuantity > Number(product.Stock || 0)) {
+    if (
+      newQuantity >
+      Number(product.Stock || 0)
+    ) {
 
-      alert("Stock disponible : " + product.Stock);
+      alert(
+        "Stock disponible : " +
+        product.Stock
+      );
 
       return;
     }
 
-    item.quantity = newQuantity;
+    item.quantity =
+      newQuantity;
 
     saveCart();
     displayCart();
   }
 
 
-  /* ==============================
-     SUPPRIMER
-  ============================== */
+  /* ==========================
+     SUPPRIMER PANIER
+  ========================== */
 
-  function removeFromCart(productId) {
+  function removeFromCart(
+    productId
+  ) {
 
     cart =
-      cart.filter(item => item.id !== productId);
+      cart.filter(
+        item => item.id !== productId
+      );
 
     saveCart();
     displayCart();
   }
 
 
-  /* ==============================
-     CALCUL TOTAL
-  ============================== */
+  /* ==========================
+     TOTAL
+  ========================== */
 
   function calculateTotal() {
 
     return cart.reduce(
-      (total, item) =>
-        total + item.price * item.quantity,
+      (
+        total,
+        item
+      ) =>
+        total +
+        item.price *
+        item.quantity,
       0
     );
   }
 
 
-  /* ==============================
+  /* ==========================
      COMMANDER
-  ============================== */
+  ========================== */
 
   document
-    .getElementById("orderButton")
-    .addEventListener("click", async function() {
+    .getElementById(
+      "orderButton"
+    )
+    .addEventListener(
+      "click",
+      async function() {
 
-      if (cart.length === 0) {
+        if (cart.length === 0) {
 
-        alert("Votre panier est vide.");
+          alert(
+            "Votre panier est vide."
+          );
 
-        return;
-      }
+          return;
+        }
 
-      const nom =
-        document
-          .getElementById("customerName")
-          .value
-          .trim();
+        const nom =
+          document
+            .getElementById(
+              "customerName"
+            )
+            .value
+            .trim();
 
-      const telephone =
-        document
-          .getElementById("customerPhone")
-          .value
-          .trim();
+        const telephone =
+          document
+            .getElementById(
+              "customerPhone"
+            )
+            .value
+            .trim();
 
-      const adresse =
-        document
-          .getElementById("customerAddress")
-          .value
-          .trim();
+        const adresse =
+          document
+            .getElementById(
+              "customerAddress"
+            )
+            .value
+            .trim();
 
-      const commentaire =
-        document
-          .getElementById("customerComment")
-          .value
-          .trim();
+        const commentaire =
+          document
+            .getElementById(
+              "customerComment"
+            )
+            .value
+            .trim();
 
-      if (!nom || !telephone || !adresse) {
+        if (
+          !nom ||
+          !telephone ||
+          !adresse
+        ) {
 
-        alert(
-          "Veuillez remplir le nom, le téléphone et l'adresse."
-        );
+          alert(
+            "Veuillez remplir le nom, le téléphone et l'adresse."
+          );
 
-        return;
-      }
+          return;
+        }
 
-      const total =
-        calculateTotal();
+        const total =
+          calculateTotal();
 
-      const adresseComplete =
-        adresse +
-        (
-          commentaire
-            ? " | Commentaire : " + commentaire
-            : ""
-        );
-
-
-      const orderButton =
-        document.getElementById("orderButton");
-
-      orderButton.disabled = true;
-      orderButton.textContent =
-        "Enregistrement de la commande...";
-
-
-      /* ==============================
-         ENREGISTRER DANS SUPABASE
-      ============================== */
-
-      const { data, error } =
-        await supabaseClient
-          .from("Orders")
-          .insert([
-            {
-              Customer_name: nom,
-              Phone: telephone,
-              Address: adresseComplete,
-              Total: total,
-              Status: "Nouvelle"
-            }
-          ])
-          .select()
-          .single();
+        const adresseComplete =
+          adresse +
+          (
+            commentaire
+              ? " | Commentaire : " +
+                commentaire
+              : ""
+          );
 
 
-      /* ==============================
-         AFFICHER LA VRAIE ERREUR
-      ============================== */
+        const orderButton =
+          document.getElementById(
+            "orderButton"
+          );
 
-      if (error) {
+        orderButton.disabled =
+          true;
 
-        console.error(
-          "ERREUR SUPABASE :",
+        orderButton.textContent =
+          "Enregistrement de la commande...";
+
+
+        /* ==========================
+           INSERTION ORDERS
+        ========================== */
+
+        const {
+          data,
           error
+        } =
+          await supabaseClient
+            .from("Orders")
+            .insert([
+
+              {
+
+                customer_nam:
+                  nom,
+
+                phone:
+                  telephone,
+
+                address:
+                  adresseComplete,
+
+                total:
+                  total,
+
+                status:
+                  "Nouvelle"
+
+              }
+
+            ])
+            .select()
+            .single();
+
+
+        /* ==========================
+           ERREUR
+        ========================== */
+
+        if (error) {
+
+          console.error(
+            "ERREUR SUPABASE :",
+            error
+          );
+
+          alert(
+            "ERREUR SUPABASE :\n\n" +
+            (
+              error.message ||
+              "Erreur inconnue"
+            ) +
+            "\n\nCode : " +
+            (
+              error.code ||
+              "inconnu"
+            )
+          );
+
+          orderButton.disabled =
+            false;
+
+          orderButton.textContent =
+            "Commander sur WhatsApp";
+
+          return;
+        }
+
+
+        /* ==========================
+           COMMANDE ENREGISTREE
+        ========================== */
+
+        console.log(
+          "Commande enregistrée :",
+          data
         );
+
+
+        /* ==========================
+           WHATSAPP
+        ========================== */
+
+        let message =
+          "Bonjour YAYOUNABYSAC,%0A%0A" +
+          "Je souhaite passer une commande.%0A%0A" +
+
+          "Nom : " +
+          encodeURIComponent(nom) +
+          "%0A" +
+
+          "Téléphone : " +
+          encodeURIComponent(telephone) +
+          "%0A" +
+
+          "Adresse : " +
+          encodeURIComponent(adresse) +
+          "%0A";
+
+
+        if (commentaire) {
+
+          message +=
+            "Commentaire : " +
+            encodeURIComponent(
+              commentaire
+            ) +
+            "%0A";
+        }
+
+
+        message +=
+          "%0AProduits :%0A";
+
+
+        cart.forEach(item => {
+
+          message +=
+            "- " +
+            encodeURIComponent(
+              item.name
+            ) +
+            " x" +
+            item.quantity +
+            " = " +
+            encodeURIComponent(
+              (
+                item.price *
+                item.quantity
+              ).toLocaleString(
+                "fr-FR"
+              )
+            ) +
+            " FCFA%0A";
+        });
+
+
+        message +=
+          "%0ATotal : " +
+          encodeURIComponent(
+            total.toLocaleString(
+              "fr-FR"
+            )
+          ) +
+          " FCFA";
+
+
+        const whatsappUrl =
+          "https://wa.me/221775124928?text=" +
+          message;
+
+
+        /* ==========================
+           VIDER PANIER
+        ========================== */
+
+        cart = [];
+
+        saveCart();
+
+        displayCart();
+
 
         alert(
-          "ERREUR SUPABASE :\n\n" +
-          (error.message || "Erreur inconnue") +
-          "\n\nCode : " +
-          (error.code || "inconnu")
+          "Commande enregistrée avec succès !"
         );
 
-        orderButton.disabled = false;
+
+        orderButton.disabled =
+          false;
+
         orderButton.textContent =
           "Commander sur WhatsApp";
 
-        return;
-      }
 
+        window.location.href =
+          whatsappUrl;
 
-      /* ==============================
-         COMMANDE ENREGISTREE
-      ============================== */
-
-      console.log(
-        "Commande enregistrée :",
-        data
-      );
-
-
-      /* ==============================
-         MESSAGE WHATSAPP
-      ============================== */
-
-      let message =
-        "Bonjour YAYOUNABYSAC,%0A%0A" +
-        "Je souhaite passer une commande.%0A%0A" +
-        "Nom : " + encodeURIComponent(nom) + "%0A" +
-        "Téléphone : " + encodeURIComponent(telephone) + "%0A" +
-        "Adresse : " + encodeURIComponent(adresse) + "%0A";
-
-      if (commentaire) {
-
-        message +=
-          "Commentaire : " +
-          encodeURIComponent(commentaire) +
-          "%0A";
-      }
-
-      message += "%0AProduits :%0A";
-
-      cart.forEach(item => {
-
-        message +=
-          "- " +
-          encodeURIComponent(item.name) +
-          " x" +
-          item.quantity +
-          " = " +
-          encodeURIComponent(
-            (item.price * item.quantity)
-              .toLocaleString("fr-FR")
-          ) +
-          " FCFA%0A";
       });
 
-      message +=
-        "%0ATotal : " +
-        encodeURIComponent(
-          total.toLocaleString("fr-FR")
-        ) +
-        " FCFA";
 
-
-      const whatsappUrl =
-        "https://wa.me/221775124928?text=" +
-        message;
-
-
-      /* ==============================
-         VIDER LE PANIER
-      ============================== */
-
-      cart = [];
-
-      saveCart();
-      displayCart();
-
-
-      alert(
-        "Commande enregistrée avec succès !"
-      );
-
-
-      orderButton.disabled = false;
-      orderButton.textContent =
-        "Commander sur WhatsApp";
-
-
-      window.location.href =
-        whatsappUrl;
-
-    });
-
-
-  /* ==============================
+  /* ==========================
      DEMARRAGE
-  ============================== */
+  ========================== */
 
   loadProducts();
 
