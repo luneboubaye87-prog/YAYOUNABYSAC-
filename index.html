@@ -25,22 +25,34 @@
       color: white;
       padding: 18px;
       text-align: center;
-      position: sticky;
-      top: 0;
-      z-index: 10;
     }
 
     header h1 {
-      margin: 0 0 12px;
+      margin: 0;
       font-size: 25px;
+      letter-spacing: 1px;
     }
 
-    #search {
+    header p {
+      margin: 6px 0 0;
+      font-size: 14px;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: auto;
+      padding: 15px;
+    }
+
+    .search-box {
+      margin: 15px 0;
+    }
+
+    .search-box input {
       width: 100%;
-      max-width: 500px;
-      padding: 12px;
+      padding: 13px;
+      border: 1px solid #ddd;
       border-radius: 8px;
-      border: none;
       font-size: 16px;
     }
 
@@ -48,92 +60,98 @@
       display: flex;
       gap: 8px;
       overflow-x: auto;
-      padding: 12px;
-      background: white;
+      padding-bottom: 10px;
     }
 
     .categories button {
-      white-space: nowrap;
+      border: none;
+      background: #ddd;
       padding: 9px 14px;
-      border: 1px solid #ddd;
       border-radius: 20px;
-      background: white;
+      white-space: nowrap;
       cursor: pointer;
     }
 
-    .categories button:hover {
+    .categories button.active {
       background: #111;
       color: white;
     }
 
     #products {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: 15px;
-      padding: 15px;
-      max-width: 1100px;
-      margin: auto;
+      margin-top: 15px;
     }
 
     .product {
       background: white;
       border-radius: 12px;
-      padding: 12px;
+      overflow: hidden;
       box-shadow: 0 2px 8px rgba(0,0,0,0.08);
     }
 
     .product img {
       width: 100%;
-      height: 190px;
+      height: 220px;
       object-fit: cover;
-      border-radius: 10px;
       background: #eee;
     }
 
+    .product-content {
+      padding: 14px;
+    }
+
     .product h3 {
-      margin: 10px 0 5px;
+      margin: 0 0 8px;
+      font-size: 18px;
     }
 
     .description {
-      font-size: 14px;
       color: #666;
-      min-height: 38px;
+      font-size: 14px;
+      line-height: 1.4;
+      white-space: pre-line;
     }
 
     .price {
-      font-weight: bold;
       font-size: 18px;
-      margin: 8px 0;
+      font-weight: bold;
+      margin: 10px 0;
     }
 
     .stock {
-      font-size: 13px;
+      font-size: 14px;
       color: #555;
+      margin-bottom: 10px;
     }
 
-    .product button {
+    .add-btn {
       width: 100%;
-      padding: 11px;
-      margin-top: 10px;
+      padding: 12px;
       border: none;
       border-radius: 8px;
       background: #111;
       color: white;
+      font-size: 15px;
       cursor: pointer;
     }
 
-    .product button:disabled {
+    .add-btn:disabled {
       background: #aaa;
       cursor: not-allowed;
     }
 
-    #cart {
+    .section {
       background: white;
-      max-width: 700px;
-      margin: 20px auto;
+      margin-top: 25px;
       padding: 18px;
       border-radius: 12px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+
+    .section h2 {
+      margin-top: 0;
     }
 
     .cart-item {
@@ -141,76 +159,81 @@
       justify-content: space-between;
       align-items: center;
       gap: 10px;
-      border-bottom: 1px solid #eee;
       padding: 12px 0;
+      border-bottom: 1px solid #eee;
     }
 
-    .cart-controls {
+    .cart-info {
+      flex: 1;
+    }
+
+    .cart-name {
+      font-weight: bold;
+    }
+
+    .cart-price {
+      font-size: 14px;
+      color: #666;
+      margin-top: 4px;
+    }
+
+    .quantity {
       display: flex;
       align-items: center;
-      gap: 7px;
+      gap: 8px;
     }
 
-    .cart-controls button {
+    .quantity button {
       width: 32px;
       height: 32px;
       border: none;
       border-radius: 6px;
-      background: #111;
-      color: white;
+      background: #ddd;
       cursor: pointer;
+      font-size: 18px;
     }
 
-    .remove {
+    .delete-btn {
       background: #c62828 !important;
+      color: white;
     }
 
-    #total {
-      font-size: 21px;
-      font-weight: bold;
+    .cart-total {
       text-align: right;
+      font-size: 20px;
+      font-weight: bold;
       margin-top: 15px;
     }
 
-    .checkout {
-      background: white;
-      max-width: 700px;
-      margin: 20px auto 40px;
-      padding: 18px;
-      border-radius: 12px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    .checkout-form {
+      display: grid;
+      gap: 10px;
     }
 
-    .checkout input,
-    .checkout textarea {
+    .checkout-form input,
+    .checkout-form textarea {
       width: 100%;
       padding: 12px;
-      margin: 7px 0;
       border: 1px solid #ddd;
       border-radius: 8px;
-      font-size: 16px;
+      font-size: 15px;
     }
 
-    .checkout textarea {
+    .checkout-form textarea {
       min-height: 90px;
       resize: vertical;
     }
 
-    #orderButton {
+    .order-btn {
       width: 100%;
       padding: 14px;
-      margin-top: 10px;
-      border: none;
-      border-radius: 8px;
       background: #25D366;
       color: white;
+      border: none;
+      border-radius: 8px;
       font-size: 17px;
       font-weight: bold;
       cursor: pointer;
-    }
-
-    #orderButton:disabled {
-      background: #999;
     }
 
     .empty {
@@ -218,844 +241,968 @@
       color: #777;
       padding: 20px;
     }
+
+    .loading {
+      text-align: center;
+      padding: 30px;
+    }
+
+    .error {
+      background: #ffe5e5;
+      color: #a00000;
+      padding: 15px;
+      border-radius: 8px;
+      margin-top: 15px;
+      white-space: pre-line;
+    }
+
+    footer {
+      margin-top: 30px;
+      background: #111;
+      color: white;
+      text-align: center;
+      padding: 20px;
+      font-size: 14px;
+    }
+
+    @media (max-width: 600px) {
+      #products {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+      }
+
+      .product img {
+        height: 170px;
+      }
+
+      .product-content {
+        padding: 10px;
+      }
+
+      .product h3 {
+        font-size: 16px;
+      }
+
+      .price {
+        font-size: 16px;
+      }
+
+      .cart-item {
+        flex-wrap: wrap;
+      }
+    }
   </style>
 </head>
 
 <body>
 
-<header>
-  <h1>YAYOUNABYSAC</h1>
-
-  <input
-    type="text"
-    id="search"
-    placeholder="Rechercher un sac..."
-  >
-</header>
-
-<div class="categories" id="categories"></div>
-
-<section id="products">
-  <p class="empty">Chargement des produits...</p>
-</section>
-
-<section id="cart">
-
-  <h2>🛒 Mon panier</h2>
-
-  <div id="cartItems">
-    <p class="empty">Votre panier est vide.</p>
-  </div>
-
-  <div id="total">
-    Total : 0 FCFA
-  </div>
-
-</section>
-
-<section class="checkout">
-
-  <h2>📦 Commander</h2>
-
-  <input
-    type="text"
-    id="customerName"
-    placeholder="Nom et prénom"
-  >
-
-  <input
-    type="tel"
-    id="customerPhone"
-    placeholder="Numéro de téléphone"
-  >
-
-  <input
-    type="text"
-    id="customerAddress"
-    placeholder="Adresse / Quartier"
-  >
-
-  <textarea
-    id="customerComment"
-    placeholder="Commentaire (facultatif)"
-  ></textarea>
-
-  <button id="orderButton">
-    Commander sur WhatsApp
-  </button>
-
-</section>
-
-<script>
-
-  /* ==========================
-     SUPABASE
-  ========================== */
-
-  const SUPABASE_URL =
-    "https://ajprnhqphbtgfztspuio.supabase.co";
-
-  const SUPABASE_PUBLISHABLE_KEY =
-    "sb_publishable_Qxr7ftKtVgB3y3lmx1agWg_UQxqrviy";
-
-  const supabaseClient =
-    window.supabase.createClient(
-      SUPABASE_URL,
-      SUPABASE_PUBLISHABLE_KEY
-    );
-
-
-  /* ==========================
-     VARIABLES
-  ========================== */
-
-  let products = [];
-
-  let cart = JSON.parse(
-    localStorage.getItem(
-      "yayounabysac_panier"
-    ) || "[]"
-  );
-
-  let selectedCategory = "Tous";
-
-
-  /* ==========================
-     CHARGER PRODUITS
-  ========================== */
-
-  async function loadProducts() {
-
-    const container =
-      document.getElementById("products");
-
-    container.innerHTML =
-      '<p class="empty">Chargement des produits...</p>';
-
-    const { data, error } =
-      await supabaseClient
-        .from("Products")
-        .select("*")
-        .order("id", {
-          ascending: true
-        });
-
-    if (error) {
-
-      console.error(
-        "Erreur produits :",
-        error
-      );
-
-      container.innerHTML =
-        "<p class='empty'>Erreur lors du chargement des produits.</p>";
-
-      return;
-    }
-
-    products = data || [];
-
-    displayCategories();
-    displayProducts();
-    displayCart();
-  }
-
-
-  /* ==========================
-     CATEGORIES
-  ========================== */
-
-  function displayCategories() {
-
-    const container =
-      document.getElementById(
-        "categories"
-      );
-
-    const categories = [
-      "Tous",
-      ...new Set(
-        products
-          .map(product => product.Category)
-          .filter(category => category)
-      )
-    ];
-
-    container.innerHTML = "";
-
-    categories.forEach(category => {
-
-      const button =
-        document.createElement("button");
-
-      button.textContent = category;
-
-      button.onclick = function() {
-
-        selectedCategory =
-          category;
-
-        displayProducts();
-      };
-
-      container.appendChild(button);
-    });
-  }
-
-
-  /* ==========================
-     AFFICHER PRODUITS
-  ========================== */
-
-  function displayProducts() {
-
-    const container =
-      document.getElementById(
-        "products"
-      );
-
-    const search =
-      document
-        .getElementById("search")
-        .value
-        .toLowerCase()
-        .trim();
-
-    const filteredProducts =
-      products.filter(product => {
-
-        const matchCategory =
-          selectedCategory === "Tous" ||
-          product.Category ===
-          selectedCategory;
-
-        const matchSearch =
-          !search ||
-          String(product.name || "")
-            .toLowerCase()
-            .includes(search);
-
-        return (
-          matchCategory &&
-          matchSearch
-        );
-      });
-
-    if (
-      filteredProducts.length === 0
-    ) {
-
-      container.innerHTML =
-        '<p class="empty">Aucun produit trouvé.</p>';
-
-      return;
-    }
-
-    container.innerHTML = "";
-
-    filteredProducts.forEach(product => {
-
-      const card =
-        document.createElement(
-          "div"
-        );
-
-      card.className = "product";
-
-      const image =
-        product.Image_url ||
-        "https://via.placeholder.com/500x500?text=YAYOUNABYSAC";
-
-      const price =
-        Number(product.Price || 0);
-
-      const stock =
-        Number(product.Stock || 0);
-
-      card.innerHTML = `
-
-        <img
-          src="${image}"
-          alt="${product.name || "Sac"}"
+  <header>
+    <h1>YAYOUNABYSAC</h1>
+    <p>Votre boutique de sacs pour femme</p>
+  </header>
+
+  <main class="container">
+
+    <!-- RECHERCHE -->
+    <div class="search-box">
+      <input
+        type="text"
+        id="searchInput"
+        placeholder="Rechercher un sac..."
+      >
+    </div>
+
+    <!-- CATÉGORIES -->
+    <div class="categories" id="categories">
+      <button class="active" onclick="choisirCategorie('Toutes', this)">
+        Toutes
+      </button>
+    </div>
+
+    <!-- PRODUITS -->
+    <div id="products">
+      <div class="loading">
+        Chargement des produits...
+      </div>
+    </div>
+
+    <div id="productError"></div>
+
+    <!-- PANIER -->
+    <section class="section">
+      <h2>🛒 Mon panier</h2>
+
+      <div id="cartItems">
+        <div class="empty">
+          Votre panier est vide.
+        </div>
+      </div>
+
+      <div class="cart-total">
+        Total :
+        <span id="cartTotal">0</span> FCFA
+      </div>
+    </section>
+
+    <!-- COMMANDE -->
+    <section class="section">
+      <h2>📦 Finaliser ma commande</h2>
+
+      <div class="checkout-form">
+
+        <input
+          type="text"
+          id="customerName"
+          placeholder="Votre nom complet"
         >
 
-        <h3>
-          ${product.name || "Produit"}
-        </h3>
+        <input
+          type="tel"
+          id="customerPhone"
+          placeholder="Votre numéro de téléphone"
+        >
 
-        <div class="description">
-          ${product.description || ""}
-        </div>
+        <input
+          type="text"
+          id="customerAddress"
+          placeholder="Adresse / Quartier"
+        >
 
-        <div class="price">
-          ${price.toLocaleString("fr-FR")}
-          FCFA
-        </div>
-
-        <div class="stock">
-          Stock : ${stock}
-        </div>
+        <textarea
+          id="customerComment"
+          placeholder="Commentaire (facultatif)"
+        ></textarea>
 
         <button
-          ${stock <= 0 ? "disabled" : ""}
-          onclick="addToCart(${product.id})"
+          class="order-btn"
+          onclick="enregistrerCommande()"
         >
-          ${
-            stock <= 0
-              ? "Rupture de stock"
-              : "Ajouter au panier"
-          }
+          Commander sur WhatsApp
         </button>
-      `;
 
-      container.appendChild(card);
-    });
-  }
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    © 2026 YAYOUNABYSAC - Tous droits réservés
+  </footer>
 
 
-  /* ==========================
-     RECHERCHE
-  ========================== */
+  <script>
 
-  document
-    .getElementById("search")
-    .addEventListener(
-      "input",
-      displayProducts
+    // =====================================================
+    // SUPABASE
+    // =====================================================
+
+    const SUPABASE_URL =
+      "https://ajprnhqphbtgfztspuio.supabase.co";
+
+    const SUPABASE_PUBLISHABLE_KEY =
+      "sb_publishable_Qxr7ftKtVgB3y3lmx1agWg_UQxqrviy";
+
+    const supabaseClient =
+      window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_PUBLISHABLE_KEY
+      );
+
+
+    // =====================================================
+    // VARIABLES
+    // =====================================================
+
+    let produits = [];
+    let panier = JSON.parse(
+      localStorage.getItem("yayounabysac_panier") || "[]"
     );
 
+    let categorieActuelle = "Toutes";
 
-  /* ==========================
-     AJOUT PANIER
-  ========================== */
 
-  function addToCart(productId) {
+    // =====================================================
+    // CHARGER LES PRODUITS
+    // =====================================================
 
-    const product =
-      products.find(
-        p => p.id === productId
-      );
+    async function chargerProduits() {
 
-    if (!product) return;
+      const productsDiv =
+        document.getElementById("products");
 
-    const existing =
-      cart.find(
-        item => item.id === productId
-      );
+      productsDiv.innerHTML =
+        '<div class="loading">Chargement des produits...</div>';
 
-    if (existing) {
+      const { data, error } =
+        await supabaseClient
+          .from("Products")
+          .select("*")
+          .order("id", { ascending: false });
 
-      if (
-        existing.quantity <
-        Number(product.Stock || 0)
-      ) {
-        existing.quantity++;
+      if (error) {
+
+        console.error("Erreur produits :", error);
+
+        productsDiv.innerHTML = "";
+
+        document.getElementById("productError").innerHTML =
+          '<div class="error">' +
+          "Erreur Supabase :\n\n" +
+          error.message +
+          "\n\nCode : " +
+          (error.code || "inconnu") +
+          "</div>";
+
+        return;
       }
 
-    } else {
+      produits = data || [];
 
-      cart.push({
+      afficherCategories();
+      afficherProduits();
+      afficherPanier();
+    }
 
-        id: product.id,
 
-        name: product.name,
+    // =====================================================
+    // CATÉGORIES
+    // =====================================================
 
-        price:
-          Number(product.Price || 0),
+    function afficherCategories() {
 
-        quantity: 1,
+      const categoriesDiv =
+        document.getElementById("categories");
 
-        stock:
-          Number(product.Stock || 0)
+      const categories = [
+        ...new Set(
+          produits
+            .map(p => p.Category)
+            .filter(Boolean)
+        )
+      ];
 
+      categoriesDiv.innerHTML = "";
+
+      const boutonToutes =
+        document.createElement("button");
+
+      boutonToutes.textContent = "Toutes";
+      boutonToutes.className =
+        categorieActuelle === "Toutes"
+          ? "active"
+          : "";
+
+      boutonToutes.onclick = function() {
+        choisirCategorie("Toutes", this);
+      };
+
+      categoriesDiv.appendChild(boutonToutes);
+
+      categories.forEach(categorie => {
+
+        const bouton =
+          document.createElement("button");
+
+        bouton.textContent = categorie;
+
+        bouton.className =
+          categorieActuelle === categorie
+            ? "active"
+            : "";
+
+        bouton.onclick = function() {
+          choisirCategorie(categorie, this);
+        };
+
+        categoriesDiv.appendChild(bouton);
       });
     }
 
-    saveCart();
-    displayCart();
-  }
 
+    function choisirCategorie(categorie, bouton) {
 
-  /* ==========================
-     SAUVEGARDER PANIER
-  ========================== */
+      categorieActuelle = categorie;
 
-  function saveCart() {
+      document
+        .querySelectorAll("#categories button")
+        .forEach(btn => {
+          btn.classList.remove("active");
+        });
 
-    localStorage.setItem(
-      "yayounabysac_panier",
-      JSON.stringify(cart)
-    );
-  }
+      bouton.classList.add("active");
 
-
-  /* ==========================
-     AFFICHER PANIER
-  ========================== */
-
-  function displayCart() {
-
-    const container =
-      document.getElementById(
-        "cartItems"
-      );
-
-    const totalElement =
-      document.getElementById(
-        "total"
-      );
-
-    if (cart.length === 0) {
-
-      container.innerHTML =
-        '<p class="empty">Votre panier est vide.</p>';
-
-      totalElement.textContent =
-        "Total : 0 FCFA";
-
-      return;
+      afficherProduits();
     }
 
-    container.innerHTML = "";
 
-    let total = 0;
+    // =====================================================
+    // AFFICHER LES PRODUITS
+    // =====================================================
 
-    cart.forEach(item => {
+    function afficherProduits() {
 
-      const itemTotal =
-        item.price *
-        item.quantity;
+      const productsDiv =
+        document.getElementById("products");
 
-      total += itemTotal;
+      const recherche =
+        document
+          .getElementById("searchInput")
+          .value
+          .toLowerCase()
+          .trim();
 
-      const div =
-        document.createElement(
-          "div"
-        );
-
-      div.className =
-        "cart-item";
-
-      div.innerHTML = `
-
-        <div>
-          <strong>
-            ${item.name}
-          </strong>
-          <br>
-          ${item.price.toLocaleString("fr-FR")}
-          FCFA
-        </div>
-
-        <div class="cart-controls">
-
-          <button
-            onclick="changeQuantity(${item.id}, -1)"
-          >
-            −
-          </button>
-
-          <span>
-            ${item.quantity}
-          </span>
-
-          <button
-            onclick="changeQuantity(${item.id}, 1)"
-          >
-            +
-          </button>
-
-          <button
-            class="remove"
-            onclick="removeFromCart(${item.id})"
-          >
-            ✕
-          </button>
-
-        </div>
-      `;
-
-      container.appendChild(div);
-    });
-
-    totalElement.textContent =
-      "Total : " +
-      total.toLocaleString("fr-FR") +
-      " FCFA";
-  }
-
-
-  /* ==========================
-     QUANTITE
-  ========================== */
-
-  function changeQuantity(
-    productId,
-    change
-  ) {
-
-    const item =
-      cart.find(
-        item => item.id === productId
-      );
-
-    if (!item) return;
-
-    const product =
-      products.find(
-        p => p.id === productId
-      );
-
-    if (!product) return;
-
-    const newQuantity =
-      item.quantity + change;
-
-    if (newQuantity <= 0) {
-
-      removeFromCart(productId);
-
-      return;
-    }
-
-    if (
-      newQuantity >
-      Number(product.Stock || 0)
-    ) {
-
-      alert(
-        "Stock disponible : " +
-        product.Stock
-      );
-
-      return;
-    }
-
-    item.quantity =
-      newQuantity;
-
-    saveCart();
-    displayCart();
-  }
-
-
-  /* ==========================
-     SUPPRIMER PANIER
-  ========================== */
-
-  function removeFromCart(
-    productId
-  ) {
-
-    cart =
-      cart.filter(
-        item => item.id !== productId
-      );
-
-    saveCart();
-    displayCart();
-  }
-
-
-  /* ==========================
-     TOTAL
-  ========================== */
-
-  function calculateTotal() {
-
-    return cart.reduce(
-      (
-        total,
-        item
-      ) =>
-        total +
-        item.price *
-        item.quantity,
-      0
-    );
-  }
-
-
-  /* ==========================
-     COMMANDER
-  ========================== */
-
-  document
-    .getElementById(
-      "orderButton"
-    )
-    .addEventListener(
-      "click",
-      async function() {
-
-        if (cart.length === 0) {
-
-          alert(
-            "Votre panier est vide."
-          );
-
-          return;
-        }
+      let liste = produits.filter(produit => {
 
         const nom =
-          document
-            .getElementById(
-              "customerName"
-            )
-            .value
-            .trim();
+          String(produit.name || "")
+            .toLowerCase();
 
-        const telephone =
-          document
-            .getElementById(
-              "customerPhone"
-            )
-            .value
-            .trim();
+        const description =
+          String(produit.description || "")
+            .toLowerCase();
 
-        const adresse =
-          document
-            .getElementById(
-              "customerAddress"
-            )
-            .value
-            .trim();
+        const categorie =
+          String(produit.Category || "");
 
-        const commentaire =
-          document
-            .getElementById(
-              "customerComment"
-            )
-            .value
-            .trim();
+        const correspondRecherche =
+          nom.includes(recherche) ||
+          description.includes(recherche);
+
+        const correspondCategorie =
+          categorieActuelle === "Toutes" ||
+          categorie === categorieActuelle;
+
+        return (
+          correspondRecherche &&
+          correspondCategorie
+        );
+      });
+
+
+      if (liste.length === 0) {
+
+        productsDiv.innerHTML =
+          '<div class="empty">' +
+          "Aucun produit trouvé." +
+          "</div>";
+
+        return;
+      }
+
+
+      productsDiv.innerHTML = "";
+
+
+      liste.forEach(produit => {
+
+        const prix =
+          Number(produit.Price || 0);
+
+        const stock =
+          Number(produit.Stock || 0);
+
+        const image =
+          produit.Image_url ||
+          "https://via.placeholder.com/600x600?text=YAYOUNABYSAC";
+
+
+        const card =
+          document.createElement("div");
+
+        card.className = "product";
+
+
+        card.innerHTML = `
+          <img
+            src="${image}"
+            alt="${escapeHtml(produit.name || "Sac")}"
+            onerror="this.src='https://via.placeholder.com/600x600?text=YAYOUNABYSAC'"
+          >
+
+          <div class="product-content">
+
+            <h3>
+              ${escapeHtml(produit.name || "Produit")}
+            </h3>
+
+            <div class="description">
+              ${escapeHtml(produit.description || "")}
+            </div>
+
+            <div class="price">
+              ${prix.toLocaleString("fr-FR")} FCFA
+            </div>
+
+            <div class="stock">
+              Stock : ${stock}
+            </div>
+
+            <button
+              class="add-btn"
+              ${stock <= 0 ? "disabled" : ""}
+              onclick="ajouterAuPanier(${produit.id})"
+            >
+              ${
+                stock > 0
+                  ? "Ajouter au panier"
+                  : "Rupture de stock"
+              }
+            </button>
+
+          </div>
+        `;
+
+        productsDiv.appendChild(card);
+      });
+    }
+
+
+    // =====================================================
+    // RECHERCHE
+    // =====================================================
+
+    document
+      .getElementById("searchInput")
+      .addEventListener(
+        "input",
+        afficherProduits
+      );
+
+
+    // =====================================================
+    // AJOUTER AU PANIER
+    // =====================================================
+
+    function ajouterAuPanier(id) {
+
+      const produit =
+        produits.find(p => Number(p.id) === Number(id));
+
+      if (!produit) {
+        alert("Produit introuvable.");
+        return;
+      }
+
+      const stock =
+        Number(produit.Stock || 0);
+
+      if (stock <= 0) {
+        alert("Ce produit est en rupture de stock.");
+        return;
+      }
+
+      const existant =
+        panier.find(
+          p => Number(p.id) === Number(id)
+        );
+
+
+      if (existant) {
 
         if (
-          !nom ||
-          !telephone ||
-          !adresse
+          Number(existant.quantity) >= stock
         ) {
-
           alert(
-            "Veuillez remplir le nom, le téléphone et l'adresse."
+            "Vous avez atteint la quantité disponible en stock."
           );
-
           return;
         }
 
-        const total =
-          calculateTotal();
+        existant.quantity++;
 
-        const adresseComplete =
-          adresse +
-          (
-            commentaire
-              ? " | Commentaire : " +
-                commentaire
-              : ""
-          );
+      } else {
 
-
-        const orderButton =
-          document.getElementById(
-            "orderButton"
-          );
-
-        orderButton.disabled =
-          true;
-
-        orderButton.textContent =
-          "Enregistrement de la commande...";
+        panier.push({
+          id: produit.id,
+          name: produit.name,
+          price: Number(produit.Price || 0),
+          quantity: 1,
+          stock: stock
+        });
+      }
 
 
-        /* ==========================
-           INSERTION ORDERS
-        ========================== */
+      sauvegarderPanier();
+      afficherPanier();
+
+      alert("Produit ajouté au panier.");
+    }
+
+
+    // =====================================================
+    // PANIER
+    // =====================================================
+
+    function afficherPanier() {
+
+      const cartItems =
+        document.getElementById("cartItems");
+
+      const cartTotal =
+        document.getElementById("cartTotal");
+
+
+      if (!panier || panier.length === 0) {
+
+        cartItems.innerHTML =
+          '<div class="empty">' +
+          "Votre panier est vide." +
+          "</div>";
+
+        cartTotal.textContent = "0";
+
+        return;
+      }
+
+
+      cartItems.innerHTML = "";
+
+      let total = 0;
+
+
+      panier.forEach((item, index) => {
+
+        const prix =
+          Number(item.price || 0);
+
+        const quantite =
+          Number(item.quantity || 0);
+
+        const sousTotal =
+          prix * quantite;
+
+        total += sousTotal;
+
+
+        const ligne =
+          document.createElement("div");
+
+        ligne.className = "cart-item";
+
+
+        ligne.innerHTML = `
+
+          <div class="cart-info">
+
+            <div class="cart-name">
+              ${escapeHtml(item.name)}
+            </div>
+
+            <div class="cart-price">
+              ${prix.toLocaleString("fr-FR")}
+              FCFA × ${quantite}
+            </div>
+
+          </div>
+
+
+          <div class="quantity">
+
+            <button
+              onclick="diminuerQuantite(${index})"
+            >
+              −
+            </button>
+
+            <strong>
+              ${quantite}
+            </strong>
+
+            <button
+              onclick="augmenterQuantite(${index})"
+            >
+              +
+            </button>
+
+            <button
+              class="delete-btn"
+              onclick="supprimerDuPanier(${index})"
+            >
+              ×
+            </button>
+
+          </div>
+
+        `;
+
+        cartItems.appendChild(ligne);
+      });
+
+
+      cartTotal.textContent =
+        total.toLocaleString("fr-FR");
+    }
+
+
+    // =====================================================
+    // AUGMENTER
+    // =====================================================
+
+    function augmenterQuantite(index) {
+
+      const item = panier[index];
+
+      if (!item) return;
+
+      if (
+        Number(item.quantity) >=
+        Number(item.stock)
+      ) {
+        alert(
+          "Vous avez atteint la quantité disponible en stock."
+        );
+        return;
+      }
+
+      item.quantity++;
+
+      sauvegarderPanier();
+      afficherPanier();
+    }
+
+
+    // =====================================================
+    // DIMINUER
+    // =====================================================
+
+    function diminuerQuantite(index) {
+
+      const item = panier[index];
+
+      if (!item) return;
+
+      item.quantity--;
+
+      if (item.quantity <= 0) {
+        panier.splice(index, 1);
+      }
+
+      sauvegarderPanier();
+      afficherPanier();
+    }
+
+
+    // =====================================================
+    // SUPPRIMER
+    // =====================================================
+
+    function supprimerDuPanier(index) {
+
+      panier.splice(index, 1);
+
+      sauvegarderPanier();
+      afficherPanier();
+    }
+
+
+    // =====================================================
+    // SAUVEGARDER LE PANIER
+    // =====================================================
+
+    function sauvegarderPanier() {
+
+      localStorage.setItem(
+        "yayounabysac_panier",
+        JSON.stringify(panier)
+      );
+    }
+
+
+    // =====================================================
+    // TOTAL
+    // =====================================================
+
+    function calculerTotal() {
+
+      return panier.reduce(
+        (total, item) => {
+
+          return total +
+            (
+              Number(item.price || 0) *
+              Number(item.quantity || 0)
+            );
+
+        },
+        0
+      );
+    }
+
+
+    // =====================================================
+    // ENREGISTRER LA COMMANDE
+    // =====================================================
+
+    async function enregistrerCommande() {
+
+      const nom =
+        document
+          .getElementById("customerName")
+          .value
+          .trim();
+
+      const telephone =
+        document
+          .getElementById("customerPhone")
+          .value
+          .trim();
+
+      const adresse =
+        document
+          .getElementById("customerAddress")
+          .value
+          .trim();
+
+      const commentaire =
+        document
+          .getElementById("customerComment")
+          .value
+          .trim();
+
+
+      // Vérification des informations
+
+      if (!nom) {
+        alert("Veuillez entrer votre nom.");
+        return;
+      }
+
+      if (!telephone) {
+        alert("Veuillez entrer votre numéro de téléphone.");
+        return;
+      }
+
+      if (!adresse) {
+        alert("Veuillez entrer votre adresse ou quartier.");
+        return;
+      }
+
+
+      // Vérification du panier
+
+      if (!panier || panier.length === 0) {
+
+        alert(
+          "Votre panier est vide."
+        );
+
+        return;
+      }
+
+
+      // Calcul du total
+
+      const total =
+        calculerTotal();
+
+
+      // Adresse complète
+
+      let adresseComplete =
+        adresse;
+
+      if (commentaire) {
+
+        adresseComplete +=
+          " | Commentaire : " +
+          commentaire;
+      }
+
+
+      try {
+
+        // =================================================
+        // NOUVEAU SYSTÈME :
+        // APPEL DE LA FONCTION RPC SUPABASE
+        // =================================================
 
         const {
-          data,
+          data: orderId,
           error
         } =
-          await supabaseClient
-            .from("Orders")
-            .insert([
-
-              {
-
-                customer_nam:
-                  nom,
-
-                phone:
-                  telephone,
-
-                address:
-                  adresseComplete,
-
-                total:
-                  total,
-
-                status:
-                  "Nouvelle"
-
-              }
-
-            ])
-            .select()
-            .single();
+          await supabaseClient.rpc(
+            "create_order",
+            {
+              p_customer_nam: nom,
+              p_phone: telephone,
+              p_address: adresseComplete,
+              p_total: total,
+              p_status: "Nouvelle"
+            }
+          );
 
 
-        /* ==========================
-           ERREUR
-        ========================== */
+        // Vérification de l'erreur
 
         if (error) {
 
           console.error(
-            "ERREUR SUPABASE :",
+            "Erreur Supabase :",
             error
           );
 
           alert(
             "ERREUR SUPABASE :\n\n" +
-            (
-              error.message ||
-              "Erreur inconnue"
-            ) +
+            (error.message ||
+              "Erreur inconnue") +
             "\n\nCode : " +
-            (
-              error.code ||
-              "inconnu"
-            )
+            (error.code ||
+              "inconnu")
           );
-
-          orderButton.disabled =
-            false;
-
-          orderButton.textContent =
-            "Commander sur WhatsApp";
 
           return;
         }
 
 
-        /* ==========================
-           COMMANDE ENREGISTREE
-        ========================== */
-
         console.log(
-          "Commande enregistrée :",
-          data
+          "Commande enregistrée. ID :",
+          orderId
         );
 
 
-        /* ==========================
-           WHATSAPP
-        ========================== */
+        // =================================================
+        // MESSAGE WHATSAPP
+        // =================================================
 
         let message =
-          "Bonjour YAYOUNABYSAC,%0A%0A" +
-          "Je souhaite passer une commande.%0A%0A" +
+          "🛍️ *NOUVELLE COMMANDE - YAYOUNABYSAC*\n\n";
 
-          "Nom : " +
-          encodeURIComponent(nom) +
-          "%0A" +
 
-          "Téléphone : " +
-          encodeURIComponent(telephone) +
-          "%0A" +
+        message +=
+          "👤 Nom : " +
+          nom +
+          "\n";
 
-          "Adresse : " +
-          encodeURIComponent(adresse) +
-          "%0A";
+
+        message +=
+          "📞 Téléphone : " +
+          telephone +
+          "\n";
+
+
+        message +=
+          "📍 Adresse : " +
+          adresse +
+          "\n";
 
 
         if (commentaire) {
 
           message +=
-            "Commentaire : " +
-            encodeURIComponent(
-              commentaire
-            ) +
-            "%0A";
+            "📝 Commentaire : " +
+            commentaire +
+            "\n";
         }
 
 
         message +=
-          "%0AProduits :%0A";
+          "\n🛒 *Produits commandés :*\n";
 
 
-        cart.forEach(item => {
+        panier.forEach(item => {
+
+          const sousTotal =
+            Number(item.price) *
+            Number(item.quantity);
+
 
           message +=
-            "- " +
-            encodeURIComponent(
-              item.name
-            ) +
+            "• " +
+            item.name +
             " x" +
             item.quantity +
             " = " +
-            encodeURIComponent(
-              (
-                item.price *
-                item.quantity
-              ).toLocaleString(
-                "fr-FR"
-              )
+            sousTotal.toLocaleString(
+              "fr-FR"
             ) +
-            " FCFA%0A";
+            " FCFA\n";
         });
 
 
         message +=
-          "%0ATotal : " +
-          encodeURIComponent(
-            total.toLocaleString(
-              "fr-FR"
-            )
+          "\n💰 *TOTAL : " +
+          total.toLocaleString(
+            "fr-FR"
           ) +
-          " FCFA";
+          " FCFA*";
 
 
-        const whatsappUrl =
-          "https://wa.me/221775124928?text=" +
-          message;
+        // =================================================
+        // VIDER LE PANIER
+        // =================================================
+
+        panier = [];
+
+        sauvegarderPanier();
+
+        afficherPanier();
 
 
-        /* ==========================
-           VIDER PANIER
-        ========================== */
+        // =================================================
+        // WHATSAPP
+        // =================================================
 
-        cart = [];
+        const numeroWhatsApp =
+          "221775124928";
 
-        saveCart();
 
-        displayCart();
+        const urlWhatsApp =
+          "https://wa.me/" +
+          numeroWhatsApp +
+          "?text=" +
+          encodeURIComponent(message);
 
 
         alert(
-          "Commande enregistrée avec succès !"
+          "Commande enregistrée avec succès !\n\n" +
+          "Vous allez être redirigé vers WhatsApp."
         );
 
 
-        orderButton.disabled =
-          false;
-
-        orderButton.textContent =
-          "Commander sur WhatsApp";
-
-
         window.location.href =
-          whatsappUrl;
+          urlWhatsApp;
 
-      });
+      } catch (erreur) {
+
+        console.error(
+          "Erreur inattendue :",
+          erreur
+        );
 
 
-  /* ==========================
-     DEMARRAGE
-  ========================== */
+        alert(
+          "Une erreur est survenue.\n\n" +
+          (
+            erreur.message ||
+            erreur
+          )
+        );
+      }
+    }
 
-  loadProducts();
 
-</script>
+    // =====================================================
+    // PROTECTION AFFICHAGE TEXTE
+    // =====================================================
+
+    function escapeHtml(texte) {
+
+      return String(texte || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+
+    // =====================================================
+    // DÉMARRAGE
+    // =====================================================
+
+    chargerProduits();
+
+  </script>
 
 </body>
 </html>
