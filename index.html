@@ -23,39 +23,24 @@
     header {
       background: #111;
       color: white;
-      padding: 22px 15px;
+      padding: 18px;
       text-align: center;
       position: sticky;
       top: 0;
-      z-index: 100;
+      z-index: 10;
     }
 
     header h1 {
-      margin: 0;
-      font-size: 27px;
-      letter-spacing: 1px;
+      margin: 0 0 12px;
+      font-size: 25px;
     }
 
-    header p {
-      margin: 7px 0 0;
-      font-size: 14px;
-    }
-
-    .container {
-      max-width: 1100px;
-      margin: auto;
-      padding: 18px;
-    }
-
-    .search {
-      margin-bottom: 15px;
-    }
-
-    .search input {
+    #search {
       width: 100%;
-      padding: 14px;
-      border: 1px solid #ccc;
-      border-radius: 10px;
+      max-width: 500px;
+      padding: 12px;
+      border-radius: 8px;
+      border: none;
       font-size: 16px;
     }
 
@@ -63,64 +48,62 @@
       display: flex;
       gap: 8px;
       overflow-x: auto;
-      padding-bottom: 10px;
-      margin-bottom: 15px;
+      padding: 12px;
+      background: white;
     }
 
-    .category {
-      flex-shrink: 0;
-      border: none;
-      background: #ddd;
-      color: #222;
-      padding: 10px 15px;
+    .categories button {
+      white-space: nowrap;
+      padding: 9px 14px;
+      border: 1px solid #ddd;
       border-radius: 20px;
+      background: white;
       cursor: pointer;
     }
 
-    .category.active {
+    .categories button:hover {
       background: #111;
       color: white;
     }
 
-    .products {
+    #products {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 14px;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 15px;
+      padding: 15px;
+      max-width: 1100px;
+      margin: auto;
     }
 
     .product {
       background: white;
       border-radius: 12px;
-      overflow: hidden;
+      padding: 12px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.08);
     }
 
-    .product-image {
+    .product img {
       width: 100%;
       height: 190px;
       object-fit: cover;
+      border-radius: 10px;
       background: #eee;
     }
 
-    .product-content {
-      padding: 13px;
-    }
-
     .product h3 {
-      margin: 0 0 7px;
-      font-size: 17px;
+      margin: 10px 0 5px;
     }
 
     .description {
+      font-size: 14px;
       color: #666;
-      font-size: 13px;
-      min-height: 35px;
+      min-height: 38px;
     }
 
     .price {
-      font-size: 18px;
       font-weight: bold;
-      margin: 10px 0;
+      font-size: 18px;
+      margin: 8px 0;
     }
 
     .stock {
@@ -128,101 +111,84 @@
       color: #555;
     }
 
-    button {
+    .product button {
+      width: 100%;
+      padding: 11px;
+      margin-top: 10px;
       border: none;
       border-radius: 8px;
-      padding: 12px;
-      cursor: pointer;
-      font-size: 15px;
-    }
-
-    .add-button {
-      width: 100%;
       background: #111;
       color: white;
-      margin-top: 10px;
+      cursor: pointer;
     }
 
-    .add-button:disabled {
+    .product button:disabled {
       background: #aaa;
       cursor: not-allowed;
     }
 
-    .cart {
+    #cart {
       background: white;
-      margin-top: 25px;
+      max-width: 700px;
+      margin: 20px auto;
       padding: 18px;
       border-radius: 12px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.08);
     }
 
-    .cart h2 {
-      margin-top: 0;
-    }
-
     .cart-item {
-      border-bottom: 1px solid #ddd;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1px solid #eee;
       padding: 12px 0;
-    }
-
-    .cart-item:last-child {
-      border-bottom: none;
-    }
-
-    .cart-name {
-      font-weight: bold;
     }
 
     .cart-controls {
       display: flex;
       align-items: center;
-      gap: 8px;
-      margin-top: 8px;
+      gap: 7px;
     }
 
-    .quantity-button {
-      width: 38px;
-      height: 38px;
-      padding: 0;
-      background: #eee;
-      font-size: 20px;
-    }
-
-    .remove-button {
-      background: #d9534f;
+    .cart-controls button {
+      width: 32px;
+      height: 32px;
+      border: none;
+      border-radius: 6px;
+      background: #111;
       color: white;
-      padding: 8px 12px;
-      margin-left: auto;
+      cursor: pointer;
     }
 
-    .cart-total {
-      font-size: 20px;
+    .remove {
+      background: #c62828 !important;
+    }
+
+    #total {
+      font-size: 21px;
       font-weight: bold;
       text-align: right;
-      padding-top: 15px;
+      margin-top: 15px;
     }
 
     .checkout {
       background: white;
-      margin-top: 20px;
+      max-width: 700px;
+      margin: 20px auto 40px;
       padding: 18px;
       border-radius: 12px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.08);
     }
 
-    .checkout h2 {
-      margin-top: 0;
-    }
-
     .checkout input,
     .checkout textarea {
       width: 100%;
-      padding: 13px;
+      padding: 12px;
       margin: 7px 0;
-      border: 1px solid #ccc;
+      border: 1px solid #ddd;
       border-radius: 8px;
       font-size: 16px;
-      font-family: Arial, sans-serif;
     }
 
     .checkout textarea {
@@ -230,80 +196,27 @@
       resize: vertical;
     }
 
-    .order-button {
+    #orderButton {
       width: 100%;
+      padding: 14px;
+      margin-top: 10px;
+      border: none;
+      border-radius: 8px;
       background: #25D366;
       color: white;
+      font-size: 17px;
       font-weight: bold;
-      margin-top: 10px;
+      cursor: pointer;
     }
 
-    .message {
-      display: none;
-      margin-top: 12px;
-      padding: 12px;
-      border-radius: 8px;
-    }
-
-    .success {
-      display: block;
-      background: #e5f7e5;
-      color: #176b17;
-    }
-
-    .error {
-      display: block;
-      background: #ffe5e5;
-      color: #a00000;
+    #orderButton:disabled {
+      background: #999;
     }
 
     .empty {
       text-align: center;
-      padding: 30px;
       color: #777;
-    }
-
-    .cart-badge {
-      position: fixed;
-      right: 18px;
-      bottom: 18px;
-      background: #111;
-      color: white;
-      width: 58px;
-      height: 58px;
-      border-radius: 50%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 22px;
-      box-shadow: 0 3px 12px rgba(0,0,0,0.25);
-      z-index: 200;
-      cursor: pointer;
-    }
-
-    .cart-count {
-      position: absolute;
-      top: -4px;
-      right: -3px;
-      background: #e53935;
-      color: white;
-      font-size: 12px;
-      width: 21px;
-      height: 21px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    @media (min-width: 700px) {
-      .products {
-        grid-template-columns: repeat(3, 1fr);
-      }
-
-      .product-image {
-        height: 230px;
-      }
+      padding: 20px;
     }
   </style>
 </head>
@@ -312,801 +225,664 @@
 
 <header>
   <h1>YAYOUNABYSAC</h1>
-  <p>Votre boutique de sacs pour femme</p>
+  <input
+    type="text"
+    id="search"
+    placeholder="Rechercher un sac..."
+  >
 </header>
 
-<div class="container">
+<div class="categories" id="categories"></div>
 
-  <div class="search">
-    <input
-      type="search"
-      id="searchInput"
-      placeholder="🔎 Rechercher un sac..."
-      oninput="afficherProduits()"
-    >
+<section id="products">
+  <p class="empty">Chargement des produits...</p>
+</section>
+
+<section id="cart">
+  <h2>🛒 Mon panier</h2>
+
+  <div id="cartItems">
+    <p class="empty">Votre panier est vide.</p>
   </div>
 
-  <div id="categories" class="categories"></div>
-
-  <div id="products" class="products">
-    <div class="empty">Chargement des produits...</div>
+  <div id="total">
+    Total : 0 FCFA
   </div>
+</section>
 
-  <div id="cart" class="cart">
-    <h2>🛒 Mon panier</h2>
+<section class="checkout">
+  <h2>📦 Commander</h2>
 
-    <div id="cartItems">
-      <div class="empty">Votre panier est vide.</div>
-    </div>
+  <input
+    type="text"
+    id="customerName"
+    placeholder="Nom et prénom"
+  >
 
-    <div id="cartTotal" class="cart-total">
-      Total : 0 FCFA
-    </div>
-  </div>
+  <input
+    type="tel"
+    id="customerPhone"
+    placeholder="Numéro de téléphone"
+  >
 
-  <div class="checkout">
+  <input
+    type="text"
+    id="customerAddress"
+    placeholder="Adresse / Quartier"
+  >
 
-    <h2>📦 Finaliser ma commande</h2>
+  <textarea
+    id="customerComment"
+    placeholder="Commentaire (facultatif)"
+  ></textarea>
 
-    <input
-      type="text"
-      id="customerName"
-      placeholder="Votre nom complet"
-    >
-
-    <input
-      type="tel"
-      id="customerPhone"
-      placeholder="Votre numéro de téléphone"
-    >
-
-    <input
-      type="text"
-      id="customerAddress"
-      placeholder="Adresse / Quartier"
-    >
-
-    <textarea
-      id="customerComment"
-      placeholder="Commentaire (facultatif)"
-    ></textarea>
-
-    <button
-      class="order-button"
-      onclick="passerCommande()"
-    >
-      📱 Commander sur WhatsApp
-    </button>
-
-    <div id="orderMessage" class="message"></div>
-
-  </div>
-
-</div>
-
-<div class="cart-badge" onclick="allerAuPanier()">
-  🛒
-  <span id="cartCount" class="cart-count">0</span>
-</div>
-
+  <button id="orderButton">
+    Commander sur WhatsApp
+  </button>
+</section>
 
 <script>
 
-  /* =========================
+  /* ==============================
      SUPABASE
-  ========================= */
+  ============================== */
 
   const SUPABASE_URL =
     "https://ajprnhqphbtgfztspuio.supabase.co";
 
-  /*
-     IMPORTANT :
-     Remets ici ta clé publishable Supabase
-     que tu utilises déjà dans ton projet.
-  */
   const SUPABASE_PUBLISHABLE_KEY =
     "sb_publishable_Qxr7ftKtVgB3y3lmx1agWg_UQxqrviy";
 
-  const supabaseClient =
-    supabase.createClient(
-      SUPABASE_URL,
-      SUPABASE_PUBLISHABLE_KEY
-    );
+  const supabaseClient = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+  );
 
 
-  /* =========================
+  /* ==============================
      VARIABLES
-  ========================= */
+  ============================== */
 
-  let produits = [];
+  let products = [];
+  let cart = JSON.parse(
+    localStorage.getItem("yayounabysac_panier") || "[]"
+  );
 
-  let panier =
-    JSON.parse(
-      localStorage.getItem("yayounabysac_panier")
-    ) || [];
-
-  let categorieActuelle = "Toutes";
+  let selectedCategory = "Tous";
 
 
-  /* =========================
-     CHARGER PRODUITS
-  ========================= */
+  /* ==============================
+     CHARGER LES PRODUITS
+  ============================== */
 
-  async function chargerProduits() {
+  async function loadProducts() {
 
-    const zone =
+    const productsContainer =
       document.getElementById("products");
 
-    zone.innerHTML =
-      '<div class="empty">Chargement des produits...</div>';
+    productsContainer.innerHTML =
+      '<p class="empty">Chargement des produits...</p>';
 
-    const {
-      data,
-      error
-    } =
-      await supabaseClient
-        .from("Products")
-        .select("*")
-        .order("id", {
-          ascending: false
-        });
+    const { data, error } = await supabaseClient
+      .from("Products")
+      .select("*")
+      .order("id", { ascending: true });
 
     if (error) {
 
-      console.error(error);
+      console.error("Erreur produits :", error);
 
-      zone.innerHTML =
-        '<div class="empty">Erreur lors du chargement des produits.</div>';
+      productsContainer.innerHTML =
+        "<p class='empty'>Erreur lors du chargement des produits.</p>";
 
       return;
     }
 
-    produits = data || [];
+    products = data || [];
 
-    afficherCategories();
-    afficherProduits();
-    afficherPanier();
+    displayCategories();
+    displayProducts();
+    displayCart();
   }
 
 
-  /* =========================
+  /* ==============================
      CATEGORIES
-  ========================= */
+  ============================== */
 
-  function afficherCategories() {
+  function displayCategories() {
 
-    const zone =
+    const container =
       document.getElementById("categories");
 
-    const categories =
-      [
-        "Toutes",
-        ...new Set(
-          produits
-            .map(p => p.Category)
-            .filter(Boolean)
-        )
-      ];
+    const categories = [
+      "Tous",
+      ...new Set(
+        products
+          .map(product => product.Category)
+          .filter(category => category)
+      )
+    ];
 
-    zone.innerHTML = "";
+    container.innerHTML = "";
 
-    categories.forEach(categorie => {
+    categories.forEach(category => {
 
-      const bouton =
+      const button =
         document.createElement("button");
 
-      bouton.className =
-        "category"
-        + (
-          categorie === categorieActuelle
-            ? " active"
-            : ""
-        );
+      button.textContent = category;
 
-      bouton.textContent =
-        categorie;
+      button.onclick = function() {
 
-      bouton.onclick = function() {
+        selectedCategory = category;
 
-        categorieActuelle =
-          categorie;
-
-        afficherCategories();
-        afficherProduits();
+        displayProducts();
       };
 
-      zone.appendChild(bouton);
-
+      container.appendChild(button);
     });
   }
 
 
-  /* =========================
+  /* ==============================
      AFFICHER PRODUITS
-  ========================= */
+  ============================== */
 
-  function afficherProduits() {
+  function displayProducts() {
 
-    const zone =
+    const container =
       document.getElementById("products");
 
-    const recherche =
-      document
-        .getElementById("searchInput")
+    const search =
+      document.getElementById("search")
         .value
         .toLowerCase()
         .trim();
 
-    let liste =
-      produits.filter(produit => {
+    const filteredProducts =
+      products.filter(product => {
 
-        const nom =
-          String(produit.name || "")
-            .toLowerCase();
+        const matchCategory =
+          selectedCategory === "Tous" ||
+          product.Category === selectedCategory;
 
-        const description =
-          String(produit.description || "")
-            .toLowerCase();
+        const matchSearch =
+          !search ||
+          String(product.name || "")
+            .toLowerCase()
+            .includes(search);
 
-        const categorie =
-          String(produit.Category || "");
-
-        const correspondRecherche =
-          !recherche ||
-          nom.includes(recherche) ||
-          description.includes(recherche);
-
-        const correspondCategorie =
-          categorieActuelle === "Toutes" ||
-          categorie === categorieActuelle;
-
-        return (
-          correspondRecherche &&
-          correspondCategorie
-        );
+        return matchCategory && matchSearch;
       });
 
-    if (liste.length === 0) {
+    if (filteredProducts.length === 0) {
 
-      zone.innerHTML =
-        '<div class="empty">Aucun produit trouvé.</div>';
+      container.innerHTML =
+        '<p class="empty">Aucun produit trouvé.</p>';
 
       return;
     }
 
-    zone.innerHTML = "";
+    container.innerHTML = "";
 
-    liste.forEach(produit => {
-
-      const stock =
-        Number(produit.Stock || 0);
-
-      const prix =
-        Number(produit.Price || 0);
-
-      const image =
-        produit.Image_url ||
-        "https://via.placeholder.com/500x400?text=YAYOUNABYSAC";
+    filteredProducts.forEach(product => {
 
       const card =
         document.createElement("div");
 
-      card.className =
-        "product";
+      card.className = "product";
+
+      const image =
+        product.Image_url ||
+        "https://via.placeholder.com/500x500?text=YAYOUNABYSAC";
+
+      const price =
+        Number(product.Price || 0);
+
+      const stock =
+        Number(product.Stock || 0);
 
       card.innerHTML = `
-
         <img
-          class="product-image"
           src="${image}"
-          alt="${produit.name || "Produit"}"
-          onerror="this.src='https://via.placeholder.com/500x400?text=YAYOUNABYSAC'"
+          alt="${product.name || "Sac"}"
         >
 
-        <div class="product-content">
+        <h3>${product.name || "Produit"}</h3>
 
-          <h3>
-            ${produit.name || "Produit"}
-          </h3>
-
-          <div class="description">
-            ${produit.description || ""}
-          </div>
-
-          <div class="price">
-            ${prix.toLocaleString("fr-FR")} FCFA
-          </div>
-
-          <div class="stock">
-            Stock : ${stock}
-          </div>
-
-          <button
-            class="add-button"
-            onclick="ajouterAuPanier(${produit.id})"
-            ${stock <= 0 ? "disabled" : ""}
-          >
-            ${
-              stock <= 0
-                ? "Rupture de stock"
-                : "🛒 Ajouter au panier"
-            }
-          </button>
-
+        <div class="description">
+          ${product.description || ""}
         </div>
+
+        <div class="price">
+          ${price.toLocaleString("fr-FR")} FCFA
+        </div>
+
+        <div class="stock">
+          Stock : ${stock}
+        </div>
+
+        <button
+          ${stock <= 0 ? "disabled" : ""}
+          onclick="addToCart(${product.id})"
+        >
+          ${stock <= 0 ? "Rupture de stock" : "Ajouter au panier"}
+        </button>
       `;
 
-      zone.appendChild(card);
-
+      container.appendChild(card);
     });
   }
 
 
-  /* =========================
-     AJOUTER PANIER
-  ========================= */
+  /* ==============================
+     RECHERCHE
+  ============================== */
 
-  function ajouterAuPanier(id) {
+  document
+    .getElementById("search")
+    .addEventListener("input", displayProducts);
 
-    const produit =
-      produits.find(
-        p => Number(p.id) === Number(id)
-      );
 
-    if (!produit) return;
+  /* ==============================
+     AJOUT PANIER
+  ============================== */
 
-    const stock =
-      Number(produit.Stock || 0);
+  function addToCart(productId) {
 
-    if (stock <= 0) return;
+    const product =
+      products.find(p => p.id === productId);
 
-    const existant =
-      panier.find(
-        item => Number(item.id) === Number(id)
-      );
+    if (!product) return;
 
-    if (existant) {
+    const existing =
+      cart.find(item => item.id === productId);
 
-      if (existant.quantite < stock) {
+    if (existing) {
 
-        existant.quantite++;
-
+      if (existing.quantity < Number(product.Stock || 0)) {
+        existing.quantity++;
       }
 
     } else {
 
-      panier.push({
-        id: produit.id,
-        name: produit.name,
-        price: Number(produit.Price || 0),
-        quantite: 1
+      cart.push({
+        id: product.id,
+        name: product.name,
+        price: Number(product.Price || 0),
+        quantity: 1,
+        stock: Number(product.Stock || 0)
       });
-
     }
 
-    sauvegarderPanier();
-    afficherPanier();
+    saveCart();
+    displayCart();
   }
 
 
-  /* =========================
-     SAUVEGARDER PANIER
-  ========================= */
+  /* ==============================
+     PANIER
+  ============================== */
 
-  function sauvegarderPanier() {
+  function saveCart() {
 
     localStorage.setItem(
       "yayounabysac_panier",
-      JSON.stringify(panier)
+      JSON.stringify(cart)
     );
   }
 
 
-  /* =========================
-     AFFICHER PANIER
-  ========================= */
+  function displayCart() {
 
-  function afficherPanier() {
-
-    const zone =
+    const container =
       document.getElementById("cartItems");
 
-    const totalZone =
-      document.getElementById("cartTotal");
+    const totalElement =
+      document.getElementById("total");
 
-    const countZone =
-      document.getElementById("cartCount");
+    if (cart.length === 0) {
 
-    if (panier.length === 0) {
+      container.innerHTML =
+        '<p class="empty">Votre panier est vide.</p>';
 
-      zone.innerHTML =
-        '<div class="empty">Votre panier est vide.</div>';
-
-      totalZone.textContent =
+      totalElement.textContent =
         "Total : 0 FCFA";
-
-      countZone.textContent = "0";
 
       return;
     }
 
-    zone.innerHTML = "";
+    container.innerHTML = "";
 
     let total = 0;
-    let nombreArticles = 0;
 
-    panier.forEach(item => {
+    cart.forEach(item => {
 
-      const sousTotal =
-        Number(item.price) *
-        Number(item.quantite);
+      const itemTotal =
+        item.price * item.quantity;
 
-      total += sousTotal;
-
-      nombreArticles +=
-        Number(item.quantite);
+      total += itemTotal;
 
       const div =
         document.createElement("div");
 
-      div.className =
-        "cart-item";
+      div.className = "cart-item";
 
       div.innerHTML = `
-
-        <div class="cart-name">
-          ${item.name}
-        </div>
-
         <div>
-          ${Number(item.price).toLocaleString("fr-FR")}
-          FCFA × ${item.quantite}
+          <strong>${item.name}</strong><br>
+          ${item.price.toLocaleString("fr-FR")} FCFA
         </div>
 
         <div class="cart-controls">
 
           <button
-            class="quantity-button"
-            onclick="modifierQuantite(${item.id}, -1)"
+            onclick="changeQuantity(${item.id}, -1)"
           >
             −
           </button>
 
-          <strong>
-            ${item.quantite}
-          </strong>
+          <span>${item.quantity}</span>
 
           <button
-            class="quantity-button"
-            onclick="modifierQuantite(${item.id}, 1)"
+            onclick="changeQuantity(${item.id}, 1)"
           >
             +
           </button>
 
           <button
-            class="remove-button"
-            onclick="supprimerDuPanier(${item.id})"
+            class="remove"
+            onclick="removeFromCart(${item.id})"
           >
-            Supprimer
+            ✕
           </button>
 
         </div>
-
       `;
 
-      zone.appendChild(div);
-
+      container.appendChild(div);
     });
 
-    totalZone.textContent =
-      "Total : "
-      + total.toLocaleString("fr-FR")
-      + " FCFA";
-
-    countZone.textContent =
-      nombreArticles;
+    totalElement.textContent =
+      "Total : " +
+      total.toLocaleString("fr-FR") +
+      " FCFA";
   }
 
 
-  /* =========================
-     MODIFIER QUANTITE
-  ========================= */
+  /* ==============================
+     QUANTITE
+  ============================== */
 
-  function modifierQuantite(id, changement) {
+  function changeQuantity(productId, change) {
 
     const item =
-      panier.find(
-        p => Number(p.id) === Number(id)
-      );
+      cart.find(item => item.id === productId);
 
     if (!item) return;
 
-    const produit =
-      produits.find(
-        p => Number(p.id) === Number(id)
-      );
+    const product =
+      products.find(p => p.id === productId);
 
-    const stock =
-      Number(
-        produit
-          ? produit.Stock
-          : 999999
-      );
+    if (!product) return;
 
-    item.quantite += changement;
+    const newQuantity =
+      item.quantity + change;
 
-    if (item.quantite <= 0) {
+    if (newQuantity <= 0) {
 
-      panier =
-        panier.filter(
-          p => Number(p.id) !== Number(id)
+      removeFromCart(productId);
+
+      return;
+    }
+
+    if (newQuantity > Number(product.Stock || 0)) {
+
+      alert("Stock disponible : " + product.Stock);
+
+      return;
+    }
+
+    item.quantity = newQuantity;
+
+    saveCart();
+    displayCart();
+  }
+
+
+  /* ==============================
+     SUPPRIMER
+  ============================== */
+
+  function removeFromCart(productId) {
+
+    cart =
+      cart.filter(item => item.id !== productId);
+
+    saveCart();
+    displayCart();
+  }
+
+
+  /* ==============================
+     CALCUL TOTAL
+  ============================== */
+
+  function calculateTotal() {
+
+    return cart.reduce(
+      (total, item) =>
+        total + item.price * item.quantity,
+      0
+    );
+  }
+
+
+  /* ==============================
+     COMMANDER
+  ============================== */
+
+  document
+    .getElementById("orderButton")
+    .addEventListener("click", async function() {
+
+      if (cart.length === 0) {
+
+        alert("Votre panier est vide.");
+
+        return;
+      }
+
+      const nom =
+        document
+          .getElementById("customerName")
+          .value
+          .trim();
+
+      const telephone =
+        document
+          .getElementById("customerPhone")
+          .value
+          .trim();
+
+      const adresse =
+        document
+          .getElementById("customerAddress")
+          .value
+          .trim();
+
+      const commentaire =
+        document
+          .getElementById("customerComment")
+          .value
+          .trim();
+
+      if (!nom || !telephone || !adresse) {
+
+        alert(
+          "Veuillez remplir le nom, le téléphone et l'adresse."
         );
 
-    } else if (item.quantite > stock) {
+        return;
+      }
 
-      item.quantite = stock;
+      const total =
+        calculateTotal();
+
+      const adresseComplete =
+        adresse +
+        (
+          commentaire
+            ? " | Commentaire : " + commentaire
+            : ""
+        );
+
+
+      const orderButton =
+        document.getElementById("orderButton");
+
+      orderButton.disabled = true;
+      orderButton.textContent =
+        "Enregistrement de la commande...";
+
+
+      /* ==============================
+         ENREGISTRER DANS SUPABASE
+      ============================== */
+
+      const { data, error } =
+        await supabaseClient
+          .from("Orders")
+          .insert([
+            {
+              Customer_name: nom,
+              Phone: telephone,
+              Address: adresseComplete,
+              Total: total,
+              Status: "Nouvelle"
+            }
+          ])
+          .select()
+          .single();
+
+
+      /* ==============================
+         AFFICHER LA VRAIE ERREUR
+      ============================== */
+
+      if (error) {
+
+        console.error(
+          "ERREUR SUPABASE :",
+          error
+        );
+
+        alert(
+          "ERREUR SUPABASE :\n\n" +
+          (error.message || "Erreur inconnue") +
+          "\n\nCode : " +
+          (error.code || "inconnu")
+        );
+
+        orderButton.disabled = false;
+        orderButton.textContent =
+          "Commander sur WhatsApp";
+
+        return;
+      }
+
+
+      /* ==============================
+         COMMANDE ENREGISTREE
+      ============================== */
+
+      console.log(
+        "Commande enregistrée :",
+        data
+      );
+
+
+      /* ==============================
+         MESSAGE WHATSAPP
+      ============================== */
+
+      let message =
+        "Bonjour YAYOUNABYSAC,%0A%0A" +
+        "Je souhaite passer une commande.%0A%0A" +
+        "Nom : " + encodeURIComponent(nom) + "%0A" +
+        "Téléphone : " + encodeURIComponent(telephone) + "%0A" +
+        "Adresse : " + encodeURIComponent(adresse) + "%0A";
+
+      if (commentaire) {
+
+        message +=
+          "Commentaire : " +
+          encodeURIComponent(commentaire) +
+          "%0A";
+      }
+
+      message += "%0AProduits :%0A";
+
+      cart.forEach(item => {
+
+        message +=
+          "- " +
+          encodeURIComponent(item.name) +
+          " x" +
+          item.quantity +
+          " = " +
+          encodeURIComponent(
+            (item.price * item.quantity)
+              .toLocaleString("fr-FR")
+          ) +
+          " FCFA%0A";
+      });
+
+      message +=
+        "%0ATotal : " +
+        encodeURIComponent(
+          total.toLocaleString("fr-FR")
+        ) +
+        " FCFA";
+
+
+      const whatsappUrl =
+        "https://wa.me/221775124928?text=" +
+        message;
+
+
+      /* ==============================
+         VIDER LE PANIER
+      ============================== */
+
+      cart = [];
+
+      saveCart();
+      displayCart();
+
 
       alert(
-        "Vous ne pouvez pas dépasser le stock disponible."
-      );
-    }
-
-    sauvegarderPanier();
-    afficherPanier();
-  }
-
-
-  /* =========================
-     SUPPRIMER
-  ========================= */
-
-  function supprimerDuPanier(id) {
-
-    panier =
-      panier.filter(
-        item => Number(item.id) !== Number(id)
+        "Commande enregistrée avec succès !"
       );
 
-    sauvegarderPanier();
-    afficherPanier();
-  }
+
+      orderButton.disabled = false;
+      orderButton.textContent =
+        "Commander sur WhatsApp";
 
 
-  /* =========================
-     ALLER AU PANIER
-  ========================= */
-
-  function allerAuPanier() {
-
-    document
-      .getElementById("cart")
-      .scrollIntoView({
-        behavior: "smooth"
-      });
-  }
-
-
-  /* =========================
-     PASSER COMMANDE
-  ========================= */
-
-  async function passerCommande() {
-
-    const message =
-      document.getElementById("orderMessage");
-
-    message.className = "message";
-    message.style.display = "none";
-
-    if (panier.length === 0) {
-
-      afficherMessage(
-        "Ajoute au moins un produit au panier.",
-        "error"
-      );
-
-      return;
-    }
-
-    const nom =
-      document
-        .getElementById("customerName")
-        .value
-        .trim();
-
-    const telephone =
-      document
-        .getElementById("customerPhone")
-        .value
-        .trim();
-
-    const adresse =
-      document
-        .getElementById("customerAddress")
-        .value
-        .trim();
-
-    const commentaire =
-      document
-        .getElementById("customerComment")
-        .value
-        .trim();
-
-    if (!nom || !telephone || !adresse) {
-
-      afficherMessage(
-        "Remplis ton nom, ton téléphone et ton adresse.",
-        "error"
-      );
-
-      return;
-    }
-
-    let total = 0;
-
-    panier.forEach(item => {
-
-      total +=
-        Number(item.price) *
-        Number(item.quantite);
+      window.location.href =
+        whatsappUrl;
 
     });
 
 
-    /* =========================
-       ENREGISTREMENT SUPABASE
-    ========================= */
+  /* ==============================
+     DEMARRAGE
+  ============================== */
 
-    const {
-      data,
-      error
-    } =
-      await supabaseClient
-        .from("Orders")
-        .insert([
-          {
-            Customer_name: nom,
-            Phone: telephone,
-            Address:
-              adresse
-              + (
-                commentaire
-                  ? " | Commentaire : " + commentaire
-                  : ""
-              ),
-            Total: total,
-            Status: "Nouvelle"
-          }
-        ])
-        .select()
-        .single();
-
-    if (error) {
-
-      console.error(error);
-
-      afficherMessage(
-        "La commande n'a pas pu être enregistrée. Vérifie les autorisations Supabase.",
-        "error"
-      );
-
-      return;
-    }
-
-
-    /* =========================
-       MESSAGE WHATSAPP
-    ========================= */
-
-    let texte =
-      "Bonjour YAYOUNABYSAC,%0A%0A";
-
-    texte +=
-      "Je souhaite passer une commande.%0A%0A";
-
-    texte +=
-      "Client : "
-      + encodeURIComponent(nom)
-      + "%0A";
-
-    texte +=
-      "Téléphone : "
-      + encodeURIComponent(telephone)
-      + "%0A";
-
-    texte +=
-      "Adresse : "
-      + encodeURIComponent(adresse)
-      + "%0A%0A";
-
-    texte +=
-      "Produits :%0A";
-
-    panier.forEach(item => {
-
-      const sousTotal =
-        Number(item.price) *
-        Number(item.quantite);
-
-      texte +=
-        "- "
-        + encodeURIComponent(item.name)
-        + " x"
-        + item.quantite
-        + " = "
-        + sousTotal.toLocaleString("fr-FR")
-        + " FCFA%0A";
-
-    });
-
-    texte +=
-      "%0ATotal : "
-      + total.toLocaleString("fr-FR")
-      + " FCFA%0A";
-
-    if (commentaire) {
-
-      texte +=
-        "%0ACommentaire : "
-        + encodeURIComponent(commentaire);
-
-    }
-
-
-    /* =========================
-       VIDER PANIER
-    ========================= */
-
-    panier = [];
-
-    sauvegarderPanier();
-    afficherPanier();
-
-
-    afficherMessage(
-      "Commande enregistrée. Ouverture de WhatsApp...",
-      "success"
-    );
-
-
-    setTimeout(() => {
-
-      window.open(
-        "https://wa.me/221775124928?text="
-        + texte,
-        "_blank"
-      );
-
-    }, 500);
-
-  }
-
-
-  /* =========================
-     MESSAGE
-  ========================= */
-
-  function afficherMessage(texte, type) {
-
-    const message =
-      document.getElementById("orderMessage");
-
-    message.textContent =
-      texte;
-
-    message.className =
-      "message " + type;
-
-    message.style.display =
-      "block";
-  }
-
-
-  /* =========================
-     DÉMARRAGE
-  ========================= */
-
-  chargerProduits();
+  loadProducts();
 
 </script>
 
