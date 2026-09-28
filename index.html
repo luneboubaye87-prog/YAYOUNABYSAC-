@@ -319,8 +319,6 @@
 
   <div id="productError"></div>
 
-  <!-- PANIER -->
-
   <section class="section">
 
 ```
@@ -339,8 +337,6 @@
 ```
 
   </section>
-
-  <!-- COMMANDE -->
 
   <section class="section">
 
@@ -494,10 +490,9 @@
         ? "active"
         : "";
 
-    boutonToutes.onclick =
-      function() {
-        choisirCategorie("Toutes", this);
-      };
+    boutonToutes.onclick = function() {
+      choisirCategorie("Toutes", this);
+    };
 
     categoriesDiv.appendChild(boutonToutes);
 
@@ -513,10 +508,9 @@
           ? "active"
           : "";
 
-      bouton.onclick =
-        function() {
-          choisirCategorie(categorie, this);
-        };
+      bouton.onclick = function() {
+        choisirCategorie(categorie, this);
+      };
 
       categoriesDiv.appendChild(bouton);
     });
@@ -613,7 +607,7 @@
       card.innerHTML = `
 
         <img
-          src="${image}"
+          src="${escapeHtml(image)}"
           alt="${escapeHtml(produit.name || "Sac")}"
           onerror="this.src='https://via.placeholder.com/600x600?text=YAYOUNABYSAC'"
         >
@@ -629,8 +623,7 @@
           </div>
 
           <div class="price">
-            ${prix.toLocaleString("fr-FR")}
-            FCFA
+            ${prix.toLocaleString("fr-FR")} FCFA
           </div>
 
           <div class="stock">
@@ -663,10 +656,7 @@
 
   document
     .getElementById("searchInput")
-    .addEventListener(
-      "input",
-      afficherProduits
-    );
+    .addEventListener("input", afficherProduits);
 
 
   // =====================================================
@@ -687,10 +677,8 @@
       return;
     }
 
-
     const stock =
       Number(produit.Stock || 0);
-
 
     if (stock <= 0) {
 
@@ -699,12 +687,10 @@
       return;
     }
 
-
     const existant =
       panier.find(
         p => Number(p.id) === Number(id)
       );
-
 
     if (existant) {
 
@@ -732,9 +718,7 @@
       });
     }
 
-
     sauvegarderPanier();
-
     afficherPanier();
 
     alert("Produit ajouté au panier.");
@@ -753,7 +737,6 @@
     const cartTotal =
       document.getElementById("cartTotal");
 
-
     if (!panier || panier.length === 0) {
 
       cartItems.innerHTML =
@@ -763,7 +746,6 @@
 
       return;
     }
-
 
     cartItems.innerHTML = "";
 
@@ -852,7 +834,6 @@
 
     if (!item) return;
 
-
     if (
       Number(item.quantity) >=
       Number(item.stock)
@@ -865,11 +846,9 @@
       return;
     }
 
-
     item.quantity++;
 
     sauvegarderPanier();
-
     afficherPanier();
   }
 
@@ -884,18 +863,14 @@
 
     if (!item) return;
 
-
     item.quantity--;
-
 
     if (item.quantity <= 0) {
 
       panier.splice(index, 1);
     }
 
-
     sauvegarderPanier();
-
     afficherPanier();
   }
 
@@ -909,7 +884,6 @@
     panier.splice(index, 1);
 
     sauvegarderPanier();
-
     afficherPanier();
   }
 
@@ -1032,7 +1006,7 @@
     try {
 
       // =================================================
-      // 1. ENREGISTRER LA COMMANDE DANS ORDERS
+      // CRÉER LA COMMANDE
       // =================================================
 
       const {
@@ -1057,7 +1031,7 @@
       if (erreurCommande) {
 
         console.error(
-          "Erreur Orders :",
+          "Erreur création commande :",
           erreurCommande
         );
 
@@ -1076,26 +1050,22 @@
 
 
       console.log(
-        "Commande enregistrée. ID :",
+        "Commande créée. ID :",
         orderId
       );
 
 
       // =================================================
-      // 2. ENREGISTRER LES ARTICLES DANS ORDERS_ITEMS
+      // ENREGISTRER LES PRODUITS DE LA COMMANDE
       // =================================================
 
-      const articles =
-        panier.map(produit => {
-
-          return {
-            order_id: orderId,
-            product_id: Number(produit.id),
-            quantity: Number(produit.quantity),
-            price: Number(produit.price)
-          };
-
-        });
+      const articlesCommande =
+        panier.map(produit => ({
+          order_id: orderId,
+          product_id: produit.id,
+          quantity: Number(produit.quantity),
+          price: Number(produit.price)
+        }));
 
 
       const {
@@ -1103,18 +1073,20 @@
       } =
         await supabaseClient
           .from("Orders_items")
-          .insert(articles);
+          .insert(articlesCommande);
 
 
       if (erreurArticles) {
 
         console.error(
-          "Erreur Orders_items :",
+          "Erreur articles commande :",
           erreurArticles
         );
 
         alert(
-          "La commande a été créée, mais les articles n'ont pas pu être enregistrés.\n\n" +
+          "La commande n°" +
+          orderId +
+          " a été créée, mais les produits n'ont pas pu être enregistrés.\n\n" +
           erreurArticles.message +
           "\n\nCode : " +
           (erreurArticles.code || "inconnu")
@@ -1124,13 +1096,8 @@
       }
 
 
-      console.log(
-        "Articles de la commande enregistrés."
-      );
-
-
       // =================================================
-      // 3. CRÉER LE MESSAGE WHATSAPP
+      // MESSAGE WHATSAPP
       // =================================================
 
       let message =
@@ -1192,19 +1159,23 @@
         " FCFA*";
 
 
+      message +=
+        "\n\n🧾 Commande n°" +
+        orderId;
+
+
       // =================================================
-      // 4. VIDER LE PANIER
+      // VIDER LE PANIER
       // =================================================
 
       panier = [];
 
       sauvegarderPanier();
-
       afficherPanier();
 
 
       // =================================================
-      // 5. WHATSAPP
+      // WHATSAPP
       // =================================================
 
       const numeroWhatsApp =
@@ -1220,6 +1191,9 @@
 
       alert(
         "Commande enregistrée avec succès !\n\n" +
+        "Numéro de commande : " +
+        orderId +
+        "\n\n" +
         "Vous allez être redirigé vers WhatsApp."
       );
 
