@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
@@ -10,1039 +9,203 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
-    * {
-      box-sizing: border-box;
-    }
-
     body {
-      margin: 0;
       font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
       background: #f5f5f5;
-      color: #222;
     }
 
-    header {
-      background: #111;
-      color: white;
-      padding: 20px;
+    h1 {
       text-align: center;
     }
 
-    header h1 {
-      margin: 0;
-    }
-
-    header p {
-      margin: 5px 0 0;
-    }
-
-    .container {
-      max-width: 950px;
-      margin: auto;
-      padding: 15px;
-    }
-
-    .card {
+    .commande {
       background: white;
-      padding: 20px;
-      margin-bottom: 20px;
       border-radius: 12px;
-      box-shadow: 0 2px 10px rgba(0,0,0,.08);
+      padding: 18px;
+      margin-bottom: 15px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
     }
 
-    input,
-    textarea,
-    button {
-      width: 100%;
-      padding: 12px;
-      margin: 7px 0 12px;
+    .commande p {
+      margin: 7px 0;
+    }
+
+    .statut {
+      padding: 10px;
       border-radius: 8px;
-      border: 1px solid #ccc;
+      width: 100%;
+      margin-top: 10px;
       font-size: 16px;
     }
 
-    textarea {
-      min-height: 100px;
-      resize: vertical;
+    .vide {
+      text-align: center;
+      padding: 30px;
     }
 
-    button {
-      background: #111;
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
-
-    button:hover {
-      opacity: .9;
-    }
-
-    .danger {
-      background: #c62828;
-    }
-
-    .edit {
-      background: #555;
-    }
-
-    .logout {
-      background: #777;
-    }
-
-    .cancel {
-      background: #999;
-    }
-
-    .hidden {
-      display: none;
-    }
-
-    .message {
-      padding: 12px;
-      border-radius: 8px;
-      margin-bottom: 15px;
-      background: #eee;
-    }
-
-    .product,
-    .order {
-      border: 1px solid #ddd;
-      border-radius: 10px;
+    .erreur {
+      color: red;
+      background: #ffe5e5;
       padding: 15px;
-      margin-bottom: 15px;
-    }
-
-    .product img {
-      width: 160px;
-      max-width: 100%;
       border-radius: 8px;
-      display: block;
-      margin-bottom: 10px;
-    }
-
-    .actions {
-      display: flex;
-      gap: 8px;
-    }
-
-    .actions button {
-      flex: 1;
-    }
-
-    .editing {
-      border: 2px solid #555;
     }
   </style>
-
 </head>
 
 <body>
 
-<header>
-  <h1>YAYOUNABYSAC</h1>
-  <p>Administration</p>
-</header>
+  <h1>👜 YAYOUNABYSAC</h1>
+  <h2>📦 Commandes</h2>
 
-<div class="container">
+  <div id="message">Chargement des commandes...</div>
 
-  <!-- CONNEXION -->
-
-  <div id="loginSection" class="card">
-
-```
-<h2>Connexion administrateur</h2>
-
-<div id="loginMessage" class="message hidden"></div>
-
-<label>Email</label>
-<input
-  type="email"
-  id="email"
-  placeholder="Votre email"
->
-
-<label>Mot de passe</label>
-<input
-  type="password"
-  id="password"
-  placeholder="Votre mot de passe"
->
-
-<button onclick="connexionAdmin()">
-  Se connecter
-</button>
-```
-
-  </div>
-
-  <!-- ADMIN -->
-
-  <div id="adminSection" class="hidden">
-
-```
-<div class="card">
-
-  <h2>Tableau de bord</h2>
-
-  <button
-    class="logout"
-    onclick="deconnexion()"
-  >
-    Se déconnecter
-  </button>
-
-</div>
-
-
-<!-- FORMULAIRE PRODUIT -->
-<div
-  id="productFormCard"
-  class="card"
->
-
-  <h2 id="formTitle">
-    Ajouter un produit
-  </h2>
-
-  <div
-    id="productMessage"
-    class="message hidden"
-  ></div>
-
-  <input
-    type="hidden"
-    id="productId"
-  >
-
-  <label>Nom du produit</label>
-
-  <input
-    type="text"
-    id="productName"
-    placeholder="Exemple : Sac à main"
-  >
-
-
-  <label>Description</label>
-
-  <textarea
-    id="productDescription"
-    placeholder="Description du produit"
-  ></textarea>
-
-
-  <label>Prix (FCFA)</label>
-
-  <input
-    type="number"
-    id="productPrice"
-    placeholder="18000"
-  >
-
-
-  <label>Stock</label>
-
-  <input
-    type="number"
-    id="productStock"
-    placeholder="4"
-  >
-
-
-  <label>Catégorie</label>
-
-  <input
-    type="text"
-    id="productCategory"
-    placeholder="Sacs à main"
-  >
-
-
-  <label>URL de l'image</label>
-
-  <input
-    type="url"
-    id="productImage"
-    placeholder="https://..."
-  >
-
-
-  <button onclick="enregistrerProduit()">
-    Enregistrer le produit
-  </button>
-
-
-  <button
-    id="cancelButton"
-    class="cancel hidden"
-    onclick="annulerModification()"
-  >
-    Annuler la modification
-  </button>
-
-</div>
-
-
-<!-- PRODUITS -->
-<div class="card">
-
-  <h2>Mes produits</h2>
-
-  <button onclick="chargerProduits()">
-    Actualiser les produits
-  </button>
-
-  <div id="productsList">
-    Chargement des produits...
-  </div>
-
-</div>
-
-
-<!-- COMMANDES -->
-<div class="card">
-
-  <h2>Commandes</h2>
-
-  <button onclick="chargerCommandes()">
-    Actualiser les commandes
-  </button>
-
-  <div id="ordersList">
-    Chargement des commandes...
-  </div>
-
-</div>
-```
-
-  </div>
-
-</div>
+  <div id="commandes"></div>
 
 <script>
 
-  /* ==========================
-     SUPABASE
-  ========================== */
+const SUPABASE_URL =
+  "https://ajprnhqphbtgfztspuio.supabase.co";
 
-  const SUPABASE_URL =
-    "https://ajprnhqphbtgfztspuio.supabase.co";
+const SUPABASE_KEY =
+  "sb_publishable_Qxr7ftKtVgB3y3lmx1agWg_UQxqrviy";
 
-  const SUPABASE_PUBLISHABLE_KEY =
-    "sb_publishable_Qxr7ftKtVgB3y3lmx1agWg_UQxqrviy";
-
-  const supabaseClient =
-    window.supabase.createClient(
-      SUPABASE_URL,
-      SUPABASE_PUBLISHABLE_KEY
-    );
+const supabaseClient =
+  supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 
-  /* ==========================
-     CONNEXION
-  ========================== */
+async function chargerCommandes() {
 
-  async function connexionAdmin() {
+  const message = document.getElementById("message");
+  const conteneur = document.getElementById("commandes");
 
-    const email =
-      document.getElementById("email").value.trim();
+  message.textContent = "Chargement des commandes...";
 
-    const password =
-      document.getElementById("password").value;
+  const { data, error } = await supabaseClient
+    .from("Orders")
+    .select("*")
+    .order("created_at", { ascending: false });
 
-    if (!email || !password) {
+  if (error) {
 
-      afficherLoginMessage(
-        "Veuillez entrer votre email et votre mot de passe.",
-        true
-      );
+    message.innerHTML =
+      `<div class="erreur">
+        Erreur Supabase : ${error.message}
+      </div>`;
 
-      return;
-    }
-
-
-    const { data, error } =
-      await supabaseClient.auth.signInWithPassword({
-        email: email,
-        password: password
-      });
-
-
-    if (error) {
-
-      console.error(error);
-
-      afficherLoginMessage(
-        "Erreur : " + error.message,
-        true
-      );
-
-      return;
-    }
-
-
-    afficherAdmin();
+    return;
   }
 
+  if (!data || data.length === 0) {
 
-  function afficherLoginMessage(
-    message,
-    erreur
-  ) {
+    message.innerHTML =
+      `<div class="vide">
+        Aucune commande pour le moment.
+      </div>`;
 
-    const element =
-      document.getElementById("loginMessage");
-
-    element.textContent = message;
-
-    element.classList.remove("hidden");
-
-    element.style.background =
-      erreur
-        ? "#ffd6d6"
-        : "#d8f5d8";
+    return;
   }
 
+  message.textContent =
+    data.length + " commande(s)";
 
-  /* ==========================
-     AFFICHER ADMIN
-  ========================== */
+  conteneur.innerHTML = "";
 
-  function afficherAdmin() {
+  data.forEach(commande => {
 
-    document
-      .getElementById("loginSection")
-      .classList.add("hidden");
+    const bloc = document.createElement("div");
 
-    document
-      .getElementById("adminSection")
-      .classList.remove("hidden");
+    bloc.className = "commande";
 
-    chargerProduits();
+    bloc.innerHTML = `
 
-    chargerCommandes();
-  }
+      <p><strong>👤 Client :</strong>
+      ${commande.Customer_name || ""}</p>
 
+      <p><strong>📞 Téléphone :</strong>
+      ${commande.Phone || ""}</p>
 
-  /* ==========================
-     VERIFIER SESSION
-  ========================== */
+      <p><strong>📍 Adresse :</strong>
+      ${commande.Address || ""}</p>
 
-  async function verifierSession() {
+      <p><strong>💰 Total :</strong>
+      ${commande.Total || 0} FCFA</p>
 
-    const { data } =
-      await supabaseClient.auth.getSession();
+      <p><strong>📅 Date :</strong>
+      ${new Date(commande.created_at).toLocaleString("fr-FR")}</p>
 
-    if (data.session) {
+      <p><strong>📌 Statut :</strong></p>
 
-      afficherAdmin();
+      <select class="statut"
+              data-id="${commande.id}">
 
-    }
-  }
+        <option value="Nouvelle"
+          ${commande.Status === "Nouvelle" ? "selected" : ""}>
+          Nouvelle
+        </option>
 
+        <option value="Confirmée"
+          ${commande.Status === "Confirmée" ? "selected" : ""}>
+          Confirmée
+        </option>
 
-  /* ==========================
-     DECONNEXION
-  ========================== */
+        <option value="Expédiée"
+          ${commande.Status === "Expédiée" ? "selected" : ""}>
+          Expédiée
+        </option>
 
-  async function deconnexion() {
+        <option value="Livrée"
+          ${commande.Status === "Livrée" ? "selected" : ""}>
+          Livrée
+        </option>
 
-    await supabaseClient.auth.signOut();
+        <option value="Annulée"
+          ${commande.Status === "Annulée" ? "selected" : ""}>
+          Annulée
+        </option>
 
-    document
-      .getElementById("adminSection")
-      .classList.add("hidden");
+      </select>
+    `;
 
-    document
-      .getElementById("loginSection")
-      .classList.remove("hidden");
-  }
+    conteneur.appendChild(bloc);
+  });
 
 
-  /* ==========================
-     MESSAGE PRODUIT
-  ========================== */
+  document.querySelectorAll(".statut").forEach(select => {
 
-  function afficherProduitMessage(
-    message,
-    erreur = false
-  ) {
+    select.addEventListener("change", async function() {
 
-    const element =
-      document.getElementById("productMessage");
+      const id = this.dataset.id;
+      const nouveauStatut = this.value;
 
-    element.textContent = message;
-
-    element.classList.remove("hidden");
-
-    element.style.background =
-      erreur
-        ? "#ffd6d6"
-        : "#d8f5d8";
-  }
-
-
-  /* ==========================
-     CHARGER PRODUITS
-  ========================== */
-
-  async function chargerProduits() {
-
-    const container =
-      document.getElementById("productsList");
-
-    container.innerHTML =
-      "Chargement des produits...";
-
-
-    const {
-      data,
-      error
-    } =
-      await supabaseClient
-        .from("Products")
-        .select("*")
-        .order("id", {
-          ascending: true
-        });
-
-
-    if (error) {
-
-      console.error(error);
-
-      container.innerHTML =
-        "<p>Erreur : " +
-        error.message +
-        "</p>";
-
-      return;
-    }
-
-
-    if (!data || data.length === 0) {
-
-      container.innerHTML =
-        "<p>Aucun produit.</p>";
-
-      return;
-    }
-
-
-    container.innerHTML = "";
-
-
-    data.forEach(product => {
-
-      const div =
-        document.createElement("div");
-
-      div.className = "product";
-
-
-      const image =
-        product.Image_url
-          ? `
-            <img
-              src="${product.Image_url}"
-              alt="${product.name || "Produit"}"
-            >
-          `
-          : "";
-
-
-      div.innerHTML = `
-
-        ${image}
-
-        <h3>
-          ${product.name || ""}
-        </h3>
-
-        <p>
-          ${product.description || ""}
-        </p>
-
-        <p>
-          <strong>Prix :</strong>
-          ${product.Price ?? 0} FCFA
-        </p>
-
-        <p>
-          <strong>Stock :</strong>
-          ${product.Stock ?? 0}
-        </p>
-
-        <p>
-          <strong>Catégorie :</strong>
-          ${product.Category || ""}
-        </p>
-
-        <div class="actions">
-
-          <button
-            class="edit"
-            data-id="${product.id}"
-          >
-            Modifier
-          </button>
-
-          <button
-            class="danger"
-            data-delete-id="${product.id}"
-          >
-            Supprimer
-          </button>
-
-        </div>
-      `;
-
-
-      const editButton =
-        div.querySelector(
-          `[data-id="${product.id}"]`
-        );
-
-
-      editButton.addEventListener(
-        "click",
-        function() {
-
-          modifierProduit(product);
-
-        }
-      );
-
-
-      const deleteButton =
-        div.querySelector(
-          `[data-delete-id="${product.id}"]`
-        );
-
-
-      deleteButton.addEventListener(
-        "click",
-        function() {
-
-          supprimerProduit(product.id);
-
-        }
-      );
-
-
-      container.appendChild(div);
-
-    });
-
-  }
-
-
-  /* ==========================
-     MODIFIER PRODUIT
-  ========================== */
-
-  function modifierProduit(product) {
-
-    document
-      .getElementById("productId")
-      .value =
-      product.id;
-
-
-    document
-      .getElementById("productName")
-      .value =
-      product.name || "";
-
-
-    document
-      .getElementById("productDescription")
-      .value =
-      product.description || "";
-
-
-    document
-      .getElementById("productPrice")
-      .value =
-      product.Price ?? "";
-
-
-    document
-      .getElementById("productStock")
-      .value =
-      product.Stock ?? "";
-
-
-    document
-      .getElementById("productCategory")
-      .value =
-      product.Category || "";
-
-
-    document
-      .getElementById("productImage")
-      .value =
-      product.Image_url || "";
-
-
-    document
-      .getElementById("formTitle")
-      .textContent =
-      "Modifier le produit";
-
-
-    document
-      .getElementById("cancelButton")
-      .classList
-      .remove("hidden");
-
-
-    document
-      .getElementById("productFormCard")
-      .classList
-      .add("editing");
-
-
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth"
-    });
-
-  }
-
-
-  /* ==========================
-     ANNULER MODIFICATION
-  ========================== */
-
-  function annulerModification() {
-
-    document
-      .getElementById("productId")
-      .value = "";
-
-
-    document
-      .getElementById("productName")
-      .value = "";
-
-
-    document
-      .getElementById("productDescription")
-      .value = "";
-
-
-    document
-      .getElementById("productPrice")
-      .value = "";
-
-
-    document
-      .getElementById("productStock")
-      .value = "";
-
-
-    document
-      .getElementById("productCategory")
-      .value = "";
-
-
-    document
-      .getElementById("productImage")
-      .value = "";
-
-
-    document
-      .getElementById("formTitle")
-      .textContent =
-      "Ajouter un produit";
-
-
-    document
-      .getElementById("cancelButton")
-      .classList
-      .add("hidden");
-
-
-    document
-      .getElementById("productFormCard")
-      .classList
-      .remove("editing");
-
-
-    document
-      .getElementById("productMessage")
-      .classList
-      .add("hidden");
-
-  }
-
-
-  /* ==========================
-     AJOUT / MODIFICATION
-  ========================== */
-
-  async function enregistrerProduit() {
-
-    const id =
-      document
-        .getElementById("productId")
-        .value;
-
-
-    const produit = {
-
-      name:
-        document
-          .getElementById("productName")
-          .value
-          .trim(),
-
-      description:
-        document
-          .getElementById("productDescription")
-          .value
-          .trim(),
-
-      Price:
-        Number(
-          document
-            .getElementById("productPrice")
-            .value
-        ),
-
-      Stock:
-        Number(
-          document
-            .getElementById("productStock")
-            .value
-        ),
-
-      Category:
-        document
-          .getElementById("productCategory")
-          .value
-          .trim(),
-
-      Image_url:
-        document
-          .getElementById("productImage")
-          .value
-          .trim() || null
-
-    };
-
-
-    if (!produit.name) {
-
-      afficherProduitMessage(
-        "Le nom du produit est obligatoire.",
-        true
-      );
-
-      return;
-    }
-
-
-    let result;
-
-
-    if (id) {
-
-      result =
-        await supabaseClient
-          .from("Products")
-          .update(produit)
-          .eq("id", id);
-
-
-    } else {
-
-      result =
-        await supabaseClient
-          .from("Products")
-          .insert([produit]);
-
-    }
-
-
-    if (result.error) {
-
-      console.error(result.error);
-
-      afficherProduitMessage(
-        "Erreur : " +
-        result.error.message,
-        true
-      );
-
-      return;
-    }
-
-
-    afficherProduitMessage(
-      id
-        ? "Produit modifié avec succès."
-        : "Produit ajouté avec succès.",
-      false
-    );
-
-
-    annulerModification();
-
-    chargerProduits();
-
-  }
-
-
-  /* ==========================
-     SUPPRIMER PRODUIT
-  ========================== */
-
-  async function supprimerProduit(id) {
-
-    const confirmation =
-      confirm(
-        "Voulez-vous vraiment supprimer ce produit ?"
-      );
-
-
-    if (!confirmation) {
-      return;
-    }
-
-
-    const {
-      error
-    } =
-      await supabaseClient
-        .from("Products")
-        .delete()
+      const { error } = await supabaseClient
+        .from("Orders")
+        .update({
+          Status: nouveauStatut
+        })
         .eq("id", id);
 
+      if (error) {
 
-    if (error) {
+        alert(
+          "Erreur lors de la modification : " +
+          error.message
+        );
 
-      console.error(error);
+      } else {
 
-      alert(
-        "Erreur lors de la suppression : " +
-        error.message
-      );
-
-      return;
-    }
-
-
-    chargerProduits();
-
-  }
-
-
-  /* ==========================
-     COMMANDES
-  ========================== */
-
-  async function chargerCommandes() {
-
-    const container =
-      document.getElementById("ordersList");
-
-    container.innerHTML =
-      "Chargement des commandes...";
-
-
-    const {
-      data,
-      error
-    } =
-      await supabaseClient
-        .from("Orders")
-        .select("*")
-        .order("created_at", {
-          ascending: false
-        });
-
-
-    if (error) {
-
-      console.error(error);
-
-      container.innerHTML =
-        "<p>Erreur : " +
-        error.message +
-        "</p>";
-
-      return;
-    }
-
-
-    if (!data || data.length === 0) {
-
-      container.innerHTML =
-        "<p>Aucune commande pour le moment.</p>";
-
-      return;
-    }
-
-
-    container.innerHTML = "";
-
-
-    data.forEach(order => {
-
-      const div =
-        document.createElement("div");
-
-      div.className = "order";
-
-
-      div.innerHTML = `
-
-        <h3>
-          Commande #${order.id}
-        </h3>
-
-        <p>
-          <strong>Client :</strong>
-          ${order.Customer_name || ""}
-        </p>
-
-        <p>
-          <strong>Téléphone :</strong>
-          ${order.Phone || ""}
-        </p>
-
-        <p>
-          <strong>Adresse :</strong>
-          ${order.Address || ""}
-        </p>
-
-        <p>
-          <strong>Total :</strong>
-          ${order.Total ?? 0} FCFA
-        </p>
-
-        <p>
-          <strong>Statut :</strong>
-          ${order.Status || ""}
-        </p>
-
-      `;
-
-
-      container.appendChild(div);
+        alert("Statut mis à jour ✅");
+      }
 
     });
 
-  }
+  });
+
+}
 
 
-  /* ==========================
-     DEMARRAGE
-  ========================== */
-
-  verifierSession();
+chargerCommandes();
 
 </script>
 
