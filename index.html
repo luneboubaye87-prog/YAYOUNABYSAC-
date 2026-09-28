@@ -308,7 +308,9 @@
   </div>
 
   <div class="categories" id="categories">
-    <button class="active">Toutes</button>
+    <button class="active" onclick="choisirCategorie('Toutes', this)">
+      Toutes
+    </button>
   </div>
 
   <div id="products">
@@ -438,11 +440,16 @@
 
     if (error) {
 
-      console.error("Erreur produits :", error);
+      console.error(
+        "Erreur produits :",
+        error
+      );
 
       productsDiv.innerHTML = "";
 
-      document.getElementById("productError").innerHTML =
+      document.getElementById(
+        "productError"
+      ).innerHTML =
         '<div class="error">' +
         "Erreur Supabase :\n\n" +
         error.message +
@@ -490,39 +497,60 @@
         ? "active"
         : "";
 
-    boutonToutes.onclick = function() {
-      choisirCategorie("Toutes", this);
-    };
-
-    categoriesDiv.appendChild(boutonToutes);
-
-    categories.forEach(categorie => {
-
-      const bouton =
-        document.createElement("button");
-
-      bouton.textContent = categorie;
-
-      bouton.className =
-        categorieActuelle === categorie
-          ? "active"
-          : "";
-
-      bouton.onclick = function() {
-        choisirCategorie(categorie, this);
+    boutonToutes.onclick =
+      function() {
+        choisirCategorie(
+          "Toutes",
+          this
+        );
       };
 
-      categoriesDiv.appendChild(bouton);
-    });
+    categoriesDiv.appendChild(
+      boutonToutes
+    );
+
+    categories.forEach(
+      categorie => {
+
+        const bouton =
+          document.createElement("button");
+
+        bouton.textContent =
+          categorie;
+
+        bouton.className =
+          categorieActuelle === categorie
+            ? "active"
+            : "";
+
+        bouton.onclick =
+          function() {
+            choisirCategorie(
+              categorie,
+              this
+            );
+          };
+
+        categoriesDiv.appendChild(
+          bouton
+        );
+      }
+    );
   }
 
 
-  function choisirCategorie(categorie, bouton) {
+  function choisirCategorie(
+    categorie,
+    bouton
+  ) {
 
-    categorieActuelle = categorie;
+    categorieActuelle =
+      categorie;
 
     document
-      .querySelectorAll("#categories button")
+      .querySelectorAll(
+        "#categories button"
+      )
       .forEach(btn => {
         btn.classList.remove("active");
       });
@@ -550,103 +578,119 @@
         .trim();
 
     const liste =
-      produits.filter(produit => {
+      produits.filter(
+        produit => {
 
-        const nom =
-          String(produit.name || "").toLowerCase();
+          const nom =
+            String(
+              produit.name || ""
+            ).toLowerCase();
 
-        const description =
-          String(produit.description || "").toLowerCase();
+          const description =
+            String(
+              produit.description || ""
+            ).toLowerCase();
 
-        const categorie =
-          String(produit.Category || "");
+          const categorie =
+            String(
+              produit.Category || ""
+            );
 
-        const rechercheOK =
-          nom.includes(recherche) ||
-          description.includes(recherche);
+          const rechercheOK =
+            nom.includes(recherche) ||
+            description.includes(recherche);
 
-        const categorieOK =
-          categorieActuelle === "Toutes" ||
-          categorie === categorieActuelle;
+          const categorieOK =
+            categorieActuelle === "Toutes" ||
+            categorie === categorieActuelle;
 
-        return rechercheOK && categorieOK;
-      });
-
+          return (
+            rechercheOK &&
+            categorieOK
+          );
+        }
+      );
 
     if (liste.length === 0) {
 
       productsDiv.innerHTML =
-        '<div class="empty">Aucun produit trouvé.</div>';
+        '<div class="empty">' +
+        "Aucun produit trouvé." +
+        "</div>";
 
       return;
     }
 
-
     productsDiv.innerHTML = "";
 
+    liste.forEach(
+      produit => {
 
-    liste.forEach(produit => {
+        const prix =
+          Number(
+            produit.Price || 0
+          );
 
-      const prix =
-        Number(produit.Price || 0);
+        const stock =
+          Number(
+            produit.Stock || 0
+          );
 
-      const stock =
-        Number(produit.Stock || 0);
+        const image =
+          produit.Image_url ||
+          "https://via.placeholder.com/600x600?text=YAYOUNABYSAC";
 
-      const image =
-        produit.Image_url ||
-        "https://via.placeholder.com/600x600?text=YAYOUNABYSAC";
+        const card =
+          document.createElement("div");
 
+        card.className =
+          "product";
 
-      const card =
-        document.createElement("div");
+        card.innerHTML = `
 
-      card.className = "product";
-
-
-      card.innerHTML = `
-
-        <img
-          src="${escapeHtml(image)}"
-          alt="${escapeHtml(produit.name || "Sac")}"
-          onerror="this.src='https://via.placeholder.com/600x600?text=YAYOUNABYSAC'"
-        >
-
-        <div class="product-content">
-
-          <h3>
-            ${escapeHtml(produit.name || "Produit")}
-          </h3>
-
-          <div class="description">
-            ${escapeHtml(produit.description || "")}
-          </div>
-
-          <div class="price">
-            ${prix.toLocaleString("fr-FR")} FCFA
-          </div>
-
-          <div class="stock">
-            Stock : ${stock}
-          </div>
-
-          <button
-            class="add-btn"
-            ${stock <= 0 ? "disabled" : ""}
-            onclick="ajouterAuPanier(${produit.id})"
+          <img
+            src="${image}"
+            alt="${escapeHtml(produit.name || "Sac")}"
+            onerror="this.src='https://via.placeholder.com/600x600?text=YAYOUNABYSAC'"
           >
-            ${
-              stock > 0
-                ? "Ajouter au panier"
-                : "Rupture de stock"
-            }
-          </button>
 
-        </div>
-      `;
+          <div class="product-content">
 
-      productsDiv.appendChild(card);
-    });
+            <h3>
+              ${escapeHtml(produit.name || "Produit")}
+            </h3>
+
+            <div class="description">
+              ${escapeHtml(produit.description || "")}
+            </div>
+
+            <div class="price">
+              ${prix.toLocaleString("fr-FR")}
+              FCFA
+            </div>
+
+            <div class="stock">
+              Stock : ${stock}
+            </div>
+
+            <button
+              class="add-btn"
+              ${stock <= 0 ? "disabled" : ""}
+              onclick="ajouterAuPanier(${produit.id})"
+            >
+              ${
+                stock > 0
+                  ? "Ajouter au panier"
+                  : "Rupture de stock"
+              }
+            </button>
+
+          </div>
+        `;
+
+        productsDiv.appendChild(card);
+      }
+    );
   }
 
 
@@ -656,7 +700,10 @@
 
   document
     .getElementById("searchInput")
-    .addEventListener("input", afficherProduits);
+    .addEventListener(
+      "input",
+      afficherProduits
+    );
 
 
   // =====================================================
@@ -667,7 +714,8 @@
 
     const produit =
       produits.find(
-        p => Number(p.id) === Number(id)
+        p =>
+          Number(p.id) === Number(id)
       );
 
     if (!produit) {
@@ -682,14 +730,17 @@
 
     if (stock <= 0) {
 
-      alert("Ce produit est en rupture de stock.");
+      alert(
+        "Ce produit est en rupture de stock."
+      );
 
       return;
     }
 
     const existant =
       panier.find(
-        p => Number(p.id) === Number(id)
+        p =>
+          Number(p.id) === Number(id)
       );
 
     if (existant) {
@@ -737,10 +788,15 @@
     const cartTotal =
       document.getElementById("cartTotal");
 
-    if (!panier || panier.length === 0) {
+    if (
+      !panier ||
+      panier.length === 0
+    ) {
 
       cartItems.innerHTML =
-        '<div class="empty">Votre panier est vide.</div>';
+        '<div class="empty">' +
+        "Votre panier est vide." +
+        "</div>";
 
       cartTotal.textContent = "0";
 
@@ -751,73 +807,72 @@
 
     let total = 0;
 
+    panier.forEach(
+      (item, index) => {
 
-    panier.forEach((item, index) => {
+        const prix =
+          Number(item.price || 0);
 
-      const prix =
-        Number(item.price || 0);
+        const quantite =
+          Number(item.quantity || 0);
 
-      const quantite =
-        Number(item.quantity || 0);
+        const sousTotal =
+          prix * quantite;
 
-      const sousTotal =
-        prix * quantite;
+        total += sousTotal;
 
-      total += sousTotal;
+        const ligne =
+          document.createElement("div");
 
+        ligne.className =
+          "cart-item";
 
-      const ligne =
-        document.createElement("div");
+        ligne.innerHTML = `
 
-      ligne.className = "cart-item";
+          <div class="cart-info">
 
+            <div class="cart-name">
+              ${escapeHtml(item.name)}
+            </div>
 
-      ligne.innerHTML = `
+            <div class="cart-price">
+              ${prix.toLocaleString("fr-FR")}
+              FCFA × ${quantite}
+            </div>
 
-        <div class="cart-info">
-
-          <div class="cart-name">
-            ${escapeHtml(item.name)}
           </div>
 
-          <div class="cart-price">
-            ${prix.toLocaleString("fr-FR")}
-            FCFA × ${quantite}
+          <div class="quantity">
+
+            <button
+              onclick="diminuerQuantite(${index})"
+            >
+              −
+            </button>
+
+            <strong>
+              ${quantite}
+            </strong>
+
+            <button
+              onclick="augmenterQuantite(${index})"
+            >
+              +
+            </button>
+
+            <button
+              class="delete-btn"
+              onclick="supprimerDuPanier(${index})"
+            >
+              ×
+            </button>
+
           </div>
+        `;
 
-        </div>
-
-        <div class="quantity">
-
-          <button
-            onclick="diminuerQuantite(${index})"
-          >
-            −
-          </button>
-
-          <strong>
-            ${quantite}
-          </strong>
-
-          <button
-            onclick="augmenterQuantite(${index})"
-          >
-            +
-          </button>
-
-          <button
-            class="delete-btn"
-            onclick="supprimerDuPanier(${index})"
-          >
-            ×
-          </button>
-
-        </div>
-      `;
-
-      cartItems.appendChild(ligne);
-    });
-
+        cartItems.appendChild(ligne);
+      }
+    );
 
     cartTotal.textContent =
       total.toLocaleString("fr-FR");
@@ -830,7 +885,8 @@
 
   function augmenterQuantite(index) {
 
-    const item = panier[index];
+    const item =
+      panier[index];
 
     if (!item) return;
 
@@ -859,7 +915,8 @@
 
   function diminuerQuantite(index) {
 
-    const item = panier[index];
+    const item =
+      panier[index];
 
     if (!item) return;
 
@@ -952,14 +1009,14 @@
         .value
         .trim();
 
-
     if (!nom) {
 
-      alert("Veuillez entrer votre nom.");
+      alert(
+        "Veuillez entrer votre nom."
+      );
 
       return;
     }
-
 
     if (!telephone) {
 
@@ -970,7 +1027,6 @@
       return;
     }
 
-
     if (!adresse) {
 
       alert(
@@ -980,20 +1036,23 @@
       return;
     }
 
+    if (
+      !panier ||
+      panier.length === 0
+    ) {
 
-    if (!panier || panier.length === 0) {
-
-      alert("Votre panier est vide.");
+      alert(
+        "Votre panier est vide."
+      );
 
       return;
     }
 
+    const total =
+      calculerTotal();
 
-    const total = calculerTotal();
-
-
-    let adresseComplete = adresse;
-
+    let adresseComplete =
+      adresse;
 
     if (commentaire) {
 
@@ -1002,17 +1061,15 @@
         commentaire;
     }
 
-
     try {
 
       // =================================================
-      // CRÉER LA COMMANDE
+      // 1. ENREGISTRER DANS ORDERS
+      // IMPORTANT :
+      // LA COLONNE EST EXACTEMENT "customer_nam"
       // =================================================
 
-      const {
-        data: commande,
-        error: erreurCommande
-      } =
+      const { data: commande, error } =
         await supabaseClient
           .from("Orders")
           .insert([
@@ -1027,69 +1084,67 @@
           .select("id")
           .single();
 
-
-      if (erreurCommande) {
+      if (error) {
 
         console.error(
-          "Erreur création commande :",
-          erreurCommande
+          "ERREUR ORDERS :",
+          error
         );
 
         alert(
           "ERREUR SUPABASE :\n\n" +
-          erreurCommande.message +
+          error.message +
           "\n\nCode : " +
-          (erreurCommande.code || "inconnu")
+          (error.code || "inconnu")
         );
 
         return;
       }
 
-
-      const orderId = commande.id;
-
+      const orderId =
+        commande.id;
 
       console.log(
-        "Commande créée. ID :",
+        "Commande enregistrée. ID :",
         orderId
       );
 
 
       // =================================================
-      // ENREGISTRER LES PRODUITS DE LA COMMANDE
+      // 2. ENREGISTRER LES PRODUITS DE LA COMMANDE
       // =================================================
 
-      const articlesCommande =
-        panier.map(produit => ({
-          order_id: orderId,
-          product_id: produit.id,
-          quantity: Number(produit.quantity),
-          price: Number(produit.price)
-        }));
+      const lignesCommande =
+        panier.map(produit => {
 
+          return {
+            order_id: orderId,
+            product_id: produit.id,
+            quantity: Number(produit.quantity),
+            price: Number(produit.price)
+          };
+
+        });
 
       const {
-        error: erreurArticles
+        error: itemsError
       } =
         await supabaseClient
           .from("Orders_items")
-          .insert(articlesCommande);
+          .insert(lignesCommande);
 
-
-      if (erreurArticles) {
+      if (itemsError) {
 
         console.error(
-          "Erreur articles commande :",
-          erreurArticles
+          "ERREUR ORDERS_ITEMS :",
+          itemsError
         );
 
         alert(
-          "La commande n°" +
-          orderId +
-          " a été créée, mais les produits n'ont pas pu être enregistrés.\n\n" +
-          erreurArticles.message +
-          "\n\nCode : " +
-          (erreurArticles.code || "inconnu")
+          "La commande principale a été enregistrée,\n" +
+          "mais les produits de la commande n'ont pas pu être enregistrés.\n\n" +
+          "Erreur : " +
+          itemsError.message
         );
 
         return;
@@ -1097,30 +1152,26 @@
 
 
       // =================================================
-      // MESSAGE WHATSAPP
+      // 3. MESSAGE WHATSAPP
       // =================================================
 
       let message =
         "🛍️ *NOUVELLE COMMANDE - YAYOUNABYSAC*\n\n";
-
 
       message +=
         "👤 Nom : " +
         nom +
         "\n";
 
-
       message +=
         "📞 Téléphone : " +
         telephone +
         "\n";
 
-
       message +=
         "📍 Adresse : " +
         adresse +
         "\n";
-
 
       if (commentaire) {
 
@@ -1130,28 +1181,26 @@
           "\n";
       }
 
-
       message +=
         "\n🛒 *Produits commandés :*\n";
 
+      panier.forEach(
+        produit => {
 
-      panier.forEach(produit => {
+          const sousTotal =
+            Number(produit.price) *
+            Number(produit.quantity);
 
-        const sousTotal =
-          Number(produit.price) *
-          Number(produit.quantity);
-
-
-        message +=
-          "• " +
-          produit.name +
-          " x" +
-          produit.quantity +
-          " = " +
-          sousTotal.toLocaleString("fr-FR") +
-          " FCFA\n";
-      });
-
+          message +=
+            "• " +
+            produit.name +
+            " x" +
+            produit.quantity +
+            " = " +
+            sousTotal.toLocaleString("fr-FR") +
+            " FCFA\n";
+        }
+      );
 
       message +=
         "\n💰 *TOTAL : " +
@@ -1159,28 +1208,23 @@
         " FCFA*";
 
 
-      message +=
-        "\n\n🧾 Commande n°" +
-        orderId;
-
-
       // =================================================
-      // VIDER LE PANIER
+      // 4. VIDER LE PANIER
       // =================================================
 
       panier = [];
 
       sauvegarderPanier();
+
       afficherPanier();
 
 
       // =================================================
-      // WHATSAPP
+      // 5. WHATSAPP
       // =================================================
 
       const numeroWhatsApp =
         "221775124928";
-
 
       const urlWhatsApp =
         "https://wa.me/" +
@@ -1188,15 +1232,10 @@
         "?text=" +
         encodeURIComponent(message);
 
-
       alert(
         "Commande enregistrée avec succès !\n\n" +
-        "Numéro de commande : " +
-        orderId +
-        "\n\n" +
         "Vous allez être redirigé vers WhatsApp."
       );
-
 
       window.location.href =
         urlWhatsApp;
@@ -1207,7 +1246,6 @@
         "Erreur inattendue :",
         erreur
       );
-
 
       alert(
         "Une erreur est survenue.\n\n" +
