@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
@@ -137,6 +138,7 @@
 
     .add-btn:disabled {
       background: #aaa;
+      cursor: not-allowed;
     }
 
     .section {
@@ -259,7 +261,6 @@
     }
 
     @media (max-width: 600px) {
-
       #products {
         grid-template-columns: repeat(2, 1fr);
         gap: 10px;
@@ -286,6 +287,7 @@
       }
     }
   </style>
+
 </head>
 
 <body>
@@ -297,7 +299,6 @@
 
 <main class="container">
 
-  <!-- RECHERCHE -->
   <div class="search-box">
     <input
       type="text"
@@ -306,14 +307,10 @@
     >
   </div>
 
-  <!-- CATÉGORIES -->
   <div class="categories" id="categories">
-    <button class="active" onclick="choisirCategorie('Toutes', this)">
-      Toutes
-    </button>
+    <button class="active">Toutes</button>
   </div>
 
-  <!-- PRODUITS -->
   <div id="products">
     <div class="loading">
       Chargement des produits...
@@ -323,61 +320,67 @@
   <div id="productError"></div>
 
   <!-- PANIER -->
+
   <section class="section">
 
-    <h2>🛒 Mon panier</h2>
+```
+<h2>🛒 Mon panier</h2>
 
-    <div id="cartItems">
-      <div class="empty">
-        Votre panier est vide.
-      </div>
-    </div>
+<div id="cartItems">
+  <div class="empty">
+    Votre panier est vide.
+  </div>
+</div>
 
-    <div class="cart-total">
-      Total :
-      <span id="cartTotal">0</span> FCFA
-    </div>
+<div class="cart-total">
+  Total :
+  <span id="cartTotal">0</span> FCFA
+</div>
+```
 
   </section>
 
   <!-- COMMANDE -->
+
   <section class="section">
 
-    <h2>📦 Finaliser ma commande</h2>
+```
+<h2>📦 Finaliser ma commande</h2>
 
-    <div class="checkout-form">
+<div class="checkout-form">
 
-      <input
-        type="text"
-        id="customerName"
-        placeholder="Votre nom complet"
-      >
+  <input
+    type="text"
+    id="customerName"
+    placeholder="Votre nom complet"
+  >
 
-      <input
-        type="tel"
-        id="customerPhone"
-        placeholder="Votre numéro de téléphone"
-      >
+  <input
+    type="tel"
+    id="customerPhone"
+    placeholder="Votre numéro de téléphone"
+  >
 
-      <input
-        type="text"
-        id="customerAddress"
-        placeholder="Adresse / Quartier"
-      >
+  <input
+    type="text"
+    id="customerAddress"
+    placeholder="Adresse / Quartier"
+  >
 
-      <textarea
-        id="customerComment"
-        placeholder="Commentaire (facultatif)"
-      ></textarea>
+  <textarea
+    id="customerComment"
+    placeholder="Commentaire (facultatif)"
+  ></textarea>
 
-      <button
-        class="order-btn"
-        onclick="enregistrerCommande()"
-      >
-        Commander sur WhatsApp
-      </button>
+  <button
+    class="order-btn"
+    onclick="enregistrerCommande()"
+  >
+    Commander sur WhatsApp
+  </button>
 
-    </div>
+</div>
+```
 
   </section>
 
@@ -386,7 +389,6 @@
 <footer>
   © 2026 YAYOUNABYSAC - Tous droits réservés
 </footer>
-
 
 <script>
 
@@ -440,16 +442,11 @@
 
     if (error) {
 
-      console.error(
-        "Erreur produits :",
-        error
-      );
+      console.error("Erreur produits :", error);
 
       productsDiv.innerHTML = "";
 
-      document.getElementById(
-        "productError"
-      ).innerHTML =
+      document.getElementById("productError").innerHTML =
         '<div class="error">' +
         "Erreur Supabase :\n\n" +
         error.message +
@@ -499,68 +496,44 @@
 
     boutonToutes.onclick =
       function() {
-        choisirCategorie(
-          "Toutes",
-          this
-        );
+        choisirCategorie("Toutes", this);
       };
 
-    categoriesDiv.appendChild(
-      boutonToutes
-    );
+    categoriesDiv.appendChild(boutonToutes);
 
+    categories.forEach(categorie => {
 
-    categories.forEach(
-      categorie => {
+      const bouton =
+        document.createElement("button");
 
-        const bouton =
-          document.createElement("button");
+      bouton.textContent = categorie;
 
-        bouton.textContent =
-          categorie;
+      bouton.className =
+        categorieActuelle === categorie
+          ? "active"
+          : "";
 
-        bouton.className =
-          categorieActuelle === categorie
-            ? "active"
-            : "";
+      bouton.onclick =
+        function() {
+          choisirCategorie(categorie, this);
+        };
 
-        bouton.onclick =
-          function() {
-            choisirCategorie(
-              categorie,
-              this
-            );
-          };
-
-        categoriesDiv.appendChild(
-          bouton
-        );
-      }
-    );
+      categoriesDiv.appendChild(bouton);
+    });
   }
 
 
-  function choisirCategorie(
-    categorie,
-    bouton
-  ) {
+  function choisirCategorie(categorie, bouton) {
 
-    categorieActuelle =
-      categorie;
+    categorieActuelle = categorie;
 
     document
-      .querySelectorAll(
-        "#categories button"
-      )
+      .querySelectorAll("#categories button")
       .forEach(btn => {
-        btn.classList.remove(
-          "active"
-        );
+        btn.classList.remove("active");
       });
 
-    bouton.classList.add(
-      "active"
-    );
+    bouton.classList.add("active");
 
     afficherProduits();
   }
@@ -573,67 +546,43 @@
   function afficherProduits() {
 
     const productsDiv =
-      document.getElementById(
-        "products"
-      );
+      document.getElementById("products");
 
     const recherche =
       document
-        .getElementById(
-          "searchInput"
-        )
+        .getElementById("searchInput")
         .value
         .toLowerCase()
         .trim();
 
-
     const liste =
-      produits.filter(
-        produit => {
+      produits.filter(produit => {
 
-          const nom =
-            String(
-              produit.name || ""
-            ).toLowerCase();
+        const nom =
+          String(produit.name || "").toLowerCase();
 
-          const description =
-            String(
-              produit.description || ""
-            ).toLowerCase();
+        const description =
+          String(produit.description || "").toLowerCase();
 
-          const categorie =
-            String(
-              produit.Category || ""
-            );
+        const categorie =
+          String(produit.Category || "");
 
-          const rechercheOK =
-            nom.includes(
-              recherche
-            ) ||
-            description.includes(
-              recherche
-            );
+        const rechercheOK =
+          nom.includes(recherche) ||
+          description.includes(recherche);
 
-          const categorieOK =
-            categorieActuelle ===
-              "Toutes" ||
-            categorie ===
-              categorieActuelle;
+        const categorieOK =
+          categorieActuelle === "Toutes" ||
+          categorie === categorieActuelle;
 
-          return (
-            rechercheOK &&
-            categorieOK
-          );
-        }
-      );
+        return rechercheOK && categorieOK;
+      });
 
 
     if (liste.length === 0) {
 
       productsDiv.innerHTML =
-        '<div class="empty">' +
-        "Aucun produit trouvé." +
-        "</div>";
+        '<div class="empty">Aucun produit trouvé.</div>';
 
       return;
     }
@@ -642,80 +591,69 @@
     productsDiv.innerHTML = "";
 
 
-    liste.forEach(
-      produit => {
+    liste.forEach(produit => {
 
-        const prix =
-          Number(
-            produit.Price || 0
-          );
+      const prix =
+        Number(produit.Price || 0);
 
-        const stock =
-          Number(
-            produit.Stock || 0
-          );
+      const stock =
+        Number(produit.Stock || 0);
 
-        const image =
-          produit.Image_url ||
-          "https://via.placeholder.com/600x600?text=YAYOUNABYSAC";
+      const image =
+        produit.Image_url ||
+        "https://via.placeholder.com/600x600?text=YAYOUNABYSAC";
 
 
-        const card =
-          document.createElement(
-            "div"
-          );
+      const card =
+        document.createElement("div");
 
-        card.className =
-          "product";
+      card.className = "product";
 
 
-        card.innerHTML = `
+      card.innerHTML = `
 
-          <img
-            src="${image}"
-            alt="${escapeHtml(produit.name || "Sac")}"
-            onerror="this.src='https://via.placeholder.com/600x600?text=YAYOUNABYSAC'"
-          >
+        <img
+          src="${image}"
+          alt="${escapeHtml(produit.name || "Sac")}"
+          onerror="this.src='https://via.placeholder.com/600x600?text=YAYOUNABYSAC'"
+        >
 
-          <div class="product-content">
+        <div class="product-content">
 
-            <h3>
-              ${escapeHtml(produit.name || "Produit")}
-            </h3>
+          <h3>
+            ${escapeHtml(produit.name || "Produit")}
+          </h3>
 
-            <div class="description">
-              ${escapeHtml(produit.description || "")}
-            </div>
-
-            <div class="price">
-              ${prix.toLocaleString("fr-FR")}
-              FCFA
-            </div>
-
-            <div class="stock">
-              Stock : ${stock}
-            </div>
-
-            <button
-              class="add-btn"
-              ${stock <= 0 ? "disabled" : ""}
-              onclick="ajouterAuPanier(${produit.id})"
-            >
-              ${
-                stock > 0
-                  ? "Ajouter au panier"
-                  : "Rupture de stock"
-              }
-            </button>
-
+          <div class="description">
+            ${escapeHtml(produit.description || "")}
           </div>
-        `;
 
-        productsDiv.appendChild(
-          card
-        );
-      }
-    );
+          <div class="price">
+            ${prix.toLocaleString("fr-FR")}
+            FCFA
+          </div>
+
+          <div class="stock">
+            Stock : ${stock}
+          </div>
+
+          <button
+            class="add-btn"
+            ${stock <= 0 ? "disabled" : ""}
+            onclick="ajouterAuPanier(${produit.id})"
+          >
+            ${
+              stock > 0
+                ? "Ajouter au panier"
+                : "Rupture de stock"
+            }
+          </button>
+
+        </div>
+      `;
+
+      productsDiv.appendChild(card);
+    });
   }
 
 
@@ -739,32 +677,24 @@
 
     const produit =
       produits.find(
-        p =>
-          Number(p.id) ===
-          Number(id)
+        p => Number(p.id) === Number(id)
       );
 
     if (!produit) {
 
-      alert(
-        "Produit introuvable."
-      );
+      alert("Produit introuvable.");
 
       return;
     }
 
 
     const stock =
-      Number(
-        produit.Stock || 0
-      );
+      Number(produit.Stock || 0);
 
 
     if (stock <= 0) {
 
-      alert(
-        "Ce produit est en rupture de stock."
-      );
+      alert("Ce produit est en rupture de stock.");
 
       return;
     }
@@ -772,17 +702,14 @@
 
     const existant =
       panier.find(
-        p =>
-          Number(p.id) ===
-          Number(id)
+        p => Number(p.id) === Number(id)
       );
 
 
     if (existant) {
 
       if (
-        Number(existant.quantity) >=
-        stock
+        Number(existant.quantity) >= stock
       ) {
 
         alert(
@@ -799,9 +726,7 @@
       panier.push({
         id: produit.id,
         name: produit.name,
-        price: Number(
-          produit.Price || 0
-        ),
+        price: Number(produit.Price || 0),
         quantity: 1,
         stock: stock
       });
@@ -812,9 +737,7 @@
 
     afficherPanier();
 
-    alert(
-      "Produit ajouté au panier."
-    );
+    alert("Produit ajouté au panier.");
   }
 
 
@@ -825,28 +748,18 @@
   function afficherPanier() {
 
     const cartItems =
-      document.getElementById(
-        "cartItems"
-      );
+      document.getElementById("cartItems");
 
     const cartTotal =
-      document.getElementById(
-        "cartTotal"
-      );
+      document.getElementById("cartTotal");
 
 
-    if (
-      !panier ||
-      panier.length === 0
-    ) {
+    if (!panier || panier.length === 0) {
 
       cartItems.innerHTML =
-        '<div class="empty">' +
-        "Votre panier est vide." +
-        "</div>";
+        '<div class="empty">Votre panier est vide.</div>';
 
-      cartTotal.textContent =
-        "0";
+      cartTotal.textContent = "0";
 
       return;
     }
@@ -857,89 +770,75 @@
     let total = 0;
 
 
-    panier.forEach(
-      (item, index) => {
+    panier.forEach((item, index) => {
 
-        const prix =
-          Number(
-            item.price || 0
-          );
+      const prix =
+        Number(item.price || 0);
 
-        const quantite =
-          Number(
-            item.quantity || 0
-          );
+      const quantite =
+        Number(item.quantity || 0);
 
-        const sousTotal =
-          prix * quantite;
+      const sousTotal =
+        prix * quantite;
 
-        total +=
-          sousTotal;
+      total += sousTotal;
 
 
-        const ligne =
-          document.createElement(
-            "div"
-          );
+      const ligne =
+        document.createElement("div");
 
-        ligne.className =
-          "cart-item";
+      ligne.className = "cart-item";
 
 
-        ligne.innerHTML = `
+      ligne.innerHTML = `
 
-          <div class="cart-info">
+        <div class="cart-info">
 
-            <div class="cart-name">
-              ${escapeHtml(item.name)}
-            </div>
-
-            <div class="cart-price">
-              ${prix.toLocaleString("fr-FR")}
-              FCFA × ${quantite}
-            </div>
-
+          <div class="cart-name">
+            ${escapeHtml(item.name)}
           </div>
 
-          <div class="quantity">
-
-            <button
-              onclick="diminuerQuantite(${index})"
-            >
-              −
-            </button>
-
-            <strong>
-              ${quantite}
-            </strong>
-
-            <button
-              onclick="augmenterQuantite(${index})"
-            >
-              +
-            </button>
-
-            <button
-              class="delete-btn"
-              onclick="supprimerDuPanier(${index})"
-            >
-              ×
-            </button>
-
+          <div class="cart-price">
+            ${prix.toLocaleString("fr-FR")}
+            FCFA × ${quantite}
           </div>
-        `;
 
-        cartItems.appendChild(
-          ligne
-        );
-      }
-    );
+        </div>
+
+        <div class="quantity">
+
+          <button
+            onclick="diminuerQuantite(${index})"
+          >
+            −
+          </button>
+
+          <strong>
+            ${quantite}
+          </strong>
+
+          <button
+            onclick="augmenterQuantite(${index})"
+          >
+            +
+          </button>
+
+          <button
+            class="delete-btn"
+            onclick="supprimerDuPanier(${index})"
+          >
+            ×
+          </button>
+
+        </div>
+      `;
+
+      cartItems.appendChild(ligne);
+    });
 
 
     cartTotal.textContent =
-      total.toLocaleString(
-        "fr-FR"
-      );
+      total.toLocaleString("fr-FR");
   }
 
 
@@ -947,12 +846,9 @@
   // AUGMENTER QUANTITÉ
   // =====================================================
 
-  function augmenterQuantite(
-    index
-  ) {
+  function augmenterQuantite(index) {
 
-    const item =
-      panier[index];
+    const item = panier[index];
 
     if (!item) return;
 
@@ -982,12 +878,9 @@
   // DIMINUER QUANTITÉ
   // =====================================================
 
-  function diminuerQuantite(
-    index
-  ) {
+  function diminuerQuantite(index) {
 
-    const item =
-      panier[index];
+    const item = panier[index];
 
     if (!item) return;
 
@@ -995,14 +888,9 @@
     item.quantity--;
 
 
-    if (
-      item.quantity <= 0
-    ) {
+    if (item.quantity <= 0) {
 
-      panier.splice(
-        index,
-        1
-      );
+      panier.splice(index, 1);
     }
 
 
@@ -1016,14 +904,9 @@
   // SUPPRIMER DU PANIER
   // =====================================================
 
-  function supprimerDuPanier(
-    index
-  ) {
+  function supprimerDuPanier(index) {
 
-    panier.splice(
-      index,
-      1
-    );
+    panier.splice(index, 1);
 
     sauvegarderPanier();
 
@@ -1039,9 +922,7 @@
 
     localStorage.setItem(
       "yayounabysac_panier",
-      JSON.stringify(
-        panier
-      )
+      JSON.stringify(panier)
     );
   }
 
@@ -1053,19 +934,12 @@
   function calculerTotal() {
 
     return panier.reduce(
-      (
-        somme,
-        produit
-      ) => {
+      (somme, produit) => {
 
         return (
           somme +
-          Number(
-            produit.price || 0
-          ) *
-          Number(
-            produit.quantity || 0
-          )
+          Number(produit.price || 0) *
+          Number(produit.quantity || 0)
         );
 
       },
@@ -1082,47 +956,32 @@
 
     const nom =
       document
-        .getElementById(
-          "customerName"
-        )
+        .getElementById("customerName")
         .value
         .trim();
-
 
     const telephone =
       document
-        .getElementById(
-          "customerPhone"
-        )
+        .getElementById("customerPhone")
         .value
         .trim();
-
 
     const adresse =
       document
-        .getElementById(
-          "customerAddress"
-        )
+        .getElementById("customerAddress")
         .value
         .trim();
-
 
     const commentaire =
       document
-        .getElementById(
-          "customerComment"
-        )
+        .getElementById("customerComment")
         .value
         .trim();
 
 
-    // Vérifications
-
     if (!nom) {
 
-      alert(
-        "Veuillez entrer votre nom."
-      );
+      alert("Veuillez entrer votre nom.");
 
       return;
     }
@@ -1148,25 +1007,18 @@
     }
 
 
-    if (
-      !panier ||
-      panier.length === 0
-    ) {
+    if (!panier || panier.length === 0) {
 
-      alert(
-        "Votre panier est vide."
-      );
+      alert("Votre panier est vide.");
 
       return;
     }
 
 
-    const total =
-      calculerTotal();
+    const total = calculerTotal();
 
 
-    let adresseComplete =
-      adresse;
+    let adresseComplete = adresse;
 
 
     if (commentaire) {
@@ -1180,47 +1032,47 @@
     try {
 
       // =================================================
-      // ENREGISTREMENT SUPABASE
+      // 1. ENREGISTRER LA COMMANDE DANS ORDERS
       // =================================================
 
       const {
-        data: orderId,
-        error
+        data: commande,
+        error: erreurCommande
       } =
-        await supabaseClient.rpc(
-          "create_order",
-          {
-            p_customer_name: nom,
-            p_phone: telephone,
-            p_address: adresseComplete,
-            p_total: total,
-            p_status: "Nouvelle"
-          }
-        );
+        await supabaseClient
+          .from("Orders")
+          .insert([
+            {
+              customer_nam: nom,
+              phone: telephone,
+              address: adresseComplete,
+              total: total,
+              status: "Nouvelle"
+            }
+          ])
+          .select("id")
+          .single();
 
 
-      if (error) {
+      if (erreurCommande) {
 
         console.error(
-          "Erreur Supabase :",
-          error
+          "Erreur Orders :",
+          erreurCommande
         );
 
         alert(
           "ERREUR SUPABASE :\n\n" +
-          (
-            error.message ||
-            "Erreur inconnue"
-          ) +
+          erreurCommande.message +
           "\n\nCode : " +
-          (
-            error.code ||
-            "inconnu"
-          )
+          (erreurCommande.code || "inconnu")
         );
 
         return;
       }
+
+
+      const orderId = commande.id;
 
 
       console.log(
@@ -1230,7 +1082,55 @@
 
 
       // =================================================
-      // MESSAGE WHATSAPP
+      // 2. ENREGISTRER LES ARTICLES DANS ORDERS_ITEMS
+      // =================================================
+
+      const articles =
+        panier.map(produit => {
+
+          return {
+            order_id: orderId,
+            product_id: Number(produit.id),
+            quantity: Number(produit.quantity),
+            price: Number(produit.price)
+          };
+
+        });
+
+
+      const {
+        error: erreurArticles
+      } =
+        await supabaseClient
+          .from("Orders_items")
+          .insert(articles);
+
+
+      if (erreurArticles) {
+
+        console.error(
+          "Erreur Orders_items :",
+          erreurArticles
+        );
+
+        alert(
+          "La commande a été créée, mais les articles n'ont pas pu être enregistrés.\n\n" +
+          erreurArticles.message +
+          "\n\nCode : " +
+          (erreurArticles.code || "inconnu")
+        );
+
+        return;
+      }
+
+
+      console.log(
+        "Articles de la commande enregistrés."
+      );
+
+
+      // =================================================
+      // 3. CRÉER LE MESSAGE WHATSAPP
       // =================================================
 
       let message =
@@ -1268,42 +1168,32 @@
         "\n🛒 *Produits commandés :*\n";
 
 
-      panier.forEach(
-        produit => {
+      panier.forEach(produit => {
 
-          const sousTotal =
-            Number(
-              produit.price
-            ) *
-            Number(
-              produit.quantity
-            );
+        const sousTotal =
+          Number(produit.price) *
+          Number(produit.quantity);
 
 
-          message +=
-            "• " +
-            produit.name +
-            " x" +
-            produit.quantity +
-            " = " +
-            sousTotal.toLocaleString(
-              "fr-FR"
-            ) +
-            " FCFA\n";
-        }
-      );
+        message +=
+          "• " +
+          produit.name +
+          " x" +
+          produit.quantity +
+          " = " +
+          sousTotal.toLocaleString("fr-FR") +
+          " FCFA\n";
+      });
 
 
       message +=
         "\n💰 *TOTAL : " +
-        total.toLocaleString(
-          "fr-FR"
-        ) +
+        total.toLocaleString("fr-FR") +
         " FCFA*";
 
 
       // =================================================
-      // VIDER LE PANIER
+      // 4. VIDER LE PANIER
       // =================================================
 
       panier = [];
@@ -1314,7 +1204,7 @@
 
 
       // =================================================
-      // WHATSAPP
+      // 5. WHATSAPP
       // =================================================
 
       const numeroWhatsApp =
@@ -1325,9 +1215,7 @@
         "https://wa.me/" +
         numeroWhatsApp +
         "?text=" +
-        encodeURIComponent(
-          message
-        );
+        encodeURIComponent(message);
 
 
       alert(
@@ -1362,33 +1250,14 @@
   // PROTECTION DU TEXTE
   // =====================================================
 
-  function escapeHtml(
-    texte
-  ) {
+  function escapeHtml(texte) {
 
-    return String(
-      texte || ""
-    )
-      .replace(
-        /&/g,
-        "&amp;"
-      )
-      .replace(
-        /</g,
-        "&lt;"
-      )
-      .replace(
-        />/g,
-        "&gt;"
-      )
-      .replace(
-        /"/g,
-        "&quot;"
-      )
-      .replace(
-        /'/g,
-        "&#039;"
-      );
+    return String(texte || "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
   }
 
 
