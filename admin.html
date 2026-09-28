@@ -9,59 +9,221 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 20px;
-      background: #f5f5f5;
+    * {
+      box-sizing: border-box;
     }
 
-    h1 {
+    body {
+      margin: 0;
+      padding: 15px;
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      color: #222;
+    }
+
+    .header {
+      background: #111;
+      color: white;
+      padding: 20px;
+      border-radius: 15px;
+      margin-bottom: 15px;
       text-align: center;
+    }
+
+    .header h1 {
+      margin: 0 0 8px;
+      font-size: 25px;
+    }
+
+    .header p {
+      margin: 0;
+      opacity: 0.8;
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+
+    button {
+      border: none;
+      border-radius: 10px;
+      padding: 12px 15px;
+      cursor: pointer;
+      font-size: 15px;
+    }
+
+    .refresh {
+      background: #111;
+      color: white;
+      width: 100%;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .stat {
+      background: white;
+      padding: 18px;
+      border-radius: 12px;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 24px;
+      margin-bottom: 5px;
+    }
+
+    .stat span {
+      color: #666;
+      font-size: 14px;
+    }
+
+    #message {
+      margin-bottom: 15px;
+    }
+
+    .erreur {
+      background: #ffe5e5;
+      color: #a00000;
+      padding: 15px;
+      border-radius: 10px;
     }
 
     .commande {
       background: white;
-      border-radius: 12px;
+      border-radius: 15px;
       padding: 18px;
-      margin-bottom: 15px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      margin-bottom: 18px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
     }
 
-    .commande p {
-      margin: 7px 0;
+    .commande-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+
+    .commande-header h3 {
+      margin: 0;
+    }
+
+    .numero {
+      font-size: 13px;
+      color: #777;
+    }
+
+    .info {
+      margin-bottom: 15px;
+      line-height: 1.6;
+    }
+
+    .info p {
+      margin: 5px 0;
+    }
+
+    .produits {
+      background: #f7f7f7;
+      border-radius: 10px;
+      padding: 12px;
+      margin-bottom: 15px;
+    }
+
+    .produits h4 {
+      margin: 0 0 10px;
+    }
+
+    .produit {
+      border-bottom: 1px solid #ddd;
+      padding: 8px 0;
+    }
+
+    .produit:last-child {
+      border-bottom: none;
+    }
+
+    .total {
+      font-size: 20px;
+      font-weight: bold;
+      margin: 15px 0;
+    }
+
+    .statut-label {
+      font-weight: bold;
+      margin-bottom: 7px;
     }
 
     .statut {
-      padding: 10px;
-      border-radius: 8px;
       width: 100%;
-      margin-top: 10px;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
       font-size: 16px;
+      background: white;
+      margin-bottom: 10px;
+    }
+
+    .whatsapp {
+      width: 100%;
+      background: #25D366;
+      color: white;
+      font-weight: bold;
     }
 
     .vide {
       text-align: center;
+      background: white;
       padding: 30px;
+      border-radius: 12px;
     }
 
-    .erreur {
-      color: red;
-      background: #ffe5e5;
-      padding: 15px;
-      border-radius: 8px;
+    .chargement {
+      text-align: center;
+      padding: 20px;
     }
   </style>
 </head>
 
 <body>
 
-  <h1>👜 YAYOUNABYSAC</h1>
-  <h2>📦 Commandes</h2>
+  <div class="header">
+    <h1>👜 YAYOUNABYSAC</h1>
+    <p>Administration des commandes</p>
+  </div>
 
-  <div id="message">Chargement des commandes...</div>
+  <div class="actions">
+    <button class="refresh" onclick="chargerCommandes()">
+      🔄 Actualiser les commandes
+    </button>
+  </div>
+
+  <div class="stats">
+    <div class="stat">
+      <strong id="nombreCommandes">0</strong>
+      <span>Commandes</span>
+    </div>
+
+    <div class="stat">
+      <strong id="chiffreAffaires">0</strong>
+      <span>FCFA total</span>
+    </div>
+  </div>
+
+  <div id="message" class="chargement">
+    Chargement des commandes...
+  </div>
 
   <div id="commandes"></div>
+
 
 <script>
 
@@ -72,73 +234,311 @@ const SUPABASE_KEY =
   "sb_publishable_Qxr7ftKtVgB3y3lmx1agWg_UQxqrviy";
 
 const supabaseClient =
-  supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+  supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
 
 
 async function chargerCommandes() {
 
-  const message = document.getElementById("message");
-  const conteneur = document.getElementById("commandes");
+  const message =
+    document.getElementById("message");
 
-  message.textContent = "Chargement des commandes...";
+  const conteneur =
+    document.getElementById("commandes");
 
-  const { data, error } = await supabaseClient
-    .from("Orders")
-    .select("*")
-    .order("created_at", { ascending: false });
+  const nombreCommandes =
+    document.getElementById("nombreCommandes");
+
+  const chiffreAffaires =
+    document.getElementById("chiffreAffaires");
+
+
+  message.innerHTML =
+    "⏳ Chargement des commandes...";
+
+  conteneur.innerHTML = "";
+
+
+  /*
+    1. Récupération des commandes
+  */
+
+  const { data: commandes, error } =
+    await supabaseClient
+      .from("Orders")
+      .select("*")
+      .order("created_at", {
+        ascending: false
+      });
+
 
   if (error) {
 
     message.innerHTML =
       `<div class="erreur">
-        Erreur Supabase : ${error.message}
+        ❌ Erreur Supabase :<br>
+        ${error.message}
       </div>`;
 
     return;
   }
 
-  if (!data || data.length === 0) {
+
+  if (!commandes || commandes.length === 0) {
+
+    nombreCommandes.textContent = "0";
+    chiffreAffaires.textContent = "0";
 
     message.innerHTML =
       `<div class="vide">
-        Aucune commande pour le moment.
+        📦 Aucune commande pour le moment.
       </div>`;
 
     return;
   }
 
-  message.textContent =
-    data.length + " commande(s)";
 
-  conteneur.innerHTML = "";
+  /*
+    2. Statistiques
+  */
 
-  data.forEach(commande => {
+  nombreCommandes.textContent =
+    commandes.length;
 
-    const bloc = document.createElement("div");
+
+  let totalGeneral = 0;
+
+  commandes.forEach(commande => {
+
+    totalGeneral +=
+      Number(commande.Total || 0);
+
+  });
+
+
+  chiffreAffaires.textContent =
+    totalGeneral.toLocaleString("fr-FR");
+
+
+  message.innerHTML =
+    `<strong>
+      ${commandes.length} commande(s)
+    </strong>`;
+
+
+  /*
+    3. Affichage des commandes
+  */
+
+  for (const commande of commandes) {
+
+    /*
+      Récupérer les produits de la commande
+    */
+
+    const {
+      data: lignes,
+      error: lignesError
+    } =
+      await supabaseClient
+        .from("Orders_items")
+        .select("*")
+        .eq("order_id", commande.id);
+
+
+    if (lignesError) {
+
+      console.error(
+        "Erreur produits commande",
+        commande.id,
+        lignesError
+      );
+
+    }
+
+
+    /*
+      Création du bloc commande
+    */
+
+    const bloc =
+      document.createElement("div");
 
     bloc.className = "commande";
 
+
+    let produitsHTML =
+      "<div class='produits'>";
+
+    produitsHTML +=
+      "<h4>🛍️ Produits commandés</h4>";
+
+
+    if (lignes && lignes.length > 0) {
+
+      for (const ligne of lignes) {
+
+        /*
+          Récupérer le produit
+        */
+
+        const {
+          data: produit
+        } =
+          await supabaseClient
+            .from("Products")
+            .select("name")
+            .eq("id", ligne.product_id)
+            .maybeSingle();
+
+
+        const nomProduit =
+          produit?.name ||
+          "Produit #" + ligne.product_id;
+
+
+        const quantite =
+          Number(ligne.quantity || 0);
+
+        const prix =
+          Number(ligne.price || 0);
+
+        const sousTotal =
+          quantite * prix;
+
+
+        produitsHTML += `
+
+          <div class="produit">
+
+            <strong>
+              ${nomProduit}
+            </strong>
+
+            <br>
+
+            Quantité :
+            ${quantite}
+
+            <br>
+
+            Prix :
+            ${prix.toLocaleString("fr-FR")}
+            FCFA
+
+            <br>
+
+            Sous-total :
+            <strong>
+              ${sousTotal.toLocaleString("fr-FR")}
+              FCFA
+            </strong>
+
+          </div>
+
+        `;
+
+      }
+
+    } else {
+
+      produitsHTML +=
+        "<p>Aucun produit trouvé.</p>";
+
+    }
+
+
+    produitsHTML +=
+      "</div>";
+
+
+    /*
+      Téléphone pour WhatsApp
+    */
+
+    const telephone =
+      String(commande.Phone || "")
+        .replace(/\s+/g, "")
+        .replace(/^0/, "221");
+
+
+    /*
+      Message WhatsApp
+    */
+
+    const messageWhatsApp =
+      encodeURIComponent(
+        "Bonjour, je vous contacte concernant votre commande YAYOUNABYSAC #" +
+        commande.id
+      );
+
+
+    /*
+      HTML de la commande
+    */
+
     bloc.innerHTML = `
 
-      <p><strong>👤 Client :</strong>
-      ${commande.Customer_name || ""}</p>
+      <div class="commande-header">
 
-      <p><strong>📞 Téléphone :</strong>
-      ${commande.Phone || ""}</p>
+        <h3>
+          📦 Commande #${commande.id}
+        </h3>
 
-      <p><strong>📍 Adresse :</strong>
-      ${commande.Address || ""}</p>
+        <span class="numero">
+          ${new Date(
+            commande.created_at
+          ).toLocaleString("fr-FR")}
+        </span>
 
-      <p><strong>💰 Total :</strong>
-      ${commande.Total || 0} FCFA</p>
+      </div>
 
-      <p><strong>📅 Date :</strong>
-      ${new Date(commande.created_at).toLocaleString("fr-FR")}</p>
 
-      <p><strong>📌 Statut :</strong></p>
+      <div class="info">
 
-      <select class="statut"
-              data-id="${commande.id}">
+        <p>
+          👤 <strong>Client :</strong>
+          ${commande.Customer_name || "Non renseigné"}
+        </p>
+
+        <p>
+          📞 <strong>Téléphone :</strong>
+          ${commande.Phone || "Non renseigné"}
+        </p>
+
+        <p>
+          📍 <strong>Adresse :</strong>
+          ${commande.Address || "Non renseignée"}
+        </p>
+
+      </div>
+
+
+      ${produitsHTML}
+
+
+      <div class="total">
+
+        💰 Total :
+        ${Number(
+          commande.Total || 0
+        ).toLocaleString("fr-FR")}
+        FCFA
+
+      </div>
+
+
+      <div class="statut-label">
+        📌 Statut de la commande
+      </div>
+
+
+      <select
+        class="statut"
+        data-id="${commande.id}"
+      >
 
         <option value="Nouvelle"
           ${commande.Status === "Nouvelle" ? "selected" : ""}>
@@ -166,44 +566,113 @@ async function chargerCommandes() {
         </option>
 
       </select>
+
+
+      <button
+        class="whatsapp"
+        onclick="ouvrirWhatsApp('${telephone}', '${messageWhatsApp}')"
+      >
+        💬 Contacter le client sur WhatsApp
+      </button>
+
     `;
 
+
     conteneur.appendChild(bloc);
-  });
+
+  }
 
 
-  document.querySelectorAll(".statut").forEach(select => {
+  /*
+    4. Gestion du changement de statut
+  */
 
-    select.addEventListener("change", async function() {
+  document
+    .querySelectorAll(".statut")
+    .forEach(select => {
 
-      const id = this.dataset.id;
-      const nouveauStatut = this.value;
+      select.addEventListener(
+        "change",
+        async function() {
 
-      const { error } = await supabaseClient
-        .from("Orders")
-        .update({
-          Status: nouveauStatut
-        })
-        .eq("id", id);
+          const id =
+            this.dataset.id;
 
-      if (error) {
+          const nouveauStatut =
+            this.value;
 
-        alert(
-          "Erreur lors de la modification : " +
-          error.message
-        );
 
-      } else {
+          const { error } =
+            await supabaseClient
+              .from("Orders")
+              .update({
+                Status: nouveauStatut
+              })
+              .eq("id", id);
 
-        alert("Statut mis à jour ✅");
-      }
+
+          if (error) {
+
+            alert(
+              "❌ Erreur : " +
+              error.message
+            );
+
+            return;
+          }
+
+
+          alert(
+            "✅ Statut de la commande #" +
+            id +
+            " mis à jour."
+          );
+
+        }
+      );
 
     });
 
-  });
+}
+
+
+/*
+  WhatsApp
+*/
+
+function ouvrirWhatsApp(
+  telephone,
+  message
+) {
+
+  if (!telephone) {
+
+    alert(
+      "Le numéro du client est manquant."
+    );
+
+    return;
+  }
+
+
+  const url =
+    "https://wa.me/" +
+    telephone +
+    "?text=" +
+    message;
+
+
+  window.open(
+    url,
+    "_blank"
+  );
 
 }
 
+
+/*
+  Lancement automatique
+*/
 
 chargerCommandes();
 
