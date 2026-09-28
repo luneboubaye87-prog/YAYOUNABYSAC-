@@ -41,8 +41,6 @@
     }
 
     .actions {
-      display: flex;
-      gap: 10px;
       margin-bottom: 15px;
     }
 
@@ -207,6 +205,7 @@
   </div>
 
   <div class="stats">
+
     <div class="stat">
       <strong id="nombreCommandes">0</strong>
       <span>Commandes</span>
@@ -216,6 +215,7 @@
       <strong id="chiffreAffaires">0</strong>
       <span>FCFA total</span>
     </div>
+
   </div>
 
   <div id="message" class="chargement">
@@ -262,10 +262,13 @@ async function chargerCommandes() {
 
 
   /*
-    1. Récupération des commandes
+    Récupération des commandes
   */
 
-  const { data: commandes, error } =
+  const {
+    data: commandes,
+    error
+  } =
     await supabaseClient
       .from("Orders")
       .select("*")
@@ -289,6 +292,7 @@ async function chargerCommandes() {
   if (!commandes || commandes.length === 0) {
 
     nombreCommandes.textContent = "0";
+
     chiffreAffaires.textContent = "0";
 
     message.innerHTML =
@@ -301,7 +305,7 @@ async function chargerCommandes() {
 
 
   /*
-    2. Statistiques
+    Statistiques
   */
 
   nombreCommandes.textContent =
@@ -310,10 +314,11 @@ async function chargerCommandes() {
 
   let totalGeneral = 0;
 
+
   commandes.forEach(commande => {
 
     totalGeneral +=
-      Number(commande.Total || 0);
+      Number(commande.total || 0);
 
   });
 
@@ -329,13 +334,14 @@ async function chargerCommandes() {
 
 
   /*
-    3. Affichage des commandes
+    Affichage des commandes
   */
 
   for (const commande of commandes) {
 
+
     /*
-      Récupérer les produits de la commande
+      Produits de la commande
     */
 
     const {
@@ -359,16 +365,6 @@ async function chargerCommandes() {
     }
 
 
-    /*
-      Création du bloc commande
-    */
-
-    const bloc =
-      document.createElement("div");
-
-    bloc.className = "commande";
-
-
     let produitsHTML =
       "<div class='produits'>";
 
@@ -378,10 +374,12 @@ async function chargerCommandes() {
 
     if (lignes && lignes.length > 0) {
 
+
       for (const ligne of lignes) {
 
+
         /*
-          Récupérer le produit
+          Récupération du produit
         */
 
         const {
@@ -402,8 +400,10 @@ async function chargerCommandes() {
         const quantite =
           Number(ligne.quantity || 0);
 
+
         const prix =
           Number(ligne.price || 0);
+
 
         const sousTotal =
           quantite * prix;
@@ -455,18 +455,14 @@ async function chargerCommandes() {
 
 
     /*
-      Téléphone pour WhatsApp
+      Téléphone WhatsApp
     */
 
     const telephone =
-      String(commande.Phone || "")
+      String(commande.phone || "")
         .replace(/\s+/g, "")
         .replace(/^0/, "221");
 
-
-    /*
-      Message WhatsApp
-    */
 
     const messageWhatsApp =
       encodeURIComponent(
@@ -476,8 +472,15 @@ async function chargerCommandes() {
 
 
     /*
-      HTML de la commande
+      Affichage
     */
+
+    const bloc =
+      document.createElement("div");
+
+    bloc.className =
+      "commande";
+
 
     bloc.innerHTML = `
 
@@ -500,17 +503,17 @@ async function chargerCommandes() {
 
         <p>
           👤 <strong>Client :</strong>
-          ${commande.Customer_name || "Non renseigné"}
+          ${commande.customer_nam || "Non renseigné"}
         </p>
 
         <p>
           📞 <strong>Téléphone :</strong>
-          ${commande.Phone || "Non renseigné"}
+          ${commande.phone || "Non renseigné"}
         </p>
 
         <p>
           📍 <strong>Adresse :</strong>
-          ${commande.Address || "Non renseignée"}
+          ${commande.address || "Non renseignée"}
         </p>
 
       </div>
@@ -523,7 +526,7 @@ async function chargerCommandes() {
 
         💰 Total :
         ${Number(
-          commande.Total || 0
+          commande.total || 0
         ).toLocaleString("fr-FR")}
         FCFA
 
@@ -541,27 +544,27 @@ async function chargerCommandes() {
       >
 
         <option value="Nouvelle"
-          ${commande.Status === "Nouvelle" ? "selected" : ""}>
+          ${commande.status === "Nouvelle" ? "selected" : ""}>
           Nouvelle
         </option>
 
         <option value="Confirmée"
-          ${commande.Status === "Confirmée" ? "selected" : ""}>
+          ${commande.status === "Confirmée" ? "selected" : ""}>
           Confirmée
         </option>
 
         <option value="Expédiée"
-          ${commande.Status === "Expédiée" ? "selected" : ""}>
+          ${commande.status === "Expédiée" ? "selected" : ""}>
           Expédiée
         </option>
 
         <option value="Livrée"
-          ${commande.Status === "Livrée" ? "selected" : ""}>
+          ${commande.status === "Livrée" ? "selected" : ""}>
           Livrée
         </option>
 
         <option value="Annulée"
-          ${commande.Status === "Annulée" ? "selected" : ""}>
+          ${commande.status === "Annulée" ? "selected" : ""}>
           Annulée
         </option>
 
@@ -584,29 +587,34 @@ async function chargerCommandes() {
 
 
   /*
-    4. Gestion du changement de statut
+    Modification du statut
   */
 
   document
     .querySelectorAll(".statut")
     .forEach(select => {
 
+
       select.addEventListener(
         "change",
         async function() {
 
+
           const id =
             this.dataset.id;
+
 
           const nouveauStatut =
             this.value;
 
 
-          const { error } =
+          const {
+            error
+          } =
             await supabaseClient
               .from("Orders")
               .update({
-                Status: nouveauStatut
+                status: nouveauStatut
               })
               .eq("id", id);
 
@@ -637,13 +645,14 @@ async function chargerCommandes() {
 
 
 /*
-  WhatsApp
+  Fonction WhatsApp
 */
 
 function ouvrirWhatsApp(
   telephone,
   message
 ) {
+
 
   if (!telephone) {
 
@@ -671,7 +680,7 @@ function ouvrirWhatsApp(
 
 
 /*
-  Lancement automatique
+  Chargement automatique
 */
 
 chargerCommandes();
