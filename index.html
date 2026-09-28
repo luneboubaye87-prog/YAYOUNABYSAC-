@@ -1,5 +1,5 @@
+```html
 <!DOCTYPE html>
-
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
@@ -287,7 +287,6 @@
       }
     }
   </style>
-
 </head>
 
 <body>
@@ -308,9 +307,7 @@
   </div>
 
   <div class="categories" id="categories">
-    <button class="active" onclick="choisirCategorie('Toutes', this)">
-      Toutes
-    </button>
+    <button class="active">Toutes</button>
   </div>
 
   <div id="products">
@@ -322,64 +319,56 @@
   <div id="productError"></div>
 
   <section class="section">
+    <h2>🛒 Mon panier</h2>
 
-```
-<h2>🛒 Mon panier</h2>
+    <div id="cartItems">
+      <div class="empty">
+        Votre panier est vide.
+      </div>
+    </div>
 
-<div id="cartItems">
-  <div class="empty">
-    Votre panier est vide.
-  </div>
-</div>
-
-<div class="cart-total">
-  Total :
-  <span id="cartTotal">0</span> FCFA
-</div>
-```
-
+    <div class="cart-total">
+      Total :
+      <span id="cartTotal">0</span> FCFA
+    </div>
   </section>
 
   <section class="section">
+    <h2>📦 Finaliser ma commande</h2>
 
-```
-<h2>📦 Finaliser ma commande</h2>
+    <div class="checkout-form">
 
-<div class="checkout-form">
+      <input
+        type="text"
+        id="customerName"
+        placeholder="Votre nom complet"
+      >
 
-  <input
-    type="text"
-    id="customerName"
-    placeholder="Votre nom complet"
-  >
+      <input
+        type="tel"
+        id="customerPhone"
+        placeholder="Votre numéro de téléphone"
+      >
 
-  <input
-    type="tel"
-    id="customerPhone"
-    placeholder="Votre numéro de téléphone"
-  >
+      <input
+        type="text"
+        id="customerAddress"
+        placeholder="Adresse / Quartier"
+      >
 
-  <input
-    type="text"
-    id="customerAddress"
-    placeholder="Adresse / Quartier"
-  >
+      <textarea
+        id="customerComment"
+        placeholder="Commentaire (facultatif)"
+      ></textarea>
 
-  <textarea
-    id="customerComment"
-    placeholder="Commentaire (facultatif)"
-  ></textarea>
+      <button
+        class="order-btn"
+        onclick="enregistrerCommande()"
+      >
+        Commander sur WhatsApp
+      </button>
 
-  <button
-    class="order-btn"
-    onclick="enregistrerCommande()"
-  >
-    Commander sur WhatsApp
-  </button>
-
-</div>
-```
-
+    </div>
   </section>
 
 </main>
@@ -440,16 +429,11 @@
 
     if (error) {
 
-      console.error(
-        "Erreur produits :",
-        error
-      );
+      console.error("Erreur produits :", error);
 
       productsDiv.innerHTML = "";
 
-      document.getElementById(
-        "productError"
-      ).innerHTML =
+      document.getElementById("productError").innerHTML =
         '<div class="error">' +
         "Erreur Supabase :\n\n" +
         error.message +
@@ -497,60 +481,39 @@
         ? "active"
         : "";
 
-    boutonToutes.onclick =
-      function() {
-        choisirCategorie(
-          "Toutes",
-          this
-        );
+    boutonToutes.onclick = function() {
+      choisirCategorie("Toutes", this);
+    };
+
+    categoriesDiv.appendChild(boutonToutes);
+
+    categories.forEach(categorie => {
+
+      const bouton =
+        document.createElement("button");
+
+      bouton.textContent = categorie;
+
+      bouton.className =
+        categorieActuelle === categorie
+          ? "active"
+          : "";
+
+      bouton.onclick = function() {
+        choisirCategorie(categorie, this);
       };
 
-    categoriesDiv.appendChild(
-      boutonToutes
-    );
-
-    categories.forEach(
-      categorie => {
-
-        const bouton =
-          document.createElement("button");
-
-        bouton.textContent =
-          categorie;
-
-        bouton.className =
-          categorieActuelle === categorie
-            ? "active"
-            : "";
-
-        bouton.onclick =
-          function() {
-            choisirCategorie(
-              categorie,
-              this
-            );
-          };
-
-        categoriesDiv.appendChild(
-          bouton
-        );
-      }
-    );
+      categoriesDiv.appendChild(bouton);
+    });
   }
 
 
-  function choisirCategorie(
-    categorie,
-    bouton
-  ) {
+  function choisirCategorie(categorie, bouton) {
 
-    categorieActuelle =
-      categorie;
+    categorieActuelle = categorie;
 
     document
-      .querySelectorAll(
-        "#categories button"
-      )
+      .querySelectorAll("#categories button")
       .forEach(btn => {
         btn.classList.remove("active");
       });
@@ -578,119 +541,98 @@
         .trim();
 
     const liste =
-      produits.filter(
-        produit => {
+      produits.filter(produit => {
 
-          const nom =
-            String(
-              produit.name || ""
-            ).toLowerCase();
+        const nom =
+          String(produit.name || "").toLowerCase();
 
-          const description =
-            String(
-              produit.description || ""
-            ).toLowerCase();
+        const description =
+          String(produit.description || "").toLowerCase();
 
-          const categorie =
-            String(
-              produit.Category || ""
-            );
+        const categorie =
+          String(produit.Category || "");
 
-          const rechercheOK =
-            nom.includes(recherche) ||
-            description.includes(recherche);
+        const rechercheOK =
+          nom.includes(recherche) ||
+          description.includes(recherche);
 
-          const categorieOK =
-            categorieActuelle === "Toutes" ||
-            categorie === categorieActuelle;
+        const categorieOK =
+          categorieActuelle === "Toutes" ||
+          categorie === categorieActuelle;
 
-          return (
-            rechercheOK &&
-            categorieOK
-          );
-        }
-      );
+        return rechercheOK && categorieOK;
+      });
 
     if (liste.length === 0) {
 
       productsDiv.innerHTML =
-        '<div class="empty">' +
-        "Aucun produit trouvé." +
-        "</div>";
+        '<div class="empty">Aucun produit trouvé.</div>';
 
       return;
     }
 
     productsDiv.innerHTML = "";
 
-    liste.forEach(
-      produit => {
+    liste.forEach(produit => {
 
-        const prix =
-          Number(
-            produit.Price || 0
-          );
+      const prix =
+        Number(produit.Price || 0);
 
-        const stock =
-          Number(
-            produit.Stock || 0
-          );
+      const stock =
+        Number(produit.Stock || 0);
 
-        const image =
-          produit.Image_url ||
-          "https://via.placeholder.com/600x600?text=YAYOUNABYSAC";
+      const image =
+        produit.Image_url ||
+        "https://via.placeholder.com/600x600?text=YAYOUNABYSAC";
 
-        const card =
-          document.createElement("div");
+      const card =
+        document.createElement("div");
 
-        card.className =
-          "product";
+      card.className = "product";
 
-        card.innerHTML = `
+      card.innerHTML = `
 
-          <img
-            src="${image}"
-            alt="${escapeHtml(produit.name || "Sac")}"
-            onerror="this.src='https://via.placeholder.com/600x600?text=YAYOUNABYSAC'"
-          >
+        <img
+          src="${image}"
+          alt="${escapeHtml(produit.name || "Sac")}"
+          onerror="this.src='https://via.placeholder.com/600x600?text=YAYOUNABYSAC'"
+        >
 
-          <div class="product-content">
+        <div class="product-content">
 
-            <h3>
-              ${escapeHtml(produit.name || "Produit")}
-            </h3>
+          <h3>
+            ${escapeHtml(produit.name || "Produit")}
+          </h3>
 
-            <div class="description">
-              ${escapeHtml(produit.description || "")}
-            </div>
-
-            <div class="price">
-              ${prix.toLocaleString("fr-FR")}
-              FCFA
-            </div>
-
-            <div class="stock">
-              Stock : ${stock}
-            </div>
-
-            <button
-              class="add-btn"
-              ${stock <= 0 ? "disabled" : ""}
-              onclick="ajouterAuPanier(${produit.id})"
-            >
-              ${
-                stock > 0
-                  ? "Ajouter au panier"
-                  : "Rupture de stock"
-              }
-            </button>
-
+          <div class="description">
+            ${escapeHtml(produit.description || "")}
           </div>
-        `;
 
-        productsDiv.appendChild(card);
-      }
-    );
+          <div class="price">
+            ${prix.toLocaleString("fr-FR")} FCFA
+          </div>
+
+          <div class="stock">
+            Stock : ${stock}
+          </div>
+
+          <button
+            class="add-btn"
+            ${stock <= 0 ? "disabled" : ""}
+            onclick="ajouterAuPanier(${produit.id})"
+          >
+            ${
+              stock > 0
+                ? "Ajouter au panier"
+                : "Rupture de stock"
+            }
+          </button>
+
+        </div>
+      `;
+
+      productsDiv.appendChild(card);
+    });
   }
 
 
@@ -700,10 +642,7 @@
 
   document
     .getElementById("searchInput")
-    .addEventListener(
-      "input",
-      afficherProduits
-    );
+    .addEventListener("input", afficherProduits);
 
 
   // =====================================================
@@ -714,14 +653,11 @@
 
     const produit =
       produits.find(
-        p =>
-          Number(p.id) === Number(id)
+        p => Number(p.id) === Number(id)
       );
 
     if (!produit) {
-
       alert("Produit introuvable.");
-
       return;
     }
 
@@ -729,18 +665,13 @@
       Number(produit.Stock || 0);
 
     if (stock <= 0) {
-
-      alert(
-        "Ce produit est en rupture de stock."
-      );
-
+      alert("Ce produit est en rupture de stock.");
       return;
     }
 
     const existant =
       panier.find(
-        p =>
-          Number(p.id) === Number(id)
+        p => Number(p.id) === Number(id)
       );
 
     if (existant) {
@@ -748,11 +679,9 @@
       if (
         Number(existant.quantity) >= stock
       ) {
-
         alert(
           "Vous avez atteint la quantité disponible en stock."
         );
-
         return;
       }
 
@@ -788,15 +717,10 @@
     const cartTotal =
       document.getElementById("cartTotal");
 
-    if (
-      !panier ||
-      panier.length === 0
-    ) {
+    if (!panier || panier.length === 0) {
 
       cartItems.innerHTML =
-        '<div class="empty">' +
-        "Votre panier est vide." +
-        "</div>";
+        '<div class="empty">Votre panier est vide.</div>';
 
       cartTotal.textContent = "0";
 
@@ -807,72 +731,63 @@
 
     let total = 0;
 
-    panier.forEach(
-      (item, index) => {
+    panier.forEach((item, index) => {
 
-        const prix =
-          Number(item.price || 0);
+      const prix =
+        Number(item.price || 0);
 
-        const quantite =
-          Number(item.quantity || 0);
+      const quantite =
+        Number(item.quantity || 0);
 
-        const sousTotal =
-          prix * quantite;
+      const sousTotal =
+        prix * quantite;
 
-        total += sousTotal;
+      total += sousTotal;
 
-        const ligne =
-          document.createElement("div");
+      const ligne =
+        document.createElement("div");
 
-        ligne.className =
-          "cart-item";
+      ligne.className = "cart-item";
 
-        ligne.innerHTML = `
+      ligne.innerHTML = `
 
-          <div class="cart-info">
+        <div class="cart-info">
 
-            <div class="cart-name">
-              ${escapeHtml(item.name)}
-            </div>
-
-            <div class="cart-price">
-              ${prix.toLocaleString("fr-FR")}
-              FCFA × ${quantite}
-            </div>
-
+          <div class="cart-name">
+            ${escapeHtml(item.name)}
           </div>
 
-          <div class="quantity">
-
-            <button
-              onclick="diminuerQuantite(${index})"
-            >
-              −
-            </button>
-
-            <strong>
-              ${quantite}
-            </strong>
-
-            <button
-              onclick="augmenterQuantite(${index})"
-            >
-              +
-            </button>
-
-            <button
-              class="delete-btn"
-              onclick="supprimerDuPanier(${index})"
-            >
-              ×
-            </button>
-
+          <div class="cart-price">
+            ${prix.toLocaleString("fr-FR")}
+            FCFA × ${quantite}
           </div>
-        `;
 
-        cartItems.appendChild(ligne);
-      }
-    );
+        </div>
+
+        <div class="quantity">
+
+          <button onclick="diminuerQuantite(${index})">
+            −
+          </button>
+
+          <strong>${quantite}</strong>
+
+          <button onclick="augmenterQuantite(${index})">
+            +
+          </button>
+
+          <button
+            class="delete-btn"
+            onclick="supprimerDuPanier(${index})"
+          >
+            ×
+          </button>
+
+        </div>
+      `;
+
+      cartItems.appendChild(ligne);
+    });
 
     cartTotal.textContent =
       total.toLocaleString("fr-FR");
@@ -885,8 +800,7 @@
 
   function augmenterQuantite(index) {
 
-    const item =
-      panier[index];
+    const item = panier[index];
 
     if (!item) return;
 
@@ -915,15 +829,13 @@
 
   function diminuerQuantite(index) {
 
-    const item =
-      panier[index];
+    const item = panier[index];
 
     if (!item) return;
 
     item.quantity--;
 
     if (item.quantity <= 0) {
-
       panier.splice(index, 1);
     }
 
@@ -1009,100 +921,67 @@
         .value
         .trim();
 
+
     if (!nom) {
-
-      alert(
-        "Veuillez entrer votre nom."
-      );
-
+      alert("Veuillez entrer votre nom.");
       return;
     }
 
     if (!telephone) {
-
-      alert(
-        "Veuillez entrer votre numéro de téléphone."
-      );
-
+      alert("Veuillez entrer votre numéro de téléphone.");
       return;
     }
 
     if (!adresse) {
-
-      alert(
-        "Veuillez entrer votre adresse ou quartier."
-      );
-
+      alert("Veuillez entrer votre adresse ou quartier.");
       return;
     }
 
-    if (
-      !panier ||
-      panier.length === 0
-    ) {
-
-      alert(
-        "Votre panier est vide."
-      );
-
+    if (!panier || panier.length === 0) {
+      alert("Votre panier est vide.");
       return;
     }
 
-    const total =
-      calculerTotal();
 
-    let adresseComplete =
-      adresse;
+    const total = calculerTotal();
 
-    if (commentaire) {
-
-      adresseComplete +=
-        " | Commentaire : " +
-        commentaire;
-    }
 
     try {
 
       // =================================================
-      // 1. ENREGISTRER DANS ORDERS
-      // IMPORTANT :
-      // LA COLONNE EST EXACTEMENT "customer_nam"
+      // 1. APPEL DE LA FONCTION SUPABASE create_order
       // =================================================
 
-      const { data: commande, error } =
-        await supabaseClient
-          .from("Orders")
-          .insert([
-            {
-              customer_nam: nom,
-              phone: telephone,
-              address: adresseComplete,
-              total: total,
-              status: "Nouvelle"
-            }
-          ])
-          .select("id")
-          .single();
+      const { data: orderId, error: orderError } =
+        await supabaseClient.rpc(
+          "create_order",
+          {
+            p_customer_name: nom,
+            p_phone: telephone,
+            p_address: adresse,
+            p_total: total,
+            p_status: "Nouvelle"
+          }
+        );
 
-      if (error) {
+
+      if (orderError) {
 
         console.error(
-          "ERREUR ORDERS :",
-          error
+          "ERREUR create_order :",
+          orderError
         );
 
         alert(
           "ERREUR SUPABASE :\n\n" +
-          error.message +
+          orderError.message +
           "\n\nCode : " +
-          (error.code || "inconnu")
+          (orderError.code || "inconnu")
         );
 
         return;
       }
 
-      const orderId =
-        commande.id;
 
       console.log(
         "Commande enregistrée. ID :",
@@ -1111,7 +990,7 @@
 
 
       // =================================================
-      // 2. ENREGISTRER LES PRODUITS DE LA COMMANDE
+      // 2. ENREGISTRER LES PRODUITS
       // =================================================
 
       const lignesCommande =
@@ -1126,12 +1005,12 @@
 
         });
 
-      const {
-        error: itemsError
-      } =
+
+      const { error: itemsError } =
         await supabaseClient
           .from("Orders_items")
           .insert(lignesCommande);
+
 
       if (itemsError) {
 
@@ -1184,23 +1063,23 @@
       message +=
         "\n🛒 *Produits commandés :*\n";
 
-      panier.forEach(
-        produit => {
 
-          const sousTotal =
-            Number(produit.price) *
-            Number(produit.quantity);
+      panier.forEach(produit => {
 
-          message +=
-            "• " +
-            produit.name +
-            " x" +
-            produit.quantity +
-            " = " +
-            sousTotal.toLocaleString("fr-FR") +
-            " FCFA\n";
-        }
-      );
+        const sousTotal =
+          Number(produit.price) *
+          Number(produit.quantity);
+
+        message +=
+          "• " +
+          produit.name +
+          " x" +
+          produit.quantity +
+          " = " +
+          sousTotal.toLocaleString("fr-FR") +
+          " FCFA\n";
+      });
+
 
       message +=
         "\n💰 *TOTAL : " +
@@ -1215,7 +1094,6 @@
       panier = [];
 
       sauvegarderPanier();
-
       afficherPanier();
 
 
@@ -1232,13 +1110,16 @@
         "?text=" +
         encodeURIComponent(message);
 
+
       alert(
         "Commande enregistrée avec succès !\n\n" +
         "Vous allez être redirigé vers WhatsApp."
       );
 
+
       window.location.href =
         urlWhatsApp;
+
 
     } catch (erreur) {
 
@@ -1283,3 +1164,4 @@
 
 </body>
 </html>
+```
