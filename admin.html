@@ -32,7 +32,7 @@
     }
 
     .container {
-      max-width: 700px;
+      max-width: 900px;
       margin: auto;
       padding: 20px;
     }
@@ -40,6 +40,7 @@
     .box {
       background: white;
       padding: 20px;
+      margin-bottom: 20px;
       border-radius: 12px;
       box-shadow: 0 2px 10px rgba(0,0,0,.08);
     }
@@ -51,47 +52,58 @@
     label {
       display: block;
       font-weight: bold;
-      margin-top: 15px;
+      margin-top: 14px;
       margin-bottom: 6px;
     }
 
     input,
-    textarea {
+    textarea,
+    select {
       width: 100%;
       padding: 13px;
       border: 1px solid #ccc;
       border-radius: 8px;
       font-size: 16px;
+      background: white;
     }
 
     textarea {
-      min-height: 100px;
+      min-height: 90px;
       resize: vertical;
     }
 
     button {
-      width: 100%;
-      margin-top: 20px;
-      padding: 14px;
       border: none;
       border-radius: 8px;
-      background: #111;
-      color: white;
-      font-size: 17px;
-      font-weight: bold;
+      padding: 13px 16px;
+      font-size: 15px;
       cursor: pointer;
     }
 
-    button:active {
-      transform: scale(.98);
+    .btn-main {
+      width: 100%;
+      margin-top: 18px;
+      background: #111;
+      color: white;
+    }
+
+    .btn-refresh {
+      background: #111;
+      color: white;
+      margin-bottom: 15px;
+    }
+
+    .btn-confirm {
+      background: #166534;
+      color: white;
     }
 
     #message {
-      margin-top: 20px;
-      padding: 15px;
+      display: none;
+      padding: 14px;
+      margin-bottom: 20px;
       border-radius: 8px;
       white-space: pre-line;
-      display: none;
     }
 
     .success {
@@ -106,15 +118,69 @@
       color: #991b1b;
     }
 
-    .produits {
-      margin-top: 25px;
-    }
-
-    .produit {
+    .product {
       border: 1px solid #ddd;
       border-radius: 10px;
       padding: 15px;
-      margin-top: 10px;
+      margin-top: 12px;
+    }
+
+    .product img {
+      width: 120px;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 8px;
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    .order {
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 16px;
+      margin-top: 15px;
+    }
+
+    .order h3 {
+      margin-top: 0;
+    }
+
+    .order-product {
+      background: #f5f5f5;
+      padding: 9px;
+      border-radius: 7px;
+      margin-top: 6px;
+    }
+
+    .statut {
+      margin-top: 5px;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .stat {
+      background: white;
+      padding: 18px;
+      border-radius: 10px;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,.06);
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 23px;
+      margin-top: 5px;
+    }
+
+    @media (max-width: 600px) {
+      .stats {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
@@ -128,6 +194,32 @@
 
 <div class="container">
 
+  <div id="message"></div>
+
+
+  <!-- ============================= -->
+  <!-- STATISTIQUES -->
+  <!-- ============================= -->
+
+  <div class="stats">
+
+    <div class="stat">
+      Commandes
+      <strong id="nombreCommandes">0</strong>
+    </div>
+
+    <div class="stat">
+      Total commandes
+      <strong id="totalCommandes">0 FCFA</strong>
+    </div>
+
+  </div>
+
+
+  <!-- ============================= -->
+  <!-- PRODUITS -->
+  <!-- ============================= -->
+
   <div class="box">
 
     <h2>➕ Ajouter un produit</h2>
@@ -140,12 +232,14 @@
       placeholder="Exemple : Sac bandoulière"
     >
 
+
     <label>Description</label>
 
     <textarea
       id="description"
       placeholder="Description du produit"
     ></textarea>
+
 
     <label>Prix en FCFA</label>
 
@@ -155,6 +249,7 @@
       placeholder="18000"
     >
 
+
     <label>Stock</label>
 
     <input
@@ -162,6 +257,7 @@
       id="stock"
       placeholder="5"
     >
+
 
     <label>Catégorie</label>
 
@@ -171,6 +267,7 @@
       placeholder="Sacs à main"
     >
 
+
     <label>URL de l'image</label>
 
     <input
@@ -179,24 +276,59 @@
       placeholder="https://..."
     >
 
+
     <button
       type="button"
+      class="btn-main"
       onclick="ajouterProduit()"
     >
       ➕ Ajouter le produit
     </button>
 
-    <div id="message"></div>
+  </div>
+
+
+  <!-- ============================= -->
+  <!-- LISTE PRODUITS -->
+  <!-- ============================= -->
+
+  <div class="box">
+
+    <h2>🛍️ Produits existants</h2>
+
+    <button
+      type="button"
+      class="btn-refresh"
+      onclick="chargerProduits()"
+    >
+      🔄 Actualiser les produits
+    </button>
+
+    <div id="listeProduits">
+      Chargement...
+    </div>
 
   </div>
 
 
-  <div class="box produits">
+  <!-- ============================= -->
+  <!-- COMMANDES -->
+  <!-- ============================= -->
 
-    <h2>🛍️ Produits existants</h2>
+  <div class="box">
 
-    <div id="listeProduits">
-      Chargement...
+    <h2>📦 Commandes</h2>
+
+    <button
+      type="button"
+      class="btn-refresh"
+      onclick="chargerCommandes()"
+    >
+      🔄 Actualiser les commandes
+    </button>
+
+    <div id="listeCommandes">
+      Chargement des commandes...
     </div>
 
   </div>
@@ -235,11 +367,9 @@ function afficherMessage(
   const message =
     document.getElementById("message");
 
-  message.textContent =
-    texte;
+  message.textContent = texte;
 
-  message.className =
-    type;
+  message.className = type;
 
 }
 
@@ -289,8 +419,6 @@ async function ajouterProduit() {
       .trim();
 
 
-  /* Vérifications */
-
   if (!nom) {
 
     afficherMessage(
@@ -330,10 +458,6 @@ async function ajouterProduit() {
   );
 
 
-  /* =========================================
-     INSERTION SUPABASE
-  ========================================= */
-
   const { data, error } =
     await supabaseClient
       .from("Products")
@@ -349,10 +473,6 @@ async function ajouterProduit() {
       ])
       .select();
 
-
-  /* =========================================
-     ERREUR
-  ========================================= */
 
   if (error) {
 
@@ -373,17 +493,11 @@ async function ajouterProduit() {
   }
 
 
-  /* =========================================
-     SUCCÈS
-  ========================================= */
-
   afficherMessage(
     "✅ Produit ajouté avec succès !",
     "success"
   );
 
-
-  /* Vider les champs */
 
   document.getElementById("nom").value = "";
 
@@ -398,15 +512,13 @@ async function ajouterProduit() {
   document.getElementById("image").value = "";
 
 
-  /* Actualiser la liste */
-
   chargerProduits();
 
 }
 
 
 /* =========================================
-   CHARGER LES PRODUITS
+   CHARGER PRODUITS
 ========================================= */
 
 async function chargerProduits() {
@@ -432,9 +544,9 @@ async function chargerProduits() {
   if (error) {
 
     liste.innerHTML =
-      "<div class='error'>" +
+      "<p>Erreur : " +
       error.message +
-      "</div>";
+      "</p>";
 
     return;
   }
@@ -443,7 +555,7 @@ async function chargerProduits() {
   if (!data || data.length === 0) {
 
     liste.innerHTML =
-      "Aucun produit.";
+      "<p>Aucun produit.</p>";
 
     return;
   }
@@ -458,32 +570,46 @@ async function chargerProduits() {
       document.createElement("div");
 
     bloc.className =
-      "produit";
+      "product";
+
+
+    let imageHTML = "";
+
+    if (produit.Image_url) {
+
+      imageHTML =
+        '<img src="' +
+        produit.Image_url +
+        '" alt="Produit">';
+
+    }
 
 
     bloc.innerHTML =
+
+      imageHTML +
 
       "<strong>" +
       (produit.name || "") +
       "</strong>" +
 
-      "<br><br>" +
+      "<p>" +
+      (produit.description || "") +
+      "</p>" +
 
-      "Prix : " +
+      "<p>Prix : " +
       Number(
         produit.Price || 0
       ).toLocaleString("fr-FR") +
-      " FCFA" +
+      " FCFA</p>" +
 
-      "<br>" +
+      "<p>Stock : " +
+      (produit.Stock ?? 0) +
+      "</p>" +
 
-      "Stock : " +
-      (produit.Stock || 0) +
-
-      "<br>" +
-
-      "Catégorie : " +
-      (produit.Category || "");
+      "<p>Catégorie : " +
+      (produit.Category || "") +
+      "</p>";
 
 
     liste.appendChild(bloc);
@@ -494,10 +620,407 @@ async function chargerProduits() {
 
 
 /* =========================================
-   DÉMARRAGE
+   CHARGER COMMANDES
+========================================= */
+
+async function chargerCommandes() {
+
+  const liste =
+    document.getElementById(
+      "listeCommandes"
+    );
+
+  liste.innerHTML =
+    "Chargement des commandes...";
+
+
+  const { data: commandes, error } =
+    await supabaseClient
+      .from("Orders")
+      .select("*")
+      .order("created_at", {
+        ascending: false
+      });
+
+
+  if (error) {
+
+    liste.innerHTML =
+      "<p>ERREUR SUPABASE : " +
+      error.message +
+      "</p>";
+
+    return;
+  }
+
+
+  const commandesListe =
+    commandes || [];
+
+
+  document.getElementById(
+    "nombreCommandes"
+  ).textContent =
+    commandesListe.length;
+
+
+  let totalGeneral = 0;
+
+
+  commandesListe.forEach(
+    function(commande) {
+
+      totalGeneral +=
+        Number(
+          commande.total || 0
+        );
+
+    }
+  );
+
+
+  document.getElementById(
+    "totalCommandes"
+  ).textContent =
+    totalGeneral.toLocaleString(
+      "fr-FR"
+    ) +
+    " FCFA";
+
+
+  if (commandesListe.length === 0) {
+
+    liste.innerHTML =
+      "<p>Aucune commande pour le moment.</p>";
+
+    return;
+  }
+
+
+  liste.innerHTML = "";
+
+
+  commandesListe.forEach(
+    function(commande) {
+
+      afficherCommande(
+        commande,
+        liste
+      );
+
+    }
+  );
+
+}
+
+
+/* =========================================
+   AFFICHER UNE COMMANDE
+========================================= */
+
+async function afficherCommande(
+  commande,
+  liste
+) {
+
+  const bloc =
+    document.createElement("div");
+
+  bloc.className =
+    "order";
+
+
+  const date =
+    commande.created_at
+    ? new Date(
+        commande.created_at
+      ).toLocaleString("fr-FR")
+    : "";
+
+
+  bloc.innerHTML =
+
+    "<h3>📦 Commande #" +
+    commande.id +
+    "</h3>" +
+
+    "<p><strong>Client :</strong> " +
+    (commande.customer_nam || "") +
+    "</p>" +
+
+    "<p><strong>📞 Téléphone :</strong> " +
+    (commande.phone || "") +
+    "</p>" +
+
+    "<p><strong>📍 Adresse :</strong> " +
+    (commande.address || "") +
+    "</p>" +
+
+    "<p><strong>💰 Total :</strong> " +
+    Number(
+      commande.total || 0
+    ).toLocaleString("fr-FR") +
+    " FCFA</p>" +
+
+    "<p><strong>📅 Date :</strong> " +
+    date +
+    "</p>" +
+
+    "<label><strong>📌 Statut</strong></label>";
+
+
+  /* =====================================
+     STATUT
+  ===================================== */
+
+  const select =
+    document.createElement("select");
+
+  select.className =
+    "statut";
+
+
+  const statuts = [
+    "Nouvelle",
+    "Confirmée",
+    "Expédiée",
+    "Livrée",
+    "Annulée"
+  ];
+
+
+  statuts.forEach(
+    function(statut) {
+
+      const option =
+        document.createElement("option");
+
+      option.value =
+        statut;
+
+      option.textContent =
+        statut;
+
+
+      if (
+        commande.status === statut
+      ) {
+
+        option.selected = true;
+
+      }
+
+
+      select.appendChild(
+        option
+      );
+
+    }
+  );
+
+
+  select.addEventListener(
+    "change",
+    async function() {
+
+      const nouveauStatut =
+        this.value;
+
+
+      const { error } =
+        await supabaseClient
+          .from("Orders")
+          .update({
+            status: nouveauStatut
+          })
+          .eq(
+            "id",
+            commande.id
+          );
+
+
+      if (error) {
+
+        alert(
+          "Erreur lors du changement de statut :\n\n" +
+          error.message
+        );
+
+        return;
+      }
+
+
+      commande.status =
+        nouveauStatut;
+
+
+      afficherMessage(
+        "✅ Statut de la commande #" +
+        commande.id +
+        " modifié en « " +
+        nouveauStatut +
+        " ».",
+        "success"
+      );
+
+    }
+  );
+
+
+  bloc.appendChild(
+    select
+  );
+
+
+  /* =====================================
+     PRODUITS DE LA COMMANDE
+  ===================================== */
+
+  const zoneProduits =
+    document.createElement("div");
+
+  zoneProduits.style.marginTop =
+    "15px";
+
+  zoneProduits.innerHTML =
+    "<strong>🛍️ Produits commandés :</strong><br>" +
+    "Chargement...";
+
+
+  bloc.appendChild(
+    zoneProduits
+  );
+
+
+  liste.appendChild(
+    bloc
+  );
+
+
+  chargerProduitsCommande(
+    commande.id,
+    zoneProduits
+  );
+
+}
+
+
+/* =========================================
+   PRODUITS D'UNE COMMANDE
+========================================= */
+
+async function chargerProduitsCommande(
+  orderId,
+  zone
+) {
+
+  const { data: lignes, error } =
+    await supabaseClient
+      .from("Orders_items")
+      .select("*")
+      .eq(
+        "order_id",
+        orderId
+      );
+
+
+  if (error) {
+
+    zone.innerHTML =
+      "<strong>Produits commandés :</strong><br>" +
+      "Erreur : " +
+      error.message;
+
+    return;
+  }
+
+
+  if (!lignes || lignes.length === 0) {
+
+    zone.innerHTML =
+      "<strong>Produits commandés :</strong><br>" +
+      "Aucun produit.";
+
+    return;
+  }
+
+
+  zone.innerHTML =
+    "<strong>🛍️ Produits commandés :</strong>";
+
+
+  for (
+    const ligne of lignes
+  ) {
+
+    const { data: produit } =
+      await supabaseClient
+        .from("Products")
+        .select("name")
+        .eq(
+          "id",
+          ligne.product_id
+        )
+        .maybeSingle();
+
+
+    const nom =
+      produit
+      ? produit.name
+      : "Produit #" +
+        ligne.product_id;
+
+
+    const prix =
+      Number(
+        ligne.price || 0
+      );
+
+
+    const quantite =
+      Number(
+        ligne.quantity || 0
+      );
+
+
+    const sousTotal =
+      prix * quantite;
+
+
+    const ligneDiv =
+      document.createElement("div");
+
+    ligneDiv.className =
+      "order-product";
+
+
+    ligneDiv.textContent =
+      nom +
+      " × " +
+      quantite +
+      " = " +
+      sousTotal.toLocaleString(
+        "fr-FR"
+      ) +
+      " FCFA";
+
+
+    zone.appendChild(
+      ligneDiv
+    );
+
+  }
+
+}
+
+
+/* =========================================
+   LANCEMENT
 ========================================= */
 
 chargerProduits();
+
+chargerCommandes();
 
 </script>
 
