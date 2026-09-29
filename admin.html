@@ -1,202 +1,219 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>YAYOUNABYSAC - Administration</title>
+  <title>YAYOUNABYSAC - Administration</title>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-<style>
-* {
-  box-sizing: border-box;
-}
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #f5f5f5;
-  color: #222;
-}
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      color: #222;
+    }
 
-header {
-  background: #111;
-  color: white;
-  padding: 20px;
-  text-align: center;
-}
+    header {
+      background: #111;
+      color: white;
+      text-align: center;
+      padding: 22px 15px;
+    }
 
-header h1 {
-  margin: 0 0 5px;
-}
+    header h1 {
+      margin: 0 0 6px;
+    }
 
-.container {
-  max-width: 1000px;
-  margin: auto;
-  padding: 20px;
-}
+    header p {
+      margin: 0;
+      opacity: 0.8;
+    }
 
-.card {
-  background: white;
-  padding: 20px;
-  margin-bottom: 20px;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-}
+    .container {
+      max-width: 1000px;
+      margin: auto;
+      padding: 15px;
+    }
 
-h2 {
-  margin-top: 30px;
-}
+    .message {
+      display: none;
+      padding: 14px;
+      margin-bottom: 15px;
+      border-radius: 10px;
+      font-weight: bold;
+    }
 
-h3 {
-  margin-top: 0;
-}
+    .success {
+      display: block;
+      background: #dcfce7;
+      color: #166534;
+    }
 
-label {
-  display: block;
-  font-weight: bold;
-  margin-top: 10px;
-}
+    .error {
+      display: block;
+      background: #fee2e2;
+      color: #991b1b;
+      white-space: pre-line;
+    }
 
-input,
-textarea,
-select {
-  width: 100%;
-  padding: 12px;
-  margin-top: 6px;
-  margin-bottom: 12px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  font-size: 15px;
-}
+    .section {
+      background: white;
+      padding: 18px;
+      margin-bottom: 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
 
-textarea {
-  min-height: 90px;
-  resize: vertical;
-}
+    .section h2 {
+      margin-top: 0;
+    }
 
-button {
-  border: none;
-  border-radius: 8px;
-  padding: 12px 16px;
-  font-size: 15px;
-  cursor: pointer;
-}
+    label {
+      display: block;
+      font-weight: bold;
+      margin-top: 12px;
+      margin-bottom: 5px;
+    }
 
-.btn-principal {
-  width: 100%;
-  background: #111;
-  color: white;
-  margin-top: 8px;
-}
+    input,
+    textarea,
+    select {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 15px;
+      background: white;
+    }
 
-.btn-secondaire {
-  background: #555;
-  color: white;
-}
+    textarea {
+      min-height: 90px;
+      resize: vertical;
+    }
 
-.btn-modifier {
-  background: #2563eb;
-  color: white;
-  margin-right: 5px;
-}
+    button {
+      border: none;
+      border-radius: 8px;
+      padding: 12px 15px;
+      font-size: 15px;
+      cursor: pointer;
+    }
 
-.btn-supprimer {
-  background: #dc2626;
-  color: white;
-}
+    .btn-main {
+      width: 100%;
+      background: #111;
+      color: white;
+      margin-top: 15px;
+    }
 
-.stats {
-  display: flex;
-  gap: 15px;
-  flex-wrap: wrap;
-  margin-bottom: 20px;
-}
+    .btn-cancel {
+      width: 100%;
+      background: #777;
+      color: white;
+      margin-top: 8px;
+    }
 
-.stat {
-  flex: 1;
-  min-width: 180px;
-  background: white;
-  padding: 20px;
-  border-radius: 12px;
-  text-align: center;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-}
+    .btn-edit {
+      background: #2563eb;
+      color: white;
+      margin-top: 10px;
+      margin-right: 5px;
+    }
 
-.stat strong {
-  display: block;
-  font-size: 24px;
-  margin-top: 8px;
-}
+    .btn-delete {
+      background: #dc2626;
+      color: white;
+      margin-top: 10px;
+    }
 
-.produit {
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  padding: 15px;
-  margin-top: 15px;
-}
+    .btn-refresh {
+      background: #111;
+      color: white;
+      margin-bottom: 15px;
+    }
 
-.produit img {
-  width: 130px;
-  height: 130px;
-  object-fit: cover;
-  border-radius: 8px;
-  display: block;
-  margin-bottom: 12px;
-}
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 20px;
+    }
 
-.commande {
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  padding: 15px;
-  margin-top: 15px;
-}
+    .stat {
+      background: white;
+      padding: 15px;
+      text-align: center;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
 
-.ligne-produit {
-  background: #f5f5f5;
-  padding: 8px;
-  border-radius: 6px;
-  margin-top: 6px;
-}
+    .stat strong {
+      display: block;
+      font-size: 22px;
+      margin-top: 5px;
+    }
 
-.message {
-  display: none;
-  padding: 12px;
-  margin-bottom: 15px;
-  border-radius: 8px;
-}
+    .product {
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 15px;
+    }
 
-.message.succes {
-  display: block;
-  background: #dcfce7;
-  color: #166534;
-}
+    .product img {
+      width: 130px;
+      height: 130px;
+      object-fit: cover;
+      border-radius: 8px;
+      display: block;
+      margin-bottom: 10px;
+    }
 
-.message.erreur {
-  display: block;
-  background: #fee2e2;
-  color: #991b1b;
-}
+    .order {
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 15px;
+    }
 
-#chargement {
-  color: #555;
-}
-</style>
+    .order-product {
+      background: #f5f5f5;
+      padding: 9px;
+      border-radius: 7px;
+      margin-top: 6px;
+    }
+
+    @media (max-width: 600px) {
+      .stats {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
 <header>
-  <h1>YAYOUNABYSAC</h1>
-  <div>Administration</div>
+  <h1>👜 YAYOUNABYSAC</h1>
+  <p>Administration</p>
 </header>
 
 <div class="container">
 
   <div id="message" class="message"></div>
 
+
+  <!-- ============================= -->
   <!-- STATISTIQUES -->
+  <!-- ============================= -->
 
   <div class="stats">
 
@@ -218,35 +235,34 @@ button {
   </div>
 
 
-  <!-- ========================= -->
-  <!-- GESTION DES PRODUITS -->
-  <!-- ========================= -->
+  <!-- ============================= -->
+  <!-- AJOUTER / MODIFIER PRODUIT -->
+  <!-- ============================= -->
 
-  <h2>🛍️ Gestion des produits</h2>
+  <div class="section">
 
-  <div class="card">
-
-    <h3 id="titreFormulaire">
+    <h2 id="titreProduit">
       ➕ Ajouter un produit
-    </h3>
+    </h2>
 
     <input
       type="hidden"
       id="produitId"
+      value=""
     >
 
-    <label for="nomProduit">
+    <label>
       Nom du produit
     </label>
 
     <input
       type="text"
       id="nomProduit"
-      placeholder="Ex : Sac bandoulière"
+      placeholder="Exemple : Sac bandoulière"
     >
 
 
-    <label for="descriptionProduit">
+    <label>
       Description
     </label>
 
@@ -256,7 +272,7 @@ button {
     ></textarea>
 
 
-    <label for="prixProduit">
+    <label>
       Prix en FCFA
     </label>
 
@@ -267,7 +283,7 @@ button {
     >
 
 
-    <label for="stockProduit">
+    <label>
       Stock
     </label>
 
@@ -278,7 +294,7 @@ button {
     >
 
 
-    <label for="categorieProduit">
+    <label>
       Catégorie
     </label>
 
@@ -289,12 +305,12 @@ button {
     >
 
 
-    <label for="imageProduit">
+    <label>
       URL de l'image
     </label>
 
     <input
-      type="url"
+      type="text"
       id="imageProduit"
       placeholder="https://..."
     >
@@ -302,18 +318,19 @@ button {
 
     <button
       type="button"
-      class="btn-principal"
-      id="boutonProduit"
+      class="btn-main"
+      onclick="enregistrerProduit()"
     >
-      Ajouter le produit
+      ➕ Ajouter le produit
     </button>
 
 
     <button
       type="button"
-      class="btn-secondaire"
-      id="boutonAnnuler"
-      style="display:none; width:100%; margin-top:8px;"
+      id="annulerModification"
+      class="btn-cancel"
+      onclick="annulerModification()"
+      style="display:none;"
     >
       Annuler la modification
     </button>
@@ -321,45 +338,47 @@ button {
   </div>
 
 
-  <!-- LISTE DES PRODUITS -->
+  <!-- ============================= -->
+  <!-- LISTE PRODUITS -->
+  <!-- ============================= -->
 
-  <div class="card">
+  <div class="section">
 
-    <h3>📋 Produits existants</h3>
+    <h2>🛍️ Produits</h2>
 
     <button
       type="button"
-      class="btn-secondaire"
-      id="boutonActualiserProduits"
+      class="btn-refresh"
+      onclick="chargerProduits()"
     >
       🔄 Actualiser les produits
     </button>
 
     <div id="listeProduits">
-      Chargement des produits...
+      Chargement...
     </div>
 
   </div>
 
 
-  <!-- ========================= -->
+  <!-- ============================= -->
   <!-- COMMANDES -->
-  <!-- ========================= -->
+  <!-- ============================= -->
 
-  <h2>📦 Commandes</h2>
+  <div class="section">
 
-  <div class="card">
+    <h2>📦 Commandes</h2>
 
     <button
       type="button"
-      class="btn-secondaire"
-      id="boutonActualiserCommandes"
+      class="btn-refresh"
+      onclick="chargerCommandes()"
     >
       🔄 Actualiser les commandes
     </button>
 
     <div id="listeCommandes">
-      Chargement des commandes...
+      Chargement...
     </div>
 
   </div>
@@ -380,7 +399,7 @@ const SUPABASE_KEY =
   "sb_publishable_Qxr7ftKtVgB3y3lmx1agWg_UQxqrviy";
 
 const supabaseClient =
-  supabase.createClient(
+  window.supabase.createClient(
     SUPABASE_URL,
     SUPABASE_KEY
   );
@@ -400,13 +419,227 @@ function afficherMessage(texte, type) {
   message.className =
     "message " + type;
 
-  setTimeout(function() {
+}
 
-    message.className = "message";
 
-    message.textContent = "";
+/* ==========================================
+   VIDER FORMULAIRE
+========================================== */
 
-  }, 5000);
+function viderFormulaire() {
+
+  document.getElementById("produitId").value = "";
+
+  document.getElementById("nomProduit").value = "";
+
+  document.getElementById("descriptionProduit").value = "";
+
+  document.getElementById("prixProduit").value = "";
+
+  document.getElementById("stockProduit").value = "";
+
+  document.getElementById("categorieProduit").value = "";
+
+  document.getElementById("imageProduit").value = "";
+
+  document.getElementById("titreProduit").textContent =
+    "➕ Ajouter un produit";
+
+  document.querySelector(".btn-main").textContent =
+    "➕ Ajouter le produit";
+
+  document.getElementById(
+    "annulerModification"
+  ).style.display = "none";
+
+}
+
+
+/* ==========================================
+   ANNULER MODIFICATION
+========================================== */
+
+function annulerModification() {
+
+  viderFormulaire();
+
+}
+
+
+/* ==========================================
+   ENREGISTRER PRODUIT
+========================================== */
+
+async function enregistrerProduit() {
+
+  const id =
+    document.getElementById("produitId").value.trim();
+
+  const nom =
+    document.getElementById("nomProduit").value.trim();
+
+  const description =
+    document.getElementById("descriptionProduit").value.trim();
+
+  const prix =
+    Number(
+      document.getElementById("prixProduit").value
+    );
+
+  const stock =
+    Number(
+      document.getElementById("stockProduit").value
+    );
+
+  const categorie =
+    document.getElementById("categorieProduit").value.trim();
+
+  const image =
+    document.getElementById("imageProduit").value.trim();
+
+
+  /* Vérification du nom */
+
+  if (!nom) {
+
+    afficherMessage(
+      "Veuillez entrer le nom du produit.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  /* Vérification du prix */
+
+  if (isNaN(prix) || prix < 0) {
+
+    afficherMessage(
+      "Veuillez entrer un prix valide.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  /* Vérification du stock */
+
+  if (isNaN(stock) || stock < 0) {
+
+    afficherMessage(
+      "Veuillez entrer un stock valide.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  afficherMessage(
+    "Enregistrement en cours...",
+    "success"
+  );
+
+
+  const produit = {
+
+    name: nom,
+
+    description: description,
+
+    price: prix,
+
+    stock: stock,
+
+    category: categorie,
+
+    image_url: image || null
+
+  };
+
+
+  let resultat;
+
+
+  /* =====================================
+     MODIFICATION
+  ===================================== */
+
+  if (id) {
+
+    resultat =
+      await supabaseClient
+        .from("Products")
+        .update(produit)
+        .eq("id", id);
+
+  }
+
+
+  /* =====================================
+     AJOUT
+  ===================================== */
+
+  else {
+
+    resultat =
+      await supabaseClient
+        .from("Products")
+        .insert([produit]);
+
+  }
+
+
+  /* =====================================
+     ERREUR
+  ===================================== */
+
+  if (resultat.error) {
+
+    console.error(
+      "Erreur produit :",
+      resultat.error
+    );
+
+    afficherMessage(
+      "ERREUR SUPABASE :\n\n" +
+      resultat.error.message +
+      "\n\nCode : " +
+      (resultat.error.code || "inconnu"),
+      "error"
+    );
+
+    return;
+  }
+
+
+  /* =====================================
+     SUCCÈS
+  ===================================== */
+
+  if (id) {
+
+    afficherMessage(
+      "✅ Produit modifié avec succès.",
+      "success"
+    );
+
+  } else {
+
+    afficherMessage(
+      "✅ Produit ajouté avec succès.",
+      "success"
+    );
+
+  }
+
+
+  viderFormulaire();
+
+  await chargerProduits();
+
 }
 
 
@@ -435,7 +668,7 @@ async function chargerProduits() {
   if (resultat.error) {
 
     liste.innerHTML =
-      "<p>Erreur : " +
+      "<p>Erreur Supabase : " +
       resultat.error.message +
       "</p>";
 
@@ -449,13 +682,14 @@ async function chargerProduits() {
 
   document.getElementById(
     "nombreProduits"
-  ).textContent = produits.length;
+  ).textContent =
+    produits.length;
 
 
   if (produits.length === 0) {
 
     liste.innerHTML =
-      "<p>Aucun produit pour le moment.</p>";
+      "<p>Aucun produit.</p>";
 
     return;
   }
@@ -469,14 +703,15 @@ async function chargerProduits() {
     const bloc =
       document.createElement("div");
 
-    bloc.className = "produit";
+    bloc.className =
+      "product";
 
 
-    let imageHTML = "";
+    let image = "";
 
     if (produit.image_url) {
 
-      imageHTML =
+      image =
         '<img src="' +
         produit.image_url +
         '" alt="Produit">';
@@ -486,10 +721,10 @@ async function chargerProduits() {
 
     bloc.innerHTML =
 
-      imageHTML +
+      image +
 
       "<h3>" +
-      (produit.name || "") +
+      (produit.name || "Produit") +
       "</h3>" +
 
       "<p>" +
@@ -510,235 +745,57 @@ async function chargerProduits() {
       "</p>";
 
 
-    const boutonModifier =
+    const modifier =
       document.createElement("button");
 
-    boutonModifier.type = "button";
+    modifier.type = "button";
 
-    boutonModifier.className =
-      "btn-modifier";
+    modifier.className =
+      "btn-edit";
 
-    boutonModifier.textContent =
+    modifier.textContent =
       "✏️ Modifier";
 
 
-    boutonModifier.addEventListener(
-      "click",
+    modifier.onclick =
       function() {
 
-        modifierProduit(produit.id);
+        modifierProduit(
+          produit.id
+        );
 
-      }
-    );
+      };
 
 
-    const boutonSupprimer =
+    const supprimer =
       document.createElement("button");
 
-    boutonSupprimer.type = "button";
+    supprimer.type = "button";
 
-    boutonSupprimer.className =
-      "btn-supprimer";
+    supprimer.className =
+      "btn-delete";
 
-    boutonSupprimer.textContent =
+    supprimer.textContent =
       "🗑️ Supprimer";
 
 
-    boutonSupprimer.addEventListener(
-      "click",
+    supprimer.onclick =
       function() {
 
-        supprimerProduit(produit.id);
+        supprimerProduit(
+          produit.id
+        );
 
-      }
-    );
+      };
 
 
-    bloc.appendChild(
-      boutonModifier
-    );
+    bloc.appendChild(modifier);
 
-    bloc.appendChild(
-      boutonSupprimer
-    );
-
+    bloc.appendChild(supprimer);
 
     liste.appendChild(bloc);
 
   });
-
-}
-
-
-/* ==========================================
-   AJOUTER OU MODIFIER PRODUIT
-========================================== */
-
-async function enregistrerProduit() {
-
-  afficherMessage(
-    "Enregistrement du produit...",
-    "succes"
-  );
-
-
-  const id =
-    document.getElementById(
-      "produitId"
-    ).value;
-
-
-  const nom =
-    document.getElementById(
-      "nomProduit"
-    ).value.trim();
-
-
-  const description =
-    document.getElementById(
-      "descriptionProduit"
-    ).value.trim();
-
-
-  const prix =
-    Number(
-      document.getElementById(
-        "prixProduit"
-      ).value
-    );
-
-
-  const stock =
-    Number(
-      document.getElementById(
-        "stockProduit"
-      ).value
-    );
-
-
-  const categorie =
-    document.getElementById(
-      "categorieProduit"
-    ).value.trim();
-
-
-  const image =
-    document.getElementById(
-      "imageProduit"
-    ).value.trim();
-
-
-  /* Vérification */
-
-  if (!nom) {
-
-    afficherMessage(
-      "Veuillez entrer le nom du produit.",
-      "erreur"
-    );
-
-    return;
-  }
-
-
-  if (prix < 0 || isNaN(prix)) {
-
-    afficherMessage(
-      "Veuillez entrer un prix valide.",
-      "erreur"
-    );
-
-    return;
-  }
-
-
-  if (stock < 0 || isNaN(stock)) {
-
-    afficherMessage(
-      "Veuillez entrer un stock valide.",
-      "erreur"
-    );
-
-    return;
-  }
-
-
-  const produit = {
-
-    name: nom,
-
-    description: description,
-
-    price: prix,
-
-    stock: stock,
-
-    category: categorie,
-
-    image_url: image || null
-
-  };
-
-
-  let resultat;
-
-
-  /* MODIFICATION */
-
-  if (id) {
-
-    resultat =
-      await supabaseClient
-        .from("Products")
-        .update(produit)
-        .eq("id", id);
-
-  }
-
-  /* AJOUT */
-
-  else {
-
-    resultat =
-      await supabaseClient
-        .from("Products")
-        .insert([produit]);
-
-  }
-
-
-  if (resultat.error) {
-
-    afficherMessage(
-      "Erreur Supabase : " +
-      resultat.error.message,
-      "erreur"
-    );
-
-    return;
-  }
-
-
-  if (id) {
-
-    afficherMessage(
-      "Produit modifié avec succès ✅",
-      "succes"
-    );
-
-  } else {
-
-    afficherMessage(
-      "Produit ajouté avec succès ✅",
-      "succes"
-    );
-
-  }
-
-
-  viderFormulaire();
-
-  await chargerProduits();
 
 }
 
@@ -762,7 +819,7 @@ async function modifierProduit(id) {
     afficherMessage(
       "Erreur : " +
       resultat.error.message,
-      "erreur"
+      "error"
     );
 
     return;
@@ -775,7 +832,8 @@ async function modifierProduit(id) {
 
   document.getElementById(
     "produitId"
-  ).value = produit.id;
+  ).value =
+    produit.id;
 
 
   document.getElementById(
@@ -815,19 +873,19 @@ async function modifierProduit(id) {
 
 
   document.getElementById(
-    "titreFormulaire"
+    "titreProduit"
   ).textContent =
     "✏️ Modifier le produit";
 
 
-  document.getElementById(
-    "boutonProduit"
+  document.querySelector(
+    ".btn-main"
   ).textContent =
-    "Enregistrer les modifications";
+    "💾 Enregistrer les modifications";
 
 
   document.getElementById(
-    "boutonAnnuler"
+    "annulerModification"
   ).style.display =
     "block";
 
@@ -838,75 +896,6 @@ async function modifierProduit(id) {
   });
 
 }
-
-
-/* ==========================================
-   ANNULER MODIFICATION
-========================================== */
-
-function viderFormulaire() {
-
-  document.getElementById(
-    "produitId"
-  ).value = "";
-
-
-  document.getElementById(
-    "nomProduit"
-  ).value = "";
-
-
-  document.getElementById(
-    "descriptionProduit"
-  ).value = "";
-
-
-  document.getElementById(
-    "prixProduit"
-  ).value = "";
-
-
-  document.getElementById(
-    "stockProduit"
-  ).value = "";
-
-
-  document.getElementById(
-    "categorieProduit"
-  ).value = "";
-
-
-  document.getElementById(
-    "imageProduit"
-  ).value = "";
-
-
-  document.getElementById(
-    "titreFormulaire"
-  ).textContent =
-    "➕ Ajouter un produit";
-
-
-  document.getElementById(
-    "boutonProduit"
-  ).textContent =
-    "Ajouter le produit";
-
-
-  document.getElementById(
-    "boutonAnnuler"
-  ).style.display =
-    "none";
-
-}
-
-
-document.getElementById(
-  "boutonAnnuler"
-).addEventListener(
-  "click",
-  viderFormulaire
-);
 
 
 /* ==========================================
@@ -938,9 +927,11 @@ async function supprimerProduit(id) {
   if (resultat.error) {
 
     afficherMessage(
-      "Erreur Supabase : " +
-      resultat.error.message,
-      "erreur"
+      "ERREUR SUPABASE :\n\n" +
+      resultat.error.message +
+      "\n\nCode : " +
+      (resultat.error.code || "inconnu"),
+      "error"
     );
 
     return;
@@ -948,8 +939,8 @@ async function supprimerProduit(id) {
 
 
   afficherMessage(
-    "Produit supprimé avec succès ✅",
-    "succes"
+    "✅ Produit supprimé.",
+    "success"
   );
 
 
@@ -959,7 +950,7 @@ async function supprimerProduit(id) {
 
 
 /* ==========================================
-   COMMANDES
+   CHARGER COMMANDES
 ========================================== */
 
 async function chargerCommandes() {
@@ -968,7 +959,6 @@ async function chargerCommandes() {
     document.getElementById(
       "listeCommandes"
     );
-
 
   liste.innerHTML =
     "Chargement des commandes...";
@@ -986,7 +976,7 @@ async function chargerCommandes() {
   if (resultat.error) {
 
     liste.innerHTML =
-      "<p>Erreur : " +
+      "<p>Erreur Supabase : " +
       resultat.error.message +
       "</p>";
 
@@ -1007,15 +997,29 @@ async function chargerCommandes() {
   let totalGeneral = 0;
 
 
+  commandes.forEach(function(commande) {
+
+    totalGeneral +=
+      Number(
+        commande.total || 0
+      );
+
+  });
+
+
+  document.getElementById(
+    "totalCommandes"
+  ).textContent =
+    totalGeneral.toLocaleString(
+      "fr-FR"
+    ) +
+    " FCFA";
+
+
   if (commandes.length === 0) {
 
     liste.innerHTML =
-      "<p>Aucune commande pour le moment.</p>";
-
-    document.getElementById(
-      "totalCommandes"
-    ).textContent =
-      "0 FCFA";
+      "<p>Aucune commande.</p>";
 
     return;
   }
@@ -1028,17 +1032,11 @@ async function chargerCommandes() {
     const commande of commandes
   ) {
 
-    totalGeneral +=
-      Number(
-        commande.total || 0
-      );
-
-
     const bloc =
       document.createElement("div");
 
     bloc.className =
-      "commande";
+      "order";
 
 
     const date =
@@ -1051,33 +1049,33 @@ async function chargerCommandes() {
 
     bloc.innerHTML =
 
-      "<h3>Commande #" +
+      "<h3>📦 Commande #" +
       commande.id +
       "</h3>" +
-
-      "<p><strong>Date :</strong> " +
-      date +
-      "</p>" +
 
       "<p><strong>Client :</strong> " +
       (commande.customer_nam || "") +
       "</p>" +
 
-      "<p><strong>Téléphone :</strong> " +
+      "<p><strong>📞 Téléphone :</strong> " +
       (commande.phone || "") +
       "</p>" +
 
-      "<p><strong>Adresse :</strong> " +
+      "<p><strong>📍 Adresse :</strong> " +
       (commande.address || "") +
       "</p>" +
 
-      "<p><strong>Total :</strong> " +
+      "<p><strong>💰 Total :</strong> " +
       Number(
         commande.total || 0
       ).toLocaleString("fr-FR") +
       " FCFA</p>" +
 
-      "<label>Statut :</label>";
+      "<p><strong>📅 Date :</strong> " +
+      date +
+      "</p>" +
+
+      "<p><strong>📌 Statut :</strong></p>";
 
 
     const select =
@@ -1093,49 +1091,39 @@ async function chargerCommandes() {
     ];
 
 
-    statuts.forEach(
-      function(statut) {
+    statuts.forEach(function(statut) {
 
-        const option =
-          document.createElement(
-            "option"
-          );
+      const option =
+        document.createElement("option");
 
-        option.value =
-          statut;
+      option.value =
+        statut;
 
-        option.textContent =
-          statut;
+      option.textContent =
+        statut;
 
-        if (
-          commande.status === statut
-        ) {
+      if (
+        commande.status === statut
+      ) {
 
-          option.selected = true;
-
-        }
-
-        select.appendChild(
-          option
-        );
+        option.selected =
+          true;
 
       }
-    );
+
+      select.appendChild(option);
+
+    });
 
 
-    select.addEventListener(
-      "change",
+    select.onchange =
       async function() {
-
-        const nouveauStatut =
-          this.value;
-
 
         const resultat =
           await supabaseClient
             .from("Orders")
             .update({
-              status: nouveauStatut
+              status: this.value
             })
             .eq("id", commande.id);
 
@@ -1152,28 +1140,23 @@ async function chargerCommandes() {
 
 
         alert(
-          "Statut modifié avec succès ✅"
+          "✅ Statut modifié."
         );
 
-      }
-    );
+      };
 
 
     bloc.appendChild(select);
 
 
     const produitsZone =
-      document.createElement(
-        "div"
-      );
-
+      document.createElement("div");
 
     produitsZone.style.marginTop =
       "15px";
 
-
     produitsZone.innerHTML =
-      "Chargement des produits...";
+      "<strong>🛍️ Produits :</strong>";
 
 
     bloc.appendChild(
@@ -1192,15 +1175,6 @@ async function chargerCommandes() {
     );
 
   }
-
-
-  document.getElementById(
-    "totalCommandes"
-  ).textContent =
-    totalGeneral.toLocaleString(
-      "fr-FR"
-    ) +
-    " FCFA";
 
 }
 
@@ -1223,9 +1197,10 @@ async function chargerProduitsCommande(
 
   if (resultat.error) {
 
-    zone.innerHTML =
-      "Erreur : " +
-      resultat.error.message;
+    zone.innerHTML +=
+      "<p>Erreur : " +
+      resultat.error.message +
+      "</p>";
 
     return;
   }
@@ -1237,15 +1212,11 @@ async function chargerProduitsCommande(
 
   if (lignes.length === 0) {
 
-    zone.innerHTML =
+    zone.innerHTML +=
       "<p>Aucun produit.</p>";
 
     return;
   }
-
-
-  zone.innerHTML =
-    "<strong>Produits :</strong>";
 
 
   for (
@@ -1260,35 +1231,41 @@ async function chargerProduitsCommande(
           "id",
           ligne.product_id
         )
-        .single();
+        .maybeSingle();
 
 
     const nom =
       produitResultat.data
       ? produitResultat.data.name
-      : "Produit";
+      : "Produit #" +
+        ligne.product_id;
 
 
-    const sousTotal =
-      Number(ligne.price || 0) *
+    const prix =
+      Number(ligne.price || 0);
+
+
+    const quantite =
       Number(ligne.quantity || 0);
 
 
+    const sousTotal =
+      prix * quantite;
+
+
     const ligneDiv =
-      document.createElement(
-        "div"
-      );
+      document.createElement("div");
 
 
     ligneDiv.className =
-      "ligne-produit";
+      "order-product";
 
 
     ligneDiv.textContent =
       nom +
       " × " +
-      ligne.quantity +
-      " — " +
+      quantite +
+      " = " +
       sousTotal.toLocaleString(
         "fr-FR"
       ) +
@@ -1302,46 +1279,6 @@ async function chargerProduitsCommande(
   }
 
 }
-
-
-/* ==========================================
-   BOUTONS
-========================================== */
-
-document.getElementById(
-  "boutonProduit"
-).addEventListener(
-  "click",
-  function() {
-
-    enregistrerProduit();
-
-  }
-);
-
-
-document.getElementById(
-  "boutonActualiserProduits"
-).addEventListener(
-  "click",
-  function() {
-
-    chargerProduits();
-
-  }
-);
-
-
-document.getElementById(
-  "boutonActualiserCommandes"
-).addEventListener(
-  "click",
-  function() {
-
-    chargerCommandes();
-
-  }
-);
 
 
 /* ==========================================
