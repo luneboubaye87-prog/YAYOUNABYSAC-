@@ -1,2481 +1,1856 @@
 <!DOCTYPE html>
-
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>YAYOUNABYSAC - Boutique</title>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-<style>
-:root{
-  --ink:#171717;
-  --ink2:#292929;
-  --muted:#77716c;
-  --soft:#f6f2ee;
-  --soft2:#eee8e1;
-  --card:#fff;
-  --line:#e8e2dc;
-  --green:#25D366;
-  --danger:#b42323;
-  --shadow:0 12px 35px rgba(30,23,18,.08);
-  --shadow2:0 5px 18px rgba(30,23,18,.06);
-  --radius:20px;
-}
-
-*{
-  box-sizing:border-box;
-}
-
-html{
-  scroll-behavior:smooth;
-}
-
-body{
-  margin:0;
-  font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
-  background:#faf9f7;
-  color:var(--ink);
-  line-height:1.45;
-}
-
-button,
-input,
-textarea{
-  font-family:inherit;
-}
-
-button{
-  -webkit-tap-highlight-color:transparent;
-}
-
-a{
-  text-decoration:none;
-  color:inherit;
-}
-
-/* ================= HEADER ================= */
-
-header{
-  position:sticky;
-  top:0;
-  z-index:1000;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-  padding:12px 16px;
-  background:rgba(255,255,255,.94);
-  backdrop-filter:blur(16px);
-  -webkit-backdrop-filter:blur(16px);
-  border-bottom:1px solid rgba(0,0,0,.06);
-}
-
-.logo{
-  display:flex;
-  align-items:center;
-  gap:9px;
-}
-
-.logo-mark{
-  width:34px;
-  height:34px;
-  border-radius:11px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:var(--ink);
-  color:#fff;
-  font-size:16px;
-  box-shadow:0 5px 14px rgba(0,0,0,.12);
-}
-
-header h1{
-  margin:0;
-  font-size:18px;
-  letter-spacing:.11em;
-  font-weight:900;
-}
-
-.cart-top{
-  position:relative;
-  display:inline-flex;
-  align-items:center;
-  gap:7px;
-  background:var(--ink);
-  color:#fff;
-  border-radius:999px;
-  padding:10px 14px;
-  font-size:13px;
-  font-weight:800;
-  box-shadow:0 6px 18px rgba(0,0,0,.14);
-  transition:.2s;
-}
-
-.cart-top:active{
-  transform:scale(.96);
-}
-
-.cart-count{
-  min-width:20px;
-  height:20px;
-  padding:0 5px;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  border-radius:50px;
-  background:#fff;
-  color:var(--ink);
-  font-size:11px;
-  font-weight:900;
-}
-
-/* ================= HERO ================= */
-
-.hero{
-  margin:0;
-  padding:38px 20px 34px;
-  background:
-    radial-gradient(circle at 85% 18%,rgba(207,184,157,.42),transparent 34%),
-    radial-gradient(circle at 8% 85%,rgba(255,255,255,.8),transparent 30%),
-    linear-gradient(135deg,#f3ebe4,#fbfaf8 58%,#ece3da);
-}
-
-.hero-inner{
-  max-width:1100px;
-  margin:auto;
-}
-
-.eyebrow{
-  display:inline-flex;
-  align-items:center;
-  gap:6px;
-  margin-bottom:11px;
-  padding:7px 11px;
-  border-radius:999px;
-  background:rgba(255,255,255,.72);
-  border:1px solid rgba(0,0,0,.05);
-  font-size:10px;
-  font-weight:900;
-  letter-spacing:.12em;
-  text-transform:uppercase;
-}
-
-.hero h2{
-  margin:0;
-  max-width:680px;
-  font-size:36px;
-  line-height:1.04;
-  letter-spacing:-.045em;
-}
-
-.hero p{
-  margin:14px 0 22px;
-  max-width:590px;
-  color:#5f5a55;
-  font-size:15px;
-}
-
-.hero-btn{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  padding:13px 18px;
-  border-radius:13px;
-  background:var(--ink);
-  color:#fff;
-  font-size:14px;
-  font-weight:800;
-  box-shadow:0 8px 20px rgba(0,0,0,.13);
-  transition:.2s;
-}
-
-.hero-btn:active{
-  transform:scale(.97);
-}
-
-/* ================= CONTAINER ================= */
-
-.container{
-  max-width:1100px;
-  margin:auto;
-  padding:20px 15px 38px;
-}
-
-/* ================= BENEFITS ================= */
-
-.benefits{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:8px;
-  margin:0 0 18px;
-}
-
-.benefit{
-  padding:12px 7px;
-  background:#fff;
-  border:1px solid var(--line);
-  border-radius:14px;
-  text-align:center;
-  font-size:10px;
-  font-weight:800;
-  box-shadow:var(--shadow2);
-}
-
-/* ================= TOOLS ================= */
-
-.shop-tools{
-  position:sticky;
-  top:59px;
-  z-index:50;
-  padding:9px 0 12px;
-  background:rgba(250,249,247,.94);
-  backdrop-filter:blur(12px);
-  -webkit-backdrop-filter:blur(12px);
-}
-
-.search-box{
-  position:relative;
-  margin:0 0 10px;
-}
-
-.search-box input{
-  width:100%;
-  padding:14px 16px 14px 43px;
-  border:1px solid var(--line);
-  border-radius:14px;
-  background:#fff;
-  font-size:16px;
-  outline:none;
-  box-shadow:var(--shadow2);
-  transition:.2s;
-}
-
-.search-box input:focus{
-  border-color:#bcb3aa;
-  box-shadow:0 0 0 3px rgba(0,0,0,.04);
-}
-
-.search-icon{
-  position:absolute;
-  left:15px;
-  top:50%;
-  transform:translateY(-50%);
-  color:#777;
-  font-size:20px;
-  pointer-events:none;
-}
-
-.categories{
-  display:flex;
-  gap:8px;
-  overflow-x:auto;
-  padding:2px 1px 4px;
-  scrollbar-width:none;
-}
-
-.categories::-webkit-scrollbar{
-  display:none;
-}
-
-.categories button{
-  border:1px solid var(--line);
-  background:#fff;
-  color:#555;
-  padding:9px 14px;
-  border-radius:999px;
-  white-space:nowrap;
-  font-size:12px;
-  font-weight:800;
-  cursor:pointer;
-  transition:.2s;
-}
-
-.categories button.active{
-  background:var(--ink);
-  color:#fff;
-  border-color:var(--ink);
-}
-
-/* ================= PRODUCTS ================= */
-
-#products{
-  display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:12px;
-  margin-top:6px;
-}
-
-.product{
-  position:relative;
-  min-width:0;
-  overflow:hidden;
-  background:var(--card);
-  border:1px solid rgba(0,0,0,.05);
-  border-radius:19px;
-  box-shadow:var(--shadow);
-  transition:transform .2s ease,box-shadow .2s ease;
-}
-
-.product:active{
-  transform:scale(.985);
-}
-
-.product-image{
-  position:relative;
-  overflow:hidden;
-  background:#eeeae5;
-}
-
-.product img{
-  display:block;
-  width:100%;
-  height:210px;
-  object-fit:cover;
-  transition:transform .35s ease;
-}
-
-.product:hover img{
-  transform:scale(1.035);
-}
-
-.stock-badge{
-  position:absolute;
-  top:9px;
-  left:9px;
-  padding:6px 8px;
-  border-radius:999px;
-  background:rgba(255,255,255,.92);
-  backdrop-filter:blur(6px);
-  font-size:9px;
-  font-weight:900;
-  box-shadow:0 4px 12px rgba(0,0,0,.08);
-}
-
-.stock-badge.low{
-  color:#9a5a00;
-}
-
-.stock-badge.out{
-  color:#a00000;
-}
-
-.product-content{
-  padding:13px;
-}
-
-.product h3{
-  margin:0 0 6px;
-  font-size:15px;
-  line-height:1.25;
-  letter-spacing:-.015em;
-}
-
-.description{
-  color:var(--muted);
-  font-size:11px;
-  line-height:1.4;
-  min-height:32px;
-  white-space:pre-line;
-}
-
-.price{
-  margin:10px 0 4px;
-  font-size:17px;
-  font-weight:900;
-  letter-spacing:-.02em;
-}
-
-.stock{
-  margin-bottom:10px;
-  color:#777;
-  font-size:10px;
-}
-
-.add-btn{
-  width:100%;
-  padding:11px 8px;
-  border:0;
-  border-radius:11px;
-  background:var(--ink);
-  color:#fff;
-  font-size:11px;
-  font-weight:900;
-  cursor:pointer;
-  transition:.2s;
-}
-
-.add-btn:active{
-  transform:scale(.97);
-}
-
-.add-btn:disabled{
-  background:#c9c6c2;
-  cursor:not-allowed;
-}
-
-/* ================= SECTION ================= */
-
-.section{
-  background:#fff;
-  margin-top:22px;
-  padding:18px;
-  border:1px solid var(--line);
-  border-radius:20px;
-  box-shadow:var(--shadow);
-}
-
-.section-title{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px;
-  margin-bottom:14px;
-}
-
-.section h2{
-  margin:0;
-  font-size:21px;
-  letter-spacing:-.025em;
-}
-
-.section-subtitle{
-  margin:-7px 0 15px;
-  color:var(--muted);
-  font-size:12px;
-}
-
-/* ================= CART ================= */
-
-.cart-item{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  padding:13px 0;
-  border-bottom:1px solid var(--line);
-}
-
-.cart-item:last-child{
-  border-bottom:0;
-}
-
-.cart-thumb{
-  width:58px;
-  height:58px;
-  flex:none;
-  border-radius:13px;
-  object-fit:cover;
-  background:#eeeae5;
-}
-
-.cart-info{
-  flex:1;
-  min-width:0;
-}
-
-.cart-name{
-  font-weight:900;
-  font-size:13px;
-  line-height:1.25;
-}
-
-.cart-price{
-  color:var(--muted);
-  font-size:11px;
-  margin-top:4px;
-}
-
-.quantity{
-  display:flex;
-  align-items:center;
-  gap:4px;
-}
-
-.quantity button{
-  width:31px;
-  height:31px;
-  border:1px solid var(--line);
-  border-radius:9px;
-  background:#f5f3f1;
-  font-size:17px;
-  font-weight:700;
-  cursor:pointer;
-}
-
-.quantity strong{
-  min-width:19px;
-  text-align:center;
-  font-size:13px;
-}
-
-.quantity .delete-btn{
-  margin-left:3px;
-  background:#fff0f0;
-  color:var(--danger);
-  border-color:#f1cccc;
-}
-
-.cart-total{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-top:14px;
-  padding-top:15px;
-  border-top:1px solid var(--line);
-  font-size:19px;
-  font-weight:900;
-}
-
-.empty-cart{
-  text-align:center;
-  padding:25px 10px;
-}
-
-.empty-cart-icon{
-  font-size:32px;
-  margin-bottom:8px;
-}
-
-.empty-cart p{
-  margin:0;
-  color:var(--muted);
-  font-size:13px;
-}
-
-/* ================= FORM ================= */
-
-.checkout-form{
-  display:grid;
-  gap:10px;
-}
-
-.checkout-form input,
-.checkout-form textarea{
-  width:100%;
-  padding:13px 14px;
-  border:1px solid var(--line);
-  border-radius:12px;
-  background:#faf9f7;
-  font-size:15px;
-  outline:none;
-  transition:.2s;
-}
-
-.checkout-form input:focus,
-.checkout-form textarea:focus{
-  background:#fff;
-  border-color:#aaa29a;
-  box-shadow:0 0 0 3px rgba(0,0,0,.04);
-}
-
-.checkout-form textarea{
-  min-height:88px;
-  resize:vertical;
-}
-
-.order-btn{
-  width:100%;
-  padding:14px;
-  border:0;
-  border-radius:13px;
-  background:var(--green);
-  color:#fff;
-  font-size:15px;
-  font-weight:900;
-  cursor:pointer;
-  box-shadow:0 8px 20px rgba(37,211,102,.22);
-  transition:.2s;
-}
-
-.order-btn:active{
-  transform:scale(.98);
-}
-
-.order-btn:disabled{
-  background:#bdbdbd;
-  box-shadow:none;
-  cursor:not-allowed;
-}
-
-.order-note{
-  margin:2px 0 0;
-  color:var(--muted);
-  text-align:center;
-  font-size:11px;
-}
-
-/* ================= MESSAGES ================= */
-
-.loading,
-.empty{
-  grid-column:1/-1;
-  text-align:center;
-  padding:35px 15px;
-  color:var(--muted);
-}
-
-.spinner{
-  width:28px;
-  height:28px;
-  margin:0 auto 10px;
-  border:3px solid #e5e0db;
-  border-top-color:#171717;
-  border-radius:50%;
-  animation:spin .8s linear infinite;
-}
-
-@keyframes spin{
-  to{transform:rotate(360deg)}
-}
-
-.error{
-  margin-top:15px;
-  padding:15px;
-  background:#fff0f0;
-  color:#a00000;
-  border:1px solid #f2caca;
-  border-radius:12px;
-  white-space:pre-line;
-  font-size:13px;
-}
-
-/* ================= TOAST ================= */
-
-.toast{
-  position:fixed;
-  left:50%;
-  bottom:22px;
-  z-index:3000;
-  width:max-content;
-  max-width:calc(100% - 30px);
-  padding:13px 17px;
-  border-radius:14px;
-  background:#171717;
-  color:#fff;
-  font-size:13px;
-  font-weight:800;
-  box-shadow:0 12px 35px rgba(0,0,0,.22);
-  transform:translate(-50%,20px);
-  opacity:0;
-  pointer-events:none;
-  transition:.25s ease;
-}
-
-.toast.show{
-  transform:translate(-50%,0);
-  opacity:1;
-}
-
-.toast.success{
-  background:#171717;
-}
-
-.toast.error-toast{
-  background:#9d2020;
-}
-
-/* ================= FOOTER ================= */
-
-footer{
-  margin-top:20px;
-  padding:32px 18px;
-  background:var(--ink);
-  color:#fff;
-  text-align:center;
-  font-size:12px;
-}
-
-.footer-brand{
-  font-size:18px;
-  font-weight:900;
-  letter-spacing:.12em;
-  margin-bottom:8px;
-}
-
-.footer-muted{
-  color:#bbb;
-  margin-top:8px;
-}
-
-/* ================= DESKTOP ================= */
-
-@media(min-width:700px){
-
-  header{
-    padding:14px 28px;
-  }
-
-  header h1{
-    font-size:21px;
-  }
-
-  .hero{
-    padding:65px 28px;
-  }
-
-  .hero h2{
-    font-size:54px;
-  }
-
-  .container{
-    padding:30px 28px 45px;
-  }
-
-  #products{
-    grid-template-columns:repeat(4,1fr);
-    gap:18px;
-  }
-
-  .product img{
-    height:280px;
-  }
-
-  .product-content{
-    padding:16px;
-  }
-
-  .product h3{
-    font-size:17px;
-  }
-
-  .price{
-    font-size:19px;
-  }
-
-  .section{
-    padding:24px;
-  }
-
-  .shop-tools{
-    top:65px;
-  }
-}
-
-@media(max-width:380px){
-
-  .hero h2{
-    font-size:29px;
-  }
-
-  .product img{
-    height:180px;
-  }
-
-  .product-content{
-    padding:11px;
-  }
-
-  .product h3{
-    font-size:14px;
-  }
-
-  .add-btn{
-    font-size:10px;
-  }
-
-  .cart-item{
-    gap:7px;
-  }
-
-  .cart-thumb{
-    width:50px;
-    height:50px;
-  }
-
-  .quantity button{
-    width:28px;
-    height:28px;
-  }
-}
-</style>
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>YAYOUNABYSAC — Sacs pour femme</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --black: #171717;
+      --black2: #292929;
+      --cream: #f7f3ef;
+      --cream2: #eee7df;
+      --white: #ffffff;
+      --text: #202020;
+      --muted: #77716c;
+      --line: #e7e0d9;
+      --green: #25D366;
+      --red: #b42323;
+      --gold: #a27b43;
+      --shadow: 0 12px 35px rgba(30, 23, 18, 0.08);
+      --shadow2: 0 5px 18px rgba(30, 23, 18, 0.07);
+      --radius: 20px;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #faf9f7;
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    button,
+    input,
+    textarea,
+    select {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    /* HEADER */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(255,255,255,.96);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .header-inner {
+      max-width: 1180px;
+      margin: auto;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-mark {
+      width: 43px;
+      height: 43px;
+      border-radius: 14px;
+      background: var(--black);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 14px;
+      letter-spacing: 1px;
+    }
+
+    .logo h1 {
+      font-size: 17px;
+      letter-spacing: 1.2px;
+      white-space: nowrap;
+    }
+
+    .cart-top {
+      text-decoration: none;
+      color: white;
+      background: var(--black);
+      padding: 10px 14px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      box-shadow: var(--shadow2);
+    }
+
+    .cart-count {
+      min-width: 22px;
+      height: 22px;
+      padding: 0 6px;
+      border-radius: 50px;
+      background: white;
+      color: var(--black);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+    }
+
+    /* HERO */
+    .hero {
+      background:
+        radial-gradient(circle at top right, rgba(162,123,67,.15), transparent 35%),
+        linear-gradient(135deg, #f7f3ef, #eee8e1);
+      padding: 45px 18px 35px;
+    }
+
+    .hero-inner {
+      max-width: 1180px;
+      margin: auto;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 25px;
+    }
+
+    .hero-text {
+      max-width: 650px;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      color: var(--gold);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .hero h2 {
+      font-family: Georgia, serif;
+      font-size: clamp(34px, 9vw, 64px);
+      line-height: 1.05;
+      margin-bottom: 15px;
+      color: var(--black);
+    }
+
+    .hero p {
+      color: var(--muted);
+      font-size: 16px;
+      max-width: 520px;
+    }
+
+    .hero-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+      margin-top: 22px;
+    }
+
+    .hero-badge {
+      background: rgba(255,255,255,.7);
+      border: 1px solid rgba(0,0,0,.06);
+      padding: 9px 13px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    /* MAIN */
+    main {
+      max-width: 1180px;
+      margin: auto;
+      padding: 30px 18px 60px;
+    }
+
+    .section-title {
+      font-family: Georgia, serif;
+      font-size: 30px;
+      margin-bottom: 7px;
+    }
+
+    .section-subtitle {
+      color: var(--muted);
+      margin-bottom: 22px;
+      font-size: 14px;
+    }
+
+    /* SEARCH */
+    .tools {
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 15px;
+      margin-bottom: 25px;
+      box-shadow: var(--shadow2);
+    }
+
+    .search-box {
+      position: relative;
+    }
+
+    .search-box input {
+      width: 100%;
+      border: 1px solid var(--line);
+      background: #faf9f7;
+      border-radius: 14px;
+      padding: 14px 15px 14px 43px;
+      outline: none;
+      font-size: 15px;
+    }
+
+    .search-box input:focus {
+      border-color: var(--black);
+      background: white;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--muted);
+    }
+
+    .categories {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-top: 13px;
+      scrollbar-width: none;
+    }
+
+    .categories::-webkit-scrollbar {
+      display: none;
+    }
+
+    .category-btn {
+      border: 1px solid var(--line);
+      background: white;
+      padding: 9px 14px;
+      border-radius: 999px;
+      white-space: nowrap;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .category-btn.active {
+      background: var(--black);
+      color: white;
+      border-color: var(--black);
+    }
+
+    /* PRODUCTS */
+    .products {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .product-card {
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 19px;
+      overflow: hidden;
+      box-shadow: var(--shadow2);
+      transition: transform .2s ease, box-shadow .2s ease;
+    }
+
+    .product-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow);
+    }
+
+    .product-image {
+      position: relative;
+      aspect-ratio: 1 / 1;
+      background: #f1ece7;
+      overflow: hidden;
+    }
+
+    .product-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform .35s ease;
+    }
+
+    .product-card:hover .product-image img {
+      transform: scale(1.04);
+    }
+
+    .no-image {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #aaa;
+      font-size: 13px;
+      gap: 8px;
+    }
+
+    .no-image-icon {
+      font-size: 38px;
+      opacity: .7;
+    }
+
+    .stock-badge {
+      position: absolute;
+      left: 10px;
+      top: 10px;
+      background: white;
+      color: var(--black);
+      padding: 6px 9px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 800;
+      box-shadow: 0 4px 12px rgba(0,0,0,.08);
+    }
+
+    .stock-badge.low {
+      color: var(--red);
+    }
+
+    .product-info {
+      padding: 14px;
+    }
+
+    .product-category {
+      color: var(--gold);
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 5px;
+    }
+
+    .product-name {
+      font-size: 16px;
+      font-weight: 800;
+      margin-bottom: 5px;
+    }
+
+    .product-description {
+      color: var(--muted);
+      font-size: 12px;
+      min-height: 36px;
+      margin-bottom: 12px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .product-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .product-price {
+      font-size: 16px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .add-btn {
+      border: 0;
+      background: var(--black);
+      color: white;
+      padding: 10px 12px;
+      border-radius: 11px;
+      font-size: 12px;
+      font-weight: 800;
+      transition: .2s;
+    }
+
+    .add-btn:hover {
+      background: var(--black2);
+      transform: scale(1.02);
+    }
+
+    .add-btn:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* LOADING */
+    .loading {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 50px 15px;
+      color: var(--muted);
+    }
+
+    .spinner {
+      width: 32px;
+      height: 32px;
+      border: 3px solid var(--line);
+      border-top-color: var(--black);
+      border-radius: 50%;
+      animation: spin .8s linear infinite;
+      margin: 0 auto 12px;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* CART */
+    .cart-section {
+      margin-top: 45px;
+      background: var(--black);
+      color: white;
+      border-radius: 25px;
+      padding: 23px 17px;
+      box-shadow: var(--shadow);
+    }
+
+    .cart-title {
+      font-family: Georgia, serif;
+      font-size: 28px;
+      margin-bottom: 4px;
+    }
+
+    .cart-subtitle {
+      color: #bbb;
+      font-size: 13px;
+      margin-bottom: 20px;
+    }
+
+    .cart-items {
+      display: flex;
+      flex-direction: column;
+      gap: 11px;
+    }
+
+    .empty-cart {
+      padding: 25px;
+      text-align: center;
+      background: rgba(255,255,255,.06);
+      border-radius: 15px;
+      color: #bbb;
+    }
+
+    .cart-item {
+      background: white;
+      color: var(--text);
+      border-radius: 16px;
+      padding: 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .cart-item-image {
+      width: 65px;
+      height: 65px;
+      border-radius: 12px;
+      object-fit: cover;
+      background: #eee;
+      flex-shrink: 0;
+    }
+
+    .cart-item-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .cart-item-name {
+      font-size: 14px;
+      font-weight: 800;
+      margin-bottom: 3px;
+    }
+
+    .cart-item-price {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .quantity-controls {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 7px;
+    }
+
+    .quantity-controls button {
+      width: 27px;
+      height: 27px;
+      border: 1px solid var(--line);
+      background: white;
+      border-radius: 8px;
+      font-weight: 800;
+    }
+
+    .quantity {
+      min-width: 20px;
+      text-align: center;
+      font-weight: 800;
+      font-size: 13px;
+    }
+
+    .cart-item-right {
+      text-align: right;
+    }
+
+    .cart-item-total {
+      font-size: 13px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .delete-btn {
+      border: 0;
+      background: transparent;
+      color: #999;
+      margin-top: 5px;
+      font-size: 11px;
+    }
+
+    .delete-btn:hover {
+      color: var(--red);
+    }
+
+    .cart-total-box {
+      border-top: 1px solid rgba(255,255,255,.15);
+      margin-top: 18px;
+      padding-top: 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .cart-total-label {
+      color: #bbb;
+      font-size: 13px;
+    }
+
+    .cart-total {
+      font-size: 24px;
+      font-weight: 900;
+    }
+
+    /* CHECKOUT */
+    .checkout {
+      background: white;
+      color: var(--text);
+      margin-top: 22px;
+      padding: 18px;
+      border-radius: 18px;
+    }
+
+    .checkout h3 {
+      font-family: Georgia, serif;
+      font-size: 22px;
+      margin-bottom: 15px;
+    }
+
+    .field {
+      margin-bottom: 12px;
+    }
+
+    .field label {
+      display: block;
+      font-size: 12px;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+
+    .field input,
+    .field textarea {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 12px;
+      outline: none;
+      background: #faf9f7;
+      font-size: 14px;
+    }
+
+    .field input:focus,
+    .field textarea:focus {
+      border-color: var(--black);
+      background: white;
+    }
+
+    .field textarea {
+      min-height: 85px;
+      resize: vertical;
+    }
+
+    .order-btn {
+      width: 100%;
+      border: 0;
+      background: var(--green);
+      color: white;
+      padding: 14px;
+      border-radius: 13px;
+      font-weight: 900;
+      font-size: 15px;
+      margin-top: 4px;
+    }
+
+    .order-btn:disabled {
+      background: #aaa;
+      cursor: not-allowed;
+    }
+
+    .whatsapp-note {
+      text-align: center;
+      color: var(--muted);
+      font-size: 11px;
+      margin-top: 8px;
+    }
+
+    /* BENEFITS */
+    .benefits {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin: 35px 0;
+    }
+
+    .benefit {
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 15px 10px;
+      text-align: center;
+      box-shadow: var(--shadow2);
+    }
+
+    .benefit-icon {
+      font-size: 22px;
+      margin-bottom: 6px;
+    }
+
+    .benefit strong {
+      display: block;
+      font-size: 12px;
+      margin-bottom: 3px;
+    }
+
+    .benefit span {
+      display: block;
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    /* TOAST */
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 22px;
+      transform: translate(-50%, 120px);
+      background: var(--black);
+      color: white;
+      padding: 12px 17px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 700;
+      z-index: 2000;
+      opacity: 0;
+      transition: .3s ease;
+      box-shadow: var(--shadow);
+      max-width: calc(100% - 30px);
+      text-align: center;
+    }
+
+    .toast.show {
+      transform: translate(-50%, 0);
+      opacity: 1;
+    }
+
+    /* FOOTER */
+    footer {
+      background: #111;
+      color: white;
+      text-align: center;
+      padding: 30px 18px;
+      margin-top: 20px;
+    }
+
+    footer strong {
+      display: block;
+      margin-bottom: 5px;
+      letter-spacing: 1px;
+    }
+
+    footer span {
+      color: #999;
+      font-size: 12px;
+    }
+
+    /* DESKTOP */
+    @media (min-width: 700px) {
+      .hero {
+        padding: 75px 30px 60px;
+      }
+
+      main {
+        padding: 45px 30px 80px;
+      }
+
+      .products {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 20px;
+      }
+
+      .product-info {
+        padding: 17px;
+      }
+
+      .cart-section {
+        padding: 30px;
+      }
+
+      .checkout {
+        max-width: 650px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+    }
+
+    @media (min-width: 1000px) {
+      .products {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 390px) {
+      .logo h1 {
+        font-size: 14px;
+      }
+
+      .cart-top {
+        padding: 9px 11px;
+        font-size: 12px;
+      }
+
+      .products {
+        gap: 10px;
+      }
+
+      .product-info {
+        padding: 11px;
+      }
+
+      .product-name {
+        font-size: 14px;
+      }
+
+      .product-price {
+        font-size: 14px;
+      }
+
+      .add-btn {
+        padding: 9px 9px;
+        font-size: 11px;
+      }
+
+      .benefits {
+        gap: 6px;
+      }
+
+      .benefit {
+        padding: 12px 5px;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-<!-- ================= HEADER ================= -->
-
 <header>
+  <div class="header-inner">
 
-  <div class="logo">
-    <div class="logo-mark">YS</div>
+    <div class="logo">
+      <div class="logo-mark">YS</div>
+      <h1>YAYOUNABYSAC</h1>
+    </div>
 
-```
-<h1>YAYOUNABYSAC</h1>
-```
+    <a href="#panier" class="cart-top">
+      🛒 Panier
+      <span class="cart-count" id="cartCount">0</span>
+    </a>
 
   </div>
-
-  <a class="cart-top" href="#panier">
-    🛒 Panier
-    <span class="cart-count" id="cartCount">0</span>
-  </a>
-
 </header>
-
-<!-- ================= HERO ================= -->
 
 <section class="hero">
 
   <div class="hero-inner">
 
-```
-<span class="eyebrow">
-  ✨ Collection femme
-</span>
+    <div class="hero-text">
 
-<h2>
-  Le sac qui complète votre style.
-</h2>
+      <span class="eyebrow">Collection femme</span>
 
-<p>
-  Découvrez nos sacs sélectionnés pour accompagner
-  vos tenues au quotidien, avec style et élégance.
-</p>
+      <h2>Le sac qui complète votre style.</h2>
 
-<a href="#produits" class="hero-btn">
-  Découvrir la collection
-</a>
-```
+      <p>
+        Découvrez notre sélection de sacs élégants, pratiques
+        et pensés pour accompagner votre quotidien.
+      </p>
+
+      <div class="hero-badges">
+        <span class="hero-badge">✨ Élégance</span>
+        <span class="hero-badge">👜 Collection femme</span>
+        <span class="hero-badge">📲 Commande WhatsApp</span>
+      </div>
+
+    </div>
 
   </div>
 
 </section>
 
-<main class="container">
-
-  <!-- ================= BENEFITS ================= -->
+<main>
 
   <div class="benefits">
 
-```
-<div class="benefit">
-  ✨ Style & élégance
-</div>
-
-<div class="benefit">
-  🛍️ Commande facile
-</div>
-
-<div class="benefit">
-  📲 WhatsApp
-</div>
-```
-
-  </div>
-
-  <!-- ================= SEARCH ================= -->
-
-  <div class="shop-tools">
-
-```
-<div class="search-box">
-
-  <span class="search-icon">⌕</span>
-
-  <input
-    type="text"
-    id="searchInput"
-    placeholder="Rechercher un sac..."
-    autocomplete="off"
-  >
-
-</div>
-
-
-<div
-  class="categories"
-  id="categories"
->
-
-  <button
-    class="active"
-    onclick="choisirCategorie('Toutes', this)"
-  >
-    Toutes
-  </button>
-
-</div>
-```
-
-  </div>
-
-  <!-- ================= PRODUCTS ================= -->
-
-  <section id="produits">
-
-```
-<div id="products">
-
-  <div class="loading">
-
-    <div class="spinner"></div>
-
-    Chargement des produits...
-
-  </div>
-
-</div>
-```
-
-  </section>
-
-  <div id="productError"></div>
-
-  <!-- ================= CART ================= -->
-
-  <section
-    class="section"
-    id="panier"
-  >
-
-```
-<div class="section-title">
-
-  <h2>
-    🛒 Votre panier
-  </h2>
-
-  <span
-    id="cartMiniTotal"
-    style="font-size:12px;color:#777;font-weight:800;"
-  >
-    0 article
-  </span>
-
-</div>
-
-
-<div id="cartItems">
-
-  <div class="empty-cart">
-
-    <div class="empty-cart-icon">
-      🛍️
+    <div class="benefit">
+      <div class="benefit-icon">👜</div>
+      <strong>Style</strong>
+      <span>Des modèles élégants</span>
     </div>
 
-    <p>
-      Votre panier est vide.
-    </p>
+    <div class="benefit">
+      <div class="benefit-icon">📦</div>
+      <strong>Commande simple</strong>
+      <span>Quelques clics seulement</span>
+    </div>
+
+    <div class="benefit">
+      <div class="benefit-icon">💬</div>
+      <strong>WhatsApp</strong>
+      <span>Commande rapide</span>
+    </div>
 
   </div>
 
-</div>
+  <section id="boutique">
 
+    <h2 class="section-title">Notre collection</h2>
 
-<div class="cart-total">
+    <p class="section-subtitle">
+      Trouvez le sac qui vous correspond.
+    </p>
 
-  <span>
-    Total
-  </span>
+    <div class="tools">
 
-  <span>
-    <span id="cartTotal">
-      0
-    </span>
-    FCFA
-  </span>
+      <div class="search-box">
 
-</div>
-```
+        <span class="search-icon">🔎</span>
+
+        <input
+          type="search"
+          id="searchInput"
+          placeholder="Rechercher un sac..."
+          autocomplete="off"
+        >
+
+      </div>
+
+      <div class="categories" id="categories"></div>
+
+    </div>
+
+    <div class="products" id="products">
+
+      <div class="loading">
+        <div class="spinner"></div>
+        Chargement des produits...
+      </div>
+
+    </div>
 
   </section>
 
-  <!-- ================= CHECKOUT ================= -->
+  <!-- PANIER -->
 
-  <section class="section">
+  <section class="cart-section" id="panier">
 
-```
-<div class="section-title">
+    <h2 class="cart-title">Votre panier</h2>
 
-  <h2>
-    📦 Finaliser la commande
-  </h2>
+    <p class="cart-subtitle">
+      Vérifiez votre sélection avant de commander.
+    </p>
 
-</div>
+    <div class="cart-items" id="cartItems"></div>
 
-<p class="section-subtitle">
-  Remplissez vos informations puis envoyez votre commande sur WhatsApp.
-</p>
+    <div class="cart-total-box">
 
+      <div>
+        <div class="cart-total-label">Total de la commande</div>
+      </div>
 
-<div class="checkout-form">
+      <div class="cart-total" id="cartTotal">
+        0 FCFA
+      </div>
 
-  <input
-    type="text"
-    id="customerName"
-    placeholder="Nom complet"
-    autocomplete="name"
-  >
+    </div>
 
+    <div class="checkout">
 
-  <input
-    type="tel"
-    id="customerPhone"
-    placeholder="Numéro de téléphone"
-    autocomplete="tel"
-  >
+      <h3>Finaliser la commande</h3>
 
+      <div class="field">
+        <label for="customerName">Nom complet</label>
+        <input
+          type="text"
+          id="customerName"
+          placeholder="Votre nom"
+        >
+      </div>
 
-  <input
-    type="text"
-    id="customerAddress"
-    placeholder="Adresse / Quartier"
-    autocomplete="street-address"
-  >
+      <div class="field">
+        <label for="customerPhone">Téléphone</label>
+        <input
+          type="tel"
+          id="customerPhone"
+          placeholder="77 XXX XX XX"
+        >
+      </div>
 
+      <div class="field">
+        <label for="customerAddress">Adresse / Quartier</label>
+        <input
+          type="text"
+          id="customerAddress"
+          placeholder="Ex : Thiaroye Azur"
+        >
+      </div>
 
-  <textarea
-    id="customerComment"
-    placeholder="Commentaire (facultatif)"
-  ></textarea>
+      <div class="field">
+        <label for="customerComment">Commentaire</label>
+        <textarea
+          id="customerComment"
+          placeholder="Une précision concernant votre commande..."
+        ></textarea>
+      </div>
 
+      <button
+        class="order-btn"
+        id="orderButton"
+        onclick="enregistrerCommande()"
+        disabled
+      >
+        📲 Commander sur WhatsApp
+      </button>
 
-  <button
-    class="order-btn"
-    id="orderButton"
-    onclick="enregistrerCommande()"
-  >
-    📲 Commander sur WhatsApp
-  </button>
+      <div class="whatsapp-note">
+        Votre commande sera enregistrée puis envoyée sur WhatsApp.
+      </div>
 
-
-  <p class="order-note">
-    Votre commande sera enregistrée puis vous serez redirigé vers WhatsApp.
-  </p>
-
-</div>
-```
+    </div>
 
   </section>
 
 </main>
 
-<!-- ================= FOOTER ================= -->
-
 <footer>
 
-  <div class="footer-brand">
-    YAYOUNABYSAC
-  </div>
+  <strong>YAYOUNABYSAC</strong>
 
-  <div>
-    Votre boutique de sacs pour femme
-  </div>
-
-  <div class="footer-muted">
-    © 2026 YAYOUNABYSAC - Tous droits réservés
-  </div>
+  <span>
+    Sacs pour femme • Élégance • Style
+  </span>
 
 </footer>
 
-<!-- ================= TOAST ================= -->
-
-<div
-  id="toast"
-  class="toast"
-></div>
+<div class="toast" id="toast"></div>
 
 <script>
 
-/* =====================================================
-   SUPABASE
-===================================================== */
+  /* ================================
+     SUPABASE
+  ================================= */
 
-const SUPABASE_URL =
-  "https://ajprnhqphbtgfztspuio.supabase.co";
+  const SUPABASE_URL =
+    "https://ajprnhqphbtgfztspuio.supabase.co";
 
-const SUPABASE_PUBLISHABLE_KEY =
-  "sb_publishable_Qxr7ftKtVgB3y3lmx1agWg_UQxqrviy";
+  const SUPABASE_KEY =
+    "sb_publishable_Qxr7ftKtVgB3y3lmx1agWg_UQxqrviy";
 
-const supabaseClient =
-  window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_PUBLISHABLE_KEY
+  const supabaseClient =
+    window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_KEY
+    );
+
+
+  /* ================================
+     VARIABLES
+  ================================= */
+
+  let produits = [];
+  let panier = JSON.parse(
+    localStorage.getItem("yayounabysac_panier") || "[]"
   );
 
-
-/* =====================================================
-   VARIABLES
-===================================================== */
-
-let produits = [];
-
-let panier = JSON.parse(
-  localStorage.getItem(
-    "yayounabysac_panier"
-  ) || "[]"
-);
-
-let categorieActuelle =
-  "Toutes";
-
-let toastTimer = null;
+  let categorieActive = "Toutes";
 
 
-/* =====================================================
-   NOTIFICATION
-===================================================== */
+  /* ================================
+     UTILITAIRES
+  ================================= */
 
-function afficherToast(
-  message,
-  type = "success"
-){
+  function formaterPrix(prix) {
 
-  const toast =
-    document.getElementById(
-      "toast"
-    );
+    return Number(prix || 0)
+      .toLocaleString("fr-FR")
+      .replace(/\u202f/g, " ") + " FCFA";
 
-  toast.textContent =
-    message;
-
-  toast.className =
-    "toast " +
-    (
-      type === "error"
-        ? "error-toast"
-        : "success"
-    );
-
-  setTimeout(
-    () => {
-      toast.classList.add(
-        "show"
-      );
-    },
-    10
-  );
-
-  clearTimeout(
-    toastTimer
-  );
-
-  toastTimer =
-    setTimeout(
-      () => {
-        toast.classList.remove(
-          "show"
-        );
-      },
-      2400
-    );
-}
-
-
-/* =====================================================
-   CHARGER LES PRODUITS
-===================================================== */
-
-async function chargerProduits(){
-
-  const productsDiv =
-    document.getElementById(
-      "products"
-    );
-
-  productsDiv.innerHTML = `
-    <div class="loading">
-      <div class="spinner"></div>
-      Chargement des produits...
-    </div>
-  `;
-
-  const {
-    data,
-    error
-  } =
-    await supabaseClient
-      .from("Products")
-      .select("*")
-      .order(
-        "id",
-        {
-          ascending:false
-        }
-      );
-
-
-  if(error){
-
-    console.error(
-      "Erreur produits :",
-      error
-    );
-
-    productsDiv.innerHTML = "";
-
-    document.getElementById(
-      "productError"
-    ).innerHTML = `
-      <div class="error">
-        Erreur Supabase :\n\n
-        ${escapeHtml(error.message || "Erreur inconnue")}
-        \n\n
-        Code :
-        ${escapeHtml(error.code || "inconnu")}
-      </div>
-    `;
-
-    return;
   }
 
 
-  produits =
-    data || [];
+  function escapeHtml(texte) {
+
+    return String(texte ?? "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+
+  }
 
 
-  afficherCategories();
+  function escapeAttribute(texte) {
 
-  afficherProduits();
+    return escapeHtml(texte);
 
-  afficherPanier();
-
-}
+  }
 
 
-/* =====================================================
-   CATÉGORIES
-===================================================== */
+  function afficherToast(message) {
 
-function afficherCategories(){
+    const toast = document.getElementById("toast");
 
-  const categoriesDiv =
-    document.getElementById(
-      "categories"
-    );
+    toast.textContent = message;
+
+    toast.classList.add("show");
+
+    setTimeout(() => {
+      toast.classList.remove("show");
+    }, 2200);
+
+  }
 
 
-  const categories =
-    [
+  /* ================================
+     CHARGER PRODUITS
+  ================================= */
+
+  async function chargerProduits() {
+
+    const productsContainer =
+      document.getElementById("products");
+
+    productsContainer.innerHTML = `
+      <div class="loading">
+        <div class="spinner"></div>
+        Chargement des produits...
+      </div>
+    `;
+
+    const { data, error } =
+      await supabaseClient
+        .from("Products")
+        .select("*")
+        .order("id", { ascending: false });
+
+    if (error) {
+
+      console.error(error);
+
+      productsContainer.innerHTML = `
+        <div class="loading">
+          ❌ Impossible de charger les produits.
+          <br><br>
+          <small>${escapeHtml(error.message)}</small>
+        </div>
+      `;
+
+      return;
+    }
+
+    produits = data || [];
+
+    afficherCategories();
+
+    afficherProduits();
+
+  }
+
+
+  /* ================================
+     CATEGORIES
+  ================================= */
+
+  function afficherCategories() {
+
+    const container =
+      document.getElementById("categories");
+
+    const categories = [
+      "Toutes",
       ...new Set(
         produits
-          .map(
-            p =>
-              p.Category
-          )
+          .map(p => p.Category)
           .filter(Boolean)
       )
     ];
 
+    container.innerHTML =
+      categories.map(categorie => {
 
-  categoriesDiv.innerHTML =
-    "";
+        const active =
+          categorie === categorieActive
+            ? "active"
+            : "";
 
+        return `
+          <button
+            class="category-btn ${active}"
+            onclick="choisirCategorie('${escapeAttribute(categorie)}')"
+          >
+            ${escapeHtml(categorie)}
+          </button>
+        `;
 
-  const boutonToutes =
-    document.createElement(
-      "button"
-    );
+      }).join("");
 
-
-  boutonToutes.textContent =
-    "Toutes";
-
-
-  boutonToutes.className =
-    categorieActuelle ===
-    "Toutes"
-      ? "active"
-      : "";
-
-
-  boutonToutes.onclick =
-    function(){
-
-      choisirCategorie(
-        "Toutes",
-        this
-      );
-
-    };
+  }
 
 
-  categoriesDiv.appendChild(
-    boutonToutes
-  );
+  function choisirCategorie(categorie) {
+
+    categorieActive = categorie;
+
+    afficherCategories();
+
+    afficherProduits();
+
+  }
 
 
-  categories.forEach(
-    categorie => {
+  /* ================================
+     AFFICHER PRODUITS
+  ================================= */
 
-      const bouton =
-        document.createElement(
-          "button"
+  function afficherProduits() {
+
+    const container =
+      document.getElementById("products");
+
+    const recherche =
+      document
+        .getElementById("searchInput")
+        .value
+        .trim()
+        .toLowerCase();
+
+    const resultats =
+      produits.filter(produit => {
+
+        const correspondCategorie =
+          categorieActive === "Toutes" ||
+          produit.Category === categorieActive;
+
+        const texte =
+          `
+          ${produit.name || ""}
+          ${produit.description || ""}
+          ${produit.Category || ""}
+          `
+          .toLowerCase();
+
+        const correspondRecherche =
+          texte.includes(recherche);
+
+        return (
+          correspondCategorie &&
+          correspondRecherche
         );
 
-
-      bouton.textContent =
-        categorie;
+      });
 
 
-      bouton.className =
-        categorieActuelle ===
-        categorie
-          ? "active"
-          : "";
+    if (resultats.length === 0) {
 
+      container.innerHTML = `
+        <div class="loading">
+          👜
+          <br><br>
+          Aucun produit trouvé.
+        </div>
+      `;
 
-      bouton.onclick =
-        function(){
-
-          choisirCategorie(
-            categorie,
-            this
-          );
-
-        };
-
-
-      categoriesDiv.appendChild(
-        bouton
-      );
+      return;
 
     }
-  );
-
-}
 
 
-/* =====================================================
-   CHOISIR CATÉGORIE
-===================================================== */
+    container.innerHTML =
+      resultats.map(produit => {
 
-function choisirCategorie(
-  categorie,
-  bouton
-){
+        const stock =
+          Number(produit.Stock || 0);
 
-  categorieActuelle =
-    categorie;
+        const rupture =
+          stock <= 0;
+
+        const stockClass =
+          stock > 0 && stock <= 2
+            ? "low"
+            : "";
+
+        const stockText =
+          rupture
+            ? "Rupture de stock"
+            : stock <= 2
+              ? `Plus que ${stock}`
+              : `${stock} disponible(s)`;
+
+
+        const imageHtml =
+          produit.Image_url
+            ? `
+              <img
+                src="${escapeAttribute(produit.Image_url)}"
+                alt="${escapeAttribute(produit.name)}"
+                loading="lazy"
+                onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+              >
+
+              <div
+                class="no-image"
+                style="display:none;"
+              >
+                <div class="no-image-icon">👜</div>
+                <span>Photo indisponible</span>
+              </div>
+            `
+            : `
+              <div class="no-image">
+                <div class="no-image-icon">👜</div>
+                <span>Photo à venir</span>
+              </div>
+            `;
+
+
+        return `
+          <article class="product-card">
+
+            <div class="product-image">
+
+              ${imageHtml}
+
+              <div class="stock-badge ${stockClass}">
+                ${stockText}
+              </div>
+
+            </div>
+
+
+            <div class="product-info">
+
+              <div class="product-category">
+                ${escapeHtml(produit.Category || "Collection")}
+              </div>
+
+              <div class="product-name">
+                ${escapeHtml(produit.name)}
+              </div>
+
+              <div class="product-description">
+                ${escapeHtml(
+                  produit.description ||
+                  "Un modèle élégant et pratique."
+                )}
+              </div>
+
+
+              <div class="product-bottom">
+
+                <div class="product-price">
+                  ${formaterPrix(produit.Price)}
+                </div>
+
+                <button
+                  class="add-btn"
+                  onclick="ajouterAuPanier(${produit.id})"
+                  ${rupture ? "disabled" : ""}
+                >
+                  ${rupture ? "Épuisé" : "Ajouter"}
+                </button>
+
+              </div>
+
+            </div>
+
+          </article>
+        `;
+
+      }).join("");
+
+  }
 
 
   document
-    .querySelectorAll(
-      "#categories button"
-    )
-    .forEach(
-      btn =>
-        btn.classList.remove(
-          "active"
-        )
+    .getElementById("searchInput")
+    .addEventListener(
+      "input",
+      afficherProduits
     );
 
 
-  bouton.classList.add(
-    "active"
-  );
+  /* ================================
+     PANIER
+  ================================= */
 
+  function ajouterAuPanier(id) {
 
-  afficherProduits();
+    const produit =
+      produits.find(p => Number(p.id) === Number(id));
 
-}
+    if (!produit) return;
 
+    const stock =
+      Number(produit.Stock || 0);
 
-/* =====================================================
-   AFFICHER PRODUITS
-===================================================== */
+    if (stock <= 0) {
 
-function afficherProduits(){
-
-  const productsDiv =
-    document.getElementById(
-      "products"
-    );
-
-
-  const recherche =
-    document
-      .getElementById(
-        "searchInput"
-      )
-      .value
-      .toLowerCase()
-      .trim();
-
-
-  const liste =
-    produits.filter(
-      produit => {
-
-        const nom =
-          String(
-            produit.name || ""
-          ).toLowerCase();
-
-
-        const description =
-          String(
-            produit.description || ""
-          ).toLowerCase();
-
-
-        const categorie =
-          String(
-            produit.Category || ""
-          );
-
-
-        const rechercheOK =
-          nom.includes(
-            recherche
-          ) ||
-          description.includes(
-            recherche
-          );
-
-
-        const categorieOK =
-          categorieActuelle ===
-            "Toutes" ||
-          categorie ===
-            categorieActuelle;
-
-
-        return (
-          rechercheOK &&
-          categorieOK
-        );
-
-      }
-    );
-
-
-  if(
-    liste.length === 0
-  ){
-
-    productsDiv.innerHTML = `
-      <div class="empty">
-        Aucun produit trouvé.
-      </div>
-    `;
-
-    return;
-  }
-
-
-  productsDiv.innerHTML =
-    "";
-
-
-  liste.forEach(
-    produit => {
-
-      const prix =
-        Number(
-          produit.Price || 0
-        );
-
-
-      const stock =
-        Number(
-          produit.Stock || 0
-        );
-
-
-      const image =
-        produit.Image_url ||
-        "https://via.placeholder.com/600x600?text=YAYOUNABYSAC";
-
-
-      let stockText =
-        `✓ ${stock} disponible${stock > 1 ? "s" : ""}`;
-
-
-      let stockClass =
-        "";
-
-
-      if(stock === 0){
-
-        stockText =
-          "Rupture de stock";
-
-        stockClass =
-          "out";
-
-      }else if(stock <= 2){
-
-        stockText =
-          `⚠ Plus que ${stock} disponible${stock > 1 ? "s" : ""}`;
-
-        stockClass =
-          "low";
-
-      }
-
-
-      const card =
-        document.createElement(
-          "div"
-        );
-
-
-      card.className =
-        "product";
-
-
-      card.innerHTML = `
-
-        <div class="product-image">
-
-          <img
-            src="${escapeAttribute(image)}"
-            alt="${escapeAttribute(produit.name || "Sac")}"
-            onerror="this.src='https://via.placeholder.com/600x600?text=YAYOUNABYSAC'"
-          >
-
-          <span class="stock-badge ${stockClass}">
-            ${escapeHtml(stockText)}
-          </span>
-
-        </div>
-
-        <div class="product-content">
-
-          <h3>
-            ${escapeHtml(produit.name || "Produit")}
-          </h3>
-
-          <div class="description">
-            ${escapeHtml(produit.description || "")}
-          </div>
-
-          <div class="price">
-            ${prix.toLocaleString("fr-FR")}
-            FCFA
-          </div>
-
-          <div class="stock">
-            ${stock > 0 ? "Disponible à la commande" : "Indisponible"}
-          </div>
-
-          <button
-            class="add-btn"
-            ${stock <= 0 ? "disabled" : ""}
-            onclick="ajouterAuPanier(${Number(produit.id)})"
-          >
-            ${
-              stock > 0
-                ? "Ajouter au panier"
-                : "Rupture de stock"
-            }
-          </button>
-
-        </div>
-      `;
-
-
-      productsDiv.appendChild(
-        card
-      );
-
-    }
-  );
-
-}
-
-
-/* =====================================================
-   RECHERCHE
-===================================================== */
-
-document
-  .getElementById(
-    "searchInput"
-  )
-  .addEventListener(
-    "input",
-    afficherProduits
-  );
-
-
-/* =====================================================
-   AJOUTER AU PANIER
-===================================================== */
-
-function ajouterAuPanier(
-  id
-){
-
-  const produit =
-    produits.find(
-      p =>
-        Number(p.id) ===
-        Number(id)
-    );
-
-
-  if(!produit){
-
-    afficherToast(
-      "Produit introuvable.",
-      "error"
-    );
-
-    return;
-  }
-
-
-  const stock =
-    Number(
-      produit.Stock || 0
-    );
-
-
-  if(stock <= 0){
-
-    afficherToast(
-      "Ce produit est en rupture de stock.",
-      "error"
-    );
-
-    return;
-  }
-
-
-  const existant =
-    panier.find(
-      p =>
-        Number(p.id) ===
-        Number(id)
-    );
-
-
-  if(existant){
-
-    if(
-      Number(existant.quantity) >=
-      stock
-    ){
-
-      afficherToast(
-        "Quantité maximale atteinte.",
-        "error"
-      );
+      afficherToast("Produit en rupture de stock.");
 
       return;
     }
 
 
-    existant.quantity++;
-
-  }else{
-
-    panier.push({
-
-      id:produit.id,
-
-      name:produit.name,
-
-      price:Number(
-        produit.Price || 0
-      ),
-
-      quantity:1,
-
-      stock:stock,
-
-      image:
-        produit.Image_url || ""
-
-    });
-
-  }
+    const existant =
+      panier.find(
+        item => Number(item.id) === Number(id)
+      );
 
 
-  sauvegarderPanier();
+    if (existant) {
 
-  afficherPanier();
+      if (existant.quantity >= stock) {
 
-  afficherToast(
-    "✓ Produit ajouté au panier"
-  );
-
-}
-
-
-/* =====================================================
-   AFFICHER PANIER
-===================================================== */
-
-function afficherPanier(){
-
-  const cartItems =
-    document.getElementById(
-      "cartItems"
-    );
-
-
-  const cartTotal =
-    document.getElementById(
-      "cartTotal"
-    );
-
-
-  const cartCount =
-    document.getElementById(
-      "cartCount"
-    );
-
-
-  const cartMiniTotal =
-    document.getElementById(
-      "cartMiniTotal"
-    );
-
-
-  const orderButton =
-    document.getElementById(
-      "orderButton"
-    );
-
-
-  if(
-    !panier ||
-    panier.length === 0
-  ){
-
-    cartItems.innerHTML = `
-      <div class="empty-cart">
-
-        <div class="empty-cart-icon">
-          🛍️
-        </div>
-
-        <p>
-          Votre panier est vide.
-        </p>
-
-      </div>
-    `;
-
-
-    cartTotal.textContent =
-      "0";
-
-
-    cartCount.textContent =
-      "0";
-
-
-    cartMiniTotal.textContent =
-      "0 article";
-
-
-    orderButton.disabled =
-      true;
-
-
-    return;
-  }
-
-
-  cartItems.innerHTML =
-    "";
-
-
-  let total = 0;
-
-  let nombreArticles = 0;
-
-
-  panier.forEach(
-    (item,index) => {
-
-      const prix =
-        Number(
-          item.price || 0
+        afficherToast(
+          "Vous avez atteint la quantité disponible."
         );
 
-
-      const quantite =
-        Number(
-          item.quantity || 0
-        );
-
-
-      const sousTotal =
-        prix * quantite;
-
-
-      total +=
-        sousTotal;
-
-
-      nombreArticles +=
-        quantite;
-
-
-      const ligne =
-        document.createElement(
-          "div"
-        );
-
-
-      ligne.className =
-        "cart-item";
-
-
-      const image =
-        item.image ||
-        "https://via.placeholder.com/200x200?text=Sac";
-
-
-      ligne.innerHTML = `
-
-        <img
-          class="cart-thumb"
-          src="${escapeAttribute(image)}"
-          alt=""
-          onerror="this.src='https://via.placeholder.com/200x200?text=Sac'"
-        >
-
-        <div class="cart-info">
-
-          <div class="cart-name">
-            ${escapeHtml(item.name)}
-          </div>
-
-          <div class="cart-price">
-            ${prix.toLocaleString("fr-FR")}
-            FCFA × ${quantite}
-          </div>
-
-        </div>
-
-        <div class="quantity">
-
-          <button
-            onclick="diminuerQuantite(${index})"
-            aria-label="Diminuer"
-          >
-            −
-          </button>
-
-          <strong>
-            ${quantite}
-          </strong>
-
-          <button
-            onclick="augmenterQuantite(${index})"
-            aria-label="Augmenter"
-          >
-            +
-          </button>
-
-          <button
-            class="delete-btn"
-            onclick="supprimerDuPanier(${index})"
-            aria-label="Supprimer"
-          >
-            ×
-          </button>
-
-        </div>
-      `;
-
-
-      cartItems.appendChild(
-        ligne
-      );
-
-    }
-  );
-
-
-  cartTotal.textContent =
-    total.toLocaleString(
-      "fr-FR"
-    );
-
-
-  cartCount.textContent =
-    nombreArticles;
-
-
-  cartMiniTotal.textContent =
-    nombreArticles +
-    (
-      nombreArticles > 1
-        ? " articles"
-        : " article"
-    );
-
-
-  orderButton.disabled =
-    false;
-
-}
-
-
-/* =====================================================
-   AUGMENTER QUANTITÉ
-===================================================== */
-
-function augmenterQuantite(
-  index
-){
-
-  const item =
-    panier[index];
-
-
-  if(!item)
-    return;
-
-
-  if(
-    Number(item.quantity) >=
-    Number(item.stock)
-  ){
-
-    afficherToast(
-      "Stock maximum atteint.",
-      "error"
-    );
-
-    return;
-  }
-
-
-  item.quantity++;
-
-
-  sauvegarderPanier();
-
-  afficherPanier();
-
-}
-
-
-/* =====================================================
-   DIMINUER QUANTITÉ
-===================================================== */
-
-function diminuerQuantite(
-  index
-){
-
-  const item =
-    panier[index];
-
-
-  if(!item)
-    return;
-
-
-  item.quantity--;
-
-
-  if(
-    item.quantity <= 0
-  ){
-
-    panier.splice(
-      index,
-      1
-    );
-
-  }
-
-
-  sauvegarderPanier();
-
-  afficherPanier();
-
-}
-
-
-/* =====================================================
-   SUPPRIMER
-===================================================== */
-
-function supprimerDuPanier(
-  index
-){
-
-  panier.splice(
-    index,
-    1
-  );
-
-
-  sauvegarderPanier();
-
-  afficherPanier();
-
-  afficherToast(
-    "Article retiré du panier."
-  );
-
-}
-
-
-/* =====================================================
-   SAUVEGARDER PANIER
-===================================================== */
-
-function sauvegarderPanier(){
-
-  localStorage.setItem(
-    "yayounabysac_panier",
-    JSON.stringify(
-      panier
-    )
-  );
-
-}
-
-
-/* =====================================================
-   CALCUL TOTAL
-===================================================== */
-
-function calculerTotal(){
-
-  return panier.reduce(
-    (
-      somme,
-      produit
-    ) => {
-
-      return (
-        somme +
-        Number(
-          produit.price || 0
-        ) *
-        Number(
-          produit.quantity || 0
-        )
-      );
-
-    },
-    0
-  );
-
-}
-
-
-/* =====================================================
-   ENREGISTRER COMMANDE
-===================================================== */
-
-async function enregistrerCommande(){
-
-  const bouton =
-    document.getElementById(
-      "orderButton"
-    );
-
-
-  const nom =
-    document
-      .getElementById(
-        "customerName"
-      )
-      .value
-      .trim();
-
-
-  const telephone =
-    document
-      .getElementById(
-        "customerPhone"
-      )
-      .value
-      .trim();
-
-
-  const adresse =
-    document
-      .getElementById(
-        "customerAddress"
-      )
-      .value
-      .trim();
-
-
-  const commentaire =
-    document
-      .getElementById(
-        "customerComment"
-      )
-      .value
-      .trim();
-
-
-  if(!nom){
-
-    afficherToast(
-      "Veuillez entrer votre nom.",
-      "error"
-    );
-
-    document
-      .getElementById(
-        "customerName"
-      )
-      .focus();
-
-    return;
-  }
-
-
-  if(!telephone){
-
-    afficherToast(
-      "Veuillez entrer votre numéro.",
-      "error"
-    );
-
-    document
-      .getElementById(
-        "customerPhone"
-      )
-      .focus();
-
-    return;
-  }
-
-
-  if(!adresse){
-
-    afficherToast(
-      "Veuillez entrer votre adresse ou quartier.",
-      "error"
-    );
-
-    document
-      .getElementById(
-        "customerAddress"
-      )
-      .focus();
-
-    return;
-  }
-
-
-  if(
-    !panier ||
-    panier.length === 0
-  ){
-
-    afficherToast(
-      "Votre panier est vide.",
-      "error"
-    );
-
-    return;
-  }
-
-
-  const total =
-    calculerTotal();
-
-
-  let adresseComplete =
-    adresse;
-
-
-  if(commentaire){
-
-    adresseComplete +=
-      " | Commentaire : " +
-      commentaire;
-
-  }
-
-
-  bouton.disabled =
-    true;
-
-
-  bouton.textContent =
-    "⏳ Enregistrement...";
-
-
-  try{
-
-    /* ===============================================
-       SUPABASE
-    =============================================== */
-
-    const {
-      data:orderId,
-      error
-    } =
-      await supabaseClient.rpc(
-        "create_order",
-        {
-          p_customer_name:nom,
-          p_phone:telephone,
-          p_address:adresseComplete,
-          p_total:total,
-          p_status:"Nouvelle"
-        }
-      );
-
-
-    if(error){
-
-      console.error(
-        "Erreur Supabase :",
-        error
-      );
-
-
-      afficherToast(
-        "Erreur lors de l'enregistrement.",
-        "error"
-      );
-
-
-      alert(
-        "ERREUR SUPABASE :\n\n" +
-        (
-          error.message ||
-          "Erreur inconnue"
-        ) +
-        "\n\nCode : " +
-        (
-          error.code ||
-          "inconnu"
-        )
-      );
-
-
-      bouton.disabled =
-        false;
-
-
-      bouton.textContent =
-        "📲 Commander sur WhatsApp";
-
-
-      return;
-    }
-
-
-    console.log(
-      "Commande enregistrée. ID :",
-      orderId
-    );
-
-
-    /* ===============================================
-       WHATSAPP
-    =============================================== */
-
-    let message =
-      "🛍️ *NOUVELLE COMMANDE - YAYOUNABYSAC*\n\n";
-
-
-    message +=
-      "👤 Nom : " +
-      nom +
-      "\n";
-
-
-    message +=
-      "📞 Téléphone : " +
-      telephone +
-      "\n";
-
-
-    message +=
-      "📍 Adresse : " +
-      adresse +
-      "\n";
-
-
-    if(commentaire){
-
-      message +=
-        "📝 Commentaire : " +
-        commentaire +
-        "\n";
-
-    }
-
-
-    message +=
-      "\n🛒 *Produits commandés :*\n";
-
-
-    panier.forEach(
-      produit => {
-
-        const sousTotal =
-          Number(
-            produit.price || 0
-          ) *
-          Number(
-            produit.quantity || 0
-          );
-
-
-        message +=
-          "• " +
-          produit.name +
-          " x" +
-          produit.quantity +
-          " = " +
-          sousTotal.toLocaleString(
-            "fr-FR"
-          ) +
-          " FCFA\n";
-
+        return;
       }
-    );
 
+      existant.quantity++;
 
-    message +=
-      "\n💰 *TOTAL : " +
-      total.toLocaleString(
-        "fr-FR"
-      ) +
-      " FCFA*";
+    } else {
 
+      panier.push({
+        id: produit.id,
+        name: produit.name,
+        price: Number(produit.Price || 0),
+        quantity: 1,
+        stock: stock,
+        image: produit.Image_url || ""
+      });
 
-    /* ===============================================
-       VIDER PANIER
-    =============================================== */
-
-    panier = [];
+    }
 
 
     sauvegarderPanier();
 
     afficherPanier();
 
-
-    /* ===============================================
-       WHATSAPP
-    =============================================== */
-
-    const numeroWhatsApp =
-      "221775124928";
-
-
-    const urlWhatsApp =
-      "https://wa.me/" +
-      numeroWhatsApp +
-      "?text=" +
-      encodeURIComponent(
-        message
-      );
-
-
     afficherToast(
-      "✓ Commande enregistrée !"
+      "✓ Produit ajouté au panier"
     );
-
-
-    bouton.textContent =
-      "✓ Commande enregistrée";
-
-
-    setTimeout(
-      () => {
-
-        window.location.href =
-          urlWhatsApp;
-
-      },
-      900
-    );
-
-
-  }catch(erreur){
-
-    console.error(
-      "Erreur inattendue :",
-      erreur
-    );
-
-
-    afficherToast(
-      "Une erreur est survenue.",
-      "error"
-    );
-
-
-    alert(
-      "Une erreur est survenue.\n\n" +
-      (
-        erreur.message ||
-        erreur
-      )
-    );
-
-
-    bouton.disabled =
-      false;
-
-
-    bouton.textContent =
-      "📲 Commander sur WhatsApp";
 
   }
 
-}
+
+  function augmenterQuantite(id) {
+
+    const item =
+      panier.find(
+        p => Number(p.id) === Number(id)
+      );
+
+    if (!item) return;
 
 
-/* =====================================================
-   PROTECTION TEXTE
-===================================================== */
+    if (item.quantity >= item.stock) {
 
-function escapeHtml(
-  texte
-){
+      afficherToast(
+        "Stock maximum atteint."
+      );
 
-  return String(
-    texte || ""
-  )
-  .replace(
-    /&/g,
-    "&amp;"
-  )
-  .replace(
-    /</g,
-    "&lt;"
-  )
-  .replace(
-    />/g,
-    "&gt;"
-  )
-  .replace(
-    /"/g,
-    "&quot;"
-  )
-  .replace(
-    /'/g,
-    "&#039;"
-  );
-
-}
+      return;
+    }
 
 
-function escapeAttribute(
-  texte
-){
+    item.quantity++;
 
-  return escapeHtml(
-    texte
-  );
+    sauvegarderPanier();
 
-}
+    afficherPanier();
+
+  }
 
 
-/* =====================================================
-   DÉMARRAGE
-===================================================== */
+  function diminuerQuantite(id) {
 
-chargerProduits();
+    const item =
+      panier.find(
+        p => Number(p.id) === Number(id)
+      );
+
+    if (!item) return;
+
+
+    if (item.quantity > 1) {
+
+      item.quantity--;
+
+    } else {
+
+      panier =
+        panier.filter(
+          p => Number(p.id) !== Number(id)
+        );
+
+    }
+
+
+    sauvegarderPanier();
+
+    afficherPanier();
+
+  }
+
+
+  function supprimerDuPanier(id) {
+
+    panier =
+      panier.filter(
+        p => Number(p.id) !== Number(id)
+      );
+
+    sauvegarderPanier();
+
+    afficherPanier();
+
+    afficherToast(
+      "Produit retiré du panier."
+    );
+
+  }
+
+
+  function sauvegarderPanier() {
+
+    localStorage.setItem(
+      "yayounabysac_panier",
+      JSON.stringify(panier)
+    );
+
+  }
+
+
+  function calculerTotal() {
+
+    return panier.reduce(
+      (total, item) =>
+        total +
+        Number(item.price || 0) *
+        Number(item.quantity || 0),
+      0
+    );
+
+  }
+
+
+  /* ================================
+     AFFICHER PANIER
+  ================================= */
+
+  function afficherPanier() {
+
+    const container =
+      document.getElementById("cartItems");
+
+    const cartCount =
+      document.getElementById("cartCount");
+
+    const cartTotal =
+      document.getElementById("cartTotal");
+
+    const orderButton =
+      document.getElementById("orderButton");
+
+
+    const nombreArticles =
+      panier.reduce(
+        (total, item) =>
+          total + Number(item.quantity || 0),
+        0
+      );
+
+
+    cartCount.textContent =
+      nombreArticles;
+
+
+    const total =
+      calculerTotal();
+
+
+    cartTotal.textContent =
+      formaterPrix(total);
+
+
+    if (panier.length === 0) {
+
+      container.innerHTML = `
+        <div class="empty-cart">
+          🛒
+          <br>
+          Votre panier est vide.
+          <br>
+          <small>Ajoutez un sac pour commencer.</small>
+        </div>
+      `;
+
+      orderButton.disabled = true;
+
+      return;
+
+    }
+
+
+    orderButton.disabled = false;
+
+
+    container.innerHTML =
+      panier.map(item => {
+
+        const image =
+          item.image
+            ? `
+              <img
+                class="cart-item-image"
+                src="${escapeAttribute(item.image)}"
+                alt="${escapeAttribute(item.name)}"
+              >
+            `
+            : `
+              <div
+                class="cart-item-image"
+                style="
+                  display:flex;
+                  align-items:center;
+                  justify-content:center;
+                  font-size:26px;
+                "
+              >
+                👜
+              </div>
+            `;
+
+
+        return `
+          <div class="cart-item">
+
+            ${image}
+
+            <div class="cart-item-info">
+
+              <div class="cart-item-name">
+                ${escapeHtml(item.name)}
+              </div>
+
+              <div class="cart-item-price">
+                ${formaterPrix(item.price)}
+              </div>
+
+              <div class="quantity-controls">
+
+                <button
+                  onclick="diminuerQuantite(${item.id})"
+                >
+                  −
+                </button>
+
+                <span class="quantity">
+                  ${item.quantity}
+                </span>
+
+                <button
+                  onclick="augmenterQuantite(${item.id})"
+                >
+                  +
+                </button>
+
+              </div>
+
+            </div>
+
+
+            <div class="cart-item-right">
+
+              <div class="cart-item-total">
+                ${formaterPrix(
+                  item.price * item.quantity
+                )}
+              </div>
+
+              <button
+                class="delete-btn"
+                onclick="supprimerDuPanier(${item.id})"
+              >
+                Supprimer
+              </button>
+
+            </div>
+
+          </div>
+        `;
+
+      }).join("");
+
+  }
+
+
+  /* ================================
+     ENREGISTRER COMMANDE
+  ================================= */
+
+  async function enregistrerCommande() {
+
+    if (panier.length === 0) {
+
+      afficherToast(
+        "Votre panier est vide."
+      );
+
+      return;
+    }
+
+
+    const nom =
+      document
+        .getElementById("customerName")
+        .value
+        .trim();
+
+    const telephone =
+      document
+        .getElementById("customerPhone")
+        .value
+        .trim();
+
+    const adresse =
+      document
+        .getElementById("customerAddress")
+        .value
+        .trim();
+
+    const commentaire =
+      document
+        .getElementById("customerComment")
+        .value
+        .trim();
+
+
+    if (!nom || !telephone || !adresse) {
+
+      afficherToast(
+        "Veuillez remplir les informations obligatoires."
+      );
+
+      return;
+    }
+
+
+    const total =
+      calculerTotal();
+
+
+    const orderButton =
+      document.getElementById("orderButton");
+
+    orderButton.disabled = true;
+
+    orderButton.textContent =
+      "⏳ Enregistrement...";
+
+
+    try {
+
+      const adresseComplete =
+        commentaire
+          ? `${adresse} — ${commentaire}`
+          : adresse;
+
+
+      const { error } =
+        await supabaseClient.rpc(
+          "create_order",
+          {
+            p_customer_name: nom,
+            p_phone: telephone,
+            p_address: adresseComplete,
+            p_total: total,
+            p_status: "Nouvelle"
+          }
+        );
+
+
+      if (error) {
+
+        console.error(error);
+
+        throw error;
+
+      }
+
+
+      let message =
+        `Bonjour YAYOUNABYSAC 👋\n\n` +
+        `Je souhaite commander :\n\n`;
+
+
+      panier.forEach(item => {
+
+        message +=
+          `👜 ${item.name} x${item.quantity} = ` +
+          `${formaterPrix(
+            item.price * item.quantity
+          )}\n`;
+
+      });
+
+
+      message +=
+        `\n💰 Total : ${formaterPrix(total)}\n` +
+        `👤 Nom : ${nom}\n` +
+        `📞 Téléphone : ${telephone}\n` +
+        `📍 Adresse : ${adresse}\n`;
+
+
+      if (commentaire) {
+
+        message +=
+          `💬 Commentaire : ${commentaire}\n`;
+
+      }
+
+
+      message +=
+        `\nMerci.`;
+
+
+      panier = [];
+
+      sauvegarderPanier();
+
+      afficherPanier();
+
+
+      document
+        .getElementById("customerName")
+        .value = "";
+
+      document
+        .getElementById("customerPhone")
+        .value = "";
+
+      document
+        .getElementById("customerAddress")
+        .value = "";
+
+      document
+        .getElementById("customerComment")
+        .value = "";
+
+
+      const whatsappUrl =
+        "https://wa.me/221775124928?text=" +
+        encodeURIComponent(message);
+
+
+      window.location.href =
+        whatsappUrl;
+
+
+    } catch (error) {
+
+      console.error(error);
+
+      afficherToast(
+        "Erreur : " + error.message
+      );
+
+      orderButton.disabled = false;
+
+      orderButton.textContent =
+        "📲 Commander sur WhatsApp";
+
+    }
+
+  }
+
+
+  /* ================================
+     DEMARRAGE
+  ================================= */
+
+  afficherPanier();
+
+  chargerProduits();
 
 </script>
 
