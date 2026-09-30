@@ -15,11 +15,16 @@
       padding:0;
     }
 
+    html{
+      scroll-behavior:smooth;
+    }
+
     body{
       font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
       background:#faf8f6;
       color:#211d1a;
       line-height:1.5;
+      padding-bottom:90px;
     }
 
     button,input,textarea{
@@ -37,9 +42,9 @@
     header{
       position:sticky;
       top:0;
-      z-index:100;
-      background:rgba(255,255,255,.96);
-      backdrop-filter:blur(12px);
+      z-index:200;
+      background:rgba(255,255,255,.97);
+      backdrop-filter:blur(14px);
       border-bottom:1px solid #eee7e1;
     }
 
@@ -47,7 +52,7 @@
       max-width:1180px;
       margin:auto;
       min-height:72px;
-      padding:12px 18px;
+      padding:10px 18px;
       display:flex;
       align-items:center;
       justify-content:space-between;
@@ -55,31 +60,152 @@
     }
 
     .logo{
-      font-size:22px;
+      font-size:21px;
       font-weight:900;
       letter-spacing:1.5px;
       color:#171311;
+      line-height:1.1;
     }
 
     .logo span{
       display:block;
-      font-size:10px;
+      font-size:9px;
       letter-spacing:3px;
       font-weight:500;
       color:#8a7668;
-      margin-top:-2px;
+      margin-top:4px;
+    }
+
+    .desktop-nav{
+      display:flex;
+      align-items:center;
+      gap:6px;
+    }
+
+    .desktop-nav button{
+      border:0;
+      background:transparent;
+      color:#51463f;
+      padding:9px 12px;
+      border-radius:10px;
+      font-weight:700;
+      font-size:13px;
+    }
+
+    .desktop-nav button:hover{
+      background:#f3eee9;
+    }
+
+    .header-actions{
+      display:flex;
+      align-items:center;
+      gap:8px;
+    }
+
+    .header-favorite,
+    .header-cart{
+      border:0;
+      border-radius:999px;
+      padding:10px 13px;
+      font-weight:800;
+      display:flex;
+      align-items:center;
+      gap:6px;
+    }
+
+    .header-favorite{
+      background:#f3eee9;
+      color:#332b26;
     }
 
     .header-cart{
-      border:0;
       background:#171311;
       color:white;
-      border-radius:999px;
-      padding:11px 16px;
-      font-weight:700;
+    }
+
+    .menu-button{
+      display:none;
+      width:42px;
+      height:42px;
+      border:0;
+      background:#f3eee9;
+      border-radius:12px;
+      font-size:21px;
+    }
+
+    /* =========================
+       MOBILE MENU
+    ========================= */
+
+    .mobile-menu{
+      position:fixed;
+      inset:0;
+      z-index:500;
+      background:rgba(20,15,12,.48);
+      display:none;
+    }
+
+    .mobile-menu.show{
+      display:block;
+    }
+
+    .mobile-menu-panel{
+      width:min(86%,360px);
+      height:100%;
+      background:white;
+      padding:25px 20px;
+      box-shadow:10px 0 35px rgba(0,0,0,.15);
+      animation:menuIn .22s ease;
+    }
+
+    @keyframes menuIn{
+      from{
+        transform:translateX(-100%);
+      }
+      to{
+        transform:translateX(0);
+      }
+    }
+
+    .mobile-menu-header{
       display:flex;
       align-items:center;
-      gap:7px;
+      justify-content:space-between;
+      margin-bottom:25px;
+    }
+
+    .mobile-menu-header strong{
+      font-size:20px;
+    }
+
+    .mobile-close{
+      width:40px;
+      height:40px;
+      border:0;
+      background:#f2ece8;
+      border-radius:50%;
+      font-size:20px;
+    }
+
+    .mobile-menu-list{
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
+
+    .mobile-menu-list button{
+      width:100%;
+      border:0;
+      background:#faf8f6;
+      text-align:left;
+      padding:15px;
+      border-radius:14px;
+      font-weight:800;
+      color:#332c27;
+    }
+
+    .mobile-menu-list button:hover{
+      background:#eee7e1;
     }
 
     /* =========================
@@ -89,16 +215,37 @@
     .hero{
       max-width:1180px;
       margin:auto;
-      padding:45px 18px 30px;
+      padding:35px 18px 25px;
     }
 
     .hero-box{
-      border-radius:28px;
-      padding:42px 24px;
-      background:
-        linear-gradient(135deg,rgba(255,255,255,.96),rgba(239,230,222,.92));
-      border:1px solid #eadfd6;
+      position:relative;
       overflow:hidden;
+      border-radius:28px;
+      padding:45px 25px;
+      background:
+        linear-gradient(
+          135deg,
+          rgba(255,255,255,.98),
+          rgba(238,227,217,.94)
+        );
+      border:1px solid #eadfd6;
+    }
+
+    .hero-box::after{
+      content:"";
+      position:absolute;
+      width:220px;
+      height:220px;
+      right:-80px;
+      top:-80px;
+      border-radius:50%;
+      background:rgba(255,255,255,.5);
+    }
+
+    .hero-content{
+      position:relative;
+      z-index:2;
     }
 
     .hero small{
@@ -110,24 +257,38 @@
 
     .hero h1{
       margin-top:10px;
-      font-size:clamp(34px,8vw,64px);
+      font-size:clamp(35px,8vw,65px);
       line-height:1.02;
       max-width:700px;
     }
 
     .hero p{
-      margin-top:15px;
+      margin-top:16px;
       max-width:620px;
       color:#6e625a;
       font-size:16px;
     }
 
-    .hero-button{
+    .hero-buttons{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
       margin-top:25px;
-      display:inline-flex;
+    }
+
+    .hero-button{
       border:0;
       background:#171311;
       color:white;
+      padding:14px 21px;
+      border-radius:999px;
+      font-weight:800;
+    }
+
+    .hero-button-light{
+      border:1px solid #d9cec6;
+      background:white;
+      color:#332c27;
       padding:14px 21px;
       border-radius:999px;
       font-weight:800;
@@ -140,7 +301,7 @@
     .benefits{
       max-width:1180px;
       margin:auto;
-      padding:0 18px 25px;
+      padding:0 18px 28px;
       display:grid;
       grid-template-columns:repeat(3,1fr);
       gap:12px;
@@ -170,12 +331,24 @@
     .shop{
       max-width:1180px;
       margin:auto;
-      padding:15px 18px 120px;
+      padding:15px 18px 50px;
+    }
+
+    .shop-title-row{
+      display:flex;
+      justify-content:space-between;
+      align-items:end;
+      gap:15px;
+      margin-bottom:18px;
     }
 
     .shop-title{
-      font-size:28px;
-      margin-bottom:18px;
+      font-size:29px;
+    }
+
+    .product-count{
+      color:#897c73;
+      font-size:13px;
     }
 
     .search-box{
@@ -359,6 +532,11 @@
       color:white;
     }
 
+    .btn-primary:disabled{
+      opacity:.45;
+      cursor:not-allowed;
+    }
+
     .empty{
       grid-column:1/-1;
       text-align:center;
@@ -370,12 +548,48 @@
     }
 
     /* =========================
+       FAVORITES
+    ========================= */
+
+    .favorites-section{
+      max-width:1180px;
+      margin:auto;
+      padding:0 18px 40px;
+    }
+
+    .favorites-header{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:15px;
+      margin-bottom:15px;
+    }
+
+    .favorites-header h2{
+      font-size:25px;
+    }
+
+    .favorites-header button{
+      border:0;
+      background:transparent;
+      color:#806c5e;
+      font-weight:800;
+      font-size:13px;
+    }
+
+    .favorites-products{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:18px;
+    }
+
+    /* =========================
        FLOATING CART
     ========================= */
 
     .floating-cart{
       position:fixed;
-      z-index:150;
+      z-index:250;
       left:50%;
       bottom:18px;
       transform:translateX(-50%);
@@ -417,12 +631,11 @@
     .modal{
       position:fixed;
       inset:0;
-      z-index:300;
+      z-index:400;
       background:rgba(20,15,12,.58);
       display:none;
       align-items:flex-end;
       justify-content:center;
-      padding:0;
     }
 
     .modal.show{
@@ -759,7 +972,7 @@
 
     .toast{
       position:fixed;
-      z-index:500;
+      z-index:600;
       left:50%;
       bottom:95px;
       transform:translateX(-50%) translateY(15px);
@@ -782,26 +995,58 @@
     }
 
     /* =========================
+       MOBILE BOTTOM NAV
+    ========================= */
+
+    .mobile-bottom-nav{
+      display:none;
+    }
+
+    /* =========================
        RESPONSIVE
     ========================= */
 
     @media(max-width:900px){
-      .products{
+
+      .products,
+      .favorites-products{
         grid-template-columns:repeat(3,1fr);
+      }
+
+      .desktop-nav{
+        display:none;
+      }
+
+      .menu-button{
+        display:block;
       }
     }
 
     @media(max-width:680px){
+
+      body{
+        padding-bottom:105px;
+      }
+
       .header-inner{
         min-height:64px;
+        padding:9px 14px;
       }
 
       .logo{
         font-size:18px;
       }
 
+      .logo span{
+        font-size:8px;
+      }
+
+      .header-actions{
+        display:none;
+      }
+
       .hero{
-        padding-top:20px;
+        padding:20px 14px 20px;
       }
 
       .hero-box{
@@ -809,11 +1054,38 @@
         border-radius:23px;
       }
 
-      .benefits{
-        grid-template-columns:1fr;
+      .hero h1{
+        font-size:39px;
       }
 
-      .products{
+      .hero p{
+        font-size:14px;
+      }
+
+      .hero-buttons{
+        flex-direction:column;
+      }
+
+      .hero-button,
+      .hero-button-light{
+        width:100%;
+      }
+
+      .benefits{
+        grid-template-columns:1fr;
+        padding:0 14px 25px;
+      }
+
+      .shop{
+        padding:12px 14px 40px;
+      }
+
+      .shop-title{
+        font-size:25px;
+      }
+
+      .products,
+      .favorites-products{
         grid-template-columns:repeat(2,1fr);
         gap:11px;
       }
@@ -848,6 +1120,10 @@
         padding:10px 6px;
       }
 
+      .favorites-section{
+        padding:0 14px 35px;
+      }
+
       .modal-content{
         padding:18px;
       }
@@ -865,13 +1141,74 @@
         grid-column:2;
       }
 
-      .hero h1{
-        font-size:39px;
+      /* panier flottant */
+      .floating-cart{
+        bottom:70px;
+        width:calc(100% - 24px);
+      }
+
+      /* navigation bas */
+      .mobile-bottom-nav{
+        position:fixed;
+        display:flex;
+        z-index:300;
+        left:0;
+        right:0;
+        bottom:0;
+        height:62px;
+        background:rgba(255,255,255,.98);
+        border-top:1px solid #e9e0da;
+        box-shadow:0 -8px 25px rgba(30,20,15,.07);
+        justify-content:space-around;
+        align-items:center;
+      }
+
+      .bottom-nav-item{
+        position:relative;
+        border:0;
+        background:transparent;
+        color:#756960;
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+        justify-content:center;
+        gap:2px;
+        font-size:10px;
+        font-weight:700;
+        min-width:65px;
+      }
+
+      .bottom-nav-item span:first-child{
+        font-size:20px;
+        line-height:20px;
+      }
+
+      .bottom-nav-item.active{
+        color:#171311;
+      }
+
+      .nav-badge{
+        position:absolute;
+        top:-2px;
+        right:11px;
+        min-width:17px;
+        height:17px;
+        padding:0 4px;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        background:#171311;
+        color:white;
+        border-radius:99px;
+        font-size:9px;
+        font-weight:900;
       }
     }
 
     @media(max-width:380px){
-      .products{
+
+      .products,
+      .favorites-products{
         grid-template-columns:1fr;
       }
 
@@ -884,119 +1221,454 @@
 
 <body>
 
-  <!-- HEADER -->
+
+  <!-- ==================================================
+       HEADER
+  ================================================== -->
+
   <header>
+
     <div class="header-inner">
+
+      <button
+        class="menu-button"
+        onclick="ouvrirMenu()"
+        aria-label="Ouvrir le menu"
+      >
+        ☰
+      </button>
+
+
       <div class="logo">
         YAYOUNABYSAC
         <span>LA BOUTIQUE</span>
       </div>
 
-      <button class="header-cart" onclick="ouvrirPanier()">
-        🛍️ Panier <span id="headerCartCount">0</span>
-      </button>
+
+      <nav class="desktop-nav">
+
+        <button onclick="allerAccueil()">
+          Accueil
+        </button>
+
+        <button onclick="allerBoutique()">
+          Boutique
+        </button>
+
+        <button onclick="allerFavoris()">
+          Favoris
+        </button>
+
+      </nav>
+
+
+      <div class="header-actions">
+
+        <button
+          class="header-favorite"
+          onclick="allerFavoris()"
+        >
+          ♡ <span id="headerFavoriteCount">0</span>
+        </button>
+
+
+        <button
+          class="header-cart"
+          onclick="ouvrirPanier()"
+        >
+          🛍️ Panier
+          <span id="headerCartCount">0</span>
+        </button>
+
+      </div>
+
     </div>
+
   </header>
 
 
-  <!-- HERO -->
-  <section class="hero">
-    <div class="hero-box">
-      <small>Collection féminine</small>
+  <!-- ==================================================
+       MOBILE MENU
+  ================================================== -->
 
-      <h1>
-        Le sac qui accompagne votre style.
-      </h1>
+  <div
+    class="mobile-menu"
+    id="mobileMenu"
+    onclick="fermerMenuExterne(event)"
+  >
 
-      <p>
-        Découvrez notre sélection de sacs pour femme,
-        élégants, pratiques et pensés pour votre quotidien.
-      </p>
+    <div class="mobile-menu-panel">
 
-      <button class="hero-button" onclick="document.getElementById('boutique').scrollIntoView({behavior:'smooth'})">
-        Découvrir la collection
-      </button>
+      <div class="mobile-menu-header">
+
+        <strong>
+          YAYOUNABYSAC
+        </strong>
+
+        <button
+          class="mobile-close"
+          onclick="fermerMenu()"
+        >
+          ×
+        </button>
+
+      </div>
+
+
+      <div class="mobile-menu-list">
+
+        <button onclick="allerAccueil(); fermerMenu();">
+          🏠 Accueil
+        </button>
+
+        <button onclick="allerBoutique(); fermerMenu();">
+          🛍️ Boutique
+        </button>
+
+        <button onclick="allerFavoris(); fermerMenu();">
+          ❤️ Mes favoris
+          (<span id="mobileFavoriteCount">0</span>)
+        </button>
+
+        <button onclick="ouvrirPanier(); fermerMenu();">
+          🛒 Mon panier
+          (<span id="mobileCartCount">0</span>)
+        </button>
+
+      </div>
+
     </div>
+
+  </div>
+
+
+  <!-- ==================================================
+       HERO
+  ================================================== -->
+
+  <section
+    class="hero"
+    id="accueil"
+  >
+
+    <div class="hero-box">
+
+      <div class="hero-content">
+
+        <small>
+          Collection féminine
+        </small>
+
+        <h1>
+          Le sac qui accompagne votre style.
+        </h1>
+
+        <p>
+          Découvrez notre sélection de sacs pour femme,
+          élégants, pratiques et pensés pour votre quotidien.
+        </p>
+
+
+        <div class="hero-buttons">
+
+          <button
+            class="hero-button"
+            onclick="allerBoutique()"
+          >
+            Découvrir la collection
+          </button>
+
+          <button
+            class="hero-button-light"
+            onclick="allerFavoris()"
+          >
+            ❤️ Voir mes favoris
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
   </section>
 
 
-  <!-- BENEFITS -->
+  <!-- ==================================================
+       BENEFITS
+  ================================================== -->
+
   <section class="benefits">
 
     <div class="benefit">
-      <strong>✨ Sélection soignée</strong>
-      <span>Des modèles choisis avec attention.</span>
+      <strong>
+        ✨ Sélection soignée
+      </strong>
+
+      <span>
+        Des modèles choisis avec attention.
+      </span>
     </div>
 
-    <div class="benefit">
-      <strong>📱 Commande simple</strong>
-      <span>Commandez directement depuis votre téléphone.</span>
-    </div>
 
     <div class="benefit">
-      <strong>💬 WhatsApp</strong>
-      <span>Votre commande est confirmée facilement.</span>
+      <strong>
+        📱 Commande simple
+      </strong>
+
+      <span>
+        Commandez directement depuis votre téléphone.
+      </span>
+    </div>
+
+
+    <div class="benefit">
+      <strong>
+        💬 WhatsApp
+      </strong>
+
+      <span>
+        Votre commande est confirmée facilement.
+      </span>
     </div>
 
   </section>
 
 
-  <!-- SHOP -->
-  <main class="shop" id="boutique">
+  <!-- ==================================================
+       SHOP
+  ================================================== -->
 
-    <h2 class="shop-title">Notre collection</h2>
+  <main
+    class="shop"
+    id="boutique"
+  >
+
+    <div class="shop-title-row">
+
+      <div>
+
+        <h2 class="shop-title">
+          Notre collection
+        </h2>
+
+        <div
+          class="product-count"
+          id="productCount"
+        >
+          Produits disponibles
+        </div>
+
+      </div>
+
+    </div>
+
 
     <div class="search-box">
+
       <input
         type="search"
         id="searchInput"
         placeholder="🔎 Rechercher un sac..."
         oninput="filtrerProduits()"
       >
+
     </div>
 
-    <div class="categories" id="categories"></div>
 
-    <div class="products" id="products">
+    <div
+      class="categories"
+      id="categories"
+    ></div>
+
+
+    <div
+      class="products"
+      id="products"
+    >
+
       <div class="empty">
         Chargement des produits...
       </div>
+
     </div>
 
   </main>
 
 
-  <!-- FLOATING CART -->
+  <!-- ==================================================
+       FAVORITES
+  ================================================== -->
+
+  <section
+    class="favorites-section"
+    id="favorisSection"
+  >
+
+    <div class="favorites-header">
+
+      <h2>
+        ❤️ Mes favoris
+      </h2>
+
+      <button
+        onclick="effacerFavoris()"
+      >
+        Effacer
+      </button>
+
+    </div>
+
+
+    <div
+      class="favorites-products"
+      id="favoritesProducts"
+    >
+
+    </div>
+
+  </section>
+
+
+  <!-- ==================================================
+       FLOATING CART
+  ================================================== -->
+
   <div class="floating-cart">
 
     <div>
-      <small>Votre panier</small>
+
+      <small>
+        Votre panier
+      </small>
+
       <strong>
-        <span id="floatingCartCount">0</span>
+
+        <span id="floatingCartCount">
+          0
+        </span>
+
         article(s) ·
-        <span id="floatingCartTotal">0 FCFA</span>
+
+        <span id="floatingCartTotal">
+          0 FCFA
+        </span>
+
       </strong>
+
     </div>
 
-    <button onclick="ouvrirPanier()">
+
+    <button
+      onclick="ouvrirPanier()"
+    >
       Voir le panier
     </button>
 
   </div>
 
 
-  <!-- CART MODAL -->
-  <div class="modal" id="cartModal" onclick="fermerModalExterne(event,'cartModal')">
+  <!-- ==================================================
+       MOBILE BOTTOM NAV
+  ================================================== -->
+
+  <nav class="mobile-bottom-nav">
+
+    <button
+      class="bottom-nav-item active"
+      onclick="allerAccueil()"
+    >
+      <span>🏠</span>
+      <span>Accueil</span>
+    </button>
+
+
+    <button
+      class="bottom-nav-item"
+      onclick="allerBoutique()"
+    >
+      <span>🛍️</span>
+      <span>Boutique</span>
+    </button>
+
+
+    <button
+      class="bottom-nav-item"
+      onclick="allerFavoris()"
+    >
+
+      <span>
+        ♡
+      </span>
+
+      <span>
+        Favoris
+      </span>
+
+      <span
+        class="nav-badge"
+        id="bottomFavoriteBadge"
+        style="display:none;"
+      >
+        0
+      </span>
+
+    </button>
+
+
+    <button
+      class="bottom-nav-item"
+      onclick="ouvrirPanier()"
+    >
+
+      <span>
+        🛒
+      </span>
+
+      <span>
+        Panier
+      </span>
+
+      <span
+        class="nav-badge"
+        id="bottomCartBadge"
+        style="display:none;"
+      >
+        0
+      </span>
+
+    </button>
+
+  </nav>
+
+
+  <!-- ==================================================
+       CART MODAL
+  ================================================== -->
+
+  <div
+    class="modal"
+    id="cartModal"
+    onclick="fermerModalExterne(event,'cartModal')"
+  >
 
     <div class="modal-content">
 
       <div class="modal-header">
-        <h2>Votre panier</h2>
 
-        <button class="close-btn" onclick="fermerPanier()">
+        <h2>
+          Votre panier
+        </h2>
+
+        <button
+          class="close-btn"
+          onclick="fermerPanier()"
+        >
           ×
         </button>
+
       </div>
+
 
       <div id="cartContent"></div>
 
@@ -1005,18 +1677,33 @@
   </div>
 
 
-  <!-- PRODUCT DETAIL MODAL -->
-  <div class="modal" id="productModal" onclick="fermerModalExterne(event,'productModal')">
+  <!-- ==================================================
+       PRODUCT DETAIL MODAL
+  ================================================== -->
+
+  <div
+    class="modal"
+    id="productModal"
+    onclick="fermerModalExterne(event,'productModal')"
+  >
 
     <div class="modal-content">
 
       <div class="modal-header">
-        <h2>Détail du produit</h2>
 
-        <button class="close-btn" onclick="fermerProduit()">
+        <h2>
+          Détail du produit
+        </h2>
+
+        <button
+          class="close-btn"
+          onclick="fermerProduit()"
+        >
           ×
         </button>
+
       </div>
+
 
       <div id="productDetail"></div>
 
@@ -1025,35 +1712,56 @@
   </div>
 
 
-  <!-- CHECKOUT MODAL -->
-  <div class="modal" id="checkoutModal" onclick="fermerModalExterne(event,'checkoutModal')">
+  <!-- ==================================================
+       CHECKOUT MODAL
+  ================================================== -->
+
+  <div
+    class="modal"
+    id="checkoutModal"
+    onclick="fermerModalExterne(event,'checkoutModal')"
+  >
 
     <div class="modal-content">
 
       <div class="modal-header">
-        <h2>Finaliser ma commande</h2>
 
-        <button class="close-btn" onclick="fermerCheckout()">
+        <h2>
+          Finaliser ma commande
+        </h2>
+
+        <button
+          class="close-btn"
+          onclick="fermerCheckout()"
+        >
           ×
         </button>
+
       </div>
 
 
       <div class="checkout-intro">
+
         Vérifiez votre panier puis renseignez vos coordonnées.
         Après validation, votre commande sera enregistrée et
         WhatsApp s'ouvrira pour vous permettre de l'envoyer.
+
       </div>
 
 
       <div id="checkoutProducts"></div>
 
 
-      <form id="checkoutForm" onsubmit="enregistrerCommande(event)">
+      <form
+        id="checkoutForm"
+        onsubmit="enregistrerCommande(event)"
+      >
 
         <div class="form-group">
+
           <label>
-            Nom complet <span class="required">*</span>
+            Nom complet
+            <span class="required">*</span>
           </label>
 
           <input
@@ -1062,12 +1770,15 @@
             placeholder="Ex : Fatou Ndiaye"
             required
           >
+
         </div>
 
 
         <div class="form-group">
+
           <label>
-            Téléphone <span class="required">*</span>
+            Téléphone
+            <span class="required">*</span>
           </label>
 
           <input
@@ -1076,12 +1787,15 @@
             placeholder="Ex : 77 123 45 67"
             required
           >
+
         </div>
 
 
         <div class="form-group">
+
           <label>
-            Adresse / Quartier <span class="required">*</span>
+            Adresse / Quartier
+            <span class="required">*</span>
           </label>
 
           <input
@@ -1090,10 +1804,12 @@
             placeholder="Ex : Thiaroye Azur"
             required
           >
+
         </div>
 
 
         <div class="form-group">
+
           <label>
             Commentaire
           </label>
@@ -1102,12 +1818,15 @@
             id="customerComment"
             placeholder="Ex : couleur souhaitée, indication de livraison..."
           ></textarea>
+
         </div>
 
 
         <div class="whatsapp-note">
-          📱 Après validation, WhatsApp s'ouvrira avec le récapitulatif
-          de votre commande.
+
+          📱 Après validation, WhatsApp s'ouvrira avec
+          le récapitulatif de votre commande.
+
         </div>
 
 
@@ -1126,8 +1845,14 @@
   </div>
 
 
-  <!-- TOAST -->
-  <div class="toast" id="toast"></div>
+  <!-- ==================================================
+       TOAST
+  ================================================== -->
+
+  <div
+    class="toast"
+    id="toast"
+  ></div>
 
 
 <script>
@@ -1154,56 +1879,147 @@
   ===================================================== */
 
   let produits = [];
+
   let produitSelectionne = null;
 
   let categorieActive = "Tous";
 
   let panier =
     JSON.parse(
-      localStorage.getItem("yayounabysac_panier") || "[]"
+      localStorage.getItem(
+        "yayounabysac_panier"
+      ) || "[]"
     );
 
   let favoris =
     JSON.parse(
-      localStorage.getItem("yayounabysac_favoris") || "[]"
+      localStorage.getItem(
+        "yayounabysac_favoris"
+      ) || "[]"
     );
 
 
   /* =====================================================
-     CHARGEMENT
+     INITIALISATION
   ===================================================== */
 
-  document.addEventListener("DOMContentLoaded", () => {
+  document.addEventListener(
+    "DOMContentLoaded",
+    () => {
 
-    chargerProduits();
+      chargerProduits();
 
-    mettreAJourPanier();
+      mettreAJourPanier();
 
-  });
+      mettreAJourFavoris();
 
+    }
+  );
+
+
+  /* =====================================================
+     NAVIGATION
+  ===================================================== */
+
+  function allerAccueil(){
+
+    window.scrollTo({
+      top:0,
+      behavior:"smooth"
+    });
+  }
+
+
+  function allerBoutique(){
+
+    document
+      .getElementById("boutique")
+      .scrollIntoView({
+        behavior:"smooth"
+      });
+  }
+
+
+  function allerFavoris(){
+
+    const section =
+      document.getElementById(
+        "favorisSection"
+      );
+
+    section.scrollIntoView({
+      behavior:"smooth"
+    });
+  }
+
+
+  /* =====================================================
+     MENU MOBILE
+  ===================================================== */
+
+  function ouvrirMenu(){
+
+    document
+      .getElementById("mobileMenu")
+      .classList.add("show");
+  }
+
+
+  function fermerMenu(){
+
+    document
+      .getElementById("mobileMenu")
+      .classList.remove("show");
+  }
+
+
+  function fermerMenuExterne(event){
+
+    if(
+      event.target.id === "mobileMenu"
+    ){
+
+      fermerMenu();
+    }
+  }
+
+
+  /* =====================================================
+     CHARGEMENT PRODUITS
+  ===================================================== */
 
   async function chargerProduits(){
 
-    const productsContainer =
-      document.getElementById("products");
+    const container =
+      document.getElementById(
+        "products"
+      );
 
-    productsContainer.innerHTML = `
+
+    container.innerHTML = `
       <div class="empty">
         Chargement des produits...
       </div>
     `;
 
-    const { data, error } =
+
+    const {
+      data,
+      error
+    } =
       await supabaseClient
         .from("Products")
         .select("*")
-        .order("id", { ascending:false });
+        .order("id", {
+          ascending:false
+        });
+
 
     if(error){
 
       console.error(error);
 
-      productsContainer.innerHTML = `
+      container.innerHTML = `
         <div class="empty">
           Impossible de charger les produits.<br><br>
           Vérifiez votre connexion puis réessayez.
@@ -1213,11 +2029,15 @@
       return;
     }
 
+
     produits = data || [];
+
 
     construireCategories();
 
     afficherProduits();
+
+    afficherFavoris();
   }
 
 
@@ -1228,7 +2048,10 @@
   function construireCategories(){
 
     const container =
-      document.getElementById("categories");
+      document.getElementById(
+        "categories"
+      );
+
 
     const categories = [
       "Tous",
@@ -1239,22 +2062,31 @@
       )
     ];
 
-    container.innerHTML = categories
-      .map(cat => `
-        <button
-          class="category-btn ${cat === categorieActive ? "active" : ""}"
-          onclick="choisirCategorie('${escapeHtmlAttribute(cat)}')"
-        >
-          ${escapeHtml(cat)}
-        </button>
-      `)
-      .join("");
+
+    container.innerHTML =
+      categories
+        .map(
+          cat => `
+            <button
+              class="category-btn ${
+                cat === categorieActive
+                  ? "active"
+                  : ""
+              }"
+              onclick="choisirCategorie('${escapeJs(cat)}')"
+            >
+              ${escapeHtml(cat)}
+            </button>
+          `
+        )
+        .join("");
   }
 
 
   function choisirCategorie(categorie){
 
-    categorieActive = categorie;
+    categorieActive =
+      categorie;
 
     construireCategories();
 
@@ -1263,7 +2095,7 @@
 
 
   /* =====================================================
-     RECHERCHE + FILTRE
+     RECHERCHE
   ===================================================== */
 
   function filtrerProduits(){
@@ -1275,41 +2107,70 @@
   function afficherProduits(){
 
     const container =
-      document.getElementById("products");
+      document.getElementById(
+        "products"
+      );
+
 
     const recherche =
       document
-        .getElementById("searchInput")
+        .getElementById(
+          "searchInput"
+        )
         .value
         .trim()
         .toLowerCase();
 
-    let liste = produits.filter(produit => {
 
-      const categorieOK =
-        categorieActive === "Tous" ||
-        produit.Category === categorieActive;
+    const liste =
+      produits.filter(
+        produit => {
 
-      const texte =
-        `
-        ${produit.name || ""}
-        ${produit.description || ""}
-        ${produit.Category || ""}
-        `.toLowerCase();
+          const categorieOK =
+            categorieActive === "Tous" ||
+            produit.Category ===
+              categorieActive;
 
-      const rechercheOK =
-        !recherche ||
-        texte.includes(recherche);
 
-      return categorieOK && rechercheOK;
-    });
+          const texte =
+            `
+              ${produit.name || ""}
+              ${produit.description || ""}
+              ${produit.Category || ""}
+            `.toLowerCase();
+
+
+          const rechercheOK =
+            !recherche ||
+            texte.includes(
+              recherche
+            );
+
+
+          return (
+            categorieOK &&
+            rechercheOK
+          );
+        }
+      );
+
+
+    document.getElementById(
+      "productCount"
+    ).textContent =
+      `${liste.length} produit${
+        liste.length > 1
+          ? "s"
+          : ""
+      }`;
 
 
     if(!liste.length){
 
       container.innerHTML = `
         <div class="empty">
-          Aucun produit ne correspond à votre recherche.
+          Aucun produit ne correspond
+          à votre recherche.
         </div>
       `;
 
@@ -1319,7 +2180,9 @@
 
     container.innerHTML =
       liste
-        .map(creerCarteProduit)
+        .map(
+          creerCarteProduit
+        )
         .join("");
   }
 
@@ -1328,53 +2191,82 @@
      CARTE PRODUIT
   ===================================================== */
 
-  function creerCarteProduit(produit){
+  function creerCarteProduit(
+    produit
+  ){
 
     const estFavori =
-      favoris.includes(produit.id);
+      favoris.includes(
+        produit.id
+      );
+
 
     const image =
       produit.Image_url ||
       "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=900&q=80";
 
+
     const stock =
-      Number(produit.Stock || 0);
+      Number(
+        produit.Stock || 0
+      );
+
 
     const stockText =
       stock > 0
-        ? `${stock} disponible${stock > 1 ? "s" : ""}`
+        ? `${stock} disponible${
+            stock > 1
+              ? "s"
+              : ""
+          }`
         : "Rupture de stock";
 
+
     const stockClass =
-      stock > 0 && stock <= 2
+      stock > 0 &&
+      stock <= 2
         ? "stock low"
         : "stock";
 
 
     return `
+
       <article class="product">
 
         <div class="product-image-wrap">
 
           <img
             src="${escapeHtmlAttribute(image)}"
-            alt="${escapeHtmlAttribute(produit.name || "Sac")}"
+            alt="${escapeHtmlAttribute(
+              produit.name || "Sac"
+            )}"
             loading="lazy"
           >
 
+
           <button
             class="favorite-btn"
-            onclick="toggleFavori(${produit.id}); event.stopPropagation();"
+            onclick="
+              toggleFavori(${produit.id});
+              event.stopPropagation();
+            "
             aria-label="Favori"
           >
-            ${estFavori ? "❤️" : "♡"}
+            ${
+              estFavori
+                ? "❤️"
+                : "♡"
+            }
           </button>
+
 
           ${
             produit.Category
               ? `
                 <span class="category-label">
-                  ${escapeHtml(produit.Category)}
+                  ${escapeHtml(
+                    produit.Category
+                  )}
                 </span>
               `
               : ""
@@ -1386,8 +2278,12 @@
         <div class="product-info">
 
           <h3>
-            ${escapeHtml(produit.name || "Sac")}
+            ${escapeHtml(
+              produit.name ||
+              "Sac"
+            )}
           </h3>
+
 
           <p class="description">
             ${escapeHtml(
@@ -1396,9 +2292,13 @@
             )}
           </p>
 
+
           <div class="price">
-            ${formatPrix(produit.Price)}
+            ${formatPrix(
+              produit.Price
+            )}
           </div>
+
 
           <div class="${stockClass}">
             ${stockText}
@@ -1409,17 +2309,34 @@
 
             <button
               class="btn-secondary"
-              onclick="ouvrirProduit(${produit.id})"
+              onclick="
+                ouvrirProduit(
+                  ${produit.id}
+                )
+              "
             >
               Voir
             </button>
 
+
             <button
               class="btn-primary"
-              onclick="ajouterAuPanier(${produit.id})"
-              ${stock <= 0 ? "disabled" : ""}
+              onclick="
+                ajouterAuPanier(
+                  ${produit.id}
+                )
+              "
+              ${
+                stock <= 0
+                  ? "disabled"
+                  : ""
+              }
             >
-              ${stock <= 0 ? "Rupture" : "Ajouter"}
+              ${
+                stock <= 0
+                  ? "Rupture"
+                  : "Ajouter"
+              }
             </button>
 
           </div>
@@ -1427,6 +2344,7 @@
         </div>
 
       </article>
+
     `;
   }
 
@@ -1437,26 +2355,160 @@
 
   function toggleFavori(id){
 
-    if(favoris.includes(id)){
+    if(
+      favoris.includes(id)
+    ){
 
       favoris =
-        favoris.filter(item => item !== id);
+        favoris.filter(
+          item =>
+            Number(item) !==
+            Number(id)
+        );
 
-      afficherToast("Retiré des favoris");
+      afficherToast(
+        "Retiré des favoris"
+      );
 
     }else{
 
-      favoris.push(id);
+      favoris.push(
+        Number(id)
+      );
 
-      afficherToast("Ajouté aux favoris ❤️");
+      afficherToast(
+        "Ajouté aux favoris ❤️"
+      );
     }
+
 
     localStorage.setItem(
       "yayounabysac_favoris",
-      JSON.stringify(favoris)
+      JSON.stringify(
+        favoris
+      )
     );
 
+
+    mettreAJourFavoris();
+
     afficherProduits();
+
+    afficherFavoris();
+  }
+
+
+  function mettreAJourFavoris(){
+
+    const nombre =
+      favoris.length;
+
+
+    document.getElementById(
+      "headerFavoriteCount"
+    ).textContent =
+      nombre;
+
+
+    document.getElementById(
+      "mobileFavoriteCount"
+    ).textContent =
+      nombre;
+
+
+    const badge =
+      document.getElementById(
+        "bottomFavoriteBadge"
+      );
+
+
+    if(nombre > 0){
+
+      badge.style.display =
+        "flex";
+
+      badge.textContent =
+        nombre;
+
+    }else{
+
+      badge.style.display =
+        "none";
+    }
+  }
+
+
+  function afficherFavoris(){
+
+    const container =
+      document.getElementById(
+        "favoritesProducts"
+      );
+
+
+    const favorisProduits =
+      produits.filter(
+        produit =>
+          favoris.includes(
+            produit.id
+          )
+      );
+
+
+    if(!favorisProduits.length){
+
+      container.innerHTML = `
+        <div class="empty">
+          ❤️ Vous n'avez pas encore
+          de produit favori.
+        </div>
+      `;
+
+      return;
+    }
+
+
+    container.innerHTML =
+      favorisProduits
+        .map(
+          creerCarteProduit
+        )
+        .join("");
+  }
+
+
+  function effacerFavoris(){
+
+    if(!favoris.length){
+
+      afficherToast(
+        "Aucun favori à effacer."
+      );
+
+      return;
+    }
+
+
+    favoris = [];
+
+
+    localStorage.setItem(
+      "yayounabysac_favoris",
+      JSON.stringify(
+        favoris
+      )
+    );
+
+
+    mettreAJourFavoris();
+
+    afficherProduits();
+
+    afficherFavoris();
+
+    afficherToast(
+      "Favoris effacés."
+    );
   }
 
 
@@ -1467,29 +2519,47 @@
   function ajouterAuPanier(id){
 
     const produit =
-      produits.find(p => Number(p.id) === Number(id));
+      produits.find(
+        p =>
+          Number(p.id) ===
+          Number(id)
+      );
 
-    if(!produit) return;
+
+    if(!produit)
+      return;
 
 
     const stock =
-      Number(produit.Stock || 0);
+      Number(
+        produit.Stock || 0
+      );
+
 
     if(stock <= 0){
 
-      afficherToast("Ce produit est en rupture de stock.");
+      afficherToast(
+        "Ce produit est en rupture de stock."
+      );
 
       return;
     }
 
 
     const existant =
-      panier.find(item => Number(item.id) === Number(id));
+      panier.find(
+        item =>
+          Number(item.id) ===
+          Number(id)
+      );
 
 
     if(existant){
 
-      if(existant.quantite >= stock){
+      if(
+        existant.quantite >=
+        stock
+      ){
 
         afficherToast(
           `Stock maximum disponible : ${stock}`
@@ -1498,19 +2568,33 @@
         return;
       }
 
+
       existant.quantite++;
 
     }else{
 
       panier.push({
-        id: Number(produit.id),
-        nom: produit.name,
-        prix: Number(produit.Price || 0),
-        image: produit.Image_url,
-        stock: stock,
-        quantite: 1
-      });
 
+        id:
+          Number(produit.id),
+
+        nom:
+          produit.name,
+
+        prix:
+          Number(
+            produit.Price || 0
+          ),
+
+        image:
+          produit.Image_url,
+
+        stock:
+          stock,
+
+        quantite:
+          1
+      });
     }
 
 
@@ -1518,7 +2602,9 @@
 
     mettreAJourPanier();
 
-    afficherToast("Produit ajouté au panier 🛍️");
+    afficherToast(
+      "Produit ajouté au panier 🛍️"
+    );
   }
 
 
@@ -1526,7 +2612,9 @@
 
     localStorage.setItem(
       "yayounabysac_panier",
-      JSON.stringify(panier)
+      JSON.stringify(
+        panier
+      )
     );
   }
 
@@ -1535,7 +2623,10 @@
 
     return panier.reduce(
       (total,item) =>
-        total + Number(item.quantite || 0),
+        total +
+        Number(
+          item.quantite || 0
+        ),
       0
     );
   }
@@ -1546,8 +2637,12 @@
     return panier.reduce(
       (total,item) =>
         total +
-        Number(item.prix || 0) *
-        Number(item.quantite || 0),
+        Number(
+          item.prix || 0
+        ) *
+        Number(
+          item.quantite || 0
+        ),
       0
     );
   }
@@ -1558,13 +2653,15 @@
     const nombre =
       nombreArticles();
 
+
     const total =
       totalPanier();
 
 
     document.getElementById(
       "floatingCartCount"
-    ).textContent = nombre;
+    ).textContent =
+      nombre;
 
 
     document.getElementById(
@@ -1575,7 +2672,35 @@
 
     document.getElementById(
       "headerCartCount"
-    ).textContent = nombre;
+    ).textContent =
+      nombre;
+
+
+    document.getElementById(
+      "mobileCartCount"
+    ).textContent =
+      nombre;
+
+
+    const badge =
+      document.getElementById(
+        "bottomCartBadge"
+      );
+
+
+    if(nombre > 0){
+
+      badge.style.display =
+        "flex";
+
+      badge.textContent =
+        nombre;
+
+    }else{
+
+      badge.style.display =
+        "none";
+    }
   }
 
 
@@ -1588,149 +2713,231 @@
     afficherContenuPanier();
 
     document
-      .getElementById("cartModal")
-      .classList.add("show");
+      .getElementById(
+        "cartModal"
+      )
+      .classList.add(
+        "show"
+      );
   }
 
 
   function fermerPanier(){
 
     document
-      .getElementById("cartModal")
-      .classList.remove("show");
+      .getElementById(
+        "cartModal"
+      )
+      .classList.remove(
+        "show"
+      );
   }
 
 
   function afficherContenuPanier(){
 
     const container =
-      document.getElementById("cartContent");
+      document.getElementById(
+        "cartContent"
+      );
 
 
     if(!panier.length){
 
       container.innerHTML = `
+
         <div class="empty">
-          <div style="font-size:42px;margin-bottom:10px;">
+
+          <div
+            style="
+              font-size:42px;
+              margin-bottom:10px;
+            "
+          >
             🛍️
           </div>
 
-          <strong>Votre panier est vide</strong>
+          <strong>
+            Votre panier est vide
+          </strong>
 
-          <p style="margin-top:7px;">
-            Ajoutez un produit pour commencer votre commande.
+          <p
+            style="
+              margin-top:7px;
+            "
+          >
+            Ajoutez un produit
+            pour commencer votre commande.
           </p>
+
         </div>
+
       `;
 
       return;
     }
 
 
-    let html = `
-      <div class="cart-list">
-    `;
+    let html =
+      `<div class="cart-list">`;
 
 
-    panier.forEach(item => {
+    panier.forEach(
+      item => {
 
-      const totalItem =
-        Number(item.prix) *
-        Number(item.quantite);
-
-
-      html += `
-        <div class="cart-item">
-
-          <img
-            src="${
-              escapeHtmlAttribute(
-                item.image ||
-                "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=300&q=80"
-              )
-            }"
-            alt="${escapeHtmlAttribute(item.nom)}"
-          >
+        const totalItem =
+          Number(
+            item.prix
+          ) *
+          Number(
+            item.quantite
+          );
 
 
-          <div>
+        html += `
 
-            <h3>
-              ${escapeHtml(item.nom)}
-            </h3>
+          <div class="cart-item">
 
-            <div class="cart-price">
-              ${formatPrix(item.prix)}
-            </div>
-
-
-            <div class="quantity-controls">
-
-              <button
-                onclick="modifierQuantite(${item.id},-1)"
-              >
-                −
-              </button>
-
-              <strong>
-                ${item.quantite}
-              </strong>
-
-              <button
-                onclick="modifierQuantite(${item.id},1)"
-              >
-                +
-              </button>
-
-            </div>
-
-
-            <button
-              class="delete-item"
-              onclick="supprimerDuPanier(${item.id})"
+            <img
+              src="${
+                escapeHtmlAttribute(
+                  item.image ||
+                  "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=300&q=80"
+                )
+              }"
+              alt="${escapeHtmlAttribute(
+                item.nom
+              )}"
             >
-              🗑️ Supprimer
-            </button>
+
+
+            <div>
+
+              <h3>
+                ${escapeHtml(
+                  item.nom
+                )}
+              </h3>
+
+
+              <div class="cart-price">
+                ${formatPrix(
+                  item.prix
+                )}
+              </div>
+
+
+              <div class="quantity-controls">
+
+                <button
+                  onclick="
+                    modifierQuantite(
+                      ${item.id},
+                      -1
+                    )
+                  "
+                >
+                  −
+                </button>
+
+
+                <strong>
+                  ${item.quantite}
+                </strong>
+
+
+                <button
+                  onclick="
+                    modifierQuantite(
+                      ${item.id},
+                      1
+                    )
+                  "
+                >
+                  +
+                </button>
+
+              </div>
+
+
+              <button
+                class="delete-item"
+                onclick="
+                  supprimerDuPanier(
+                    ${item.id}
+                  )
+                "
+              >
+                🗑️ Supprimer
+              </button>
+
+            </div>
+
+
+            <div class="cart-item-total">
+              ${formatPrix(
+                totalItem
+              )}
+            </div>
 
           </div>
 
-
-          <div class="cart-item-total">
-            ${formatPrix(totalItem)}
-          </div>
-
-        </div>
-      `;
-    });
+        `;
+      }
+    );
 
 
     html += `
+
       </div>
+
 
       <div class="cart-summary">
 
         <div class="summary-line">
-          <span>Articles</span>
-          <strong>${nombreArticles()}</strong>
+
+          <span>
+            Articles
+          </span>
+
+          <strong>
+            ${nombreArticles()}
+          </strong>
+
         </div>
 
+
         <div class="summary-total">
-          <span>Total</span>
-          <span>${formatPrix(totalPanier())}</span>
+
+          <span>
+            Total
+          </span>
+
+          <span>
+            ${formatPrix(
+              totalPanier()
+            )}
+          </span>
+
         </div>
+
 
         <button
           class="checkout-button"
-          onclick="ouvrirCheckout()"
+          onclick="
+            ouvrirCheckout()
+          "
         >
           Continuer vers la commande →
         </button>
 
       </div>
+
     `;
 
 
-    container.innerHTML = html;
+    container.innerHTML =
+      html;
   }
 
 
@@ -1738,20 +2945,28 @@
      QUANTITES
   ===================================================== */
 
-  function modifierQuantite(id, variation){
+  function modifierQuantite(
+    id,
+    variation
+  ){
 
     const item =
       panier.find(
-        item => Number(item.id) === Number(id)
+        item =>
+          Number(item.id) ===
+          Number(id)
       );
 
-    if(!item) return;
+
+    if(!item)
+      return;
 
 
     const produit =
       produits.find(
         produit =>
-          Number(produit.id) === Number(id)
+          Number(produit.id) ===
+          Number(id)
       );
 
 
@@ -1764,11 +2979,17 @@
 
 
     const nouvelleQuantite =
-      Number(item.quantite) +
-      Number(variation);
+      Number(
+        item.quantite
+      ) +
+      Number(
+        variation
+      );
 
 
-    if(nouvelleQuantite <= 0){
+    if(
+      nouvelleQuantite <= 0
+    ){
 
       supprimerDuPanier(id);
 
@@ -1776,7 +2997,10 @@
     }
 
 
-    if(nouvelleQuantite > stock){
+    if(
+      nouvelleQuantite >
+      stock
+    ){
 
       afficherToast(
         `Stock maximum disponible : ${stock}`
@@ -1798,11 +3022,15 @@
   }
 
 
-  function supprimerDuPanier(id){
+  function supprimerDuPanier(
+    id
+  ){
 
     panier =
       panier.filter(
-        item => Number(item.id) !== Number(id)
+        item =>
+          Number(item.id) !==
+          Number(id)
       );
 
 
@@ -1812,7 +3040,9 @@
 
     afficherContenuPanier();
 
-    afficherToast("Produit supprimé du panier");
+    afficherToast(
+      "Produit supprimé du panier"
+    );
   }
 
 
@@ -1824,10 +3054,14 @@
 
     const produit =
       produits.find(
-        p => Number(p.id) === Number(id)
+        p =>
+          Number(p.id) ===
+          Number(id)
       );
 
-    if(!produit) return;
+
+    if(!produit)
+      return;
 
 
     produitSelectionne =
@@ -1840,7 +3074,9 @@
 
 
     const estFavori =
-      favoris.includes(produit.id);
+      favoris.includes(
+        produit.id
+      );
 
 
     document.getElementById(
@@ -1851,8 +3087,12 @@
 
         <img
           class="detail-image"
-          src="${escapeHtmlAttribute(image)}"
-          alt="${escapeHtmlAttribute(produit.name)}"
+          src="${escapeHtmlAttribute(
+            image
+          )}"
+          alt="${escapeHtmlAttribute(
+            produit.name
+          )}"
         >
 
 
@@ -1860,7 +3100,9 @@
           produit.Category
             ? `
               <span class="detail-category">
-                ${escapeHtml(produit.Category)}
+                ${escapeHtml(
+                  produit.Category
+                )}
               </span>
             `
             : ""
@@ -1868,21 +3110,31 @@
 
 
         <h2>
-          ${escapeHtml(produit.name)}
+          ${escapeHtml(
+            produit.name
+          )}
         </h2>
 
 
         <div class="detail-price">
-          ${formatPrix(produit.Price)}
+          ${formatPrix(
+            produit.Price
+          )}
         </div>
 
 
         <span class="detail-stock">
+
           ${
-            Number(produit.Stock || 0) > 0
+            Number(
+              produit.Stock || 0
+            ) > 0
+
               ? `${produit.Stock} disponible(s)`
+
               : "Rupture de stock"
           }
+
         </span>
 
 
@@ -1898,23 +3150,38 @@
 
           <button
             class="detail-fav"
-            onclick="toggleFavoriDetail()"
+            onclick="
+              toggleFavoriDetail()
+            "
           >
-            ${estFavori ? "❤️" : "♡"}
+            ${
+              estFavori
+                ? "❤️"
+                : "♡"
+            }
           </button>
 
 
           <button
             class="detail-add"
-            onclick="ajouterAuPanier(${produit.id}); fermerProduit();"
+            onclick="
+              ajouterAuPanier(
+                ${produit.id}
+              );
+              fermerProduit();
+            "
             ${
-              Number(produit.Stock || 0) <= 0
+              Number(
+                produit.Stock || 0
+              ) <= 0
                 ? "disabled"
                 : ""
             }
           >
             ${
-              Number(produit.Stock || 0) <= 0
+              Number(
+                produit.Stock || 0
+              ) <= 0
                 ? "Rupture de stock"
                 : "🛍️ Ajouter au panier"
             }
@@ -1923,22 +3190,30 @@
         </div>
 
       </div>
+
     `;
 
 
     document
-      .getElementById("productModal")
-      .classList.add("show");
+      .getElementById(
+        "productModal"
+      )
+      .classList.add(
+        "show"
+      );
   }
 
 
   function toggleFavoriDetail(){
 
-    if(!produitSelectionne) return;
+    if(!produitSelectionne)
+      return;
+
 
     toggleFavori(
       produitSelectionne.id
     );
+
 
     ouvrirProduit(
       produitSelectionne.id
@@ -1949,8 +3224,12 @@
   function fermerProduit(){
 
     document
-      .getElementById("productModal")
-      .classList.remove("show");
+      .getElementById(
+        "productModal"
+      )
+      .classList.remove(
+        "show"
+      );
   }
 
 
@@ -1972,21 +3251,28 @@
 
     afficherCheckout();
 
-
     fermerPanier();
 
 
     document
-      .getElementById("checkoutModal")
-      .classList.add("show");
+      .getElementById(
+        "checkoutModal"
+      )
+      .classList.add(
+        "show"
+      );
   }
 
 
   function fermerCheckout(){
 
     document
-      .getElementById("checkoutModal")
-      .classList.remove("show");
+      .getElementById(
+        "checkoutModal"
+      )
+      .classList.remove(
+        "show"
+      );
   }
 
 
@@ -1998,48 +3284,64 @@
       );
 
 
-    let html = `
-      <div class="checkout-products">
-    `;
+    let html =
+      `<div class="checkout-products">`;
 
 
-    panier.forEach(item => {
+    panier.forEach(
+      item => {
 
-      const totalItem =
-        Number(item.prix) *
-        Number(item.quantite);
+        const totalItem =
+          Number(
+            item.prix
+          ) *
+          Number(
+            item.quantite
+          );
 
 
-      html += `
-        <div class="checkout-product-line">
+        html += `
 
-          <span>
-            ${escapeHtml(item.nom)}
-            × ${item.quantite}
-          </span>
+          <div class="checkout-product-line">
 
-          <strong>
-            ${formatPrix(totalItem)}
-          </strong>
+            <span>
+              ${escapeHtml(
+                item.nom
+              )}
+              × ${item.quantite}
+            </span>
 
-        </div>
-      `;
-    });
+            <strong>
+              ${formatPrix(
+                totalItem
+              )}
+            </strong>
+
+          </div>
+
+        `;
+      }
+    );
 
 
     html += `
 
         <div class="checkout-total">
 
-          <span>Total</span>
+          <span>
+            Total
+          </span>
 
           <span>
-            ${formatPrix(totalPanier())}
+            ${formatPrix(
+              totalPanier()
+            )}
           </span>
 
         </div>
 
       </div>
+
     `;
 
 
@@ -2049,10 +3351,12 @@
 
 
   /* =====================================================
-     ENREGISTRER COMMANDE
+     ENREGISTREMENT COMMANDE
   ===================================================== */
 
-  async function enregistrerCommande(event){
+  async function enregistrerCommande(
+    event
+  ){
 
     event.preventDefault();
 
@@ -2069,28 +3373,36 @@
 
     const customerName =
       document
-        .getElementById("customerName")
+        .getElementById(
+          "customerName"
+        )
         .value
         .trim();
 
 
     const customerPhone =
       document
-        .getElementById("customerPhone")
+        .getElementById(
+          "customerPhone"
+        )
         .value
         .trim();
 
 
     const customerAddress =
       document
-        .getElementById("customerAddress")
+        .getElementById(
+          "customerAddress"
+        )
         .value
         .trim();
 
 
     const customerComment =
       document
-        .getElementById("customerComment")
+        .getElementById(
+          "customerComment"
+        )
         .value
         .trim();
 
@@ -2115,7 +3427,9 @@
       );
 
 
-    button.disabled = true;
+    button.disabled =
+      true;
+
 
     button.textContent =
       "⏳ Enregistrement de la commande...";
@@ -2128,13 +3442,16 @@
     try{
 
       /* =========================================
-         ENREGISTREMENT SUPABASE
+         SUPABASE
       ========================================= */
 
-      const { error } =
+      const {
+        error
+      } =
         await supabaseClient.rpc(
           "create_order",
           {
+
             p_customer_name:
               customerName,
 
@@ -2149,6 +3466,7 @@
 
             p_status:
               "Nouvelle"
+
           }
         );
 
@@ -2167,7 +3485,7 @@
 
 
       /* =========================================
-         MESSAGE WHATSAPP
+         WHATSAPP
       ========================================= */
 
       let message =
@@ -2176,19 +3494,25 @@
 
       message +=
         "*Client :* " +
-        encodeURIComponent(customerName) +
+        encodeURIComponent(
+          customerName
+        ) +
         "%0A";
 
 
       message +=
         "*Téléphone :* " +
-        encodeURIComponent(customerPhone) +
+        encodeURIComponent(
+          customerPhone
+        ) +
         "%0A";
 
 
       message +=
         "*Adresse / Quartier :* " +
-        encodeURIComponent(customerAddress) +
+        encodeURIComponent(
+          customerAddress
+        ) +
         "%0A%0A";
 
 
@@ -2196,24 +3520,34 @@
         "🛒 *Produits :*%0A";
 
 
-      panier.forEach(item => {
+      panier.forEach(
+        item => {
 
-        const totalItem =
-          Number(item.prix) *
-          Number(item.quantite);
+          const totalItem =
+            Number(
+              item.prix
+            ) *
+            Number(
+              item.quantite
+            );
 
 
-        message +=
-          "• " +
-          encodeURIComponent(item.nom) +
-          " × " +
-          item.quantite +
-          " = " +
-          encodeURIComponent(
-            formatPrix(totalItem)
-          ) +
-          "%0A";
-      });
+          message +=
+            "• " +
+            encodeURIComponent(
+              item.nom
+            ) +
+            " × " +
+            item.quantite +
+            " = " +
+            encodeURIComponent(
+              formatPrix(
+                totalItem
+              )
+            ) +
+            "%0A";
+        }
+      );
 
 
       message +=
@@ -2240,10 +3574,11 @@
 
 
       /* =========================================
-         VIDER LE PANIER
+         VIDER PANIER
       ========================================= */
 
       panier = [];
+
 
       sauvegarderPanier();
 
@@ -2251,7 +3586,9 @@
 
 
       document
-        .getElementById("checkoutForm")
+        .getElementById(
+          "checkoutForm"
+        )
         .reset();
 
 
@@ -2263,29 +3600,32 @@
       );
 
 
-      /* =========================================
-         WHATSAPP
-      ========================================= */
+      setTimeout(
+        () => {
 
-      setTimeout(() => {
+          window.location.href =
+            "https://wa.me/221775124928?text=" +
+            message;
 
-        window.location.href =
-          "https://wa.me/221775124928?text=" +
-          message;
-
-      },800);
+        },
+        800
+      );
 
 
     }catch(error){
 
       console.error(error);
 
+
       afficherToast(
         error.message ||
         "Une erreur est survenue."
       );
 
-      button.disabled = false;
+
+      button.disabled =
+        false;
+
 
       button.textContent =
         "📲 Valider et commander sur WhatsApp";
@@ -2301,25 +3641,38 @@
   function formatPrix(prix){
 
     return (
-      Number(prix || 0)
-        .toLocaleString("fr-FR")
-        .replace(/\s/g," ") +
+      Number(
+        prix || 0
+      )
+      .toLocaleString(
+        "fr-FR"
+      )
+      .replace(
+        /\s/g,
+        " "
+      ) +
       " FCFA"
     );
   }
 
 
-  function afficherToast(message){
+  function afficherToast(
+    message
+  ){
 
     const toast =
-      document.getElementById("toast");
+      document.getElementById(
+        "toast"
+      );
 
 
     toast.textContent =
       message;
 
 
-    toast.classList.add("show");
+    toast.classList.add(
+      "show"
+    );
 
 
     clearTimeout(
@@ -2328,11 +3681,16 @@
 
 
     window.toastTimer =
-      setTimeout(() => {
+      setTimeout(
+        () => {
 
-        toast.classList.remove("show");
+          toast.classList.remove(
+            "show"
+          );
 
-      },2500);
+        },
+        2500
+      );
   }
 
 
@@ -2342,30 +3700,80 @@
   ){
 
     if(
-      event.target.id === modalId
+      event.target.id ===
+      modalId
     ){
 
       document
-        .getElementById(modalId)
-        .classList.remove("show");
+        .getElementById(
+          modalId
+        )
+        .classList.remove(
+          "show"
+        );
     }
   }
 
 
-  function escapeHtml(value){
+  function escapeHtml(
+    value
+  ){
 
-    return String(value ?? "")
-      .replace(/&/g,"&amp;")
-      .replace(/</g,"&lt;")
-      .replace(/>/g,"&gt;")
-      .replace(/"/g,"&quot;")
-      .replace(/'/g,"&#039;");
+    return String(
+      value ?? ""
+    )
+    .replace(
+      /&/g,
+      "&amp;"
+    )
+    .replace(
+      /</g,
+      "&lt;"
+    )
+    .replace(
+      />/g,
+      "&gt;"
+    )
+    .replace(
+      /"/g,
+      "&quot;"
+    )
+    .replace(
+      /'/g,
+      "&#039;"
+    );
   }
 
 
-  function escapeHtmlAttribute(value){
+  function escapeHtmlAttribute(
+    value
+  ){
 
-    return escapeHtml(value);
+    return escapeHtml(
+      value
+    );
+  }
+
+
+  function escapeJs(
+    value
+  ){
+
+    return String(
+      value ?? ""
+    )
+    .replace(
+      /\\/g,
+      "\\\\"
+    )
+    .replace(
+      /'/g,
+      "\\'"
+    )
+    .replace(
+      /"/g,
+      "&quot;"
+    );
   }
 
 
