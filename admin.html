@@ -1,887 +1,1011 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>YAYOUNABYSAC - Administration</title>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-<style>
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-}
-
-:root{
-  --black:#111111;
-  --dark:#1c1c1c;
-  --gold:#c8a45d;
-  --gold-light:#f5ead2;
-  --white:#ffffff;
-  --bg:#f5f6f8;
-  --text:#202124;
-  --muted:#777;
-  --border:#e8e8e8;
-  --green:#16834b;
-  --red:#c62828;
-  --shadow:0 8px 30px rgba(0,0,0,.07);
-}
-
-body{
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
-  background:var(--bg);
-  color:var(--text);
-  padding-bottom:50px;
-}
-
-/* =========================
-   HEADER
-========================= */
-
-header{
-  background:
-    linear-gradient(135deg,#111111,#292929);
-  color:white;
-  padding:28px 18px 24px;
-  text-align:center;
-  position:relative;
-  overflow:hidden;
-}
-
-header:after{
-  content:"";
-  position:absolute;
-  width:180px;
-  height:180px;
-  border-radius:50%;
-  background:rgba(200,164,93,.12);
-  right:-70px;
-  top:-80px;
-}
-
-.logo{
-  font-size:25px;
-  font-weight:800;
-  letter-spacing:1px;
-  position:relative;
-  z-index:2;
-}
-
-.logo span{
-  color:var(--gold);
-}
-
-header p{
-  margin-top:7px;
-  font-size:13px;
-  opacity:.75;
-  position:relative;
-  z-index:2;
-}
-
-/* =========================
-   CONTAINER
-========================= */
-
-.container{
-  max-width:1000px;
-  margin:auto;
-  padding:18px 14px 40px;
-}
-
-/* =========================
-   CARDS
-========================= */
-
-.box{
-  background:white;
-  border:1px solid var(--border);
-  border-radius:20px;
-  padding:20px;
-  margin-bottom:18px;
-  box-shadow:var(--shadow);
-}
-
-h2{
-  font-size:19px;
-  margin-bottom:18px;
-  font-weight:800;
-}
-
-.section-title{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  margin-bottom:18px;
-}
-
-.section-icon{
-  width:40px;
-  height:40px;
-  border-radius:12px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:var(--gold-light);
-  font-size:20px;
-}
-
-/* =========================
-   DASHBOARD
-========================= */
-
-.admin-top{
-  background:var(--black);
-  color:white;
-  border-radius:18px;
-  padding:17px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:12px;
-  margin-bottom:18px;
-  box-shadow:var(--shadow);
-}
-
-.admin-title{
-  display:flex;
-  align-items:center;
-  gap:11px;
-}
-
-.admin-title-icon{
-  width:42px;
-  height:42px;
-  border-radius:12px;
-  background:rgba(255,255,255,.1);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:20px;
-}
-
-.admin-title strong{
-  display:block;
-  font-size:17px;
-}
-
-.admin-title small{
-  display:block;
-  color:#aaa;
-  margin-top:3px;
-}
-
-/* =========================
-   FORM
-========================= */
-
-label{
-  display:block;
-  font-weight:700;
-  font-size:13px;
-  margin:16px 0 7px;
-}
-
-input,
-textarea,
-select{
-  width:100%;
-  border:1px solid #dedede;
-  background:#fafafa;
-  border-radius:12px;
-  padding:14px;
-  font-size:15px;
-  color:#222;
-  outline:none;
-  transition:.2s;
-}
-
-input:focus,
-textarea:focus,
-select:focus{
-  border-color:var(--gold);
-  background:white;
-  box-shadow:0 0 0 3px rgba(200,164,93,.12);
-}
-
-textarea{
-  min-height:105px;
-  resize:vertical;
-}
-
-input[type="file"]{
-  padding:11px;
-  background:white;
-}
-
-/* =========================
-   BUTTONS
-========================= */
-
-button{
-  border:0;
-  border-radius:12px;
-  padding:13px 17px;
-  font-size:14px;
-  font-weight:750;
-  cursor:pointer;
-  transition:.2s;
-}
-
-button:active{
-  transform:scale(.97);
-}
-
-.btn-primary{
-  background:var(--black);
-  color:white;
-}
-
-.btn-primary:hover{
-  background:#2a2a2a;
-}
-
-.btn-gold{
-  background:var(--gold);
-  color:white;
-}
-
-.btn-secondary{
-  background:#eeeeee;
-  color:#222;
-}
-
-.btn-danger{
-  background:#c62828;
-  color:white;
-}
-
-.actions{
-  display:flex;
-  gap:9px;
-  flex-wrap:wrap;
-  margin-top:17px;
-}
-
-/* =========================
-   MESSAGE
-========================= */
-
-.message{
-  display:none;
-  margin-top:14px;
-  padding:13px;
-  border-radius:12px;
-  font-size:13px;
-  line-height:1.5;
-}
-
-.success{
-  background:#eaf8f0;
-  color:#176b3c;
-  border:1px solid #c9ead7;
-}
-
-.error{
-  background:#fff0f0;
-  color:#a51d1d;
-  border:1px solid #f1cccc;
-}
-
-.hidden{
-  display:none !important;
-}
-
-.small{
-  color:var(--muted);
-  font-size:12px;
-  line-height:1.5;
-}
-
-/* =========================
-   PREVIEW
-========================= */
-
-.product-preview{
-  display:none;
-  width:170px;
-  height:170px;
-  object-fit:cover;
-  border-radius:16px;
-  margin-top:12px;
-  border:1px solid var(--border);
-  box-shadow:0 5px 20px rgba(0,0,0,.08);
-}
-
-/* =========================
-   GALLERY
-========================= */
-
-.gallery{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(165px,1fr));
-  gap:13px;
-  margin-top:16px;
-}
-
-.gallery-item{
-  background:#fff;
-  border:1px solid var(--border);
-  border-radius:16px;
-  padding:9px;
-  overflow:hidden;
-}
-
-.gallery-item img{
-  width:100%;
-  height:155px;
-  object-fit:cover;
-  border-radius:11px;
-  background:#eee;
-  display:block;
-  margin-bottom:9px;
-}
-
-.gallery-name{
-  font-size:11px;
-  color:#777;
-  word-break:break-all;
-  line-height:1.4;
-  margin-bottom:9px;
-}
-
-.gallery-item button{
-  width:100%;
-  font-size:12px;
-}
-
-/* =========================
-   ORDERS
-========================= */
-
-.order{
-  background:white;
-  border:1px solid var(--border);
-  border-radius:17px;
-  padding:16px;
-  margin-top:12px;
-  box-shadow:0 4px 15px rgba(0,0,0,.04);
-}
-
-.order-header{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:10px;
-  margin-bottom:13px;
-  padding-bottom:11px;
-  border-bottom:1px solid var(--border);
-}
-
-.order-number{
-  font-size:16px;
-  font-weight:800;
-}
-
-.order-line{
-  margin:8px 0;
-  font-size:13px;
-  line-height:1.5;
-}
-
-.order-line strong{
-  color:#111;
-}
-
-.status-label{
-  display:block;
-  font-size:13px;
-  font-weight:750;
-  margin-top:15px;
-  margin-bottom:7px;
-}
-
-.status-select{
-  font-weight:700;
-  background:#fafafa;
-}
-
-.status-button{
-  margin-top:9px;
-  width:100%;
-}
-
-.empty{
-  text-align:center;
-  padding:28px 15px;
-  background:#fafafa;
-  border:1px dashed #ddd;
-  border-radius:14px;
-  color:#777;
-  font-size:13px;
-}
-
-/* =========================
-   MOBILE
-========================= */
-
-@media(max-width:600px){
-
-  header{
-    padding:23px 15px;
-  }
-
-  .logo{
-    font-size:22px;
-  }
-
-  .container{
-    padding:12px 10px 35px;
-  }
-
-  .box{
-    padding:16px;
-    border-radius:17px;
-  }
-
-  h2{
-    font-size:18px;
-  }
-
-  .admin-top{
-    padding:14px;
-    border-radius:16px;
-  }
-
-  .admin-title strong{
-    font-size:15px;
-  }
-
-  .admin-title small{
-    font-size:11px;
-  }
-
-  .admin-top .btn-danger{
-    padding:10px 12px;
-    font-size:12px;
-  }
-
-  .actions{
-    flex-direction:column;
-  }
-
-  .actions button{
-    width:100%;
-  }
-
-  .gallery{
-    grid-template-columns:repeat(2,1fr);
-    gap:9px;
-  }
-
-  .gallery-item{
-    padding:7px;
-    border-radius:13px;
-  }
-
-  .gallery-item img{
-    height:135px;
-  }
-
-  .product-preview{
-    width:150px;
-    height:150px;
-  }
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>YAYOUNABYSAC - Administration</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    *{
+      box-sizing:border-box;
+      margin:0;
+      padding:0;
+    }
+
+    :root{
+      --black:#111111;
+      --dark:#222222;
+      --gold:#c8a45d;
+      --gold-light:#f6eddd;
+      --white:#ffffff;
+      --bg:#f5f6f8;
+      --text:#202124;
+      --muted:#777777;
+      --border:#e7e7e7;
+      --green:#16834b;
+      --red:#c62828;
+      --shadow:0 8px 30px rgba(0,0,0,.07);
+    }
+
+    body{
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Arial,
+        sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      padding-bottom:50px;
+    }
+
+    header{
+      background:linear-gradient(135deg,#111,#292929);
+      color:white;
+      padding:28px 18px 24px;
+      text-align:center;
+      position:relative;
+      overflow:hidden;
+    }
+
+    header::after{
+      content:"";
+      position:absolute;
+      width:180px;
+      height:180px;
+      border-radius:50%;
+      background:rgba(200,164,93,.12);
+      right:-70px;
+      top:-80px;
+    }
+
+    .logo{
+      font-size:25px;
+      font-weight:800;
+      letter-spacing:1px;
+      position:relative;
+      z-index:2;
+    }
+
+    .logo span{
+      color:var(--gold);
+    }
+
+    header p{
+      margin-top:7px;
+      font-size:13px;
+      opacity:.75;
+      position:relative;
+      z-index:2;
+    }
+
+    .container{
+      max-width:1000px;
+      margin:auto;
+      padding:18px 14px 40px;
+    }
+
+    .box{
+      background:white;
+      border:1px solid var(--border);
+      border-radius:20px;
+      padding:20px;
+      margin-bottom:18px;
+      box-shadow:var(--shadow);
+    }
+
+    h2{
+      font-size:19px;
+      margin-bottom:18px;
+      font-weight:800;
+    }
+
+    .section-title{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      margin-bottom:18px;
+    }
+
+    .section-icon{
+      width:40px;
+      height:40px;
+      border-radius:12px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:var(--gold-light);
+      font-size:20px;
+      flex-shrink:0;
+    }
+
+    .small{
+      color:var(--muted);
+      font-size:12px;
+      line-height:1.5;
+    }
+
+    label{
+      display:block;
+      font-weight:700;
+      font-size:13px;
+      margin:16px 0 7px;
+    }
+
+    input,
+    textarea,
+    select{
+      width:100%;
+      border:1px solid #dedede;
+      background:#fafafa;
+      border-radius:12px;
+      padding:14px;
+      font-size:15px;
+      color:#222;
+      outline:none;
+      transition:.2s;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus{
+      border-color:var(--gold);
+      background:white;
+      box-shadow:0 0 0 3px rgba(200,164,93,.12);
+    }
+
+    textarea{
+      min-height:105px;
+      resize:vertical;
+    }
+
+    input[type="file"]{
+      padding:11px;
+      background:white;
+    }
+
+    button{
+      border:0;
+      border-radius:12px;
+      padding:13px 17px;
+      font-size:14px;
+      font-weight:750;
+      cursor:pointer;
+      transition:.2s;
+    }
+
+    button:active{
+      transform:scale(.97);
+    }
+
+    .btn-primary{
+      background:var(--black);
+      color:white;
+    }
+
+    .btn-primary:hover{
+      background:#292929;
+    }
+
+    .btn-gold{
+      background:var(--gold);
+      color:white;
+    }
+
+    .btn-secondary{
+      background:#eeeeee;
+      color:#222;
+    }
+
+    .btn-danger{
+      background:var(--red);
+      color:white;
+    }
+
+    .actions{
+      display:flex;
+      gap:9px;
+      flex-wrap:wrap;
+      margin-top:17px;
+    }
+
+    .message{
+      display:none;
+      margin-top:14px;
+      padding:13px;
+      border-radius:12px;
+      font-size:13px;
+      line-height:1.5;
+    }
+
+    .success{
+      background:#eaf8f0;
+      color:#176b3c;
+      border:1px solid #c9ead7;
+    }
+
+    .error{
+      background:#fff0f0;
+      color:#a51d1d;
+      border:1px solid #f1cccc;
+    }
+
+    .hidden{
+      display:none !important;
+    }
+
+    /* TABLEAU DE BORD */
+
+    .admin-top{
+      background:var(--black);
+      color:white;
+      border-radius:18px;
+      padding:17px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      margin-bottom:18px;
+      box-shadow:var(--shadow);
+    }
+
+    .admin-title{
+      display:flex;
+      align-items:center;
+      gap:11px;
+    }
+
+    .admin-title-icon{
+      width:42px;
+      height:42px;
+      border-radius:12px;
+      background:rgba(255,255,255,.1);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:20px;
+    }
+
+    .admin-title strong{
+      display:block;
+      font-size:17px;
+    }
+
+    .admin-title small{
+      display:block;
+      color:#aaa;
+      margin-top:3px;
+    }
+
+    /* APERCU */
+
+    .product-preview{
+      display:none;
+      width:170px;
+      height:170px;
+      object-fit:cover;
+      border-radius:16px;
+      margin-top:12px;
+      border:1px solid var(--border);
+      box-shadow:0 5px 20px rgba(0,0,0,.08);
+    }
+
+    /* GALERIE */
+
+    .gallery{
+      display:grid;
+      grid-template-columns:
+        repeat(auto-fit,minmax(165px,1fr));
+      gap:13px;
+      margin-top:16px;
+    }
+
+    .gallery-item{
+      background:#fff;
+      border:1px solid var(--border);
+      border-radius:16px;
+      padding:9px;
+      overflow:hidden;
+    }
+
+    .gallery-item img{
+      width:100%;
+      height:155px;
+      object-fit:cover;
+      border-radius:11px;
+      background:#eee;
+      display:block;
+      margin-bottom:9px;
+    }
+
+    .gallery-name{
+      font-size:11px;
+      color:#777;
+      word-break:break-all;
+      line-height:1.4;
+      margin-bottom:9px;
+    }
+
+    .gallery-item button{
+      width:100%;
+      font-size:12px;
+    }
+
+    /* COMMANDES */
+
+    .order{
+      background:white;
+      border:1px solid var(--border);
+      border-radius:17px;
+      padding:16px;
+      margin-top:12px;
+      box-shadow:0 4px 15px rgba(0,0,0,.04);
+    }
+
+    .order-header{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+      margin-bottom:13px;
+      padding-bottom:11px;
+      border-bottom:1px solid var(--border);
+    }
+
+    .order-number{
+      font-size:16px;
+      font-weight:800;
+    }
+
+    .order-line{
+      margin:8px 0;
+      font-size:13px;
+      line-height:1.5;
+    }
+
+    .order-line strong{
+      color:#111;
+    }
+
+    .status-label{
+      display:block;
+      font-size:13px;
+      font-weight:750;
+      margin-top:15px;
+      margin-bottom:7px;
+    }
+
+    .status-select{
+      font-weight:700;
+      background:#fafafa;
+    }
+
+    .status-button{
+      margin-top:9px;
+      width:100%;
+    }
+
+    .empty{
+      text-align:center;
+      padding:28px 15px;
+      background:#fafafa;
+      border:1px dashed #ddd;
+      border-radius:14px;
+      color:#777;
+      font-size:13px;
+    }
+
+    @media(max-width:600px){
+
+      header{
+        padding:23px 15px;
+      }
+
+      .logo{
+        font-size:22px;
+      }
+
+      .container{
+        padding:12px 10px 35px;
+      }
+
+      .box{
+        padding:16px;
+        border-radius:17px;
+      }
+
+      h2{
+        font-size:18px;
+      }
+
+      .admin-top{
+        padding:14px;
+        border-radius:16px;
+      }
+
+      .admin-title strong{
+        font-size:15px;
+      }
+
+      .admin-title small{
+        font-size:11px;
+      }
+
+      .admin-top .btn-danger{
+        padding:10px 12px;
+        font-size:12px;
+      }
+
+      .actions{
+        flex-direction:column;
+      }
+
+      .actions button{
+        width:100%;
+      }
+
+      .gallery{
+        grid-template-columns:repeat(2,1fr);
+        gap:9px;
+      }
+
+      .gallery-item{
+        padding:7px;
+        border-radius:13px;
+      }
+
+      .gallery-item img{
+        height:135px;
+      }
+
+      .product-preview{
+        width:150px;
+        height:150px;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
 <header>
-  <div class="logo">YAYOUNA<span>BYSAC</span></div>
-  <p>Administration de votre boutique</p>
+  <div class="logo">
+    YAYOUNA<span>BYSAC</span>
+  </div>
+
+  <p>
+    Administration de votre boutique
+  </p>
 </header>
+
 
 <div class="container">
 
-<!-- =========================
-     CONNEXION
-========================= -->
-
-<div id="connexionBox" class="box">
-
-  <div class="section-title">
-    <div class="section-icon">🔐</div>
-    <div>
-      <h2 style="margin:0;">Connexion administrateur</h2>
-      <p class="small">Accédez à votre espace de gestion</p>
-    </div>
-  </div>
-
-  <label for="email">Email</label>
-
-  <input
-    type="email"
-    id="email"
-    placeholder="Votre email"
-    autocomplete="email"
-  >
-
-  <label for="password">Mot de passe</label>
-
-  <input
-    type="password"
-    id="password"
-    placeholder="Votre mot de passe"
-    autocomplete="current-password"
-  >
-
-  <div class="actions">
-
-    <button class="btn-primary" onclick="connexionAdmin()">
-      🔐 Se connecter
-    </button>
-
-    <button class="btn-secondary" onclick="afficherRecuperation()">
-      🔑 Mot de passe oublié ?
-    </button>
-
-  </div>
-
-  <div id="loginMessage" class="message"></div>
-
-</div>
-
-
-<!-- =========================
-     RECUPERATION
-========================= -->
-
-<div id="recoveryBox" class="box hidden">
-
-  <div class="section-title">
-    <div class="section-icon">🔑</div>
-    <div>
-      <h2 style="margin:0;">Récupérer le mot de passe</h2>
-      <p class="small">Recevez un lien de récupération par email</p>
-    </div>
-  </div>
-
-  <label for="recoveryEmail">Email</label>
-
-  <input
-    type="email"
-    id="recoveryEmail"
-    placeholder="Votre email"
-  >
-
-  <div class="actions">
-
-    <button class="btn-primary" onclick="envoyerRecuperation()">
-      📩 Envoyer le lien
-    </button>
-
-    <button class="btn-secondary" onclick="retourConnexion()">
-      ← Retour
-    </button>
-
-  </div>
-
-  <div id="recoveryMessage" class="message"></div>
-
-</div>
-
-
-<!-- =========================
-     NOUVEAU MOT DE PASSE
-========================= -->
-
-<div id="newPasswordBox" class="box hidden">
-
-  <div class="section-title">
-    <div class="section-icon">🔐</div>
-    <div>
-      <h2 style="margin:0;">Nouveau mot de passe</h2>
-      <p class="small">Choisissez votre nouveau mot de passe</p>
-    </div>
-  </div>
-
-  <label for="newPassword">
-    Nouveau mot de passe
-  </label>
-
-  <input
-    type="password"
-    id="newPassword"
-    placeholder="Nouveau mot de passe"
-  >
-
-  <label for="confirmPassword">
-    Confirmer le mot de passe
-  </label>
-
-  <input
-    type="password"
-    id="confirmPassword"
-    placeholder="Confirmer le mot de passe"
-  >
-
-  <div class="actions">
-
-    <button class="btn-gold" onclick="changerMotDePasse()">
-      💾 Enregistrer le nouveau mot de passe
-    </button>
-
-  </div>
-
-  <div id="passwordMessage" class="message"></div>
-
-</div>
-
-
-<!-- =========================
-     ADMIN
-========================= -->
-
-<div id="adminBox" class="hidden">
-
-  <div class="admin-top">
-
-    <div class="admin-title">
-
-      <div class="admin-title-icon">
-        ⚙️
-      </div>
-
-      <div>
-        <strong>Tableau de bord</strong>
-        <small>Gestion de YAYOUNABYSAC</small>
-      </div>
-
-    </div>
-
-    <button class="btn-danger" onclick="deconnexion()">
-      Se déconnecter
-    </button>
-
-  </div>
-
-
   <!-- =========================
-       AJOUT PRODUIT
+       CONNEXION
   ========================== -->
 
-  <div class="box">
+  <div id="connexionBox" class="box">
 
     <div class="section-title">
-      <div class="section-icon">🛍️</div>
 
-      <div>
-        <h2 style="margin:0;">Ajouter un produit</h2>
-        <p class="small">Ajoutez rapidement un nouvel article à la boutique</p>
+      <div class="section-icon">
+        🔐
       </div>
-    </div>
-
-
-    <label for="nomProduit">
-      Nom du produit
-    </label>
-
-    <input
-      type="text"
-      id="nomProduit"
-      placeholder="Exemple : Sac à main élégant"
-    >
-
-
-    <label for="descriptionProduit">
-      Description
-    </label>
-
-    <textarea
-      id="descriptionProduit"
-      placeholder="Description du produit"
-    ></textarea>
-
-
-    <label for="prixProduit">
-      Prix en FCFA
-    </label>
-
-    <input
-      type="number"
-      id="prixProduit"
-      placeholder="18000"
-      min="0"
-    >
-
-
-    <label for="stockProduit">
-      Stock disponible
-    </label>
-
-    <input
-      type="number"
-      id="stockProduit"
-      placeholder="5"
-      min="0"
-    >
-
-
-    <label for="categorieProduit">
-      Catégorie
-    </label>
-
-    <select id="categorieProduit">
-
-      <option value="">
-        Choisir une catégorie
-      </option>
-
-      <option value="Sacs à main">
-        Sacs à main
-      </option>
-
-      <option value="Sacs bandoulière">
-        Sacs bandoulière
-      </option>
-
-      <option value="Sacs cabas">
-        Sacs cabas
-      </option>
-
-      <option value="Sacs à dos">
-        Sacs à dos
-      </option>
-
-      <option value="Pochettes">
-        Pochettes
-      </option>
-
-    </select>
-
-
-    <label for="imageUrl">
-      URL de l'image
-    </label>
-
-    <input
-      type="url"
-      id="imageUrl"
-      placeholder="https://..."
-      oninput="afficherPreviewUrl()"
-    >
-
-    <p class="small" style="margin-top:7px;">
-      Tu peux utiliser une URL publique ou une image déjà présente
-      dans le bucket <strong>product-images</strong>.
-    </p>
-
-
-    <label for="imageFile">
-      Ou envoyer une image depuis le téléphone
-    </label>
-
-    <input
-      type="file"
-      id="imageFile"
-      accept="image/*"
-      onchange="afficherPreviewFichier()"
-    >
-
-
-    <img
-      id="productPreview"
-      class="product-preview"
-      alt="Aperçu du produit"
-    >
-
-
-    <div class="actions">
-
-      <button class="btn-gold" onclick="ajouterProduit()">
-        ➕ Ajouter le produit
-      </button>
-
-      <button class="btn-secondary" onclick="viderFormulaire()">
-        Vider
-      </button>
-
-    </div>
-
-    <div id="productMessage" class="message"></div>
-
-  </div>
-
-
-  <!-- =========================
-       IMAGES
-  ========================== -->
-
-  <div class="box">
-
-    <div class="section-title">
-      <div class="section-icon">🖼️</div>
 
       <div>
-        <h2 style="margin:0;">Images des produits</h2>
+        <h2 style="margin:0;">
+          Connexion administrateur
+        </h2>
+
         <p class="small">
-          Images présentes dans le stockage
+          Accédez à votre espace de gestion
         </p>
       </div>
+
     </div>
+
+
+    <label for="email">
+      Email
+    </label>
+
+    <input
+      type="email"
+      id="email"
+      placeholder="Votre email"
+      autocomplete="email"
+    >
+
+
+    <label for="password">
+      Mot de passe
+    </label>
+
+    <input
+      type="password"
+      id="password"
+      placeholder="Votre mot de passe"
+      autocomplete="current-password"
+    >
+
 
     <div class="actions">
 
-      <button class="btn-primary" onclick="chargerImages()">
-        🔄 Actualiser les images
+      <button
+        class="btn-primary"
+        onclick="connexionAdmin()"
+      >
+        🔐 Se connecter
+      </button>
+
+      <button
+        class="btn-secondary"
+        onclick="afficherRecuperation()"
+      >
+        🔑 Mot de passe oublié ?
       </button>
 
     </div>
 
-    <div id="galleryMessage" class="message"></div>
 
-    <div id="imageGallery" class="gallery"></div>
+    <div
+      id="loginMessage"
+      class="message"
+    ></div>
 
   </div>
 
 
   <!-- =========================
-       COMMANDES
+       RECUPERATION
   ========================== -->
 
-  <div class="box">
+  <div
+    id="recoveryBox"
+    class="box hidden"
+  >
 
     <div class="section-title">
-      <div class="section-icon">📦</div>
+
+      <div class="section-icon">
+        🔑
+      </div>
 
       <div>
-        <h2 style="margin:0;">Commandes</h2>
+        <h2 style="margin:0;">
+          Récupérer le mot de passe
+        </h2>
+
         <p class="small">
-          Consultez et gérez les commandes clients
+          Recevez un lien de récupération par email
         </p>
       </div>
+
     </div>
+
+
+    <label for="recoveryEmail">
+      Email
+    </label>
+
+    <input
+      type="email"
+      id="recoveryEmail"
+      placeholder="Votre email"
+    >
+
 
     <div class="actions">
 
-      <button class="btn-primary" onclick="chargerCommandes()">
-        🔄 Actualiser les commandes
+      <button
+        class="btn-primary"
+        onclick="envoyerRecuperation()"
+      >
+        📩 Envoyer le lien
+      </button>
+
+      <button
+        class="btn-secondary"
+        onclick="retourConnexion()"
+      >
+        ← Retour
       </button>
 
     </div>
 
-    <div id="ordersMessage" class="message"></div>
 
-    <div id="ordersList"></div>
+    <div
+      id="recoveryMessage"
+      class="message"
+    ></div>
 
   </div>
 
-</div>
+
+  <!-- =========================
+       NOUVEAU MOT DE PASSE
+  ========================== -->
+
+  <div
+    id="newPasswordBox"
+    class="box hidden"
+  >
+
+    <div class="section-title">
+
+      <div class="section-icon">
+        🔐
+      </div>
+
+      <div>
+        <h2 style="margin:0;">
+          Nouveau mot de passe
+        </h2>
+
+        <p class="small">
+          Choisissez votre nouveau mot de passe
+        </p>
+      </div>
+
+    </div>
+
+
+    <label for="newPassword">
+      Nouveau mot de passe
+    </label>
+
+    <input
+      type="password"
+      id="newPassword"
+      placeholder="Nouveau mot de passe"
+    >
+
+
+    <label for="confirmPassword">
+      Confirmer le mot de passe
+    </label>
+
+    <input
+      type="password"
+      id="confirmPassword"
+      placeholder="Confirmer le mot de passe"
+    >
+
+
+    <div class="actions">
+
+      <button
+        class="btn-gold"
+        onclick="changerMotDePasse()"
+      >
+        💾 Enregistrer le nouveau mot de passe
+      </button>
+
+    </div>
+
+
+    <div
+      id="passwordMessage"
+      class="message"
+    ></div>
+
+  </div>
+
+
+  <!-- =========================
+       ADMIN
+  ========================== -->
+
+  <div
+    id="adminBox"
+    class="hidden"
+  >
+
+    <div class="admin-top">
+
+      <div class="admin-title">
+
+        <div class="admin-title-icon">
+          ⚙️
+        </div>
+
+        <div>
+          <strong>
+            Tableau de bord
+          </strong>
+
+          <small>
+            Gestion de YAYOUNABYSAC
+          </small>
+        </div>
+
+      </div>
+
+
+      <button
+        class="btn-danger"
+        onclick="deconnexion()"
+      >
+        Se déconnecter
+      </button>
+
+    </div>
+
+
+    <!-- =========================
+         AJOUT PRODUIT
+    ========================== -->
+
+    <div class="box">
+
+      <div class="section-title">
+
+        <div class="section-icon">
+          🛍️
+        </div>
+
+        <div>
+          <h2 style="margin:0;">
+            Ajouter un produit
+          </h2>
+
+          <p class="small">
+            Ajoutez un nouvel article à la boutique
+          </p>
+        </div>
+
+      </div>
+
+
+      <label for="nomProduit">
+        Nom du produit
+      </label>
+
+      <input
+        type="text"
+        id="nomProduit"
+        placeholder="Exemple : Sac à main élégant"
+      >
+
+
+      <label for="descriptionProduit">
+        Description
+      </label>
+
+      <textarea
+        id="descriptionProduit"
+        placeholder="Description du produit"
+      ></textarea>
+
+
+      <label for="prixProduit">
+        Prix en FCFA
+      </label>
+
+      <input
+        type="number"
+        id="prixProduit"
+        placeholder="18000"
+        min="0"
+      >
+
+
+      <label for="stockProduit">
+        Stock disponible
+      </label>
+
+      <input
+        type="number"
+        id="stockProduit"
+        placeholder="5"
+        min="0"
+      >
+
+
+      <label for="categorieProduit">
+        Catégorie
+      </label>
+
+      <select id="categorieProduit">
+
+        <option value="">
+          Choisir une catégorie
+        </option>
+
+        <option value="Sacs à main">
+          Sacs à main
+        </option>
+
+        <option value="Sacs bandoulière">
+          Sacs bandoulière
+        </option>
+
+        <option value="Sacs cabas">
+          Sacs cabas
+        </option>
+
+        <option value="Sacs à dos">
+          Sacs à dos
+        </option>
+
+        <option value="Pochettes">
+          Pochettes
+        </option>
+
+      </select>
+
+
+      <label for="imageUrl">
+        URL de l'image
+      </label>
+
+      <input
+        type="url"
+        id="imageUrl"
+        placeholder="https://..."
+        oninput="afficherPreviewUrl()"
+      >
+
+
+      <p
+        class="small"
+        style="margin-top:7px;"
+      >
+        Tu peux utiliser une URL publique ou sélectionner
+        une image déjà présente dans le bucket
+        <strong>product-images</strong>.
+      </p>
+
+
+      <label for="imageFile">
+        Ou envoyer une image depuis le téléphone
+      </label>
+
+      <input
+        type="file"
+        id="imageFile"
+        accept="image/*"
+        onchange="afficherPreviewFichier()"
+      >
+
+
+      <img
+        id="productPreview"
+        class="product-preview"
+        alt="Aperçu du produit"
+      >
+
+
+      <div class="actions">
+
+        <button
+          class="btn-gold"
+          onclick="ajouterProduit()"
+        >
+          ➕ Ajouter le produit
+        </button>
+
+        <button
+          class="btn-secondary"
+          onclick="viderFormulaire()"
+        >
+          Vider
+        </button>
+
+      </div>
+
+
+      <div
+        id="productMessage"
+        class="message"
+      ></div>
+
+    </div>
+
+
+    <!-- =========================
+         IMAGES
+    ========================== -->
+
+    <div class="box">
+
+      <div class="section-title">
+
+        <div class="section-icon">
+          🖼️
+        </div>
+
+        <div>
+          <h2 style="margin:0;">
+            Images des produits
+          </h2>
+
+          <p class="small">
+            Images présentes dans le stockage
+          </p>
+        </div>
+
+      </div>
+
+
+      <div class="actions">
+
+        <button
+          class="btn-primary"
+          onclick="chargerImages()"
+        >
+          🔄 Actualiser les images
+        </button>
+
+      </div>
+
+
+      <div
+        id="galleryMessage"
+        class="message"
+      ></div>
+
+
+      <div
+        id="imageGallery"
+        class="gallery"
+      ></div>
+
+    </div>
+
+
+    <!-- =========================
+         COMMANDES
+    ========================== -->
+
+    <div class="box">
+
+      <div class="section-title">
+
+        <div class="section-icon">
+          📦
+        </div>
+
+        <div>
+          <h2 style="margin:0;">
+            Commandes
+          </h2>
+
+          <p class="small">
+            Consultez et gérez les commandes clients
+          </p>
+        </div>
+
+      </div>
+
+
+      <div class="actions">
+
+        <button
+          class="btn-primary"
+          onclick="chargerCommandes()"
+        >
+          🔄 Actualiser les commandes
+        </button>
+
+      </div>
+
+
+      <div
+        id="ordersMessage"
+        class="message"
+      ></div>
+
+
+      <div id="ordersList"></div>
+
+    </div>
+
+  </div>
 
 </div>
 
@@ -914,10 +1038,14 @@ const STORAGE_BUCKET =
 
 
 /* =====================================================
-   MESSAGE
+   MESSAGES
 ===================================================== */
 
-function afficherMessage(id, texte, type){
+function afficherMessage(
+  id,
+  texte,
+  type
+){
 
   const element =
     document.getElementById(id);
@@ -926,7 +1054,8 @@ function afficherMessage(id, texte, type){
     return;
   }
 
-  element.textContent = texte;
+  element.textContent =
+    texte;
 
   element.className =
     "message " +
@@ -936,7 +1065,8 @@ function afficherMessage(id, texte, type){
         : "error"
     );
 
-  element.style.display = "block";
+  element.style.display =
+    "block";
 }
 
 
@@ -946,9 +1076,11 @@ function cacherMessage(id){
     document.getElementById(id);
 
   if(element){
-    element.style.display = "none";
-  }
 
+    element.style.display =
+      "none";
+
+  }
 }
 
 
@@ -992,7 +1124,10 @@ async function connexionAdmin(){
       .value;
 
 
-  if(!email || !password){
+  if(
+    !email ||
+    !password
+  ){
 
     afficherMessage(
       "loginMessage",
@@ -1020,7 +1155,8 @@ async function connexionAdmin(){
 
     afficherMessage(
       "loginMessage",
-      "Erreur : " + error.message,
+      "Erreur : " +
+      error.message,
       "error"
     );
 
@@ -1028,7 +1164,10 @@ async function connexionAdmin(){
   }
 
 
-  if(data && data.user){
+  if(
+    data &&
+    data.user
+  ){
 
     afficherAdmin();
 
@@ -1063,6 +1202,7 @@ function afficherAdmin(){
     .classList
     .remove("hidden");
 
+
   chargerImages();
 
   chargerCommandes();
@@ -1080,10 +1220,12 @@ async function deconnexion(){
     .auth
     .signOut();
 
+
   document
     .getElementById("adminBox")
     .classList
     .add("hidden");
+
 
   document
     .getElementById("connexionBox")
@@ -1104,6 +1246,7 @@ function afficherRecuperation(){
     .classList
     .add("hidden");
 
+
   document
     .getElementById("recoveryBox")
     .classList
@@ -1118,6 +1261,7 @@ function retourConnexion(){
     .getElementById("recoveryBox")
     .classList
     .add("hidden");
+
 
   document
     .getElementById("connexionBox")
@@ -1161,7 +1305,8 @@ async function envoyerRecuperation(){
       .resetPasswordForEmail(
         email,
         {
-          redirectTo:redirectUrl
+          redirectTo:
+            redirectUrl
         }
       );
 
@@ -1205,7 +1350,10 @@ async function changerMotDePasse(){
       .value;
 
 
-  if(!password || !confirmation){
+  if(
+    !password ||
+    !confirmation
+  ){
 
     afficherMessage(
       "passwordMessage",
@@ -1217,7 +1365,10 @@ async function changerMotDePasse(){
   }
 
 
-  if(password !== confirmation){
+  if(
+    password !==
+    confirmation
+  ){
 
     afficherMessage(
       "passwordMessage",
@@ -1247,7 +1398,8 @@ async function changerMotDePasse(){
     await supabaseClient
       .auth
       .updateUser({
-        password:password
+        password:
+          password
       });
 
 
@@ -1255,7 +1407,8 @@ async function changerMotDePasse(){
 
     afficherMessage(
       "passwordMessage",
-      "Erreur : " + error.message,
+      "Erreur : " +
+      error.message,
       "error"
     );
 
@@ -1270,19 +1423,23 @@ async function changerMotDePasse(){
   );
 
 
-  setTimeout(() => {
+  setTimeout(
+    () => {
 
-    document
-      .getElementById("newPasswordBox")
-      .classList
-      .add("hidden");
+      document
+        .getElementById("newPasswordBox")
+        .classList
+        .add("hidden");
 
-    document
-      .getElementById("connexionBox")
-      .classList
-      .remove("hidden");
 
-  },1500);
+      document
+        .getElementById("connexionBox")
+        .classList
+        .remove("hidden");
+
+    },
+    1500
+  );
 
 }
 
@@ -1306,15 +1463,19 @@ function afficherPreviewUrl(){
 
   if(url){
 
-    preview.src = url;
+    preview.src =
+      url;
 
-    preview.style.display = "block";
+    preview.style.display =
+      "block";
 
   }else{
 
-    preview.src = "";
+    preview.src =
+      "";
 
-    preview.style.display = "none";
+    preview.style.display =
+      "none";
 
   }
 
@@ -1364,7 +1525,7 @@ function afficherPreviewFichier(){
 
 
 /* =====================================================
-   AJOUT PRODUIT
+   AJOUTER PRODUIT
 ===================================================== */
 
 async function ajouterProduit(){
@@ -1424,7 +1585,10 @@ async function ajouterProduit(){
   }
 
 
-  if(!prix || prix < 0){
+  if(
+    !prix ||
+    prix < 0
+  ){
 
     afficherMessage(
       "productMessage",
@@ -1436,7 +1600,10 @@ async function ajouterProduit(){
   }
 
 
-  if(isNaN(stock) || stock < 0){
+  if(
+    isNaN(stock) ||
+    stock < 0
+  ){
 
     afficherMessage(
       "productMessage",
@@ -1468,7 +1635,8 @@ async function ajouterProduit(){
 
 
   let imageUrl =
-    imageUrlInput || null;
+    imageUrlInput ||
+    null;
 
 
   /* UPLOAD IMAGE */
@@ -1494,7 +1662,8 @@ async function ajouterProduit(){
 
 
     const {
-      error:uploadError
+      error:
+        uploadError
     } =
       await supabaseClient
         .storage
@@ -1523,12 +1692,15 @@ async function ajouterProduit(){
 
 
     const {
-      data:publicData
+      data:
+        publicData
     } =
       supabaseClient
         .storage
         .from(STORAGE_BUCKET)
-        .getPublicUrl(nomFichier);
+        .getPublicUrl(
+          nomFichier
+        );
 
 
     if(
@@ -1544,7 +1716,7 @@ async function ajouterProduit(){
   }
 
 
-  /* INSERTION */
+  /* INSERTION PRODUCTS */
 
   const {
     error
@@ -1553,12 +1725,23 @@ async function ajouterProduit(){
       .from("Products")
       .insert([
         {
-          name:nom,
-          description:description,
-          Price:prix,
-          Image_url:imageUrl,
-          Stock:stock,
-          Category:categorie
+          name:
+            nom,
+
+          description:
+            description,
+
+          Price:
+            prix,
+
+          Image_url:
+            imageUrl,
+
+          Stock:
+            stock,
+
+          Category:
+            categorie
         }
       ]);
 
@@ -1629,9 +1812,12 @@ function viderFormulaire(){
     document
       .getElementById("productPreview");
 
-  preview.src = "";
 
-  preview.style.display = "none";
+  preview.src =
+    "";
+
+  preview.style.display =
+    "none";
 
 }
 
@@ -1651,7 +1837,9 @@ async function chargerImages(){
     '<div class="empty">🔄 Chargement des images...</div>';
 
 
-  cacherMessage("galleryMessage");
+  cacherMessage(
+    "galleryMessage"
+  );
 
 
   try{
@@ -1667,6 +1855,7 @@ async function chargerImages(){
           "",
           {
             limit:100,
+
             sortBy:{
               column:"created_at",
               order:"desc"
@@ -1677,7 +1866,8 @@ async function chargerImages(){
 
     if(error){
 
-      gallery.innerHTML = "";
+      gallery.innerHTML =
+        "";
 
       afficherMessage(
         "galleryMessage",
@@ -1690,54 +1880,67 @@ async function chargerImages(){
     }
 
 
-    if(!data || data.length === 0){
+    if(
+      !data ||
+      data.length === 0
+    ){
 
       gallery.innerHTML =
         `
-          <div class="empty">
-            Le bucket
-            <strong>product-images</strong>
-            ne contient aucun fichier accessible.
-          </div>
+        <div class="empty">
+          Le bucket
+          <strong>product-images</strong>
+          ne contient aucun fichier accessible.
+        </div>
         `;
 
       return;
     }
 
 
-    gallery.innerHTML = "";
+    gallery.innerHTML =
+      "";
 
 
-    data.forEach(file => {
+    data.forEach(
+      file => {
 
-      if(!file || !file.name){
-        return;
-      }
-
-
-      const {
-        data:publicData
-      } =
-        supabaseClient
-          .storage
-          .from(STORAGE_BUCKET)
-          .getPublicUrl(file.name);
+        if(
+          !file ||
+          !file.name
+        ){
+          return;
+        }
 
 
-      const publicUrl =
-        publicData.publicUrl;
+        const {
+          data:
+            publicData
+        } =
+          supabaseClient
+            .storage
+            .from(STORAGE_BUCKET)
+            .getPublicUrl(
+              file.name
+            );
 
 
-      const item =
-        document.createElement("div");
+        const publicUrl =
+          publicData.publicUrl;
 
 
-      item.className =
-        "gallery-item";
+        const item =
+          document.createElement(
+            "div"
+          );
 
 
-      item.innerHTML =
-        `
+        item.className =
+          "gallery-item";
+
+
+        item.innerHTML =
+          `
           <img
             src="${escapeHtml(publicUrl)}"
             alt="Image produit"
@@ -1753,17 +1956,21 @@ async function chargerImages(){
           >
             Utiliser cette image
           </button>
-        `;
+          `;
 
 
-      gallery.appendChild(item);
+        gallery.appendChild(
+          item
+        );
 
-    });
+      }
+    );
 
 
   }catch(error){
 
-    gallery.innerHTML = "";
+    gallery.innerHTML =
+      "";
 
     afficherMessage(
       "galleryMessage",
@@ -1785,12 +1992,14 @@ function utiliserImage(url){
 
   document
     .getElementById("imageUrl")
-    .value = url;
+    .value =
+    url;
 
 
   document
     .getElementById("imageFile")
-    .value = "";
+    .value =
+    "";
 
 
   afficherPreviewUrl();
@@ -1814,7 +2023,7 @@ function utiliserImage(url){
 
 
 /* =====================================================
-   COMMANDES
+   CHARGER COMMANDES
 ===================================================== */
 
 async function chargerCommandes(){
@@ -1828,7 +2037,9 @@ async function chargerCommandes(){
     '<div class="empty">🔄 Chargement des commandes...</div>';
 
 
-  cacherMessage("ordersMessage");
+  cacherMessage(
+    "ordersMessage"
+  );
 
 
   try{
@@ -1850,7 +2061,8 @@ async function chargerCommandes(){
 
     if(error){
 
-      ordersList.innerHTML = "";
+      ordersList.innerHTML =
+        "";
 
       afficherMessage(
         "ordersMessage",
@@ -1863,57 +2075,78 @@ async function chargerCommandes(){
     }
 
 
-    if(!data || data.length === 0){
+    if(
+      !data ||
+      data.length === 0
+    ){
 
       ordersList.innerHTML =
         `
-          <div class="empty">
-            📦 Aucune commande pour le moment.
-          </div>
+        <div class="empty">
+          📦 Aucune commande pour le moment.
+        </div>
         `;
 
       return;
     }
 
 
-    ordersList.innerHTML = "";
+    ordersList.innerHTML =
+      "";
 
 
-    data.forEach(order => {
+    data.forEach(
+      order => {
 
-      const customerName =
-        order.Customer_name ?? "";
+        /*
+          IMPORTANT :
+          Les noms correspondent
+          exactement aux colonnes
+          de ta table Orders.
+        */
 
-      const phone =
-        order.Phone ?? "";
+        const customerName =
+          order.customer_nam ??
+          "";
 
-      const address =
-        order.Address ?? "";
+        const phone =
+          order.phone ??
+          "";
 
-      const total =
-        order.Total ?? 0;
+        const address =
+          order.address ??
+          "";
 
-      const status =
-        order.Status ??
-        "En attente";
+        const total =
+          order.total ??
+          0;
 
-      const date =
-        order.created_at
-          ? new Date(
-              order.created_at
-            ).toLocaleString("fr-FR")
-          : "";
+        const status =
+          order.status ??
+          "En attente";
+
+        const date =
+          order.created_at
+            ? new Date(
+                order.created_at
+              ).toLocaleString(
+                "fr-FR"
+              )
+            : "";
 
 
-      const div =
-        document.createElement("div");
+        const div =
+          document.createElement(
+            "div"
+          );
 
 
-      div.className = "order";
+        div.className =
+          "order";
 
 
-      div.innerHTML =
-        `
+        div.innerHTML =
+          `
           <div class="order-header">
 
             <div class="order-number">
@@ -1922,30 +2155,36 @@ async function chargerCommandes(){
 
           </div>
 
+
           <div class="order-line">
             👤 <strong>Client :</strong>
             ${escapeHtml(customerName)}
           </div>
+
 
           <div class="order-line">
             📞 <strong>Téléphone :</strong>
             ${escapeHtml(phone)}
           </div>
 
+
           <div class="order-line">
             📍 <strong>Adresse :</strong>
             ${escapeHtml(address)}
           </div>
+
 
           <div class="order-line">
             💰 <strong>Total :</strong>
             ${escapeHtml(total)} FCFA
           </div>
 
+
           <div class="order-line">
             🕒 <strong>Date :</strong>
             ${escapeHtml(date)}
           </div>
+
 
           <label
             class="status-label"
@@ -1953,6 +2192,7 @@ async function chargerCommandes(){
           >
             📌 Statut de la commande
           </label>
+
 
           <select
             class="status-select"
@@ -1966,12 +2206,14 @@ async function chargerCommandes(){
               🕐 En attente
             </option>
 
+
             <option
               value="Confirmée"
               ${status === "Confirmée" ? "selected" : ""}
             >
               ✅ Confirmée
             </option>
+
 
             <option
               value="En préparation"
@@ -1980,6 +2222,7 @@ async function chargerCommandes(){
               📦 En préparation
             </option>
 
+
             <option
               value="En livraison"
               ${status === "En livraison" ? "selected" : ""}
@@ -1987,12 +2230,14 @@ async function chargerCommandes(){
               🚚 En livraison
             </option>
 
+
             <option
               value="Livrée"
               ${status === "Livrée" ? "selected" : ""}
             >
               ✔️ Livrée
             </option>
+
 
             <option
               value="Annulée"
@@ -2003,23 +2248,28 @@ async function chargerCommandes(){
 
           </select>
 
+
           <button
             class="btn-primary status-button"
             onclick="modifierStatutCommande(${Number(order.id)})"
           >
             💾 Enregistrer le statut
           </button>
-        `;
+          `;
 
 
-      ordersList.appendChild(div);
+        ordersList.appendChild(
+          div
+        );
 
-    });
+      }
+    );
 
 
   }catch(error){
 
-    ordersList.innerHTML = "";
+    ordersList.innerHTML =
+      "";
 
     afficherMessage(
       "ordersMessage",
@@ -2034,14 +2284,17 @@ async function chargerCommandes(){
 
 
 /* =====================================================
-   MODIFIER STATUT
+   MODIFIER LE STATUT
 ===================================================== */
 
-async function modifierStatutCommande(orderId){
+async function modifierStatutCommande(
+  orderId
+){
 
   const select =
     document.getElementById(
-      "status-" + orderId
+      "status-" +
+      orderId
     );
 
 
@@ -2061,13 +2314,28 @@ async function modifierStatutCommande(orderId){
     select.value;
 
 
+  /*
+    CORRECTION PRINCIPALE :
+
+    Ta colonne Supabase s'appelle
+    exactement "status" en minuscule.
+
+    L'ancien code utilisait "Status",
+    ce qui provoquait :
+
+    Could not find the 'Status'
+    column of 'Orders'
+    in the schema cache
+  */
+
   const {
     error
   } =
     await supabaseClient
       .from("Orders")
       .update({
-        Status:nouveauStatut
+        status:
+          nouveauStatut
       })
       .eq(
         "id",
@@ -2119,33 +2387,44 @@ async function verifierSession(){
         .getSession();
 
 
-    if(data && data.session){
+    if(
+      data &&
+      data.session
+    ){
 
       const hash =
         window.location.hash;
 
 
-      if(hash.includes("type=recovery")){
+      if(
+        hash.includes(
+          "type=recovery"
+        )
+      ){
 
         document
           .getElementById("connexionBox")
           .classList
           .add("hidden");
 
+
         document
           .getElementById("recoveryBox")
           .classList
           .add("hidden");
+
 
         document
           .getElementById("adminBox")
           .classList
           .add("hidden");
 
+
         document
           .getElementById("newPasswordBox")
           .classList
           .remove("hidden");
+
 
         return;
       }
@@ -2176,22 +2455,28 @@ supabaseClient
   .onAuthStateChange(
     (event, session) => {
 
-      if(event === "PASSWORD_RECOVERY"){
+      if(
+        event ===
+        "PASSWORD_RECOVERY"
+      ){
 
         document
           .getElementById("connexionBox")
           .classList
           .add("hidden");
 
+
         document
           .getElementById("recoveryBox")
           .classList
           .add("hidden");
 
+
         document
           .getElementById("adminBox")
           .classList
           .add("hidden");
+
 
         document
           .getElementById("newPasswordBox")
