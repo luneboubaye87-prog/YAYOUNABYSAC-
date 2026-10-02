@@ -10,254 +10,251 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
-    *{
-      box-sizing:border-box;
-      margin:0;
-      padding:0;
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
 
-    body{
-      font-family:Arial, sans-serif;
-      background:#f5f5f5;
-      color:#222;
-      padding-bottom:40px;
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      color: #222;
+      padding-bottom: 40px;
     }
 
-    header{
-      background:#111;
-      color:white;
-      padding:18px 16px;
-      text-align:center;
+    header {
+      background: #111;
+      color: white;
+      padding: 20px 15px;
+      text-align: center;
     }
 
-    header h1{
-      font-size:22px;
-      margin-bottom:6px;
+    header h1 {
+      font-size: 23px;
+      margin-bottom: 6px;
     }
 
-    header p{
-      font-size:13px;
-      opacity:.8;
+    header p {
+      font-size: 13px;
+      opacity: .8;
     }
 
-    .container{
-      max-width:900px;
-      margin:20px auto;
-      padding:0 15px;
+    .container {
+      max-width: 950px;
+      margin: 20px auto;
+      padding: 0 15px;
     }
 
-    .box{
-      background:white;
-      border-radius:14px;
-      padding:20px;
-      margin-bottom:20px;
-      box-shadow:0 3px 15px rgba(0,0,0,.08);
+    .box {
+      background: white;
+      border-radius: 15px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 3px 15px rgba(0,0,0,.08);
     }
 
-    h2{
-      font-size:20px;
-      margin-bottom:18px;
+    h2 {
+      font-size: 20px;
+      margin-bottom: 18px;
     }
 
-    h3{
-      font-size:17px;
-      margin-bottom:12px;
+    h3 {
+      margin-bottom: 12px;
     }
 
-    label{
-      display:block;
-      font-weight:bold;
-      margin:13px 0 7px;
-      font-size:14px;
+    label {
+      display: block;
+      font-weight: bold;
+      font-size: 14px;
+      margin: 14px 0 7px;
     }
 
     input,
     textarea,
-    select{
-      width:100%;
-      padding:13px;
-      border:1px solid #ddd;
-      border-radius:9px;
-      font-size:15px;
-      background:white;
+    select {
+      width: 100%;
+      padding: 13px;
+      border: 1px solid #ddd;
+      border-radius: 9px;
+      font-size: 15px;
+      background: white;
     }
 
-    textarea{
-      min-height:100px;
-      resize:vertical;
+    textarea {
+      min-height: 100px;
+      resize: vertical;
     }
 
-    button{
-      border:none;
-      border-radius:9px;
-      padding:13px 16px;
-      font-size:15px;
-      font-weight:bold;
-      cursor:pointer;
+    button {
+      border: 0;
+      border-radius: 9px;
+      padding: 13px 16px;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
     }
 
-    .btn-primary{
-      background:#111;
-      color:white;
+    .btn-primary {
+      background: #111;
+      color: white;
     }
 
-    .btn-primary:hover{
-      background:#333;
+    .btn-primary:hover {
+      background: #333;
     }
 
-    .btn-secondary{
-      background:#eee;
-      color:#222;
+    .btn-secondary {
+      background: #eee;
+      color: #222;
     }
 
-    .btn-danger{
-      background:#c62828;
-      color:white;
+    .btn-danger {
+      background: #c62828;
+      color: white;
     }
 
-    .btn-success{
-      background:#16803c;
-      color:white;
+    .actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 15px;
     }
 
-    .actions{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      margin-top:15px;
+    .message {
+      display: none;
+      margin-top: 14px;
+      padding: 12px;
+      border-radius: 9px;
+      font-size: 14px;
+      line-height: 1.4;
     }
 
-    .message{
-      padding:12px;
-      border-radius:8px;
-      margin-top:12px;
-      font-size:14px;
-      display:none;
+    .success {
+      background: #e8f7ed;
+      color: #176b35;
     }
 
-    .success{
-      background:#e8f7ed;
-      color:#176b35;
+    .error {
+      background: #fdeaea;
+      color: #a51d1d;
     }
 
-    .error{
-      background:#fdeaea;
-      color:#a51d1d;
+    .hidden {
+      display: none !important;
     }
 
-    .hidden{
-      display:none !important;
+    .admin-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
     }
 
-    .admin-top{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:10px;
-      flex-wrap:wrap;
-      margin-bottom:20px;
+    .admin-top strong {
+      font-size: 18px;
     }
 
-    .admin-top strong{
-      font-size:18px;
+    .small {
+      color: #777;
+      font-size: 13px;
+      line-height: 1.5;
     }
 
-    .product-preview{
-      margin-top:10px;
-      max-width:180px;
-      max-height:180px;
-      border-radius:10px;
-      object-fit:cover;
-      display:none;
+    .product-preview {
+      display: none;
+      width: 180px;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-top: 12px;
+      border: 1px solid #ddd;
     }
 
-    .gallery{
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
-      gap:15px;
-      margin-top:15px;
+    /* GALERIE */
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 15px;
+      margin-top: 18px;
     }
 
-    .gallery-item{
-      border:1px solid #ddd;
-      border-radius:12px;
-      padding:10px;
-      background:#fafafa;
+    .gallery-item {
+      background: #fafafa;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      padding: 10px;
+      overflow: hidden;
     }
 
-    .gallery-item img{
-      width:100%;
-      height:150px;
-      object-fit:cover;
-      border-radius:9px;
-      display:block;
-      margin-bottom:10px;
+    .gallery-item img {
+      display: block;
+      width: 100%;
+      height: 170px;
+      object-fit: cover;
+      border-radius: 9px;
+      background: #eee;
+      margin-bottom: 10px;
     }
 
-    .gallery-name{
-      font-size:12px;
-      word-break:break-all;
-      margin-bottom:8px;
-      color:#555;
+    .gallery-name {
+      font-size: 12px;
+      color: #666;
+      word-break: break-all;
+      line-height: 1.4;
+      margin-bottom: 10px;
     }
 
-    .order{
-      border:1px solid #ddd;
-      border-radius:12px;
-      padding:15px;
-      margin-bottom:12px;
-      background:#fafafa;
+    .gallery-item button {
+      width: 100%;
     }
 
-    .order strong{
-      display:block;
-      margin-bottom:5px;
+    /* COMMANDES */
+    .order {
+      background: #fafafa;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      padding: 15px;
+      margin-top: 12px;
     }
 
-    .order-line{
-      margin:5px 0;
-      font-size:14px;
+    .order-line {
+      margin: 6px 0;
+      font-size: 14px;
+      line-height: 1.4;
     }
 
-    .empty{
-      text-align:center;
-      padding:25px;
-      color:#777;
-      background:#fafafa;
-      border-radius:10px;
+    .empty {
+      text-align: center;
+      padding: 25px 15px;
+      background: #fafafa;
+      border-radius: 10px;
+      color: #777;
+      margin-top: 15px;
     }
 
-    .separator{
-      height:1px;
-      background:#eee;
-      margin:25px 0;
-    }
+    @media (max-width: 600px) {
 
-    .small{
-      font-size:13px;
-      color:#777;
-      line-height:1.5;
-    }
-
-    @media(max-width:600px){
-      .container{
-        padding:0 10px;
+      .container {
+        padding: 0 10px;
       }
 
-      .box{
-        padding:15px;
+      .box {
+        padding: 15px;
       }
 
-      header h1{
-        font-size:20px;
+      .actions button {
+        width: 100%;
       }
 
-      .actions button{
-        width:100%;
+      .gallery {
+        grid-template-columns: repeat(2, 1fr);
       }
 
-      .gallery{
-        grid-template-columns:repeat(2,1fr);
+      .gallery-item img {
+        height: 145px;
       }
     }
   </style>
@@ -273,7 +270,9 @@
 
 <div class="container">
 
-  <!-- CONNEXION -->
+  <!-- =========================
+       CONNEXION
+  ========================== -->
 
   <div id="connexionBox" class="box">
 
@@ -281,6 +280,7 @@
 <h2>🔐 Connexion administrateur</h2>
 
 <label for="email">Email</label>
+
 <input
   type="email"
   id="email"
@@ -289,6 +289,7 @@
 >
 
 <label for="password">Mot de passe</label>
+
 <input
   type="password"
   id="password"
@@ -297,33 +298,51 @@
 >
 
 <div class="actions">
-  <button class="btn-primary" onclick="connexionAdmin()">
+
+  <button
+    class="btn-primary"
+    onclick="connexionAdmin()"
+  >
     Se connecter
   </button>
 
-  <button class="btn-secondary" onclick="afficherRecuperation()">
+  <button
+    class="btn-secondary"
+    onclick="afficherRecuperation()"
+  >
     Mot de passe oublié ?
   </button>
+
 </div>
 
-<div id="loginMessage" class="message"></div>
+<div
+  id="loginMessage"
+  class="message"
+></div>
 ```
 
   </div>
 
-  <!-- RECUPERATION MOT DE PASSE -->
+  <!-- =========================
+       RECUPERATION
+  ========================== -->
 
-  <div id="recoveryBox" class="box hidden">
+  <div
+    id="recoveryBox"
+    class="box hidden"
+  >
 
 ```
 <h2>🔑 Récupérer le mot de passe</h2>
 
 <p class="small">
-  Entrez votre adresse email administrateur pour recevoir un lien
-  de récupération.
+  Entrez votre adresse email administrateur
+  pour recevoir un lien de récupération.
 </p>
 
-<label for="recoveryEmail">Email</label>
+<label for="recoveryEmail">
+  Email
+</label>
 
 <input
   type="email"
@@ -333,24 +352,38 @@
 
 <div class="actions">
 
-  <button class="btn-primary" onclick="envoyerRecuperation()">
+  <button
+    class="btn-primary"
+    onclick="envoyerRecuperation()"
+  >
     Envoyer le lien
   </button>
 
-  <button class="btn-secondary" onclick="retourConnexion()">
+  <button
+    class="btn-secondary"
+    onclick="retourConnexion()"
+  >
     Retour
   </button>
 
 </div>
 
-<div id="recoveryMessage" class="message"></div>
+<div
+  id="recoveryMessage"
+  class="message"
+></div>
 ```
 
   </div>
 
-  <!-- NOUVEAU MOT DE PASSE -->
+  <!-- =========================
+       NOUVEAU MOT DE PASSE
+  ========================== -->
 
-  <div id="newPasswordBox" class="box hidden">
+  <div
+    id="newPasswordBox"
+    class="box hidden"
+  >
 
 ```
 <h2>🔐 Nouveau mot de passe</h2>
@@ -377,25 +410,38 @@
 
 <div class="actions">
 
-  <button class="btn-primary" onclick="changerMotDePasse()">
+  <button
+    class="btn-primary"
+    onclick="changerMotDePasse()"
+  >
     Enregistrer le nouveau mot de passe
   </button>
 
 </div>
 
-<div id="passwordMessage" class="message"></div>
+<div
+  id="passwordMessage"
+  class="message"
+></div>
 ```
 
   </div>
 
-  <!-- ADMIN -->
+  <!-- =========================
+       TABLEAU ADMIN
+  ========================== -->
 
-  <div id="adminBox" class="hidden">
+  <div
+    id="adminBox"
+    class="hidden"
+  >
 
 ```
 <div class="admin-top">
 
-  <strong>⚙️ Tableau de bord</strong>
+  <strong>
+    ⚙️ Tableau de bord
+  </strong>
 
   <button
     class="btn-danger"
@@ -407,7 +453,10 @@
 </div>
 
 
-<!-- AJOUT PRODUIT -->
+<!-- =========================
+     AJOUT PRODUIT
+========================== -->
+
 <div class="box">
 
   <h2>➕ Ajouter un produit</h2>
@@ -502,7 +551,9 @@
   >
 
   <p class="small" style="margin-top:7px;">
-    Tu peux utiliser directement une URL d'image publique.
+    Tu peux utiliser une URL publique ou
+    sélectionner une image déjà présente dans
+    le bucket product-images.
   </p>
 
 
@@ -543,13 +594,18 @@
 
   </div>
 
-
-  <div id="productMessage" class="message"></div>
+  <div
+    id="productMessage"
+    class="message"
+  ></div>
 
 </div>
 
 
-<!-- GALERIE STORAGE -->
+<!-- =========================
+     GALERIE STORAGE
+========================== -->
+
 <div class="box">
 
   <h2>🖼️ Images des produits</h2>
@@ -571,14 +627,23 @@
 
   </div>
 
-  <div id="galleryMessage" class="message"></div>
+  <div
+    id="galleryMessage"
+    class="message"
+  ></div>
 
-  <div id="imageGallery" class="gallery"></div>
+  <div
+    id="imageGallery"
+    class="gallery"
+  ></div>
 
 </div>
 
 
-<!-- COMMANDES -->
+<!-- =========================
+     COMMANDES
+========================== -->
+
 <div class="box">
 
   <h2>📦 Commandes</h2>
@@ -601,7 +666,6 @@
 
   <div
     id="ordersList"
-    style="margin-top:15px;"
   ></div>
 
 </div>
@@ -614,7 +678,7 @@
 <script>
 
   /* =====================================================
-     SUPABASE
+     CONFIGURATION SUPABASE
   ===================================================== */
 
   const SUPABASE_URL =
@@ -622,6 +686,7 @@
 
   const SUPABASE_KEY =
     "sb_publishable_Qxr7ftKtVgB3y3lmx1agWg_UQxqrviy";
+
 
   const supabaseClient =
     supabase.createClient(
@@ -631,9 +696,13 @@
 
 
   /*
-    IMPORTANT :
-    Le vrai bucket Supabase est :
+    IMPORTANT
+    =========
+    Le vrai bucket trouvé dans Supabase est :
+
     product-images
+
+    Il faut respecter exactement les minuscules.
   */
 
   const STORAGE_BUCKET =
@@ -641,15 +710,15 @@
 
 
   /* =====================================================
-     OUTILS
+     UTILITAIRE MESSAGE
   ===================================================== */
 
-  function afficherMessage(id, texte, type){
+  function afficherMessage(id, texte, type) {
 
     const element =
       document.getElementById(id);
 
-    if(!element){
+    if (!element) {
       return;
     }
 
@@ -657,37 +726,48 @@
 
     element.className =
       "message " +
-      (type === "success"
-        ? "success"
-        : "error");
+      (
+        type === "success"
+          ? "success"
+          : "error"
+      );
 
-    element.style.display = "block";
+    element.style.display =
+      "block";
   }
 
 
-  function cacherMessage(id){
+  function cacherMessage(id) {
 
     const element =
       document.getElementById(id);
 
-    if(element){
-      element.style.display = "none";
+    if (element) {
+      element.style.display =
+        "none";
     }
   }
 
 
-  function escapeHtml(value){
+  /* =====================================================
+     SECURITE HTML
+  ===================================================== */
 
-    if(value === null || value === undefined){
+  function escapeHtml(value) {
+
+    if (
+      value === null ||
+      value === undefined
+    ) {
       return "";
     }
 
     return String(value)
-      .replace(/&/g,"&amp;")
-      .replace(/</g,"&lt;")
-      .replace(/>/g,"&gt;")
-      .replace(/"/g,"&quot;")
-      .replace(/'/g,"&#039;");
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
   }
 
 
@@ -695,19 +775,21 @@
      CONNEXION
   ===================================================== */
 
-  async function connexionAdmin(){
+  async function connexionAdmin() {
 
     const email =
-      document.getElementById("email")
+      document
+        .getElementById("email")
         .value
         .trim();
 
     const password =
-      document.getElementById("password")
+      document
+        .getElementById("password")
         .value;
 
 
-    if(!email || !password){
+    if (!email || !password) {
 
       afficherMessage(
         "loginMessage",
@@ -719,24 +801,29 @@
     }
 
 
-    cacherMessage("loginMessage");
+    cacherMessage(
+      "loginMessage"
+    );
 
 
     const {
       data,
       error
     } =
-      await supabaseClient.auth.signInWithPassword({
-        email: email,
-        password: password
-      });
+      await supabaseClient
+        .auth
+        .signInWithPassword({
+          email: email,
+          password: password
+        });
 
 
-    if(error){
+    if (error) {
 
       afficherMessage(
         "loginMessage",
-        "Erreur : " + error.message,
+        "Erreur : " +
+        error.message,
         "error"
       );
 
@@ -744,7 +831,10 @@
     }
 
 
-    if(data && data.user){
+    if (
+      data &&
+      data.user
+    ) {
 
       afficherAdmin();
 
@@ -757,26 +847,31 @@
      AFFICHER ADMIN
   ===================================================== */
 
-  function afficherAdmin(){
+  function afficherAdmin() {
 
     document
       .getElementById("connexionBox")
-      .classList.add("hidden");
+      .classList
+      .add("hidden");
 
     document
       .getElementById("recoveryBox")
-      .classList.add("hidden");
+      .classList
+      .add("hidden");
 
     document
       .getElementById("newPasswordBox")
-      .classList.add("hidden");
+      .classList
+      .add("hidden");
 
     document
       .getElementById("adminBox")
-      .classList.remove("hidden");
+      .classList
+      .remove("hidden");
 
 
     chargerImages();
+
     chargerCommandes();
 
   }
@@ -786,17 +881,23 @@
      DECONNEXION
   ===================================================== */
 
-  async function deconnexion(){
+  async function deconnexion() {
 
-    await supabaseClient.auth.signOut();
+    await supabaseClient
+      .auth
+      .signOut();
+
 
     document
       .getElementById("adminBox")
-      .classList.add("hidden");
+      .classList
+      .add("hidden");
+
 
     document
       .getElementById("connexionBox")
-      .classList.remove("hidden");
+      .classList
+      .remove("hidden");
 
   }
 
@@ -805,33 +906,37 @@
      RECUPERATION MOT DE PASSE
   ===================================================== */
 
-  function afficherRecuperation(){
+  function afficherRecuperation() {
 
     document
       .getElementById("connexionBox")
-      .classList.add("hidden");
+      .classList
+      .add("hidden");
 
     document
       .getElementById("recoveryBox")
-      .classList.remove("hidden");
+      .classList
+      .remove("hidden");
 
   }
 
 
-  function retourConnexion(){
+  function retourConnexion() {
 
     document
       .getElementById("recoveryBox")
-      .classList.add("hidden");
+      .classList
+      .add("hidden");
 
     document
       .getElementById("connexionBox")
-      .classList.remove("hidden");
+      .classList
+      .remove("hidden");
 
   }
 
 
-  async function envoyerRecuperation(){
+  async function envoyerRecuperation() {
 
     const email =
       document
@@ -840,7 +945,7 @@
         .trim();
 
 
-    if(!email){
+    if (!email) {
 
       afficherMessage(
         "recoveryMessage",
@@ -852,15 +957,6 @@
     }
 
 
-    cacherMessage("recoveryMessage");
-
-
-    /*
-      URL GitHub Pages.
-      Supabase doit autoriser cette URL
-      dans Authentication > URL Configuration.
-    */
-
     const redirectUrl =
       window.location.origin +
       window.location.pathname;
@@ -869,15 +965,18 @@
     const {
       error
     } =
-      await supabaseClient.auth.resetPasswordForEmail(
-        email,
-        {
-          redirectTo: redirectUrl
-        }
-      );
+      await supabaseClient
+        .auth
+        .resetPasswordForEmail(
+          email,
+          {
+            redirectTo:
+              redirectUrl
+          }
+        );
 
 
-    if(error){
+    if (error) {
 
       afficherMessage(
         "recoveryMessage",
@@ -900,23 +999,26 @@
 
 
   /* =====================================================
-     NOUVEAU MOT DE PASSE
+     CHANGER MOT DE PASSE
   ===================================================== */
 
-  async function changerMotDePasse(){
+  async function changerMotDePasse() {
 
     const password =
       document
         .getElementById("newPassword")
         .value;
 
-    const confirm =
+    const confirmation =
       document
         .getElementById("confirmPassword")
         .value;
 
 
-    if(!password || !confirm){
+    if (
+      !password ||
+      !confirmation
+    ) {
 
       afficherMessage(
         "passwordMessage",
@@ -928,7 +1030,10 @@
     }
 
 
-    if(password !== confirm){
+    if (
+      password !==
+      confirmation
+    ) {
 
       afficherMessage(
         "passwordMessage",
@@ -940,7 +1045,9 @@
     }
 
 
-    if(password.length < 6){
+    if (
+      password.length < 6
+    ) {
 
       afficherMessage(
         "passwordMessage",
@@ -955,16 +1062,19 @@
     const {
       error
     } =
-      await supabaseClient.auth.updateUser({
-        password: password
-      });
+      await supabaseClient
+        .auth
+        .updateUser({
+          password: password
+        });
 
 
-    if(error){
+    if (error) {
 
       afficherMessage(
         "passwordMessage",
-        "Erreur : " + error.message,
+        "Erreur : " +
+        error.message,
         "error"
       );
 
@@ -979,26 +1089,31 @@
     );
 
 
-    setTimeout(() => {
+    setTimeout(
+      () => {
 
-      document
-        .getElementById("newPasswordBox")
-        .classList.add("hidden");
+        document
+          .getElementById("newPasswordBox")
+          .classList
+          .add("hidden");
 
-      document
-        .getElementById("connexionBox")
-        .classList.remove("hidden");
+        document
+          .getElementById("connexionBox")
+          .classList
+          .remove("hidden");
 
-    },1500);
+      },
+      1500
+    );
 
   }
 
 
   /* =====================================================
-     PREVIEW URL
+     APERCU URL
   ===================================================== */
 
-  function afficherPreviewUrl(){
+  function afficherPreviewUrl() {
 
     const url =
       document
@@ -1011,15 +1126,21 @@
         .getElementById("productPreview");
 
 
-    if(url){
+    if (url) {
 
-      preview.src = url;
-      preview.style.display = "block";
+      preview.src =
+        url;
 
-    }else{
+      preview.style.display =
+        "block";
 
-      preview.src = "";
-      preview.style.display = "none";
+    } else {
+
+      preview.src =
+        "";
+
+      preview.style.display =
+        "none";
 
     }
 
@@ -1027,10 +1148,10 @@
 
 
   /* =====================================================
-     PREVIEW FICHIER
+     APERCU FICHIER
   ===================================================== */
 
-  function afficherPreviewFichier(){
+  function afficherPreviewFichier() {
 
     const file =
       document
@@ -1042,7 +1163,7 @@
         .getElementById("productPreview");
 
 
-    if(!file){
+    if (!file) {
       return;
     }
 
@@ -1051,15 +1172,16 @@
       new FileReader();
 
 
-    reader.onload = function(event){
+    reader.onload =
+      function(event) {
 
-      preview.src =
-        event.target.result;
+        preview.src =
+          event.target.result;
 
-      preview.style.display =
-        "block";
+        preview.style.display =
+          "block";
 
-    };
+      };
 
 
     reader.readAsDataURL(file);
@@ -1071,7 +1193,7 @@
      AJOUTER PRODUIT
   ===================================================== */
 
-  async function ajouterProduit(){
+  async function ajouterProduit() {
 
     const nom =
       document
@@ -1116,7 +1238,7 @@
         .files[0];
 
 
-    if(!nom){
+    if (!nom) {
 
       afficherMessage(
         "productMessage",
@@ -1128,7 +1250,10 @@
     }
 
 
-    if(!prix || prix < 0){
+    if (
+      !prix ||
+      prix < 0
+    ) {
 
       afficherMessage(
         "productMessage",
@@ -1140,7 +1265,10 @@
     }
 
 
-    if(stock < 0 || isNaN(stock)){
+    if (
+      isNaN(stock) ||
+      stock < 0
+    ) {
 
       afficherMessage(
         "productMessage",
@@ -1152,7 +1280,7 @@
     }
 
 
-    if(!categorie){
+    if (!categorie) {
 
       afficherMessage(
         "productMessage",
@@ -1172,119 +1300,125 @@
 
 
     let imageUrl =
-      imageUrlInput || null;
+      imageUrlInput ||
+      null;
 
 
-    /* =================================================
-       UPLOAD IMAGE VERS SUPABASE STORAGE
-    ================================================= */
+    /* ================================================
+       UPLOAD IMAGE
+    ================================================ */
 
-    if(imageFile){
+    if (imageFile) {
 
-      try{
-
-        const extension =
-          imageFile.name
-            .split(".")
-            .pop()
-            .toLowerCase();
+      const extension =
+        imageFile.name
+          .split(".")
+          .pop()
+          .toLowerCase();
 
 
-        const nomFichier =
-          "produit-" +
-          Date.now() +
-          "-" +
-          Math.random()
-            .toString(36)
-            .substring(2,8) +
-          "." +
-          extension;
+      const nomFichier =
+        "produit-" +
+        Date.now() +
+        "-" +
+        Math.random()
+          .toString(36)
+          .substring(2, 8) +
+        "." +
+        extension;
 
 
-        const {
-          error: uploadError
-        } =
-          await supabaseClient
-            .storage
-            .from(STORAGE_BUCKET)
-            .upload(
-              nomFichier,
-              imageFile,
-              {
-                cacheControl:"3600",
-                upsert:false
-              }
-            );
+      const {
+        error:
+          uploadError
+      } =
+        await supabaseClient
+          .storage
+          .from(STORAGE_BUCKET)
+          .upload(
+            nomFichier,
+            imageFile,
+            {
+              cacheControl:
+                "3600",
 
-
-        if(uploadError){
-
-          afficherMessage(
-            "productMessage",
-            "Erreur lors de l'envoi de l'image : " +
-            uploadError.message,
-            "error"
+              upsert:
+                false
+            }
           );
 
-          return;
-        }
 
-
-        const {
-          data: publicData
-        } =
-          supabaseClient
-            .storage
-            .from(STORAGE_BUCKET)
-            .getPublicUrl(nomFichier);
-
-
-        if(publicData){
-
-          imageUrl =
-            publicData.publicUrl;
-
-        }
-
-      }catch(error){
+      if (uploadError) {
 
         afficherMessage(
           "productMessage",
-          "Erreur image : " +
-          error.message,
+          "Erreur lors de l'envoi de l'image : " +
+          uploadError.message,
           "error"
         );
 
         return;
       }
 
+
+      const {
+        data:
+          publicData
+      } =
+        supabaseClient
+          .storage
+          .from(STORAGE_BUCKET)
+          .getPublicUrl(
+            nomFichier
+          );
+
+
+      if (
+        publicData &&
+        publicData.publicUrl
+      ) {
+
+        imageUrl =
+          publicData.publicUrl;
+
+      }
+
     }
 
 
-    /* =================================================
-       INSERTION PRODUIT
-    ================================================= */
+    /* ================================================
+       INSERTION DANS PRODUCTS
+    ================================================ */
 
     const {
-      data,
       error
     } =
       await supabaseClient
         .from("Products")
         .insert([
           {
-            name: nom,
-            description: description,
-            Price: prix,
-            Image_url: imageUrl,
-            Stock: stock,
-            Category: categorie
+            name:
+              nom,
+
+            description:
+              description,
+
+            Price:
+              prix,
+
+            Image_url:
+              imageUrl,
+
+            Stock:
+              stock,
+
+            Category:
+              categorie
           }
-        ])
-        .select();
+        ]);
 
 
-    if(error){
+    if (error) {
 
       afficherMessage(
         "productMessage",
@@ -1306,9 +1440,6 @@
 
     viderFormulaire();
 
-
-    /* Actualiser la galerie */
-
     chargerImages();
 
   }
@@ -1318,7 +1449,7 @@
      VIDER FORMULAIRE
   ===================================================== */
 
-  function viderFormulaire(){
+  function viderFormulaire() {
 
     document
       .getElementById("nomProduit")
@@ -1353,17 +1484,21 @@
       document
         .getElementById("productPreview");
 
-    preview.src = "";
-    preview.style.display = "none";
+
+    preview.src =
+      "";
+
+    preview.style.display =
+      "none";
 
   }
 
 
   /* =====================================================
-     CHARGER IMAGES STORAGE
+     CHARGER IMAGES DU BUCKET
   ===================================================== */
 
-  async function chargerImages(){
+  async function chargerImages() {
 
     const gallery =
       document
@@ -1371,13 +1506,15 @@
 
 
     gallery.innerHTML =
-      '<div class="empty">Chargement des images...</div>';
+      '<div class="empty">🔄 Chargement des images...</div>';
 
 
-    cacherMessage("galleryMessage");
+    cacherMessage(
+      "galleryMessage"
+    );
 
 
-    try{
+    try {
 
       const {
         data,
@@ -1389,22 +1526,27 @@
           .list(
             "",
             {
-              limit:100,
-              sortBy:{
-                column:"created_at",
-                order:"desc"
+              limit: 100,
+
+              sortBy: {
+                column:
+                  "created_at",
+
+                order:
+                  "desc"
               }
             }
           );
 
 
-      if(error){
+      if (error) {
 
-        gallery.innerHTML = "";
+        gallery.innerHTML =
+          "";
 
         afficherMessage(
           "galleryMessage",
-          "Erreur lors du chargement des images : " +
+          "Erreur Storage : " +
           error.message,
           "error"
         );
@@ -1413,83 +1555,100 @@
       }
 
 
-      if(!data || data.length === 0){
+      if (
+        !data ||
+        data.length === 0
+      ) {
 
         gallery.innerHTML =
-          '<div class="empty">' +
-          'Aucune image trouvée dans le bucket ' +
-          '<strong>product-images</strong>.' +
-          '</div>';
+          `
+          <div class="empty">
+            Le bucket
+            <strong>product-images</strong>
+            ne contient aucun fichier accessible.
+          </div>
+          `;
 
         return;
       }
 
 
-      gallery.innerHTML = "";
+      gallery.innerHTML =
+        "";
 
 
-      data.forEach(file => {
+      data.forEach(
+        (file) => {
 
-        /*
-          Ignore les dossiers éventuels.
-        */
+          if (
+            !file ||
+            !file.name
+          ) {
+            return;
+          }
 
-        if(!file.name){
-          return;
+
+          const {
+            data:
+              publicData
+          } =
+            supabaseClient
+              .storage
+              .from(
+                STORAGE_BUCKET
+              )
+              .getPublicUrl(
+                file.name
+              );
+
+
+          const publicUrl =
+            publicData.publicUrl;
+
+
+          const item =
+            document.createElement(
+              "div"
+            );
+
+
+          item.className =
+            "gallery-item";
+
+
+          item.innerHTML =
+            `
+            <img
+              src="${escapeHtml(publicUrl)}"
+              alt="Image produit"
+              onerror="this.alt='Image inaccessible';"
+            >
+
+            <div class="gallery-name">
+              ${escapeHtml(file.name)}
+            </div>
+
+            <button
+              class="btn-primary"
+              onclick='utiliserImage(${JSON.stringify(publicUrl)})'
+            >
+              Utiliser cette image
+            </button>
+            `;
+
+
+          gallery.appendChild(
+            item
+          );
+
         }
+      );
 
 
-        const {
-          data: publicData
-        } =
-          supabaseClient
-            .storage
-            .from(STORAGE_BUCKET)
-            .getPublicUrl(file.name);
+    } catch (error) {
 
-
-        const publicUrl =
-          publicData.publicUrl;
-
-
-        const item =
-          document.createElement("div");
-
-        item.className =
-          "gallery-item";
-
-
-        item.innerHTML = `
-
-          <img
-            src="${escapeHtml(publicUrl)}"
-            alt="Image produit"
-            onerror="this.style.opacity='0.3'"
-          >
-
-          <div class="gallery-name">
-            ${escapeHtml(file.name)}
-          </div>
-
-          <button
-            class="btn-primary"
-            style="width:100%;"
-            onclick="utiliserImage(${JSON.stringify(publicUrl)})"
-          >
-            Utiliser cette image
-          </button>
-
-        `;
-
-
-        gallery.appendChild(item);
-
-      });
-
-
-    }catch(error){
-
-      gallery.innerHTML = "";
+      gallery.innerHTML =
+        "";
 
       afficherMessage(
         "galleryMessage",
@@ -1504,19 +1663,21 @@
 
 
   /* =====================================================
-     UTILISER UNE IMAGE DE STORAGE
+     UTILISER IMAGE
   ===================================================== */
 
-  function utiliserImage(url){
+  function utiliserImage(url) {
 
     document
       .getElementById("imageUrl")
-      .value = url;
+      .value =
+      url;
 
 
     document
       .getElementById("imageFile")
-      .value = "";
+      .value =
+      "";
 
 
     afficherPreviewUrl();
@@ -1525,14 +1686,17 @@
     document
       .getElementById("nomProduit")
       .scrollIntoView({
-        behavior:"smooth",
-        block:"center"
+        behavior:
+          "smooth",
+
+        block:
+          "center"
       });
 
 
     afficherMessage(
       "productMessage",
-      "✅ Image sélectionnée. Elle sera utilisée pour le prochain produit.",
+      "✅ Image sélectionnée.",
       "success"
     );
 
@@ -1543,7 +1707,7 @@
      COMMANDES
   ===================================================== */
 
-  async function chargerCommandes(){
+  async function chargerCommandes() {
 
     const ordersList =
       document
@@ -1551,13 +1715,15 @@
 
 
     ordersList.innerHTML =
-      '<div class="empty">Chargement des commandes...</div>';
+      '<div class="empty">🔄 Chargement des commandes...</div>';
 
 
-    cacherMessage("ordersMessage");
+    cacherMessage(
+      "ordersMessage"
+    );
 
 
-    try{
+    try {
 
       const {
         data,
@@ -1569,14 +1735,16 @@
           .order(
             "id",
             {
-              ascending:false
+              ascending:
+                false
             }
           );
 
 
-      if(error){
+      if (error) {
 
-        ordersList.innerHTML = "";
+        ordersList.innerHTML =
+          "";
 
         afficherMessage(
           "ordersMessage",
@@ -1589,105 +1757,121 @@
       }
 
 
-      if(!data || data.length === 0){
+      if (
+        !data ||
+        data.length === 0
+      ) {
 
         ordersList.innerHTML =
-          '<div class="empty">' +
-          'Aucune commande pour le moment.' +
-          '</div>';
+          `
+          <div class="empty">
+            Aucune commande pour le moment.
+          </div>
+          `;
 
         return;
       }
 
 
-      ordersList.innerHTML = "";
+      ordersList.innerHTML =
+        "";
 
 
-      data.forEach(order => {
+      data.forEach(
+        (order) => {
 
-        const customerName =
-          order.Customer_name ??
-          "";
+          const customerName =
+            order.Customer_name ??
+            "";
 
-        const phone =
-          order.Phone ??
-          "";
+          const phone =
+            order.Phone ??
+            "";
 
-        const address =
-          order.Address ??
-          "";
+          const address =
+            order.Address ??
+            "";
 
-        const total =
-          order.Total ??
-          0;
+          const total =
+            order.Total ??
+            0;
 
-        const status =
-          order.Status ??
-          "En attente";
+          const status =
+            order.Status ??
+            "En attente";
 
-        const date =
-          order.created_at
-            ? new Date(
-                order.created_at
-              ).toLocaleString("fr-FR")
-            : "";
-
-
-        const div =
-          document.createElement("div");
-
-        div.className =
-          "order";
+          const date =
+            order.created_at
+              ? new Date(
+                  order.created_at
+                ).toLocaleString(
+                  "fr-FR"
+                )
+              : "";
 
 
-        div.innerHTML = `
-
-          <strong>
-            Commande #${escapeHtml(order.id)}
-          </strong>
-
-          <div class="order-line">
-            👤 Client :
-            ${escapeHtml(customerName)}
-          </div>
-
-          <div class="order-line">
-            📞 Téléphone :
-            ${escapeHtml(phone)}
-          </div>
-
-          <div class="order-line">
-            📍 Adresse :
-            ${escapeHtml(address)}
-          </div>
-
-          <div class="order-line">
-            💰 Total :
-            ${escapeHtml(total)}
-            FCFA
-          </div>
-
-          <div class="order-line">
-            📌 Statut :
-            ${escapeHtml(status)}
-          </div>
-
-          <div class="order-line">
-            🕒 Date :
-            ${escapeHtml(date)}
-          </div>
-
-        `;
+          const div =
+            document.createElement(
+              "div"
+            );
 
 
-        ordersList.appendChild(div);
+          div.className =
+            "order";
 
-      });
+
+          div.innerHTML =
+            `
+            <div class="order-line">
+              <strong>
+                📦 Commande #${escapeHtml(order.id)}
+              </strong>
+            </div>
+
+            <div class="order-line">
+              👤 Client :
+              ${escapeHtml(customerName)}
+            </div>
+
+            <div class="order-line">
+              📞 Téléphone :
+              ${escapeHtml(phone)}
+            </div>
+
+            <div class="order-line">
+              📍 Adresse :
+              ${escapeHtml(address)}
+            </div>
+
+            <div class="order-line">
+              💰 Total :
+              ${escapeHtml(total)} FCFA
+            </div>
+
+            <div class="order-line">
+              📌 Statut :
+              ${escapeHtml(status)}
+            </div>
+
+            <div class="order-line">
+              🕒 Date :
+              ${escapeHtml(date)}
+            </div>
+            `;
 
 
-    }catch(error){
+          ordersList.appendChild(
+            div
+          );
 
-      ordersList.innerHTML = "";
+        }
+      );
+
+
+    } catch (error) {
+
+      ordersList.innerHTML =
+        "";
 
       afficherMessage(
         "ordersMessage",
@@ -1702,12 +1886,12 @@
 
 
   /* =====================================================
-     VERIFICATION SESSION AU CHARGEMENT
+     VERIFICATION SESSION
   ===================================================== */
 
-  async function verifierSession(){
+  async function verifierSession() {
 
-    try{
+    try {
 
       const {
         data
@@ -1717,37 +1901,40 @@
           .getSession();
 
 
-      if(data && data.session){
-
-        /*
-          Si l'URL contient le flux de récupération
-          de mot de passe, afficher le formulaire
-          de nouveau mot de passe.
-        */
+      if (
+        data &&
+        data.session
+      ) {
 
         const hash =
           window.location.hash;
 
 
-        if(
-          hash.includes("type=recovery")
-        ){
+        if (
+          hash.includes(
+            "type=recovery"
+          )
+        ) {
 
           document
             .getElementById("connexionBox")
-            .classList.add("hidden");
+            .classList
+            .add("hidden");
 
           document
             .getElementById("recoveryBox")
-            .classList.add("hidden");
+            .classList
+            .add("hidden");
 
           document
             .getElementById("adminBox")
-            .classList.add("hidden");
+            .classList
+            .add("hidden");
 
           document
             .getElementById("newPasswordBox")
-            .classList.remove("hidden");
+            .classList
+            .remove("hidden");
 
           return;
         }
@@ -1757,7 +1944,7 @@
 
       }
 
-    }catch(error){
+    } catch (error) {
 
       console.error(
         "Erreur session :",
@@ -1770,34 +1957,43 @@
 
 
   /* =====================================================
-     EVENEMENT AUTH
+     AUTH STATE
   ===================================================== */
 
-  supabaseClient.auth.onAuthStateChange(
-    (event, session) => {
+  supabaseClient
+    .auth
+    .onAuthStateChange(
+      (event, session) => {
 
-      if(event === "PASSWORD_RECOVERY"){
+        if (
+          event ===
+          "PASSWORD_RECOVERY"
+        ) {
 
-        document
-          .getElementById("connexionBox")
-          .classList.add("hidden");
+          document
+            .getElementById("connexionBox")
+            .classList
+            .add("hidden");
 
-        document
-          .getElementById("recoveryBox")
-          .classList.add("hidden");
+          document
+            .getElementById("recoveryBox")
+            .classList
+            .add("hidden");
 
-        document
-          .getElementById("adminBox")
-          .classList.add("hidden");
+          document
+            .getElementById("adminBox")
+            .classList
+            .add("hidden");
 
-        document
-          .getElementById("newPasswordBox")
-          .classList.remove("hidden");
+          document
+            .getElementById("newPasswordBox")
+            .classList
+            .remove("hidden");
+
+        }
 
       }
-
-    }
-  );
+    );
 
 
   /* =====================================================
