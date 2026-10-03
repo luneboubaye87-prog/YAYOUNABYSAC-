@@ -16,97 +16,98 @@
     }
 
     body{
-      font-family:Arial,sans-serif;
+      font-family:Arial, sans-serif;
       background:#f7f3ef;
-      color:#2f2925;
-      min-height:100vh;
+      color:#2d2926;
+      padding:20px;
+    }
+
+    .container{
+      max-width:1000px;
+      margin:0 auto;
     }
 
     header{
-      background:#2f2925;
+      background:#2d2926;
       color:white;
-      padding:20px;
-      text-align:center;
+      padding:22px;
+      border-radius:18px;
+      margin-bottom:20px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:15px;
+      flex-wrap:wrap;
     }
 
     header h1{
       font-size:24px;
-      margin-bottom:6px;
     }
 
-    header p{
-      font-size:14px;
-      opacity:.8;
-    }
-
-    .container{
-      width:94%;
-      max-width:1000px;
-      margin:25px auto;
-    }
-
-    .box{
+    .card{
       background:white;
       border-radius:18px;
       padding:22px;
       margin-bottom:20px;
-      box-shadow:0 5px 20px rgba(0,0,0,.07);
+      box-shadow:0 5px 20px rgba(0,0,0,0.07);
     }
 
-    h2{
+    .card h2{
       margin-bottom:18px;
-      font-size:21px;
-    }
-
-    h3{
-      margin-bottom:12px;
-      font-size:18px;
+      font-size:20px;
     }
 
     label{
       display:block;
-      margin:12px 0 6px;
+      margin-bottom:7px;
       font-weight:bold;
       font-size:14px;
     }
 
     input,
+    textarea,
     select{
       width:100%;
       padding:13px;
       border:1px solid #ddd;
       border-radius:10px;
+      margin-bottom:14px;
       font-size:15px;
       background:white;
+    }
+
+    textarea{
+      min-height:90px;
+      resize:vertical;
     }
 
     button{
       border:none;
       border-radius:10px;
-      padding:12px 18px;
+      padding:12px 16px;
       cursor:pointer;
       font-weight:bold;
       font-size:14px;
     }
 
-    .btn-principal{
-      width:100%;
-      background:#2f2925;
+    .btn-primary{
+      background:#2d2926;
       color:white;
-      margin-top:15px;
     }
 
-    .btn-secondaire{
+    .btn-secondary{
       background:#eee5de;
-      color:#2f2925;
-      margin-right:8px;
-      margin-top:10px;
+      color:#2d2926;
     }
 
     .btn-danger{
-      background:#b33a3a;
+      background:#b42318;
       color:white;
-      margin-top:10px;
+    }
+
+    .btn-success{
+      background:#26734d;
+      color:white;
     }
 
     .hidden{
@@ -114,148 +115,201 @@
     }
 
     .message{
-      margin-top:15px;
       padding:12px;
       border-radius:10px;
-      font-size:14px;
+      margin-bottom:15px;
       display:none;
+      line-height:1.5;
+      font-size:14px;
     }
 
-    .success{
-      display:block;
-      background:#e8f6ec;
-      color:#21733a;
+    .message.error{
+      background:#ffe7e5;
+      color:#a11a12;
     }
 
-    .error{
-      display:block;
-      background:#fdeaea;
-      color:#a52a2a;
+    .message.success{
+      background:#e5f6eb;
+      color:#17653c;
     }
 
-    .top-actions{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:10px;
-      flex-wrap:wrap;
-    }
-
-    .commande{
-      border:1px solid #e3ddd8;
+    .order{
+      border:1px solid #e4ddd7;
       border-radius:16px;
       padding:18px;
       margin-bottom:18px;
       background:#fff;
     }
 
-    .commande-header{
+    .order-header{
+      display:flex;
+      justify-content:space-between;
+      gap:15px;
+      flex-wrap:wrap;
+      padding-bottom:14px;
+      margin-bottom:14px;
+      border-bottom:1px solid #eee;
+    }
+
+    .order-id{
+      font-size:18px;
+      font-weight:bold;
+    }
+
+    .order-date{
+      color:#777;
+      font-size:13px;
+    }
+
+    .customer{
+      background:#faf8f6;
+      padding:14px;
+      border-radius:12px;
+      margin-bottom:16px;
+      line-height:1.7;
+    }
+
+    .customer strong{
+      color:#2d2926;
+    }
+
+    .products-title{
+      font-size:16px;
+      font-weight:bold;
+      margin-bottom:10px;
+    }
+
+    .product-item{
+      border:1px solid #eee;
+      border-radius:12px;
+      padding:13px;
+      margin-bottom:9px;
+      background:#fafafa;
+    }
+
+    .product-line{
       display:flex;
       justify-content:space-between;
       align-items:flex-start;
       gap:15px;
-      flex-wrap:wrap;
-      margin-bottom:15px;
     }
 
-    .commande-id{
+    .product-name{
       font-weight:bold;
-      font-size:18px;
+      margin-bottom:5px;
     }
 
-    .date{
-      color:#777;
+    .product-info{
       font-size:13px;
-      margin-top:5px;
+      color:#666;
+      line-height:1.5;
     }
 
-    .infos-client{
-      background:#faf8f6;
-      border-radius:12px;
-      padding:14px;
-      margin-bottom:15px;
-      line-height:1.8;
-      font-size:14px;
+    .product-price{
+      font-weight:bold;
+      white-space:nowrap;
     }
 
-    .produits{
-      margin-top:15px;
-      border-top:1px solid #eee;
-      padding-top:15px;
-    }
-
-    .produit-ligne{
+    .order-total{
+      margin-top:14px;
+      padding-top:14px;
+      border-top:2px solid #eee5de;
       display:flex;
       justify-content:space-between;
-      align-items:center;
-      gap:12px;
-      padding:12px 0;
-      border-bottom:1px solid #f0ece8;
-      font-size:14px;
-    }
-
-    .produit-ligne:last-child{
-      border-bottom:none;
-    }
-
-    .produit-nom{
-      font-weight:bold;
-    }
-
-    .produit-details{
-      color:#777;
-      margin-top:4px;
-      font-size:13px;
-    }
-
-    .total{
-      margin-top:15px;
-      padding-top:15px;
-      border-top:1px solid #ddd;
       font-size:18px;
       font-weight:bold;
-      text-align:right;
     }
 
-    .statut-zone{
-      margin-top:18px;
-      padding-top:15px;
+    .status-zone{
+      margin-top:16px;
+      padding-top:16px;
       border-top:1px solid #eee;
     }
 
-    .statut-zone select{
-      margin-bottom:8px;
+    .status-zone select{
+      margin-bottom:10px;
+    }
+
+    .status-actions{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
     }
 
     .loading{
       text-align:center;
-      padding:25px;
+      padding:30px;
       color:#777;
     }
 
-    .vide{
+    .empty{
       text-align:center;
-      padding:35px 15px;
+      padding:30px;
       color:#777;
-      background:white;
-      border-radius:16px;
+      background:#faf8f6;
+      border-radius:12px;
+    }
+
+    .small-error{
+      background:#fff0ee;
+      color:#a11a12;
+      border-radius:10px;
+      padding:12px;
+      margin-top:10px;
+      font-size:13px;
+      line-height:1.5;
+    }
+
+    .top-actions{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+
+    .recovery-link{
+      display:block;
+      text-align:center;
+      margin-top:10px;
+      color:#8a5a44;
+      cursor:pointer;
+      text-decoration:underline;
+      font-size:14px;
+    }
+
+    .separator{
+      text-align:center;
+      margin:15px 0;
+      color:#999;
+      font-size:13px;
     }
 
     @media(max-width:600px){
-      .container{
-        width:94%;
+      body{
+        padding:12px;
       }
 
-      .box{
-        padding:17px;
+      header{
+        padding:18px;
       }
 
-      .commande-header{
-        display:block;
+      header h1{
+        font-size:20px;
       }
 
-      .produit-ligne{
-        align-items:flex-start;
+      .card{
+        padding:16px;
+      }
+
+      .product-line{
+        flex-direction:column;
+      }
+
+      .product-price{
+        white-space:normal;
+      }
+
+      .order-total{
+        font-size:16px;
       }
     }
   </style>
@@ -263,93 +317,100 @@
 
 <body>
 
-<header>
-  <h1>YAYOUNABYSAC</h1>
-  <p>Administration des commandes</p>
-</header>
-
 <div class="container">
 
+  <header>
+    <h1>👜 YAYOUNABYSAC - Administration</h1>
+
+    <div class="top-actions">
+      <button
+        id="actualiserBtn"
+        class="btn-secondary hidden"
+        onclick="chargerCommandes()">
+        🔄 Actualiser
+      </button>
+
+      <button
+        id="deconnexionBtn"
+        class="btn-danger hidden"
+        onclick="deconnexionAdmin()">
+        🚪 Se déconnecter
+      </button>
+    </div>
+  </header>
+
+
   <!-- CONNEXION -->
-  <div id="connexionBox" class="box">
+  <div id="connexionBox" class="card">
 
-    <h2>Connexion administrateur</h2>
+    <h2>🔐 Connexion administrateur</h2>
 
-    <label for="email">Email</label>
+    <div id="connexionMessage" class="message"></div>
+
+    <label for="email">Adresse e-mail</label>
     <input
       type="email"
       id="email"
-      placeholder="Votre email"
-    >
+      placeholder="Votre adresse e-mail">
 
     <label for="password">Mot de passe</label>
     <input
       type="password"
       id="password"
-      placeholder="Votre mot de passe"
-    >
+      placeholder="Votre mot de passe">
 
     <button
-      type="button"
-      class="btn-principal"
-      onclick="connexionAdmin()"
-    >
+      class="btn-primary"
+      style="width:100%;"
+      onclick="connexionAdmin()">
       Se connecter
     </button>
 
-    <button
-      type="button"
-      class="btn-secondaire"
-      onclick="afficherRecuperation()"
-    >
+    <div
+      class="recovery-link"
+      onclick="afficherRecuperation()">
       Mot de passe oublié ?
-    </button>
-
-    <div id="messageConnexion" class="message"></div>
+    </div>
 
   </div>
 
 
   <!-- RECUPERATION -->
-  <div id="recoveryBox" class="box hidden">
+  <div id="recoveryBox" class="card hidden">
 
-    <h2>Réinitialiser le mot de passe</h2>
+    <h2>📧 Réinitialiser le mot de passe</h2>
 
-    <label for="recoveryEmail">
-      Email administrateur
-    </label>
+    <div id="recoveryMessage" class="message"></div>
+
+    <label for="recoveryEmail">Adresse e-mail</label>
 
     <input
       type="email"
       id="recoveryEmail"
-      placeholder="Votre email"
-    >
+      placeholder="Votre adresse e-mail">
 
     <button
-      type="button"
-      class="btn-principal"
-      onclick="envoyerRecuperation()"
-    >
+      class="btn-primary"
+      style="width:100%;"
+      onclick="envoyerRecuperation()">
       Envoyer le lien
     </button>
 
-    <button
-      type="button"
-      class="btn-secondaire"
-      onclick="retourConnexion()"
-    >
-      Retour
-    </button>
-
-    <div id="messageRecovery" class="message"></div>
+    <div
+      class="recovery-link"
+      onclick="afficherConnexion()">
+      Retour à la connexion
+    </div>
 
   </div>
 
 
   <!-- NOUVEAU MOT DE PASSE -->
-  <div id="newPasswordBox" class="box hidden">
+  <div id="newPasswordBox" class="card hidden">
 
-    <h2>Nouveau mot de passe</h2>
+    <h2>🔑 Nouveau mot de passe</h2>
+
+    <div id="newPasswordMessage" class="message"></div>
 
     <label for="newPassword">
       Nouveau mot de passe
@@ -358,18 +419,23 @@
     <input
       type="password"
       id="newPassword"
-      placeholder="Nouveau mot de passe"
-    >
+      placeholder="Nouveau mot de passe">
+
+    <label for="confirmPassword">
+      Confirmer le mot de passe
+    </label>
+
+    <input
+      type="password"
+      id="confirmPassword"
+      placeholder="Confirmer le mot de passe">
 
     <button
-      type="button"
-      class="btn-principal"
-      onclick="changerMotDePasse()"
-    >
+      class="btn-primary"
+      style="width:100%;"
+      onclick="changerMotDePasse()">
       Enregistrer le nouveau mot de passe
     </button>
-
-    <div id="messageNewPassword" class="message"></div>
 
   </div>
 
@@ -377,49 +443,16 @@
   <!-- ADMIN -->
   <div id="adminBox" class="hidden">
 
-    <div class="box">
+    <div class="card">
 
-      <div class="top-actions">
+      <h2>📦 Commandes</h2>
 
-        <div>
-          <h2 style="margin-bottom:5px;">
-            📦 Commandes
-          </h2>
+      <div id="commandesMessage" class="message"></div>
 
-          <div style="color:#777;font-size:14px;">
-            Gestion des commandes YAYOUNABYSAC
-          </div>
+      <div id="commandesContainer">
+        <div class="loading">
+          Chargement des commandes...
         </div>
-
-        <div>
-
-          <button
-            type="button"
-            class="btn-secondaire"
-            onclick="chargerCommandes()"
-          >
-            Actualiser
-          </button>
-
-          <button
-            type="button"
-            class="btn-danger"
-            onclick="deconnexion()"
-          >
-            Se déconnecter
-          </button>
-
-        </div>
-
-      </div>
-
-    </div>
-
-
-    <div id="commandesContainer">
-
-      <div class="loading">
-        Chargement des commandes...
       </div>
 
     </div>
@@ -431,26 +464,26 @@
 
 <script>
 
-  /* =====================================================
-     SUPABASE
-  ===================================================== */
+  /* ==============================
+     CONFIGURATION SUPABASE
+  ============================== */
 
   const SUPABASE_URL =
     "https://ajprnhqphbtgfztspuio.supabase.co";
 
-  const SUPABASE_ANON_KEY =
+  const SUPABASE_KEY =
     "sb_publishable_Qxr7ftKtVgB3y3lmx1agWg_UQxqrviy";
 
   const supabaseClient =
     window.supabase.createClient(
       SUPABASE_URL,
-      SUPABASE_ANON_KEY
+      SUPABASE_KEY
     );
 
 
-  /* =====================================================
+  /* ==============================
      ELEMENTS
-  ===================================================== */
+  ============================== */
 
   const connexionBox =
     document.getElementById("connexionBox");
@@ -464,26 +497,158 @@
   const adminBox =
     document.getElementById("adminBox");
 
+  const actualiserBtn =
+    document.getElementById("actualiserBtn");
+
+  const deconnexionBtn =
+    document.getElementById("deconnexionBtn");
+
   const commandesContainer =
     document.getElementById("commandesContainer");
 
 
-  /* =====================================================
-     MESSAGE
-  ===================================================== */
+  /* ==============================
+     OUTILS
+  ============================== */
 
-  function afficherMessage(element, texte, type){
+  function escapeHtml(value){
 
-    element.textContent = texte;
+    if(value === null || value === undefined){
+      return "";
+    }
 
-    element.className =
-      "message " + type;
+    return String(value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
   }
 
 
-  /* =====================================================
-     CONNEXION
-  ===================================================== */
+  function formatPrice(value){
+
+    const number =
+      Number(value || 0);
+
+    return number.toLocaleString("fr-FR") +
+      " FCFA";
+  }
+
+
+  function formatDate(date){
+
+    if(!date){
+      return "";
+    }
+
+    try{
+
+      return new Date(date).toLocaleString(
+        "fr-FR",
+        {
+          dateStyle:"medium",
+          timeStyle:"short"
+        }
+      );
+
+    }catch(error){
+
+      return date;
+    }
+  }
+
+
+  function afficherMessage(
+    elementId,
+    message,
+    type
+  ){
+
+    const element =
+      document.getElementById(elementId);
+
+    if(!element){
+      return;
+    }
+
+    element.textContent = message;
+
+    element.className =
+      "message " + type;
+
+    element.style.display = "block";
+  }
+
+
+  function cacherMessage(elementId){
+
+    const element =
+      document.getElementById(elementId);
+
+    if(element){
+      element.style.display = "none";
+    }
+  }
+
+
+  /* ==============================
+     AFFICHAGE DES ECRANS
+  ============================== */
+
+  function afficherConnexion(){
+
+    connexionBox.classList.remove("hidden");
+    recoveryBox.classList.add("hidden");
+    newPasswordBox.classList.add("hidden");
+    adminBox.classList.add("hidden");
+
+    actualiserBtn.classList.add("hidden");
+    deconnexionBtn.classList.add("hidden");
+  }
+
+
+  function afficherRecuperation(){
+
+    connexionBox.classList.add("hidden");
+    recoveryBox.classList.remove("hidden");
+    newPasswordBox.classList.add("hidden");
+    adminBox.classList.add("hidden");
+
+    actualiserBtn.classList.add("hidden");
+    deconnexionBtn.classList.add("hidden");
+
+    cacherMessage("recoveryMessage");
+  }
+
+
+  function afficherAdmin(){
+
+    connexionBox.classList.add("hidden");
+    recoveryBox.classList.add("hidden");
+    newPasswordBox.classList.add("hidden");
+    adminBox.classList.remove("hidden");
+
+    actualiserBtn.classList.remove("hidden");
+    deconnexionBtn.classList.remove("hidden");
+  }
+
+
+  function afficherNouveauMotDePasse(){
+
+    connexionBox.classList.add("hidden");
+    recoveryBox.classList.add("hidden");
+    adminBox.classList.add("hidden");
+    newPasswordBox.classList.remove("hidden");
+
+    actualiserBtn.classList.add("hidden");
+    deconnexionBtn.classList.add("hidden");
+  }
+
+
+  /* ==============================
+     CONNEXION ADMIN
+  ============================== */
 
   async function connexionAdmin(){
 
@@ -493,37 +658,49 @@
     const password =
       document.getElementById("password").value;
 
-    const message =
-      document.getElementById("messageConnexion");
+    cacherMessage("connexionMessage");
 
     if(!email || !password){
 
       afficherMessage(
-        message,
-        "Veuillez remplir votre email et votre mot de passe.",
+        "connexionMessage",
+        "Veuillez remplir l'adresse e-mail et le mot de passe.",
         "error"
       );
 
       return;
     }
 
-    afficherMessage(
-      message,
-      "Connexion en cours...",
-      "success"
-    );
+    const button =
+      document.querySelector(
+        '#connexionBox button.btn-primary'
+      );
 
-    const { data, error } =
+    if(button){
+      button.disabled = true;
+      button.textContent = "Connexion...";
+    }
+
+    const {
+      data,
+      error
+    } =
       await supabaseClient.auth.signInWithPassword({
         email: email,
         password: password
       });
 
+    if(button){
+      button.disabled = false;
+      button.textContent = "Se connecter";
+    }
+
     if(error){
 
       afficherMessage(
-        message,
-        "Erreur de connexion : " + error.message,
+        "connexionMessage",
+        "Erreur de connexion : " +
+        error.message,
         "error"
       );
 
@@ -532,75 +709,82 @@
 
     if(data && data.session){
 
-      connexionBox.classList.add("hidden");
-      recoveryBox.classList.add("hidden");
-      newPasswordBox.classList.add("hidden");
-      adminBox.classList.remove("hidden");
+      afficherAdmin();
 
-      chargerCommandes();
+      await chargerCommandes();
     }
   }
 
 
-  /* =====================================================
-     RECUPERATION
-  ===================================================== */
+  /* ==============================
+     DECONNEXION
+  ============================== */
 
-  function afficherRecuperation(){
+  async function deconnexionAdmin(){
 
-    connexionBox.classList.add("hidden");
-    recoveryBox.classList.remove("hidden");
-    newPasswordBox.classList.add("hidden");
+    const {
+      error
+    } =
+      await supabaseClient.auth.signOut();
+
+    if(error){
+
+      alert(
+        "Erreur lors de la déconnexion : " +
+        error.message
+      );
+
+      return;
+    }
+
+    afficherConnexion();
   }
 
 
-  function retourConnexion(){
-
-    recoveryBox.classList.add("hidden");
-    newPasswordBox.classList.add("hidden");
-    connexionBox.classList.remove("hidden");
-  }
-
+  /* ==============================
+     RECUPERATION MOT DE PASSE
+  ============================== */
 
   async function envoyerRecuperation(){
 
     const email =
-      document
-        .getElementById("recoveryEmail")
-        .value
-        .trim();
+      document.getElementById(
+        "recoveryEmail"
+      ).value.trim();
 
-    const message =
-      document.getElementById("messageRecovery");
+    cacherMessage("recoveryMessage");
 
     if(!email){
 
       afficherMessage(
-        message,
-        "Veuillez entrer votre email.",
+        "recoveryMessage",
+        "Veuillez entrer votre adresse e-mail.",
         "error"
       );
 
       return;
     }
 
-    const redirectUrl =
+    const redirectTo =
       window.location.origin +
       window.location.pathname;
 
-    const { error } =
+    const {
+      error
+    } =
       await supabaseClient.auth.resetPasswordForEmail(
         email,
         {
-          redirectTo: redirectUrl
+          redirectTo: redirectTo
         }
       );
 
     if(error){
 
       afficherMessage(
-        message,
-        "Erreur : " + error.message,
+        "recoveryMessage",
+        "Erreur lors de l'envoi : " +
+        error.message,
         "error"
       );
 
@@ -608,29 +792,46 @@
     }
 
     afficherMessage(
-      message,
-      "Le lien de réinitialisation a été envoyé.",
+      "recoveryMessage",
+      "Le lien de réinitialisation a été envoyé à votre adresse e-mail.",
       "success"
     );
   }
 
 
-  /* =====================================================
-     NOUVEAU MOT DE PASSE
-  ===================================================== */
+  /* ==============================
+     CHANGER MOT DE PASSE
+  ============================== */
 
   async function changerMotDePasse(){
 
     const password =
-      document.getElementById("newPassword").value;
+      document.getElementById(
+        "newPassword"
+      ).value;
 
-    const message =
-      document.getElementById("messageNewPassword");
+    const confirmPassword =
+      document.getElementById(
+        "confirmPassword"
+      ).value;
 
-    if(!password || password.length < 6){
+    cacherMessage("newPasswordMessage");
+
+    if(!password || !confirmPassword){
 
       afficherMessage(
-        message,
+        "newPasswordMessage",
+        "Veuillez remplir les deux champs.",
+        "error"
+      );
+
+      return;
+    }
+
+    if(password.length < 6){
+
+      afficherMessage(
+        "newPasswordMessage",
         "Le mot de passe doit contenir au moins 6 caractères.",
         "error"
       );
@@ -638,7 +839,20 @@
       return;
     }
 
-    const { error } =
+    if(password !== confirmPassword){
+
+      afficherMessage(
+        "newPasswordMessage",
+        "Les deux mots de passe ne correspondent pas.",
+        "error"
+      );
+
+      return;
+    }
+
+    const {
+      error
+    } =
       await supabaseClient.auth.updateUser({
         password: password
       });
@@ -646,8 +860,9 @@
     if(error){
 
       afficherMessage(
-        message,
-        "Erreur : " + error.message,
+        "newPasswordMessage",
+        "Erreur : " +
+        error.message,
         "error"
       );
 
@@ -655,38 +870,49 @@
     }
 
     afficherMessage(
-      message,
-      "Mot de passe modifié avec succès.",
+      "newPasswordMessage",
+      "Mot de passe modifié avec succès. Vous pouvez maintenant vous connecter.",
       "success"
+    );
+
+    setTimeout(
+      () => {
+        afficherConnexion();
+      },
+      2000
     );
   }
 
 
-  /* =====================================================
-     CHARGER COMMANDES
-  ===================================================== */
+  /* ==============================
+     CHARGER LES COMMANDES
+  ============================== */
 
   async function chargerCommandes(){
 
     commandesContainer.innerHTML =
       '<div class="loading">Chargement des commandes...</div>';
 
-    const { data: commandes, error } =
+    const {
+      data: commandes,
+      error
+    } =
       await supabaseClient
         .from("Orders")
         .select("*")
-        .order("id", {
-          ascending:false
-        });
+        .order(
+          "id",
+          {
+            ascending:false
+          }
+        );
 
     if(error){
 
       commandesContainer.innerHTML =
-        '<div class="box">' +
-        '<div class="message error" style="display:block;">' +
-        'Erreur lors du chargement des commandes : ' +
+        '<div class="small-error">' +
+        '<strong>Erreur lors du chargement des commandes :</strong><br>' +
         escapeHtml(error.message) +
-        '</div>' +
         '</div>';
 
       return;
@@ -695,395 +921,460 @@
     if(!commandes || commandes.length === 0){
 
       commandesContainer.innerHTML =
-        '<div class="vide">' +
+        '<div class="empty">' +
         'Aucune commande pour le moment.' +
         '</div>';
 
       return;
     }
 
-    commandesContainer.innerHTML = "";
+    let html = "";
 
     for(const commande of commandes){
 
-      const bloc =
-        await creerBlocCommande(commande);
-
-      commandesContainer.appendChild(bloc);
+      html +=
+        await construireCommandeHtml(
+          commande
+        );
     }
+
+    commandesContainer.innerHTML = html;
   }
 
 
-  /* =====================================================
-     CREER BLOC COMMANDE
-  ===================================================== */
+  /* ==============================
+     CONSTRUIRE UNE COMMANDE
+  ============================== */
 
-  async function creerBlocCommande(commande){
-
-    const div =
-      document.createElement("div");
-
-    div.className = "commande";
+  async function construireCommandeHtml(
+    commande
+  ){
 
     const id =
       commande.id;
 
-    const client =
-      commande.customer_name ||
-      commande.Customer_name ||
-      "";
+    const customerName =
+      commande.customer_name || "";
 
     const phone =
-      commande.phone ||
-      commande.Phone ||
-      "";
+      commande.phone || "";
 
     const address =
-      commande.address ||
-      commande.Address ||
-      "";
+      commande.address || "";
 
     const total =
-      Number(
-        commande.total ??
-        commande.Total ??
-        0
-      );
+      commande.total || 0;
 
-    const statut =
-      commande.status ||
-      commande.Status ||
-      "En attente";
+    const status =
+      commande.status || "Depuis WhatsApp";
 
     const createdAt =
-      commande.created_at ||
-      commande["created_ at"] ||
-      "";
+      commande.created_at || "";
 
-    let dateFormatee = "";
 
-    if(createdAt){
+    /* ==============================
+       LECTURE DES ARTICLES
+    ============================== */
 
-      const date =
-        new Date(createdAt);
+    const {
+      data: items,
+      error: itemsError
+    } =
+      await supabaseClient
+        .from("Orders_items")
+        .select(
+          "id, order_id, product_id, quantity, price"
+        )
+        .eq(
+          "order_id",
+          id
+        )
+        .order(
+          "id",
+          {
+            ascending:true
+          }
+        );
 
-      if(!isNaN(date.getTime())){
 
-        dateFormatee =
-          date.toLocaleString("fr-FR");
-      }
+    let articlesHtml = "";
+
+
+    /* ERREUR DE LECTURE */
+    if(itemsError){
+
+      articlesHtml =
+        '<div class="small-error">' +
+        '<strong>Erreur lors de la lecture des produits :</strong><br>' +
+        escapeHtml(itemsError.message) +
+        '<br><br>' +
+        'La commande existe bien, mais Supabase refuse peut-être la lecture de la table Orders_items.' +
+        '</div>';
+
     }
 
 
-    /* =================================================
-       ARTICLES DE LA COMMANDE
-    ================================================= */
+    /* AUCUN ARTICLE */
+    else if(!items || items.length === 0){
 
-    let articlesHtml =
-      '<div style="color:#777;font-size:14px;">' +
-      'Aucun article trouvé pour cette commande.' +
-      '</div>';
+      articlesHtml =
+        '<div class="small-error" style="background:#fff8e6;color:#7a5a00;">' +
+        'Aucun article trouvé dans Orders_items pour cette commande.' +
+        '</div>';
 
-    try{
-
-      const {
-        data: items,
-        error: itemsError
-      } =
-        await supabaseClient
-          .from("Orders_items")
-          .select("*")
-          .eq("order_id", id);
-
-      if(!itemsError && items && items.length > 0){
-
-        const productIds = [];
-
-        items.forEach(item => {
-
-          const productId =
-            item.product_id ??
-            item.Product_id ??
-            item.productId;
-
-          if(
-            productId !== null &&
-            productId !== undefined
-          ){
-
-            productIds.push(productId);
-          }
-        });
+    }
 
 
-        let produits = [];
+    /* ARTICLES TROUVES */
+    else{
+
+      /*
+        On récupère les identifiants des produits
+      */
+
+      const productIds =
+        [
+          ...new Set(
+            items
+              .map(
+                item => item.product_id
+              )
+              .filter(
+                id => id !== null &&
+                      id !== undefined
+              )
+          )
+        ];
 
 
-        if(productIds.length > 0){
+      let produits = [];
+      let productsError = null;
 
-          const result =
-            await supabaseClient
-              .from("Products")
-              .select("*")
-              .in("id", productIds);
 
-          if(
-            !result.error &&
-            result.data
-          ){
+      if(productIds.length > 0){
 
-            produits =
-              result.data;
-          }
+        const result =
+          await supabaseClient
+            .from("Products")
+            .select(
+              "id, name, Price, Image_url"
+            )
+            .in(
+              "id",
+              productIds
+            );
+
+        produits =
+          result.data || [];
+
+        productsError =
+          result.error;
+      }
+
+
+      /*
+        Création d'un dictionnaire des produits
+      */
+
+      const produitsMap = {};
+
+      produits.forEach(
+        produit => {
+
+          produitsMap[
+            String(produit.id)
+          ] = produit;
         }
+      );
 
 
-        articlesHtml = "";
-
-
-        items.forEach(item => {
-
-          const productId =
-            item.product_id ??
-            item.Product_id ??
-            item.productId;
+      items.forEach(
+        item => {
 
           const produit =
-            produits.find(
-              p =>
-                String(p.id) ===
-                String(productId)
-            );
+            produitsMap[
+              String(item.product_id)
+            ];
 
 
-          const nom =
-            produit?.name ||
-            produit?.Name ||
-            item.product_name ||
-            item.Product_name ||
-            "Produit";
+          const productName =
+            produit && produit.name
+              ? produit.name
+              : "Produit #" +
+                item.product_id;
 
 
-          const quantite =
-            Number(
-              item.quantity ??
-              item.Quantity ??
-              1
-            );
+          const quantity =
+            Number(item.quantity || 0);
 
 
-          const prix =
-            Number(
-              item.price ??
-              item.Price ??
-              produit?.Price ??
-              produit?.price ??
-              0
-            );
+          /*
+            IMPORTANT :
+            Le prix affiché vient de Orders_items.price,
+            car c'est le prix enregistré au moment
+            de la commande.
+          */
+
+          const unitPrice =
+            Number(item.price || 0);
 
 
-          const sousTotal =
-            prix * quantite;
+          const subtotal =
+            quantity * unitPrice;
 
 
-          articlesHtml += `
+          articlesHtml +=
+            '<div class="product-item">' +
 
-            <div class="produit-ligne">
+              '<div class="product-line">' +
 
-              <div>
+                '<div>' +
 
-                <div class="produit-nom">
-                  ${escapeHtml(nom)}
-                </div>
+                  '<div class="product-name">' +
+                    escapeHtml(productName) +
+                  '</div>' +
 
-                <div class="produit-details">
-                  Quantité : ${quantite}
-                  ×
-                  ${formaterPrix(prix)}
-                  FCFA
-                </div>
+                  '<div class="product-info">' +
+                    'Quantité : <strong>' +
+                    quantity +
+                    '</strong>' +
+                    '<br>' +
+                    'Prix unitaire : <strong>' +
+                    formatPrice(unitPrice) +
+                    '</strong>' +
+                  '</div>' +
 
-              </div>
+                '</div>' +
 
-              <strong>
-                ${formaterPrix(sousTotal)}
-                FCFA
-              </strong>
+                '<div class="product-price">' +
+                  formatPrice(subtotal) +
+                '</div>' +
 
-            </div>
+              '</div>' +
 
-          `;
-        });
+            '</div>';
+        }
+      );
+
+
+      /*
+        Si les produits n'ont pas pu être récupérés,
+        on affiche quand même les articles avec leur ID.
+      */
+
+      if(productsError){
+
+        articlesHtml +=
+          '<div class="small-error">' +
+          '<strong>Information :</strong><br>' +
+          'Les articles sont bien enregistrés, mais les noms des produits n’ont pas pu être récupérés depuis Products.<br><br>' +
+          escapeHtml(productsError.message) +
+          '</div>';
       }
 
-    }catch(error){
-
-      console.error(
-        "Erreur récupération articles :",
-        error
-      );
     }
 
 
-    /* =================================================
-       AFFICHAGE
-    ================================================= */
+    /* ==============================
+       HTML DE LA COMMANDE
+    ============================== */
 
-    div.innerHTML = `
+    return (
 
-      <div class="commande-header">
+      '<div class="order">' +
 
-        <div>
+        '<div class="order-header">' +
 
-          <div class="commande-id">
-            Commande #${escapeHtml(String(id))}
-          </div>
+          '<div>' +
 
-          ${
-            dateFormatee
-              ? `
-                <div class="date">
-                  ${escapeHtml(dateFormatee)}
-                </div>
-              `
-              : ""
-          }
+            '<div class="order-id">' +
+              'Commande #' +
+              escapeHtml(id) +
+            '</div>' +
 
-        </div>
+            '<div class="order-date">' +
+              escapeHtml(
+                formatDate(createdAt)
+              ) +
+            '</div>' +
 
-      </div>
+          '</div>' +
 
-
-      <div class="infos-client">
-
-        <strong>👤 Client :</strong>
-        ${escapeHtml(String(client))}
-
-        <br>
-
-        <strong>📞 Téléphone :</strong>
-        ${escapeHtml(String(phone))}
-
-        <br>
-
-        <strong>📍 Adresse :</strong>
-        ${escapeHtml(String(address))}
-
-      </div>
+        '</div>' +
 
 
-      <div class="produits">
+        '<div class="customer">' +
 
-        <h3>
-          🛍️ Produits commandés
-        </h3>
+          '<strong>👤 Client :</strong> ' +
+          escapeHtml(customerName) +
 
-        ${articlesHtml}
+          '<br>' +
 
-      </div>
+          '<strong>📞 Téléphone :</strong> ' +
+          escapeHtml(phone) +
 
+          '<br>' +
 
-      <div class="total">
+          '<strong>📍 Adresse / Quartier :</strong> ' +
+          escapeHtml(address) +
 
-        Total :
-        ${formaterPrix(total)}
-        FCFA
-
-      </div>
+        '</div>' +
 
 
-      <div class="statut-zone">
+        '<div class="products-title">' +
+          '🛍️ Produits commandés' +
+        '</div>' +
 
-        <label>
-          Statut de la commande
-        </label>
-
-        <select id="statut-${id}">
-
-          <option value="Depuis WhatsApp"
-            ${statut === "Depuis WhatsApp" ? "selected" : ""}>
-            Depuis WhatsApp
-          </option>
-
-          <option value="En attente"
-            ${statut === "En attente" ? "selected" : ""}>
-            En attente
-          </option>
-
-          <option value="Confirmée"
-            ${statut === "Confirmée" ? "selected" : ""}>
-            Confirmée
-          </option>
-
-          <option value="En préparation"
-            ${statut === "En préparation" ? "selected" : ""}>
-            En préparation
-          </option>
-
-          <option value="Expédiée"
-            ${statut === "Expédiée" ? "selected" : ""}>
-            Expédiée
-          </option>
-
-          <option value="Livrée"
-            ${statut === "Livrée" ? "selected" : ""}>
-            Livrée
-          </option>
-
-          <option value="Annulée"
-            ${statut === "Annulée" ? "selected" : ""}>
-            Annulée
-          </option>
-
-        </select>
+        articlesHtml +
 
 
-        <button
-          type="button"
-          class="btn-principal"
-          onclick="enregistrerStatut(${Number(id)})"
-        >
-          Enregistrer le statut
-        </button>
+        '<div class="order-total">' +
 
-      </div>
+          '<span>Total</span>' +
 
-    `;
+          '<span>' +
+            formatPrice(total) +
+          '</span>' +
 
-    return div;
+        '</div>' +
+
+
+        '<div class="status-zone">' +
+
+          '<label for="status-' +
+            escapeHtml(id) +
+          '">' +
+            '📌 Statut de la commande' +
+          '</label>' +
+
+          '<select id="status-' +
+            escapeHtml(id) +
+          '">' +
+
+            '<option value="Depuis WhatsApp"' +
+              (
+                status === "Depuis WhatsApp"
+                  ? " selected"
+                  : ""
+              ) +
+            '>' +
+              'Depuis WhatsApp' +
+            '</option>' +
+
+            '<option value="En attente"' +
+              (
+                status === "En attente"
+                  ? " selected"
+                  : ""
+              ) +
+            '>' +
+              'En attente' +
+            '</option>' +
+
+            '<option value="Confirmée"' +
+              (
+                status === "Confirmée"
+                  ? " selected"
+                  : ""
+              ) +
+            '>' +
+              'Confirmée' +
+            '</option>' +
+
+            '<option value="En préparation"' +
+              (
+                status === "En préparation"
+                  ? " selected"
+                  : ""
+              ) +
+            '>' +
+              'En préparation' +
+            '</option>' +
+
+            '<option value="Expédiée"' +
+              (
+                status === "Expédiée"
+                  ? " selected"
+                  : ""
+              ) +
+            '>' +
+              'Expédiée' +
+            '</option>' +
+
+            '<option value="Livrée"' +
+              (
+                status === "Livrée"
+                  ? " selected"
+                  : ""
+              ) +
+            '>' +
+              'Livrée' +
+            '</option>' +
+
+            '<option value="Annulée"' +
+              (
+                status === "Annulée"
+                  ? " selected"
+                  : ""
+              ) +
+            '>' +
+              'Annulée' +
+            '</option>' +
+
+          '</select>' +
+
+
+          '<div class="status-actions">' +
+
+            '<button ' +
+              'class="btn-success" ' +
+              'onclick="modifierStatut(' +
+                id +
+              ')">' +
+              '💾 Enregistrer le statut' +
+            '</button>' +
+
+          '</div>' +
+
+        '</div>' +
+
+      '</div>'
+    );
   }
 
 
-  /* =====================================================
-     ENREGISTRER STATUT
-  ===================================================== */
+  /* ==============================
+     MODIFIER LE STATUT
+  ============================== */
 
-  async function enregistrerStatut(orderId){
+  async function modifierStatut(id){
 
     const select =
       document.getElementById(
-        "statut-" + orderId
+        "status-" + id
       );
 
     if(!select){
-
-      alert(
-        "Champ de statut introuvable."
-      );
-
       return;
     }
 
     const nouveauStatut =
       select.value;
 
-    const { error } =
+
+    const {
+      error
+    } =
       await supabaseClient
         .from("Orders")
         .update({
           status: nouveauStatut
         })
-        .eq("id", orderId);
+        .eq(
+          "id",
+          id
+        );
+
 
     if(error){
 
@@ -1095,116 +1386,87 @@
       return;
     }
 
+
     alert(
-      "Statut enregistré avec succès."
+      "Statut de la commande #" +
+      id +
+      " enregistré : " +
+      nouveauStatut
     );
 
-    chargerCommandes();
+
+    await chargerCommandes();
   }
 
 
-  /* =====================================================
-     DECONNEXION
-  ===================================================== */
-
-  async function deconnexion(){
-
-    await supabaseClient.auth.signOut();
-
-    adminBox.classList.add("hidden");
-    recoveryBox.classList.add("hidden");
-    newPasswordBox.classList.add("hidden");
-
-    connexionBox.classList.remove("hidden");
-  }
-
-
-  /* =====================================================
-     VERIFIER SESSION
-  ===================================================== */
+  /* ==============================
+     VERIFICATION SESSION
+  ============================== */
 
   async function verifierSession(){
 
-    const { data } =
+    const {
+      data,
+      error
+    } =
       await supabaseClient.auth.getSession();
 
+
     if(
+      !error &&
       data &&
       data.session
     ){
 
-      connexionBox.classList.add("hidden");
-      recoveryBox.classList.add("hidden");
-      newPasswordBox.classList.add("hidden");
-      adminBox.classList.remove("hidden");
+      afficherAdmin();
 
-      chargerCommandes();
+      await chargerCommandes();
 
     }else{
 
-      connexionBox.classList.remove("hidden");
-      recoveryBox.classList.add("hidden");
-      newPasswordBox.classList.add("hidden");
-      adminBox.classList.add("hidden");
+      afficherConnexion();
     }
   }
 
 
-  /* =====================================================
-     AUTH STATE
-  ===================================================== */
+  /* ==============================
+     AUTH STATE CHANGE
+  ============================== */
 
   supabaseClient.auth.onAuthStateChange(
     async (event, session) => {
 
-      if(event === "PASSWORD_RECOVERY"){
-
-        connexionBox.classList.add("hidden");
-        recoveryBox.classList.add("hidden");
-        adminBox.classList.add("hidden");
-        newPasswordBox.classList.remove("hidden");
-
-      }else if(
-        event === "SIGNED_IN" &&
-        session
+      if(
+        event === "PASSWORD_RECOVERY"
       ){
 
-        connexionBox.classList.add("hidden");
-        recoveryBox.classList.add("hidden");
-        newPasswordBox.classList.add("hidden");
-        adminBox.classList.remove("hidden");
+        afficherNouveauMotDePasse();
 
-        chargerCommandes();
+        return;
       }
+
+
+      if(
+        session &&
+        session.user
+      ){
+
+        afficherAdmin();
+
+        await chargerCommandes();
+
+      }else{
+
+        afficherConnexion();
+      }
+
     }
   );
 
 
-  /* =====================================================
-     OUTILS
-  ===================================================== */
-
-  function formaterPrix(prix){
-
-    return Number(prix || 0)
-      .toLocaleString("fr-FR");
-  }
-
-
-  function escapeHtml(value){
-
-    return String(value ?? "")
-      .replace(/&/g,"&amp;")
-      .replace(/</g,"&lt;")
-      .replace(/>/g,"&gt;")
-      .replace(/"/g,"&quot;")
-      .replace(/'/g,"&#039;");
-  }
-
-
-  /* =====================================================
+  /* ==============================
      DEMARRAGE
-  ===================================================== */
+  ============================== */
 
   verifierSession();
 
