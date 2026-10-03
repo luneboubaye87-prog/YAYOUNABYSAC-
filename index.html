@@ -62,10 +62,6 @@
       display:block;
     }
 
-    /* =========================
-       HEADER
-    ========================= */
-
     header{
       position:sticky;
       top:0;
@@ -160,10 +156,6 @@
     .mobile-menu-btn{
       display:none;
     }
-
-    /* =========================
-       HERO
-    ========================= */
 
     .hero{
       max-width:1200px;
@@ -260,10 +252,6 @@
       filter:drop-shadow(0 25px 22px rgba(48,35,30,.15));
     }
 
-    /* =========================
-       BENEFITS
-    ========================= */
-
     .benefits{
       max-width:1200px;
       margin:22px auto 0;
@@ -307,10 +295,6 @@
       color:var(--muted);
     }
 
-    /* =========================
-       SECTION
-    ========================= */
-
     .section{
       max-width:1200px;
       margin:65px auto 0;
@@ -335,10 +319,6 @@
       font-size:14px;
       margin-top:5px;
     }
-
-    /* =========================
-       SEARCH
-    ========================= */
 
     .shop-tools{
       background:var(--surface);
@@ -427,10 +407,6 @@
       font-weight:700;
       display:none;
     }
-
-    /* =========================
-       PRODUCTS
-    ========================= */
 
     .products-grid{
       display:grid;
@@ -591,17 +567,9 @@
       color:var(--muted);
     }
 
-    /* =========================
-       FAVORITES
-    ========================= */
-
     .favorites-section{
       display:none;
     }
-
-    /* =========================
-       FLOATING CART
-    ========================= */
 
     .floating-cart{
       position:fixed;
@@ -653,10 +621,6 @@
       font-size:12px;
       white-space:nowrap;
     }
-
-    /* =========================
-       MODALS
-    ========================= */
 
     .modal-overlay{
       position:fixed;
@@ -722,10 +686,6 @@
       overflow-y:auto;
       max-height:calc(92vh - 80px);
     }
-
-    /* =========================
-       CART
-    ========================= */
 
     .cart-items{
       display:flex;
@@ -879,10 +839,6 @@
       margin-bottom:5px;
     }
 
-    /* =========================
-       PRODUCT DETAIL
-    ========================= */
-
     .detail-content{
       display:grid;
       grid-template-columns:1fr 1fr;
@@ -945,10 +901,6 @@
       color:var(--muted);
       margin-bottom:18px;
     }
-
-    /* =========================
-       CHECKOUT
-    ========================= */
 
     .checkout-total-box{
       background:var(--surface-soft);
@@ -1019,10 +971,6 @@
       cursor:not-allowed;
     }
 
-    /* =========================
-       TOAST
-    ========================= */
-
     .toast{
       position:fixed;
       left:50%;
@@ -1047,10 +995,6 @@
       transform:translate(-50%,0);
     }
 
-    /* =========================
-       LOADING
-    ========================= */
-
     .loading{
       grid-column:1/-1;
       text-align:center;
@@ -1073,10 +1017,6 @@
         transform:rotate(360deg);
       }
     }
-
-    /* =========================
-       FOOTER
-    ========================= */
 
     footer{
       margin-top:80px;
@@ -1119,10 +1059,6 @@
       color:#a99991;
       font-size:11px;
     }
-
-    /* =========================
-       RESPONSIVE
-    ========================= */
 
     @media(max-width:900px){
 
@@ -1339,10 +1275,6 @@
 
 <body>
 
-  <!-- =========================
-       HEADER
-  ========================= -->
-
   <header>
     <div class="header-inner">
 
@@ -1391,11 +1323,6 @@
     </div>
   </header>
 
-
-  <!-- =========================
-       HERO
-  ========================= -->
-
   <section class="hero">
 
     <div class="hero-box">
@@ -1433,11 +1360,6 @@
 
   </section>
 
-
-  <!-- =========================
-       BENEFITS
-  ========================= -->
-
   <section class="benefits">
 
     <div class="benefit">
@@ -1466,11 +1388,6 @@
 
   </section>
 
-
-  <!-- =========================
-       BOUTIQUE
-  ========================= -->
-
   <section class="section" id="boutique">
 
     <div class="section-heading">
@@ -1483,9 +1400,6 @@
       </div>
 
     </div>
-
-
-    <!-- RECHERCHE / CATEGORIES -->
 
     <div class="shop-tools">
 
@@ -1535,9 +1449,6 @@
 
     </div>
 
-
-    <!-- PRODUITS -->
-
     <div
       class="products-grid"
       id="productsGrid"
@@ -1549,11 +1460,6 @@
     </div>
 
   </section>
-
-
-  <!-- =========================
-       FAVORIS
-  ========================= -->
 
   <section
     class="section favorites-section"
@@ -1577,11 +1483,6 @@
     ></div>
 
   </section>
-
-
-  <!-- =========================
-       FLOATING CART
-  ========================= -->
 
   <div
     class="floating-cart"
@@ -1609,11 +1510,6 @@
     </button>
 
   </div>
-
-
-  <!-- =========================
-       CART MODAL
-  ========================= -->
 
   <div
     class="modal-overlay"
@@ -1645,11 +1541,6 @@
 
   </div>
 
-
-  <!-- =========================
-       PRODUCT DETAIL MODAL
-  ========================= -->
-
   <div
     class="modal-overlay"
     id="productModal"
@@ -1679,11 +1570,6 @@
     </div>
 
   </div>
-
-
-  <!-- =========================
-       CHECKOUT MODAL
-  ========================= -->
 
   <div
     class="modal-overlay"
@@ -1794,20 +1680,10 @@
 
   </div>
 
-
-  <!-- =========================
-       TOAST
-  ========================= -->
-
   <div
     class="toast"
     id="toast"
   ></div>
-
-
-  <!-- =========================
-       FOOTER
-  ========================= -->
 
   <footer id="footer">
 
@@ -1843,7 +1719,6 @@
     </div>
 
   </footer>
-
 
   <script>
 
@@ -3517,7 +3392,10 @@
              CREATION COMMANDE
           --------------------------------------------- */
 
-          const { data: orderId, error: orderError } =
+          const {
+            data: orderId,
+            error: orderError
+          } =
             await supabaseClient.rpc(
               "create_order",
               {
@@ -3553,6 +3431,13 @@
 
           /* ---------------------------------------------
              ARTICLES COMMANDE
+
+             IMPORTANT :
+             add_order_item accepte maintenant 4 BIGINT :
+             p_order_id
+             p_product_id
+             p_quantity
+             p_price
           --------------------------------------------- */
 
           for(
@@ -3588,9 +3473,6 @@
 
                   p_product_id:
                     Number(product.id),
-
-                  p_product_name:
-                    product.name || "",
 
                   p_quantity:
                     quantity,
