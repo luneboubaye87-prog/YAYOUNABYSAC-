@@ -205,6 +205,11 @@
       color:white;
     }
 
+    .btn-edit{
+      background:#f1eadc;
+      color:#6f531b;
+    }
+
     .actions{
       display:flex;
       gap:9px;
@@ -291,6 +296,141 @@
       margin-top:12px;
       border:1px solid var(--border);
       box-shadow:0 5px 20px rgba(0,0,0,.08);
+    }
+
+    /* PRODUITS */
+
+    .products-list{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+      gap:14px;
+      margin-top:16px;
+    }
+
+    .product-admin-card{
+      background:#fff;
+      border:1px solid var(--border);
+      border-radius:18px;
+      overflow:hidden;
+      box-shadow:0 4px 15px rgba(0,0,0,.04);
+    }
+
+    .product-admin-image{
+      width:100%;
+      height:220px;
+      object-fit:cover;
+      display:block;
+      background:#eeeeee;
+    }
+
+    .product-no-image{
+      width:100%;
+      height:220px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:#f0f0f0;
+      color:#888;
+      font-size:14px;
+    }
+
+    .product-admin-content{
+      padding:15px;
+    }
+
+    .product-admin-name{
+      font-size:17px;
+      font-weight:800;
+      margin-bottom:7px;
+      color:#111;
+    }
+
+    .product-admin-description{
+      color:#777;
+      font-size:12px;
+      line-height:1.5;
+      margin-bottom:12px;
+      min-height:36px;
+    }
+
+    .product-info-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:8px;
+      margin-bottom:13px;
+    }
+
+    .product-info{
+      background:#f8f8f8;
+      border-radius:10px;
+      padding:9px;
+    }
+
+    .product-info span{
+      display:block;
+      color:#888;
+      font-size:10px;
+      margin-bottom:3px;
+    }
+
+    .product-info strong{
+      display:block;
+      font-size:13px;
+      color:#222;
+    }
+
+    .product-admin-category{
+      display:inline-block;
+      background:var(--gold-light);
+      color:#70541d;
+      border-radius:20px;
+      padding:6px 9px;
+      font-size:11px;
+      font-weight:700;
+      margin-bottom:13px;
+    }
+
+    .product-card-actions{
+      display:flex;
+      gap:8px;
+    }
+
+    .product-card-actions button{
+      flex:1;
+      font-size:12px;
+      padding:11px 8px;
+    }
+
+    /* MODIFICATION PRODUIT */
+
+    .edit-product-box{
+      background:#fffdf8;
+      border:1px solid #eadfc9;
+      border-radius:17px;
+      padding:17px;
+      margin-top:15px;
+    }
+
+    .edit-product-title{
+      font-weight:800;
+      font-size:16px;
+      margin-bottom:5px;
+    }
+
+    .edit-product-subtitle{
+      font-size:12px;
+      color:#777;
+      margin-bottom:12px;
+    }
+
+    .edit-preview{
+      display:none;
+      width:150px;
+      height:150px;
+      object-fit:cover;
+      border-radius:14px;
+      margin-top:10px;
+      border:1px solid var(--border);
     }
 
     /* GALERIE */
@@ -445,6 +585,19 @@
 
       .actions button{
         width:100%;
+      }
+
+      .products-list{
+        grid-template-columns:1fr;
+      }
+
+      .product-admin-image,
+      .product-no-image{
+        height:230px;
+      }
+
+      .product-card-actions{
+        flex-direction:column;
       }
 
       .gallery{
@@ -908,6 +1061,215 @@
 
 
     <!-- =========================
+         GESTION DES PRODUITS
+    ========================== -->
+
+    <div class="box">
+
+      <div class="section-title">
+
+        <div class="section-icon">
+          📋
+        </div>
+
+        <div>
+          <h2 style="margin:0;">
+            Gestion des produits
+          </h2>
+
+          <p class="small">
+            Consultez, modifiez ou supprimez les produits de la boutique
+          </p>
+        </div>
+
+      </div>
+
+
+      <div class="actions">
+
+        <button
+          class="btn-primary"
+          onclick="chargerProduits()"
+        >
+          🔄 Actualiser les produits
+        </button>
+
+      </div>
+
+
+      <div
+        id="productsMessage"
+        class="message"
+      ></div>
+
+
+      <div
+        id="productsList"
+        class="products-list"
+      ></div>
+
+
+      <!-- FORMULAIRE MODIFICATION -->
+
+      <div
+        id="editProductBox"
+        class="edit-product-box hidden"
+      >
+
+        <div class="edit-product-title">
+          ✏️ Modifier le produit
+        </div>
+
+        <div class="edit-product-subtitle">
+          Modifiez les informations puis enregistrez.
+        </div>
+
+
+        <input
+          type="hidden"
+          id="editProductId"
+        >
+
+
+        <label for="editNomProduit">
+          Nom du produit
+        </label>
+
+        <input
+          type="text"
+          id="editNomProduit"
+          placeholder="Nom du produit"
+        >
+
+
+        <label for="editDescriptionProduit">
+          Description
+        </label>
+
+        <textarea
+          id="editDescriptionProduit"
+          placeholder="Description du produit"
+        ></textarea>
+
+
+        <label for="editPrixProduit">
+          Prix en FCFA
+        </label>
+
+        <input
+          type="number"
+          id="editPrixProduit"
+          min="0"
+          placeholder="18000"
+        >
+
+
+        <label for="editStockProduit">
+          Stock disponible
+        </label>
+
+        <input
+          type="number"
+          id="editStockProduit"
+          min="0"
+          placeholder="5"
+        >
+
+
+        <label for="editCategorieProduit">
+          Catégorie
+        </label>
+
+        <select id="editCategorieProduit">
+
+          <option value="">
+            Choisir une catégorie
+          </option>
+
+          <option value="Sacs à main">
+            Sacs à main
+          </option>
+
+          <option value="Sacs bandoulière">
+            Sacs bandoulière
+          </option>
+
+          <option value="Sacs cabas">
+            Sacs cabas
+          </option>
+
+          <option value="Sacs à dos">
+            Sacs à dos
+          </option>
+
+          <option value="Pochettes">
+            Pochettes
+          </option>
+
+        </select>
+
+
+        <label for="editImageUrl">
+          URL de l'image
+        </label>
+
+        <input
+          type="url"
+          id="editImageUrl"
+          placeholder="https://..."
+          oninput="afficherPreviewEditionUrl()"
+        >
+
+
+        <label for="editImageFile">
+          Ou remplacer l'image
+        </label>
+
+        <input
+          type="file"
+          id="editImageFile"
+          accept="image/*"
+          onchange="afficherPreviewEditionFichier()"
+        >
+
+
+        <img
+          id="editProductPreview"
+          class="edit-preview"
+          alt="Aperçu"
+        >
+
+
+        <div class="actions">
+
+          <button
+            class="btn-gold"
+            onclick="enregistrerModificationProduit()"
+          >
+            💾 Enregistrer les modifications
+          </button>
+
+          <button
+            class="btn-secondary"
+            onclick="annulerModificationProduit()"
+          >
+            Annuler
+          </button>
+
+        </div>
+
+
+        <div
+          id="editProductMessage"
+          class="message"
+        ></div>
+
+      </div>
+
+    </div>
+
+
+    <!-- =========================
          IMAGES
     ========================== -->
 
@@ -1202,6 +1564,8 @@ function afficherAdmin(){
     .classList
     .remove("hidden");
 
+
+  chargerProduits();
 
   chargerImages();
 
@@ -1768,6 +2132,8 @@ async function ajouterProduit(){
 
   viderFormulaire();
 
+  chargerProduits();
+
   chargerImages();
 
 }
@@ -1818,6 +2184,895 @@ function viderFormulaire(){
 
   preview.style.display =
     "none";
+
+}
+
+
+/* =====================================================
+   CHARGER LES PRODUITS
+===================================================== */
+
+async function chargerProduits(){
+
+  const productsList =
+    document
+      .getElementById("productsList");
+
+
+  if(!productsList){
+    return;
+  }
+
+
+  productsList.innerHTML =
+    '<div class="empty">🔄 Chargement des produits...</div>';
+
+
+  cacherMessage(
+    "productsMessage"
+  );
+
+
+  try{
+
+    const {
+      data,
+      error
+    } =
+      await supabaseClient
+        .from("Products")
+        .select("*")
+        .order(
+          "id",
+          {
+            ascending:false
+          }
+        );
+
+
+    if(error){
+
+      productsList.innerHTML =
+        "";
+
+      afficherMessage(
+        "productsMessage",
+        "Erreur Supabase : " +
+        error.message,
+        "error"
+      );
+
+      return;
+    }
+
+
+    if(
+      !data ||
+      data.length === 0
+    ){
+
+      productsList.innerHTML =
+        `
+        <div class="empty">
+          🛍️ Aucun produit enregistré pour le moment.
+        </div>
+        `;
+
+      return;
+    }
+
+
+    productsList.innerHTML =
+      "";
+
+
+    data.forEach(
+      product => {
+
+        const id =
+          product.id;
+
+        const nom =
+          product.name ??
+          "Produit sans nom";
+
+        const description =
+          product.description ??
+          "";
+
+        const prix =
+          Number(
+            product.Price ?? 0
+          );
+
+        const stock =
+          Number(
+            product.Stock ?? 0
+          );
+
+        const categorie =
+          product.Category ??
+          "";
+
+        const imageUrl =
+          product.Image_url ??
+          "";
+
+
+        const card =
+          document.createElement(
+            "div"
+          );
+
+
+        card.className =
+          "product-admin-card";
+
+
+        let imageHtml =
+          "";
+
+
+        if(imageUrl){
+
+          imageHtml =
+            `
+            <img
+              class="product-admin-image"
+              src="${escapeHtml(imageUrl)}"
+              alt="${escapeHtml(nom)}"
+              onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
+            >
+
+            <div
+              class="product-no-image"
+              style="display:none;"
+            >
+              🖼️ Image indisponible
+            </div>
+            `;
+
+        }else{
+
+          imageHtml =
+            `
+            <div class="product-no-image">
+              🖼️ Aucune image
+            </div>
+            `;
+
+        }
+
+
+        card.innerHTML =
+          `
+          ${imageHtml}
+
+          <div class="product-admin-content">
+
+            <div class="product-admin-name">
+              ${escapeHtml(nom)}
+            </div>
+
+            <div class="product-admin-description">
+              ${escapeHtml(description || "Aucune description")}
+            </div>
+
+            <div class="product-admin-category">
+              📂 ${escapeHtml(categorie || "Sans catégorie")}
+            </div>
+
+            <div class="product-info-grid">
+
+              <div class="product-info">
+                <span>PRIX</span>
+                <strong>
+                  ${prix.toLocaleString("fr-FR")} FCFA
+                </strong>
+              </div>
+
+              <div class="product-info">
+                <span>STOCK</span>
+                <strong>
+                  ${stock}
+                </strong>
+              </div>
+
+            </div>
+
+            <div class="product-card-actions">
+
+              <button
+                class="btn-edit"
+                onclick="ouvrirModificationProduit(${Number(id)})"
+              >
+                ✏️ Modifier
+              </button>
+
+              <button
+                class="btn-danger"
+                onclick="supprimerProduit(${Number(id)})"
+              >
+                🗑️ Supprimer
+              </button>
+
+            </div>
+
+          </div>
+          `;
+
+
+        productsList.appendChild(
+          card
+        );
+
+      }
+    );
+
+
+  }catch(error){
+
+    productsList.innerHTML =
+      "";
+
+    afficherMessage(
+      "productsMessage",
+      "Erreur : " +
+      error.message,
+      "error"
+    );
+
+  }
+
+}
+
+
+/* =====================================================
+   OUVRIR MODIFICATION PRODUIT
+===================================================== */
+
+async function ouvrirModificationProduit(
+  productId
+){
+
+  cacherMessage(
+    "editProductMessage"
+  );
+
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient
+      .from("Products")
+      .select("*")
+      .eq(
+        "id",
+        productId
+      )
+      .single();
+
+
+  if(error){
+
+    afficherMessage(
+      "productsMessage",
+      "Impossible de charger le produit : " +
+      error.message,
+      "error"
+    );
+
+    return;
+  }
+
+
+  if(!data){
+
+    afficherMessage(
+      "productsMessage",
+      "Produit introuvable.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  document
+    .getElementById("editProductId")
+    .value =
+    data.id;
+
+
+  document
+    .getElementById("editNomProduit")
+    .value =
+    data.name ?? "";
+
+
+  document
+    .getElementById("editDescriptionProduit")
+    .value =
+    data.description ?? "";
+
+
+  document
+    .getElementById("editPrixProduit")
+    .value =
+    data.Price ?? "";
+
+
+  document
+    .getElementById("editStockProduit")
+    .value =
+    data.Stock ?? "";
+
+
+  document
+    .getElementById("editCategorieProduit")
+    .value =
+    data.Category ?? "";
+
+
+  document
+    .getElementById("editImageUrl")
+    .value =
+    data.Image_url ?? "";
+
+
+  document
+    .getElementById("editImageFile")
+    .value =
+    "";
+
+
+  const preview =
+    document
+      .getElementById("editProductPreview");
+
+
+  if(data.Image_url){
+
+    preview.src =
+      data.Image_url;
+
+    preview.style.display =
+      "block";
+
+  }else{
+
+    preview.src =
+      "";
+
+    preview.style.display =
+      "none";
+
+  }
+
+
+  const editBox =
+    document
+      .getElementById("editProductBox");
+
+
+  editBox.classList
+    .remove("hidden");
+
+
+  editBox.scrollIntoView({
+    behavior:"smooth",
+    block:"center"
+  });
+
+}
+
+
+/* =====================================================
+   APERCU IMAGE MODIFICATION - URL
+===================================================== */
+
+function afficherPreviewEditionUrl(){
+
+  const url =
+    document
+      .getElementById("editImageUrl")
+      .value
+      .trim();
+
+  const preview =
+    document
+      .getElementById("editProductPreview");
+
+
+  if(url){
+
+    preview.src =
+      url;
+
+    preview.style.display =
+      "block";
+
+  }else{
+
+    preview.src =
+      "";
+
+    preview.style.display =
+      "none";
+
+  }
+
+}
+
+
+/* =====================================================
+   APERCU IMAGE MODIFICATION - FICHIER
+===================================================== */
+
+function afficherPreviewEditionFichier(){
+
+  const file =
+    document
+      .getElementById("editImageFile")
+      .files[0];
+
+  const preview =
+    document
+      .getElementById("editProductPreview");
+
+
+  if(!file){
+    return;
+  }
+
+
+  const reader =
+    new FileReader();
+
+
+  reader.onload =
+    function(event){
+
+      preview.src =
+        event.target.result;
+
+      preview.style.display =
+        "block";
+
+    };
+
+
+  reader.readAsDataURL(file);
+
+}
+
+
+/* =====================================================
+   ENREGISTRER MODIFICATION PRODUIT
+===================================================== */
+
+async function enregistrerModificationProduit(){
+
+  const id =
+    Number(
+      document
+        .getElementById("editProductId")
+        .value
+    );
+
+
+  const nom =
+    document
+      .getElementById("editNomProduit")
+      .value
+      .trim();
+
+
+  const description =
+    document
+      .getElementById("editDescriptionProduit")
+      .value
+      .trim();
+
+
+  const prix =
+    Number(
+      document
+        .getElementById("editPrixProduit")
+        .value
+    );
+
+
+  const stock =
+    Number(
+      document
+        .getElementById("editStockProduit")
+        .value
+    );
+
+
+  const categorie =
+    document
+      .getElementById("editCategorieProduit")
+      .value;
+
+
+  const imageUrlInput =
+    document
+      .getElementById("editImageUrl")
+      .value
+      .trim();
+
+
+  const imageFile =
+    document
+      .getElementById("editImageFile")
+      .files[0];
+
+
+  if(!id){
+
+    afficherMessage(
+      "editProductMessage",
+      "Produit invalide.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  if(!nom){
+
+    afficherMessage(
+      "editProductMessage",
+      "Veuillez entrer le nom du produit.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  if(
+    isNaN(prix) ||
+    prix < 0
+  ){
+
+    afficherMessage(
+      "editProductMessage",
+      "Veuillez entrer un prix valide.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  if(
+    isNaN(stock) ||
+    stock < 0
+  ){
+
+    afficherMessage(
+      "editProductMessage",
+      "Veuillez entrer un stock valide.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  if(!categorie){
+
+    afficherMessage(
+      "editProductMessage",
+      "Veuillez choisir une catégorie.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  afficherMessage(
+    "editProductMessage",
+    "Modification en cours...",
+    "success"
+  );
+
+
+  let imageUrl =
+    imageUrlInput ||
+    null;
+
+
+  /* NOUVELLE IMAGE */
+
+  if(imageFile){
+
+    const extension =
+      imageFile.name
+        .split(".")
+        .pop()
+        .toLowerCase();
+
+
+    const nomFichier =
+      "produit-" +
+      Date.now() +
+      "-" +
+      Math.random()
+        .toString(36)
+        .substring(2,8) +
+      "." +
+      extension;
+
+
+    const {
+      error:
+        uploadError
+    } =
+      await supabaseClient
+        .storage
+        .from(STORAGE_BUCKET)
+        .upload(
+          nomFichier,
+          imageFile,
+          {
+            cacheControl:"3600",
+            upsert:false
+          }
+        );
+
+
+    if(uploadError){
+
+      afficherMessage(
+        "editProductMessage",
+        "Erreur lors de l'envoi de la nouvelle image : " +
+        uploadError.message,
+        "error"
+      );
+
+      return;
+    }
+
+
+    const {
+      data:
+        publicData
+    } =
+      supabaseClient
+        .storage
+        .from(STORAGE_BUCKET)
+        .getPublicUrl(
+          nomFichier
+        );
+
+
+    if(
+      publicData &&
+      publicData.publicUrl
+    ){
+
+      imageUrl =
+        publicData.publicUrl;
+
+    }
+
+  }
+
+
+  /* MISE A JOUR */
+
+  const {
+    error
+  } =
+    await supabaseClient
+      .from("Products")
+      .update({
+
+        name:
+          nom,
+
+        description:
+          description,
+
+        Price:
+          prix,
+
+        Image_url:
+          imageUrl,
+
+        Stock:
+          stock,
+
+        Category:
+          categorie
+
+      })
+      .eq(
+        "id",
+        id
+      );
+
+
+  if(error){
+
+    afficherMessage(
+      "editProductMessage",
+      "Erreur lors de la modification : " +
+      error.message,
+      "error"
+    );
+
+    return;
+  }
+
+
+  afficherMessage(
+    "editProductMessage",
+    "✅ Produit modifié avec succès.",
+    "success"
+  );
+
+
+  await chargerProduits();
+
+
+  setTimeout(
+    () => {
+
+      annulerModificationProduit();
+
+    },
+    900
+  );
+
+}
+
+
+/* =====================================================
+   ANNULER MODIFICATION
+===================================================== */
+
+function annulerModificationProduit(){
+
+  document
+    .getElementById("editProductBox")
+    .classList
+    .add("hidden");
+
+
+  document
+    .getElementById("editProductId")
+    .value =
+    "";
+
+
+  document
+    .getElementById("editNomProduit")
+    .value =
+    "";
+
+
+  document
+    .getElementById("editDescriptionProduit")
+    .value =
+    "";
+
+
+  document
+    .getElementById("editPrixProduit")
+    .value =
+    "";
+
+
+  document
+    .getElementById("editStockProduit")
+    .value =
+    "";
+
+
+  document
+    .getElementById("editCategorieProduit")
+    .value =
+    "";
+
+
+  document
+    .getElementById("editImageUrl")
+    .value =
+    "";
+
+
+  document
+    .getElementById("editImageFile")
+    .value =
+    "";
+
+
+  const preview =
+    document
+      .getElementById("editProductPreview");
+
+
+  preview.src =
+    "";
+
+  preview.style.display =
+    "none";
+
+
+  cacherMessage(
+    "editProductMessage"
+  );
+
+}
+
+
+/* =====================================================
+   SUPPRIMER PRODUIT
+===================================================== */
+
+async function supprimerProduit(
+  productId
+){
+
+  const confirmation =
+    confirm(
+      "⚠️ Voulez-vous vraiment supprimer ce produit ?\n\nCette action supprimera le produit de la boutique."
+    );
+
+
+  if(!confirmation){
+    return;
+  }
+
+
+  afficherMessage(
+    "productsMessage",
+    "Suppression du produit en cours...",
+    "success"
+  );
+
+
+  const {
+    error
+  } =
+    await supabaseClient
+      .from("Products")
+      .delete()
+      .eq(
+        "id",
+        productId
+      );
+
+
+  if(error){
+
+    afficherMessage(
+      "productsMessage",
+      "Erreur lors de la suppression : " +
+      error.message,
+      "error"
+    );
+
+    return;
+  }
+
+
+  afficherMessage(
+    "productsMessage",
+    "✅ Produit supprimé avec succès.",
+    "success"
+  );
+
+
+  await chargerProduits();
 
 }
 
@@ -2098,13 +3353,6 @@ async function chargerCommandes(){
     data.forEach(
       order => {
 
-        /*
-          IMPORTANT :
-          Les noms correspondent
-          exactement aux colonnes
-          de ta table Orders.
-        */
-
         const customerName =
           order.customer_nam ??
           "";
@@ -2313,20 +3561,6 @@ async function modifierStatutCommande(
   const nouveauStatut =
     select.value;
 
-
-  /*
-    CORRECTION PRINCIPALE :
-
-    Ta colonne Supabase s'appelle
-    exactement "status" en minuscule.
-
-    L'ancien code utilisait "Status",
-    ce qui provoquait :
-
-    Could not find the 'Status'
-    column of 'Orders'
-    in the schema cache
-  */
 
   const {
     error
