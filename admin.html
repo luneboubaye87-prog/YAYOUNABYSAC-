@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -24,29 +25,27 @@
 
     button,
     input,
-    select{
+    select,
+    textarea{
       font:inherit;
     }
 
-    .container{
-      width:100%;
-      max-width:1100px;
-      margin:0 auto;
-      padding:20px;
+    button{
+      cursor:pointer;
     }
 
     header{
       background:#2d2926;
       color:white;
-      padding:18px 20px;
+      padding:17px 20px;
       position:sticky;
       top:0;
-      z-index:20;
+      z-index:50;
       box-shadow:0 2px 10px rgba(0,0,0,.12);
     }
 
     .header-inner{
-      max-width:1100px;
+      max-width:1150px;
       margin:auto;
       display:flex;
       align-items:center;
@@ -63,40 +62,25 @@
     .header-right{
       display:flex;
       gap:8px;
+      flex-wrap:wrap;
     }
 
-    .btn{
-      border:0;
-      border-radius:10px;
-      padding:11px 15px;
-      cursor:pointer;
-      font-weight:700;
-    }
-
-    .btn-primary{
-      background:#2d2926;
-      color:white;
-    }
-
-    .btn-light{
-      background:white;
-      color:#2d2926;
-      border:1px solid #ddd3cb;
-    }
-
-    .btn-danger{
-      background:#b42318;
-      color:white;
-    }
-
-    .btn-success{
-      background:#26734d;
-      color:white;
+    .container{
+      width:100%;
+      max-width:1150px;
+      margin:0 auto;
+      padding:22px 16px 50px;
     }
 
     .page-title{
-      margin:10px 0 20px;
       font-size:28px;
+      margin:5px 0 5px;
+    }
+
+    .subtitle{
+      color:#766c65;
+      font-size:14px;
+      margin-bottom:20px;
     }
 
     .box{
@@ -125,18 +109,32 @@
     }
 
     .form-group input,
-    .form-group select{
+    .form-group select,
+    .form-group textarea{
       width:100%;
-      padding:13px;
+      padding:12px 13px;
       border:1px solid #d8cec6;
       border-radius:10px;
       outline:none;
       background:white;
+      color:#2d2926;
+    }
+
+    .form-group textarea{
+      min-height:100px;
+      resize:vertical;
     }
 
     .form-group input:focus,
-    .form-group select:focus{
+    .form-group select:focus,
+    .form-group textarea:focus{
       border-color:#2d2926;
+    }
+
+    .grid-2{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:14px;
     }
 
     .form-actions{
@@ -144,6 +142,39 @@
       flex-wrap:wrap;
       gap:10px;
       margin-top:15px;
+    }
+
+    .btn{
+      border:0;
+      border-radius:10px;
+      padding:11px 15px;
+      font-weight:700;
+    }
+
+    .btn-primary{
+      background:#2d2926;
+      color:white;
+    }
+
+    .btn-light{
+      background:white;
+      color:#2d2926;
+      border:1px solid #d8cec6;
+    }
+
+    .btn-success{
+      background:#26734d;
+      color:white;
+    }
+
+    .btn-danger{
+      background:#b42318;
+      color:white;
+    }
+
+    .btn-edit{
+      background:#eee5de;
+      color:#2d2926;
     }
 
     .message{
@@ -169,14 +200,117 @@
       color:#1e6b42;
     }
 
-    .admin-top{
+    .hidden{
+      display:none !important;
+    }
+
+    /* NAVIGATION ADMIN */
+
+    .admin-nav{
+      display:flex;
+      gap:8px;
+      margin-bottom:20px;
+      flex-wrap:wrap;
+    }
+
+    .nav-btn{
+      border:1px solid #d8cec6;
+      background:white;
+      color:#2d2926;
+      border-radius:12px;
+      padding:12px 18px;
+      font-weight:800;
+    }
+
+    .nav-btn.active{
+      background:#2d2926;
+      color:white;
+      border-color:#2d2926;
+    }
+
+    /* PRODUITS */
+
+    .products-top{
       display:flex;
       justify-content:space-between;
       align-items:center;
       gap:10px;
       flex-wrap:wrap;
-      margin-bottom:20px;
+      margin-bottom:16px;
     }
+
+    .products-list{
+      display:grid;
+      gap:12px;
+    }
+
+    .product-card{
+      border:1px solid #e3dad3;
+      border-radius:15px;
+      padding:14px;
+      background:#fff;
+      display:grid;
+      grid-template-columns:90px 1fr auto;
+      gap:14px;
+      align-items:center;
+    }
+
+    .product-image{
+      width:90px;
+      height:90px;
+      border-radius:12px;
+      object-fit:cover;
+      background:#eee5de;
+      display:block;
+    }
+
+    .product-image-empty{
+      width:90px;
+      height:90px;
+      border-radius:12px;
+      background:#eee5de;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      font-size:12px;
+      color:#766c65;
+    }
+
+    .product-name{
+      font-size:17px;
+      font-weight:800;
+      margin-bottom:6px;
+    }
+
+    .product-description{
+      color:#766c65;
+      font-size:13px;
+      line-height:1.45;
+      margin-bottom:8px;
+    }
+
+    .product-meta{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+    }
+
+    .meta{
+      background:#f5f0ec;
+      border-radius:20px;
+      padding:5px 9px;
+      font-size:12px;
+      font-weight:700;
+    }
+
+    .product-actions{
+      display:flex;
+      gap:7px;
+      flex-direction:column;
+    }
+
+    /* COMMANDES */
 
     .orders-list{
       display:grid;
@@ -222,10 +356,6 @@
       font-size:15px;
     }
 
-    .customer-info strong{
-      color:#2d2926;
-    }
-
     .products-title{
       font-weight:800;
       margin-bottom:10px;
@@ -245,10 +375,6 @@
       justify-content:space-between;
       gap:12px;
       align-items:flex-start;
-    }
-
-    .product-name{
-      font-weight:800;
     }
 
     .product-details{
@@ -314,20 +440,11 @@
       background:#eee;
     }
 
-    .loading{
+    .loading,
+    .empty{
       text-align:center;
       padding:30px;
       color:#756b64;
-    }
-
-    .empty{
-      text-align:center;
-      padding:35px 15px;
-      color:#756b64;
-    }
-
-    .hidden{
-      display:none !important;
     }
 
     .small{
@@ -335,33 +452,48 @@
       color:#766c65;
     }
 
-    @media(max-width:600px){
+    .section-title{
+      font-size:24px;
+      margin-bottom:4px;
+    }
+
+    .edit-label{
+      display:inline-block;
+      margin-bottom:10px;
+      padding:6px 10px;
+      border-radius:20px;
+      background:#eee5de;
+      font-size:12px;
+      font-weight:800;
+    }
+
+    @media(max-width:700px){
+
       .container{
-        padding:12px;
+        padding:15px 12px 40px;
       }
 
-      header{
-        padding:15px 12px;
+      .grid-2{
+        grid-template-columns:1fr;
       }
 
-      .logo{
-        font-size:17px;
+      .product-card{
+        grid-template-columns:70px 1fr;
       }
 
-      .page-title{
-        font-size:23px;
+      .product-image,
+      .product-image-empty{
+        width:70px;
+        height:70px;
       }
 
-      .box{
-        padding:16px;
+      .product-actions{
+        grid-column:1 / -1;
+        flex-direction:row;
       }
 
-      .order-header{
-        padding:13px;
-      }
-
-      .order-body{
-        padding:13px;
+      .product-actions .btn{
+        flex:1;
       }
 
       .product-main{
@@ -372,9 +504,17 @@
         white-space:normal;
       }
 
+      .header-inner{
+        align-items:flex-start;
+      }
+
+      .logo{
+        font-size:17px;
+      }
+
       .header-right .btn{
-        padding:9px 11px;
-        font-size:13px;
+        padding:9px 10px;
+        font-size:12px;
       }
     }
   </style>
@@ -384,14 +524,18 @@
 
 <header>
   <div class="header-inner">
-    <div class="logo">YAYOUNABYSAC</div>
+
+    <div class="logo">
+      YAYOUNABYSAC
+    </div>
 
     <div class="header-right">
+
       <button
         id="actualiserBtn"
         class="btn btn-light hidden"
-        onclick="chargerCommandes()">
-        Actualiser
+        onclick="actualiserTout()">
+        🔄 Actualiser
       </button>
 
       <button
@@ -400,36 +544,61 @@
         onclick="deconnexion()">
         Se déconnecter
       </button>
+
     </div>
+
   </div>
 </header>
 
+
 <main class="container">
 
-  <!-- CONNEXION -->
+  <!-- =====================================================
+       CONNEXION
+  ====================================================== -->
+
   <section id="connexionBox" class="box">
 
-    <h1 class="page-title">Connexion administrateur</h1>
+    <h1 class="page-title">
+      Connexion administrateur
+    </h1>
+
+    <p class="subtitle">
+      Accédez à la gestion de votre boutique YAYOUNABYSAC.
+    </p>
 
     <div class="form-group">
-      <label for="email">Adresse e-mail</label>
+
+      <label for="email">
+        Adresse e-mail
+      </label>
+
       <input
         type="email"
         id="email"
         placeholder="Votre adresse e-mail"
         autocomplete="email">
+
     </div>
 
+
     <div class="form-group">
-      <label for="password">Mot de passe</label>
+
+      <label for="password">
+        Mot de passe
+      </label>
+
       <input
         type="password"
         id="password"
         placeholder="Votre mot de passe"
         autocomplete="current-password">
+
     </div>
 
+
     <div class="form-actions">
+
       <button
         class="btn btn-primary"
         onclick="connexionAdmin()">
@@ -441,31 +610,45 @@
         onclick="afficherRecuperation()">
         Mot de passe oublié ?
       </button>
+
     </div>
+
 
     <div id="connexionMessage" class="message"></div>
 
   </section>
 
 
-  <!-- RECUPERATION -->
+  <!-- =====================================================
+       RECUPERATION
+  ====================================================== -->
+
   <section id="recoveryBox" class="box hidden">
 
-    <h2>Réinitialiser le mot de passe</h2>
+    <h2>
+      Réinitialiser le mot de passe
+    </h2>
 
     <p class="small" style="margin-bottom:15px;">
-      Entrez votre adresse e-mail administrateur pour recevoir un lien de réinitialisation.
+      Entrez votre adresse e-mail administrateur pour recevoir
+      un lien de réinitialisation.
     </p>
 
     <div class="form-group">
-      <label for="recoveryEmail">Adresse e-mail</label>
+
+      <label for="recoveryEmail">
+        Adresse e-mail
+      </label>
+
       <input
         type="email"
         id="recoveryEmail"
         placeholder="Votre adresse e-mail">
+
     </div>
 
     <div class="form-actions">
+
       <button
         class="btn btn-primary"
         onclick="envoyerRecuperation()">
@@ -477,6 +660,7 @@
         onclick="retourConnexion()">
         Retour
       </button>
+
     </div>
 
     <div id="recoveryMessage" class="message"></div>
@@ -484,33 +668,50 @@
   </section>
 
 
-  <!-- NOUVEAU MOT DE PASSE -->
+  <!-- =====================================================
+       NOUVEAU MOT DE PASSE
+  ====================================================== -->
+
   <section id="newPasswordBox" class="box hidden">
 
-    <h2>Nouveau mot de passe</h2>
+    <h2>
+      Nouveau mot de passe
+    </h2>
 
     <div class="form-group">
-      <label for="newPassword">Nouveau mot de passe</label>
+
+      <label for="newPassword">
+        Nouveau mot de passe
+      </label>
+
       <input
         type="password"
         id="newPassword"
         placeholder="Nouveau mot de passe">
+
     </div>
 
     <div class="form-group">
-      <label for="confirmPassword">Confirmer le mot de passe</label>
+
+      <label for="confirmPassword">
+        Confirmer le mot de passe
+      </label>
+
       <input
         type="password"
         id="confirmPassword"
         placeholder="Confirmer le mot de passe">
+
     </div>
 
     <div class="form-actions">
+
       <button
         class="btn btn-primary"
         onclick="changerMotDePasse()">
         Enregistrer le nouveau mot de passe
       </button>
+
     </div>
 
     <div id="newPasswordMessage" class="message"></div>
@@ -518,32 +719,278 @@
   </section>
 
 
-  <!-- ADMIN -->
+  <!-- =====================================================
+       ADMIN
+  ====================================================== -->
+
   <section id="adminBox" class="hidden">
 
-    <div class="admin-top">
-      <div>
-        <h1 class="page-title" style="margin-bottom:5px;">
-          📦 Commandes
-        </h1>
+    <h1 class="page-title">
+      Administration
+    </h1>
 
-        <div class="small">
-          Gestion des commandes YAYOUNABYSAC
-        </div>
-      </div>
+    <p class="subtitle">
+      Gérez vos produits et vos commandes depuis cet espace.
+    </p>
+
+
+    <!-- NAVIGATION -->
+
+    <div class="admin-nav">
 
       <button
-        class="btn btn-primary"
-        onclick="chargerCommandes()">
-        🔄 Actualiser
+        id="navProduits"
+        class="nav-btn active"
+        onclick="afficherSection('produits')">
+        👜 Produits
       </button>
+
+      <button
+        id="navCommandes"
+        class="nav-btn"
+        onclick="afficherSection('commandes')">
+        📦 Commandes
+      </button>
+
     </div>
 
-    <div id="commandesContainer" class="orders-list">
-      <div class="loading">
-        Chargement des commandes...
+
+    <!-- ===================================================
+         SECTION PRODUITS
+    ==================================================== -->
+
+    <section id="sectionProduits">
+
+      <div class="box">
+
+        <div class="products-top">
+
+          <div>
+            <h2 class="section-title">
+              👜 Gestion des produits
+            </h2>
+
+            <p class="small">
+              Ajoutez, modifiez ou supprimez vos produits.
+            </p>
+          </div>
+
+          <button
+            class="btn btn-light"
+            onclick="nouveauProduit()">
+            ➕ Nouveau produit
+          </button>
+
+        </div>
+
+
+        <!-- FORMULAIRE PRODUIT -->
+
+        <div id="produitFormBox">
+
+          <div id="editLabel" class="edit-label hidden">
+            Modification du produit
+          </div>
+
+          <div class="grid-2">
+
+            <div class="form-group">
+
+              <label for="productName">
+                Nom du produit *
+              </label>
+
+              <input
+                type="text"
+                id="productName"
+                placeholder="Exemple : Sac à main">
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label for="productCategory">
+                Catégorie *
+              </label>
+
+              <input
+                type="text"
+                id="productCategory"
+                placeholder="Exemple : Sacs à main">
+
+            </div>
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label for="productDescription">
+              Description
+            </label>
+
+            <textarea
+              id="productDescription"
+              placeholder="Description du produit"></textarea>
+
+          </div>
+
+
+          <div class="grid-2">
+
+            <div class="form-group">
+
+              <label for="productPrice">
+                Prix (FCFA) *
+              </label>
+
+              <input
+                type="number"
+                id="productPrice"
+                min="0"
+                placeholder="18000">
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label for="productStock">
+                Stock *
+              </label>
+
+              <input
+                type="number"
+                id="productStock"
+                min="0"
+                placeholder="10">
+
+            </div>
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label for="productImage">
+              URL de l'image
+            </label>
+
+            <input
+              type="url"
+              id="productImage"
+              placeholder="https://exemple.com/image.jpg">
+
+          </div>
+
+
+          <div class="form-actions">
+
+            <button
+              id="saveProductBtn"
+              class="btn btn-primary"
+              onclick="enregistrerProduit()">
+              ➕ Ajouter le produit
+            </button>
+
+            <button
+              id="cancelEditBtn"
+              class="btn btn-light hidden"
+              onclick="nouveauProduit()">
+              Annuler la modification
+            </button>
+
+          </div>
+
+
+          <div id="productMessage" class="message"></div>
+
+        </div>
+
       </div>
-    </div>
+
+
+      <!-- LISTE PRODUITS -->
+
+      <div class="box">
+
+        <div class="products-top">
+
+          <div>
+            <h2>
+              Produits disponibles
+            </h2>
+
+            <div id="productsCount" class="small">
+              Chargement...
+            </div>
+          </div>
+
+          <button
+            class="btn btn-light"
+            onclick="chargerProduits()">
+            🔄 Actualiser
+          </button>
+
+        </div>
+
+
+        <div id="productsContainer" class="products-list">
+
+          <div class="loading">
+            Chargement des produits...
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ===================================================
+         SECTION COMMANDES
+    ==================================================== -->
+
+    <section id="sectionCommandes" class="hidden">
+
+      <div class="box">
+
+        <div class="products-top">
+
+          <div>
+
+            <h2 class="section-title">
+              📦 Commandes
+            </h2>
+
+            <p class="small">
+              Consultez les commandes et gérez leur statut.
+            </p>
+
+          </div>
+
+          <button
+            class="btn btn-primary"
+            onclick="chargerCommandes()">
+            🔄 Actualiser
+          </button>
+
+        </div>
+
+
+        <div id="commandesContainer" class="orders-list">
+
+          <div class="loading">
+            Chargement des commandes...
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
 
   </section>
 
@@ -551,74 +998,91 @@
 
 
 <script>
+
   /* =========================================================
-     SUPABASE
+     CONFIGURATION SUPABASE
   ========================================================= */
 
-  const SUPABASE_URL = "https://ajprnhqphbtgfztspuio.supabase.co";
+  const SUPABASE_URL =
+    "https://ajprnhqphbtgfztspuio.supabase.co";
 
   const SUPABASE_ANON_KEY =
     "sb_publishable_Qxr7ftKtVgB3y3lmx1agWg_UQxqrviy";
 
-  const supabaseClient = window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_ANON_KEY
-  );
+
+  const supabaseClient =
+    window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_ANON_KEY
+    );
 
 
   /* =========================================================
      ELEMENTS
   ========================================================= */
 
-  const connexionBox = document.getElementById("connexionBox");
-  const recoveryBox = document.getElementById("recoveryBox");
-  const newPasswordBox = document.getElementById("newPasswordBox");
-  const adminBox = document.getElementById("adminBox");
+  const connexionBox =
+    document.getElementById("connexionBox");
 
-  const actualiserBtn = document.getElementById("actualiserBtn");
-  const deconnexionBtn = document.getElementById("deconnexionBtn");
+  const recoveryBox =
+    document.getElementById("recoveryBox");
+
+  const newPasswordBox =
+    document.getElementById("newPasswordBox");
+
+  const adminBox =
+    document.getElementById("adminBox");
+
+  const actualiserBtn =
+    document.getElementById("actualiserBtn");
+
+  const deconnexionBtn =
+    document.getElementById("deconnexionBtn");
+
+  const productsContainer =
+    document.getElementById("productsContainer");
 
   const commandesContainer =
     document.getElementById("commandesContainer");
+
+
+  let produitEnModification = null;
 
 
   /* =========================================================
      UTILITAIRES
   ========================================================= */
 
-  function afficherMessage(id, texte, type = "success"){
-    const element = document.getElementById(id);
+  function escapeHtml(value){
 
-    if(!element){
-      return;
+    if(value === null || value === undefined){
+      return "";
     }
 
-    element.textContent = texte;
-    element.className = "message show " + type;
-  }
-
-
-  function cacherMessages(){
-    document.querySelectorAll(".message").forEach(function(element){
-      element.className = "message";
-      element.textContent = "";
-    });
+    return String(value)
+      .replace(/&/g,"&amp;")
+      .replace(/</g,"&lt;")
+      .replace(/>/g,"&gt;")
+      .replace(/"/g,"&quot;")
+      .replace(/'/g,"&#039;");
   }
 
 
   function formatPrix(prix){
-    const nombre = Number(prix || 0);
 
-    return nombre.toLocaleString("fr-FR") + " FCFA";
+    return Number(prix || 0)
+      .toLocaleString("fr-FR") + " FCFA";
   }
 
 
   function formatDate(date){
+
     if(!date){
       return "";
     }
 
     try{
+
       return new Date(date).toLocaleString(
         "fr-FR",
         {
@@ -626,27 +1090,92 @@
           timeStyle:"short"
         }
       );
+
     }catch(error){
+
       return date;
     }
   }
 
 
-  function escapeHtml(value){
-    if(value === null || value === undefined){
-      return "";
+  function afficherMessage(id,texte,type="success"){
+
+    const element =
+      document.getElementById(id);
+
+    if(!element){
+      return;
     }
 
-    return String(value)
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#039;");
+    element.textContent = texte;
+
+    element.className =
+      "message show " + type;
   }
 
 
+  function cacherMessages(){
+
+    document
+      .querySelectorAll(".message")
+      .forEach(function(element){
+
+        element.className = "message";
+        element.textContent = "";
+
+      });
+  }
+
+
+  /* =========================================================
+     NAVIGATION
+  ========================================================= */
+
+  function afficherSection(section){
+
+    const sectionProduits =
+      document.getElementById("sectionProduits");
+
+    const sectionCommandes =
+      document.getElementById("sectionCommandes");
+
+    const navProduits =
+      document.getElementById("navProduits");
+
+    const navCommandes =
+      document.getElementById("navCommandes");
+
+
+    if(section === "produits"){
+
+      sectionProduits.classList.remove("hidden");
+      sectionCommandes.classList.add("hidden");
+
+      navProduits.classList.add("active");
+      navCommandes.classList.remove("active");
+
+      chargerProduits();
+
+    }else{
+
+      sectionProduits.classList.add("hidden");
+      sectionCommandes.classList.remove("hidden");
+
+      navProduits.classList.remove("active");
+      navCommandes.classList.add("active");
+
+      chargerCommandes();
+
+    }
+  }
+
+
+  /* =========================================================
+     AFFICHAGE CONNEXION
+  ========================================================= */
+
   function afficherEspaceAdmin(){
+
     connexionBox.classList.add("hidden");
     recoveryBox.classList.add("hidden");
     newPasswordBox.classList.add("hidden");
@@ -659,6 +1188,7 @@
 
 
   function afficherEspaceConnexion(){
+
     adminBox.classList.add("hidden");
     recoveryBox.classList.add("hidden");
     newPasswordBox.classList.add("hidden");
@@ -684,44 +1214,60 @@
     const password =
       document.getElementById("password").value;
 
+
     if(!email || !password){
+
       afficherMessage(
         "connexionMessage",
         "Veuillez remplir l'adresse e-mail et le mot de passe.",
         "error"
       );
+
       return;
     }
 
+
     try{
 
-      const { data, error } =
+      const {data,error} =
         await supabaseClient.auth.signInWithPassword({
-          email: email,
-          password: password
+          email:email,
+          password:password
         });
+
 
       if(error){
         throw error;
       }
 
+
       if(!data || !data.user){
-        throw new Error("Connexion impossible.");
+
+        throw new Error(
+          "Connexion impossible."
+        );
       }
+
 
       afficherEspaceAdmin();
 
+      await chargerProduits();
+
       await chargerCommandes();
+
 
     }catch(error){
 
-      console.error("Erreur connexion :", error);
+      console.error(
+        "Erreur connexion :",
+        error
+      );
+
 
       afficherMessage(
         "connexionMessage",
-        "Erreur de connexion : " + (
-          error.message || "identifiants incorrects."
-        ),
+        "Erreur de connexion : " +
+        (error.message || "Identifiants incorrects."),
         "error"
       );
     }
@@ -740,6 +1286,8 @@
 
     document.getElementById("password").value = "";
 
+    productsContainer.innerHTML = "";
+
     commandesContainer.innerHTML = "";
   }
 
@@ -753,19 +1301,27 @@
     cacherMessages();
 
     connexionBox.classList.add("hidden");
-    newPasswordBox.classList.add("hidden");
     adminBox.classList.add("hidden");
+    newPasswordBox.classList.add("hidden");
 
     recoveryBox.classList.remove("hidden");
 
     actualiserBtn.classList.add("hidden");
     deconnexionBtn.classList.add("hidden");
 
+
     const email =
-      document.getElementById("email").value.trim();
+      document.getElementById("email")
+        .value
+        .trim();
+
 
     if(email){
-      document.getElementById("recoveryEmail").value = email;
+
+      document.getElementById(
+        "recoveryEmail"
+      ).value = email;
+
     }
   }
 
@@ -787,16 +1343,22 @@
     cacherMessages();
 
     const email =
-      document.getElementById("recoveryEmail").value.trim();
+      document.getElementById("recoveryEmail")
+        .value
+        .trim();
+
 
     if(!email){
+
       afficherMessage(
         "recoveryMessage",
         "Veuillez entrer votre adresse e-mail.",
         "error"
       );
+
       return;
     }
+
 
     try{
 
@@ -804,17 +1366,21 @@
         window.location.origin +
         window.location.pathname;
 
-      const { error } =
-        await supabaseClient.auth.resetPasswordForEmail(
-          email,
-          {
-            redirectTo: redirectUrl
-          }
-        );
+
+      const {error} =
+        await supabaseClient.auth
+          .resetPasswordForEmail(
+            email,
+            {
+              redirectTo:redirectUrl
+            }
+          );
+
 
       if(error){
         throw error;
       }
+
 
       afficherMessage(
         "recoveryMessage",
@@ -822,16 +1388,19 @@
         "success"
       );
 
+
     }catch(error){
 
-      console.error("Erreur récupération :", error);
+      console.error(
+        "Erreur récupération :",
+        error
+      );
+
 
       afficherMessage(
         "recoveryMessage",
-        "Erreur : " + (
-          error.message ||
-          "Impossible d'envoyer le lien."
-        ),
+        "Erreur : " +
+        (error.message || "Impossible d'envoyer le lien."),
         "error"
       );
     }
@@ -839,7 +1408,7 @@
 
 
   /* =========================================================
-     CHANGEMENT MOT DE PASSE
+     NOUVEAU MOT DE PASSE
   ========================================================= */
 
   async function changerMotDePasse(){
@@ -852,6 +1421,7 @@
     const confirmPassword =
       document.getElementById("confirmPassword").value;
 
+
     if(!password || !confirmPassword){
 
       afficherMessage(
@@ -862,6 +1432,7 @@
 
       return;
     }
+
 
     if(password.length < 6){
 
@@ -874,6 +1445,7 @@
       return;
     }
 
+
     if(password !== confirmPassword){
 
       afficherMessage(
@@ -885,36 +1457,48 @@
       return;
     }
 
+
     try{
 
-      const { error } =
+      const {error} =
         await supabaseClient.auth.updateUser({
-          password: password
+          password:password
         });
+
 
       if(error){
         throw error;
       }
 
+
       afficherMessage(
         "newPasswordMessage",
-        "Mot de passe modifié avec succès. Vous pouvez maintenant vous connecter.",
+        "Mot de passe modifié avec succès.",
         "success"
       );
 
-      document.getElementById("newPassword").value = "";
-      document.getElementById("confirmPassword").value = "";
+
+      document.getElementById(
+        "newPassword"
+      ).value = "";
+
+      document.getElementById(
+        "confirmPassword"
+      ).value = "";
+
 
     }catch(error){
 
-      console.error("Erreur changement mot de passe :", error);
+      console.error(
+        "Erreur mot de passe :",
+        error
+      );
+
 
       afficherMessage(
         "newPasswordMessage",
-        "Erreur : " + (
-          error.message ||
-          "Impossible de modifier le mot de passe."
-        ),
+        "Erreur : " +
+        (error.message || "Impossible de modifier le mot de passe."),
         "error"
       );
     }
@@ -922,7 +1506,552 @@
 
 
   /* =========================================================
-     CHARGER COMMANDES
+     PRODUITS — NOUVEAU PRODUIT
+  ========================================================= */
+
+  function nouveauProduit(){
+
+    produitEnModification = null;
+
+    document.getElementById("productName").value = "";
+    document.getElementById("productCategory").value = "";
+    document.getElementById("productDescription").value = "";
+    document.getElementById("productPrice").value = "";
+    document.getElementById("productStock").value = "";
+    document.getElementById("productImage").value = "";
+
+
+    document.getElementById(
+      "editLabel"
+    ).classList.add("hidden");
+
+
+    document.getElementById(
+      "cancelEditBtn"
+    ).classList.add("hidden");
+
+
+    document.getElementById(
+      "saveProductBtn"
+    ).textContent =
+      "➕ Ajouter le produit";
+
+
+    cacherMessages();
+  }
+
+
+  /* =========================================================
+     PRODUITS — CHARGER
+  ========================================================= */
+
+  async function chargerProduits(){
+
+    productsContainer.innerHTML =
+      '<div class="loading">Chargement des produits...</div>';
+
+
+    try{
+
+      const {data:produits,error} =
+        await supabaseClient
+          .from("Products")
+          .select("*")
+          .order("id",{ascending:false});
+
+
+      if(error){
+        throw error;
+      }
+
+
+      if(!produits || produits.length === 0){
+
+        productsContainer.innerHTML =
+          '<div class="empty">Aucun produit pour le moment.</div>';
+
+        document.getElementById(
+          "productsCount"
+        ).textContent =
+          "0 produit";
+
+        return;
+      }
+
+
+      document.getElementById(
+        "productsCount"
+      ).textContent =
+        produits.length +
+        (produits.length > 1
+          ? " produits"
+          : " produit");
+
+
+      let html = "";
+
+
+      produits.forEach(function(produit){
+
+        const imageUrl =
+          produit.Image_url ||
+          produit.image_url ||
+          "";
+
+
+        const description =
+          produit.description ||
+          "Aucune description";
+
+
+        html += `
+          <div class="product-card">
+
+            ${
+              imageUrl
+              ?
+              `
+                <img
+                  class="product-image"
+                  src="${escapeHtml(imageUrl)}"
+                  alt="${escapeHtml(produit.name || "Produit")}"
+                  onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+
+                <div
+                  class="product-image-empty"
+                  style="display:none;">
+                  Image indisponible
+                </div>
+              `
+              :
+              `
+                <div class="product-image-empty">
+                  Pas d'image
+                </div>
+              `
+            }
+
+
+            <div>
+
+              <div class="product-name">
+                ${escapeHtml(produit.name || "Sans nom")}
+              </div>
+
+              <div class="product-description">
+                ${escapeHtml(description)}
+              </div>
+
+              <div class="product-meta">
+
+                <span class="meta">
+                  💰 ${escapeHtml(formatPrix(produit.Price))}
+                </span>
+
+                <span class="meta">
+                  📦 Stock : ${escapeHtml(produit.Stock)}
+                </span>
+
+                <span class="meta">
+                  🏷️ ${escapeHtml(produit.Category || "Sans catégorie")}
+                </span>
+
+              </div>
+
+            </div>
+
+
+            <div class="product-actions">
+
+              <button
+                class="btn btn-edit"
+                onclick="modifierProduit(${Number(produit.id)})">
+                ✏️ Modifier
+              </button>
+
+              <button
+                class="btn btn-danger"
+                onclick="supprimerProduit(${Number(produit.id)})">
+                🗑️ Supprimer
+              </button>
+
+            </div>
+
+          </div>
+        `;
+      });
+
+
+      productsContainer.innerHTML = html;
+
+
+    }catch(error){
+
+      console.error(
+        "Erreur produits :",
+        error
+      );
+
+
+      productsContainer.innerHTML = `
+        <div class="message show error">
+          Erreur lors du chargement des produits :
+          ${escapeHtml(error.message || error)}
+        </div>
+      `;
+    }
+  }
+
+
+  /* =========================================================
+     PRODUITS — AJOUT / MODIFICATION
+  ========================================================= */
+
+  async function enregistrerProduit(){
+
+    cacherMessages();
+
+
+    const name =
+      document.getElementById("productName")
+        .value
+        .trim();
+
+
+    const description =
+      document.getElementById("productDescription")
+        .value
+        .trim();
+
+
+    const price =
+      Number(
+        document.getElementById("productPrice").value
+      );
+
+
+    const stock =
+      Number(
+        document.getElementById("productStock").value
+      );
+
+
+    const category =
+      document.getElementById("productCategory")
+        .value
+        .trim();
+
+
+    const imageUrl =
+      document.getElementById("productImage")
+        .value
+        .trim();
+
+
+    if(!name){
+
+      afficherMessage(
+        "productMessage",
+        "Le nom du produit est obligatoire.",
+        "error"
+      );
+
+      return;
+    }
+
+
+    if(!category){
+
+      afficherMessage(
+        "productMessage",
+        "La catégorie est obligatoire.",
+        "error"
+      );
+
+      return;
+    }
+
+
+    if(!Number.isFinite(price) || price < 0){
+
+      afficherMessage(
+        "productMessage",
+        "Veuillez entrer un prix valide.",
+        "error"
+      );
+
+      return;
+    }
+
+
+    if(!Number.isFinite(stock) || stock < 0){
+
+      afficherMessage(
+        "productMessage",
+        "Veuillez entrer un stock valide.",
+        "error"
+      );
+
+      return;
+    }
+
+
+    const donnees = {
+
+      name:name,
+
+      description:
+        description || null,
+
+      Price:
+        Math.round(price),
+
+      Stock:
+        Math.round(stock),
+
+      Category:
+        category,
+
+      Image_url:
+        imageUrl || null
+
+    };
+
+
+    try{
+
+      if(produitEnModification){
+
+        const {error} =
+          await supabaseClient
+            .from("Products")
+            .update(donnees)
+            .eq("id",produitEnModification);
+
+
+        if(error){
+          throw error;
+        }
+
+
+        afficherMessage(
+          "productMessage",
+          "Produit modifié avec succès.",
+          "success"
+        );
+
+
+      }else{
+
+        const {error} =
+          await supabaseClient
+            .from("Products")
+            .insert([donnees]);
+
+
+        if(error){
+          throw error;
+        }
+
+
+        afficherMessage(
+          "productMessage",
+          "Produit ajouté avec succès.",
+          "success"
+        );
+      }
+
+
+      await chargerProduits();
+
+
+      setTimeout(function(){
+
+        nouveauProduit();
+
+      },800);
+
+
+    }catch(error){
+
+      console.error(
+        "Erreur enregistrement produit :",
+        error
+      );
+
+
+      afficherMessage(
+        "productMessage",
+        "Erreur : " +
+        (error.message || "Impossible d'enregistrer le produit."),
+        "error"
+      );
+    }
+  }
+
+
+  /* =========================================================
+     PRODUITS — MODIFIER
+  ========================================================= */
+
+  async function modifierProduit(id){
+
+    try{
+
+      const {data:produit,error} =
+        await supabaseClient
+          .from("Products")
+          .select("*")
+          .eq("id",id)
+          .single();
+
+
+      if(error){
+        throw error;
+      }
+
+
+      produitEnModification =
+        produit.id;
+
+
+      document.getElementById(
+        "productName"
+      ).value =
+        produit.name || "";
+
+
+      document.getElementById(
+        "productCategory"
+      ).value =
+        produit.Category || "";
+
+
+      document.getElementById(
+        "productDescription"
+      ).value =
+        produit.description || "";
+
+
+      document.getElementById(
+        "productPrice"
+      ).value =
+        produit.Price ?? "";
+
+
+      document.getElementById(
+        "productStock"
+      ).value =
+        produit.Stock ?? "";
+
+
+      document.getElementById(
+        "productImage"
+      ).value =
+        produit.Image_url || "";
+
+
+      document.getElementById(
+        "editLabel"
+      ).classList.remove("hidden");
+
+
+      document.getElementById(
+        "cancelEditBtn"
+      ).classList.remove("hidden");
+
+
+      document.getElementById(
+        "saveProductBtn"
+      ).textContent =
+        "💾 Enregistrer les modifications";
+
+
+      document
+        .getElementById("produitFormBox")
+        .scrollIntoView({
+          behavior:"smooth",
+          block:"start"
+        });
+
+
+    }catch(error){
+
+      console.error(
+        "Erreur modification produit :",
+        error
+      );
+
+
+      alert(
+        "Impossible de charger le produit : " +
+        (error.message || error)
+      );
+    }
+  }
+
+
+  /* =========================================================
+     PRODUITS — SUPPRIMER
+  ========================================================= */
+
+  async function supprimerProduit(id){
+
+    const confirmation =
+      confirm(
+        "Voulez-vous vraiment supprimer ce produit ?\n\nCette action est définitive."
+      );
+
+
+    if(!confirmation){
+      return;
+    }
+
+
+    try{
+
+      const {error} =
+        await supabaseClient
+          .from("Products")
+          .delete()
+          .eq("id",id);
+
+
+      if(error){
+        throw error;
+      }
+
+
+      afficherMessage(
+        "productMessage",
+        "Produit supprimé avec succès.",
+        "success"
+      );
+
+
+      await chargerProduits();
+
+
+    }catch(error){
+
+      console.error(
+        "Erreur suppression produit :",
+        error
+      );
+
+
+      afficherMessage(
+        "productMessage",
+        "Erreur lors de la suppression : " +
+        (error.message || error),
+        "error"
+      );
+    }
+  }
+
+
+  /* =========================================================
+     COMMANDES — CHARGER
   ========================================================= */
 
   async function chargerCommandes(){
@@ -930,13 +2059,19 @@
     commandesContainer.innerHTML =
       '<div class="loading">Chargement des commandes...</div>';
 
+
     try{
 
       const {
-        data: sessionData
-      } = await supabaseClient.auth.getSession();
+        data:sessionData
+      } =
+        await supabaseClient.auth.getSession();
 
-      if(!sessionData || !sessionData.session){
+
+      if(
+        !sessionData ||
+        !sessionData.session
+      ){
 
         afficherEspaceConnexion();
 
@@ -945,18 +2080,17 @@
 
 
       /* -----------------------------------------------------
-         1. RECUPERER LES COMMANDES
+         COMMANDES
       ----------------------------------------------------- */
 
       const {
-        data: commandes,
-        error: commandesError
-      } = await supabaseClient
-        .from("Orders")
-        .select("*")
-        .order("id", {
-          ascending:false
-        });
+        data:commandes,
+        error:commandesError
+      } =
+        await supabaseClient
+          .from("Orders")
+          .select("*")
+          .order("id",{ascending:false});
 
 
       if(commandesError){
@@ -964,38 +2098,38 @@
       }
 
 
-      if(!commandes || commandes.length === 0){
+      if(
+        !commandes ||
+        commandes.length === 0
+      ){
 
         commandesContainer.innerHTML =
-          '<div class="box empty">Aucune commande pour le moment.</div>';
+          '<div class="empty">Aucune commande pour le moment.</div>';
 
         return;
       }
 
 
       /* -----------------------------------------------------
-         2. RECUPERER TOUS LES ARTICLES
-         
-         IMPORTANT :
-         On ne fait PAS de relation Supabase automatique.
-         On récupère directement Orders_items.
+         ORDERS_ITEMS
       ----------------------------------------------------- */
 
       const {
-        data: items,
-        error: itemsError
-      } = await supabaseClient
-        .from("Orders_items")
-        .select("id, order_id, product_id, quantity, price")
-        .order("id", {
-          ascending:false
-        });
+        data:items,
+        error:itemsError
+      } =
+        await supabaseClient
+          .from("Orders_items")
+          .select(
+            "id, order_id, product_id, quantity, price"
+          )
+          .order("id",{ascending:false});
 
 
       if(itemsError){
 
         console.error(
-          "Erreur récupération Orders_items :",
+          "Erreur Orders_items :",
           itemsError
         );
 
@@ -1007,21 +2141,24 @@
 
 
       /* -----------------------------------------------------
-         3. RECUPERER LES PRODUITS
+         PRODUITS
       ----------------------------------------------------- */
 
       const {
-        data: produits,
-        error: produitsError
-      } = await supabaseClient
-        .from("Products")
-        .select("id, name, Price, Image_url, Stock, Category");
+        data:produits,
+        error:produitsError
+      } =
+        await supabaseClient
+          .from("Products")
+          .select(
+            "id, name, Price, Image_url, Stock, Category"
+          );
 
 
       if(produitsError){
 
         console.error(
-          "Erreur récupération Products :",
+          "Erreur Products :",
           produitsError
         );
 
@@ -1033,69 +2170,92 @@
 
 
       /* -----------------------------------------------------
-         4. INDEX DES ARTICLES PAR ORDER_ID
+         INDEX ORDERS_ITEMS
       ----------------------------------------------------- */
 
       const itemsParCommande = {};
 
+
       (items || []).forEach(function(item){
 
-        const orderId = String(item.order_id);
+        const orderId =
+          String(item.order_id);
+
 
         if(!itemsParCommande[orderId]){
+
           itemsParCommande[orderId] = [];
+
         }
 
+
         itemsParCommande[orderId].push(item);
+
       });
 
 
       /* -----------------------------------------------------
-         5. INDEX DES PRODUITS PAR ID
+         INDEX PRODUITS
       ----------------------------------------------------- */
 
       const produitsParId = {};
 
+
       (produits || []).forEach(function(produit){
 
-        produitsParId[String(produit.id)] = produit;
+        produitsParId[
+          String(produit.id)
+        ] = produit;
+
       });
 
 
       /* -----------------------------------------------------
-         6. AFFICHAGE DES COMMANDES
+         AFFICHAGE
       ----------------------------------------------------- */
 
       let html = "";
 
+
       commandes.forEach(function(commande){
 
-        const orderId = String(commande.id);
+        const orderId =
+          String(commande.id);
+
 
         const articles =
           itemsParCommande[orderId] || [];
 
 
+        const statut =
+          commande.Status ||
+          "En attente";
+
+
         html += `
+
           <article class="order-card">
 
             <div class="order-header">
 
               <div>
+
                 <div class="order-title">
                   🧾 Commande #${escapeHtml(commande.id)}
                 </div>
 
                 <div class="order-date">
-                  ${escapeHtml(formatDate(commande.created_at))}
+                  ${escapeHtml(
+                    formatDate(commande.created_at)
+                  )}
                 </div>
+
               </div>
 
-              <div>
-                <span class="status-badge">
-                  ${escapeHtml(commande.Status || "En attente")}
-                </span>
-              </div>
+
+              <span class="status-badge">
+                ${escapeHtml(statut)}
+              </span>
 
             </div>
 
@@ -1106,17 +2266,27 @@
 
                 <div>
                   👤 <strong>Client :</strong>
-                  ${escapeHtml(commande.customer_name || "-")}
+                  ${escapeHtml(
+                    commande.customer_name || "-"
+                  )}
                 </div>
 
                 <div>
                   📞 <strong>Téléphone :</strong>
-                  ${escapeHtml(commande.Phone || commande.phone || "-")}
+                  ${escapeHtml(
+                    commande.Phone ||
+                    commande.phone ||
+                    "-"
+                  )}
                 </div>
 
                 <div>
                   📍 <strong>Adresse :</strong>
-                  ${escapeHtml(commande.Address || commande.address || "-")}
+                  ${escapeHtml(
+                    commande.Address ||
+                    commande.address ||
+                    "-"
+                  )}
                 </div>
 
               </div>
@@ -1128,16 +2298,17 @@
         `;
 
 
-        /* ---------------------------------------------------
-           ARTICLES DE LA COMMANDE
-        --------------------------------------------------- */
-
         if(articles.length === 0){
 
           html += `
+
             <div class="no-items">
-              Aucun article trouvé dans Orders_items pour cette commande.
+
+              Aucun article trouvé dans
+              Orders_items pour cette commande.
+
             </div>
+
           `;
 
         }else{
@@ -1145,26 +2316,32 @@
           articles.forEach(function(item){
 
             const produit =
-              produitsParId[String(item.product_id)];
+              produitsParId[
+                String(item.product_id)
+              ];
 
 
-            let nomProduit =
+            const nomProduit =
               produit && produit.name
                 ? produit.name
-                : "Produit #" + item.product_id;
+                : "Produit #" +
+                  item.product_id;
 
 
             const quantity =
               Number(item.quantity || 0);
 
+
             const price =
               Number(item.price || 0);
+
 
             const sousTotal =
               quantity * price;
 
 
             html += `
+
               <div class="product-item">
 
                 <div class="product-main">
@@ -1176,45 +2353,73 @@
                     </div>
 
                     <div class="product-details">
-                      Produit ID : ${escapeHtml(item.product_id)}
+
+                      Produit ID :
+                      ${escapeHtml(item.product_id)}
+
                       <br>
-                      Quantité : ${escapeHtml(quantity)}
+
+                      Quantité :
+                      ${escapeHtml(quantity)}
+
                       <br>
-                      Prix unitaire : ${escapeHtml(formatPrix(price))}
+
+                      Prix unitaire :
+                      ${escapeHtml(
+                        formatPrix(price)
+                      )}
+
                     </div>
 
                   </div>
 
+
                   <div class="product-price">
-                    ${escapeHtml(formatPrix(sousTotal))}
+
+                    ${escapeHtml(
+                      formatPrix(sousTotal)
+                    )}
+
                   </div>
 
                 </div>
 
               </div>
+
             `;
           });
         }
 
 
-        /* ---------------------------------------------------
-           TOTAL
-        --------------------------------------------------- */
-
         html += `
+
               <div class="order-total">
-                <span>Total commande</span>
+
                 <span>
-                  ${escapeHtml(formatPrix(commande.Total || commande.total || 0))}
+                  Total commande
                 </span>
+
+                <span>
+                  ${escapeHtml(
+                    formatPrix(
+                      commande.Total ||
+                      commande.total ||
+                      0
+                    )
+                  )}
+                </span>
+
               </div>
 
 
               <div class="status-box">
 
-                <div class="small" style="margin-bottom:8px;">
+                <div
+                  class="small"
+                  style="margin-bottom:8px;">
                   Statut de la commande
                 </div>
+
 
                 <div class="status-row">
 
@@ -1223,37 +2428,66 @@
 
                     <option
                       value="En attente"
-                      ${(commande.Status === "En attente" || !commande.Status) ? "selected" : ""}>
+                      ${
+                        statut === "En attente"
+                        ? "selected"
+                        : ""
+                      }>
                       En attente
                     </option>
 
+
                     <option
                       value="Confirmée"
-                      ${commande.Status === "Confirmée" ? "selected" : ""}>
+                      ${
+                        statut === "Confirmée"
+                        ? "selected"
+                        : ""
+                      }>
                       Confirmée
                     </option>
 
+
                     <option
                       value="En préparation"
-                      ${commande.Status === "En préparation" ? "selected" : ""}>
+                      ${
+                        statut === "En préparation"
+                        ? "selected"
+                        : ""
+                      }>
                       En préparation
                     </option>
 
+
                     <option
                       value="Expédiée"
-                      ${commande.Status === "Expédiée" ? "selected" : ""}>
+                      ${
+                        statut === "Expédiée"
+                        ? "selected"
+                        : ""
+                      }>
                       Expédiée
                     </option>
 
+
                     <option
                       value="Livrée"
-                      ${commande.Status === "Livrée" ? "selected" : ""}>
+                      ${
+                        statut === "Livrée"
+                        ? "selected"
+                        : ""
+                      }>
                       Livrée
                     </option>
 
+
                     <option
                       value="Annulée"
-                      ${commande.Status === "Annulée" ? "selected" : ""}>
+                      ${
+                        statut === "Annulée"
+                        ? "selected"
+                        : ""
+                      }>
                       Annulée
                     </option>
 
@@ -1263,7 +2497,9 @@
                   <button
                     class="btn btn-success"
                     onclick="enregistrerStatut(${Number(commande.id)})">
+
                     Enregistrer le statut
+
                   </button>
 
                 </div>
@@ -1273,57 +2509,70 @@
             </div>
 
           </article>
+
         `;
       });
 
 
-      commandesContainer.innerHTML = html;
+      commandesContainer.innerHTML =
+        html;
 
 
     }catch(error){
 
       console.error(
-        "Erreur chargement commandes :",
+        "Erreur commandes :",
         error
       );
 
+
       commandesContainer.innerHTML = `
-        <div class="box">
-          <div class="message show error">
-            Erreur lors du chargement des commandes :
-            ${escapeHtml(error.message || error)}
-          </div>
+
+        <div class="message show error">
+
+          Erreur lors du chargement des commandes :
+
+          ${escapeHtml(
+            error.message || error
+          )}
+
         </div>
+
       `;
     }
   }
 
 
   /* =========================================================
-     ENREGISTRER STATUT
+     COMMANDES — STATUT
   ========================================================= */
 
   async function enregistrerStatut(orderId){
 
     const select =
-      document.getElementById("status-" + orderId);
+      document.getElementById(
+        "status-" + orderId
+      );
+
 
     if(!select){
       return;
     }
 
+
     const nouveauStatut =
       select.value;
 
+
     try{
 
-      const { error } =
+      const {error} =
         await supabaseClient
           .from("Orders")
           .update({
-            Status: nouveauStatut
+            Status:nouveauStatut
           })
-          .eq("id", orderId);
+          .eq("id",orderId);
 
 
       if(error){
@@ -1348,6 +2597,7 @@
         error
       );
 
+
       alert(
         "Erreur lors de l'enregistrement du statut : " +
         (error.message || error)
@@ -1357,11 +2607,23 @@
 
 
   /* =========================================================
-     SESSION SUPABASE
+     ACTUALISER TOUT
+  ========================================================= */
+
+  async function actualiserTout(){
+
+    await chargerProduits();
+
+    await chargerCommandes();
+  }
+
+
+  /* =========================================================
+     AUTH STATE
   ========================================================= */
 
   supabaseClient.auth.onAuthStateChange(
-    async function(event, session){
+    async function(event,session){
 
       console.log(
         "Auth event :",
@@ -1384,22 +2646,29 @@
       }
 
 
-      if(session && session.user){
+      if(
+        session &&
+        session.user
+      ){
 
         afficherEspaceAdmin();
+
+        await chargerProduits();
 
         await chargerCommandes();
 
       }else{
 
         afficherEspaceConnexion();
+
       }
+
     }
   );
 
 
   /* =========================================================
-     VERIFICATION AU CHARGEMENT
+     VERIFICATION SESSION AU CHARGEMENT
   ========================================================= */
 
   async function verifierSession(){
@@ -1408,19 +2677,27 @@
 
       const {
         data
-      } = await supabaseClient.auth.getSession();
+      } =
+        await supabaseClient.auth.getSession();
 
 
-      if(data && data.session){
+      if(
+        data &&
+        data.session
+      ){
 
         afficherEspaceAdmin();
+
+        await chargerProduits();
 
         await chargerCommandes();
 
       }else{
 
         afficherEspaceConnexion();
+
       }
+
 
     }catch(error){
 
@@ -1428,6 +2705,7 @@
         "Erreur vérification session :",
         error
       );
+
 
       afficherEspaceConnexion();
     }
@@ -1440,3 +2718,4 @@
 
 </body>
 </html>
+```
