@@ -96,6 +96,11 @@
       opacity:.9;
     }
 
+    button:disabled{
+      opacity:.6;
+      cursor:not-allowed;
+    }
+
     .btn-light{
       background:#eee5de;
       color:#2d2520;
@@ -266,7 +271,13 @@
       display:none;
     }
 
+    .url-ok{
+      border:2px solid #287a45 !important;
+      background:#f3fff6 !important;
+    }
+
     @media(max-width:600px){
+
       header{
         align-items:flex-start;
         flex-direction:column;
@@ -302,23 +313,36 @@
 <body>
 
 <header>
+
   <h1>👜 YAYOUNABYSAC — Administration</h1>
 
   <div class="top-actions">
-    <button id="refreshBtn" class="btn-light hidden" onclick="actualiserTout()">
+
+    <button
+      id="refreshBtn"
+      class="btn-light hidden"
+      onclick="actualiserTout()">
       Actualiser
     </button>
 
-    <button id="logoutBtn" class="btn-light hidden" onclick="deconnexion()">
+    <button
+      id="logoutBtn"
+      class="btn-light hidden"
+      onclick="deconnexion()">
       Se déconnecter
     </button>
+
   </div>
+
 </header>
+
 
 <div class="container">
 
   <!-- CONNEXION -->
+
   <div id="connexionBox" class="box">
+
     <h2>🔐 Connexion administrateur</h2>
 
     <div id="loginMessage" class="message"></div>
@@ -327,28 +351,31 @@
       type="email"
       id="email"
       placeholder="Adresse email"
-      autocomplete="email"
-    >
+      autocomplete="email">
 
     <input
       type="password"
       id="password"
       placeholder="Mot de passe"
-      autocomplete="current-password"
-    >
+      autocomplete="current-password">
 
     <button onclick="connexionAdmin()">
       Se connecter
     </button>
 
-    <button class="btn-light" onclick="afficherRecuperation()">
+    <button
+      class="btn-light"
+      onclick="afficherRecuperation()">
       Mot de passe oublié ?
     </button>
+
   </div>
 
 
   <!-- RECUPERATION -->
+
   <div id="recoveryBox" class="box hidden">
+
     <h2>📧 Récupération du mot de passe</h2>
 
     <div id="recoveryMessage" class="message"></div>
@@ -356,21 +383,25 @@
     <input
       type="email"
       id="recoveryEmail"
-      placeholder="Votre adresse email"
-    >
+      placeholder="Votre adresse email">
 
     <button onclick="envoyerRecuperation()">
       Envoyer le lien
     </button>
 
-    <button class="btn-light" onclick="retourConnexion()">
+    <button
+      class="btn-light"
+      onclick="retourConnexion()">
       Retour
     </button>
+
   </div>
 
 
   <!-- NOUVEAU MOT DE PASSE -->
+
   <div id="newPasswordBox" class="box hidden">
+
     <h2>🔑 Nouveau mot de passe</h2>
 
     <div id="passwordMessage" class="message"></div>
@@ -378,47 +409,49 @@
     <input
       type="password"
       id="newPassword"
-      placeholder="Nouveau mot de passe"
-    >
+      placeholder="Nouveau mot de passe">
 
     <input
       type="password"
       id="confirmPassword"
-      placeholder="Confirmer le mot de passe"
-    >
+      placeholder="Confirmer le mot de passe">
 
     <button onclick="changerMotDePasse()">
       Enregistrer le nouveau mot de passe
     </button>
+
   </div>
 
 
   <!-- ADMIN -->
+
   <div id="adminBox" class="hidden">
 
     <div class="tabs">
+
       <button
         id="productsTab"
         class="tab-btn active"
-        onclick="afficherSection('produits')"
-      >
+        onclick="afficherSection('produits')">
         👜 Produits
       </button>
 
       <button
         id="ordersTab"
         class="tab-btn"
-        onclick="afficherSection('commandes')"
-      >
+        onclick="afficherSection('commandes')">
         📦 Commandes
       </button>
+
     </div>
 
 
     <!-- PRODUITS -->
+
     <section id="sectionProduits">
 
       <div class="box">
+
         <h2>➕ Ajouter un produit</h2>
 
         <div id="productMessage" class="message"></div>
@@ -426,33 +459,31 @@
         <input
           type="text"
           id="productName"
-          placeholder="Nom du produit"
-        >
+          placeholder="Nom du produit">
 
         <textarea
           id="productDescription"
-          placeholder="Description du produit"
-        ></textarea>
+          placeholder="Description du produit"></textarea>
 
         <input
           type="number"
           id="productPrice"
           placeholder="Prix en FCFA"
-          min="0"
-        >
+          min="0">
 
         <input
           type="number"
           id="productStock"
           placeholder="Stock"
-          min="0"
-        >
+          min="0">
 
         <input
           type="text"
           id="productCategory"
-          placeholder="Catégorie"
-        >
+          placeholder="Catégorie">
+
+
+        <!-- PHOTO -->
 
         <h3 style="margin-top:15px;">
           📷 Photo du produit
@@ -466,1213 +497,1552 @@
           type="file"
           id="productImageFile"
           accept="image/*"
-          onchange="previewImage(event)"
-        >
+          onchange="previewImage(event)">
 
-        <div id="fileName" class="file-name"></div>
+        <div
+          id="fileName"
+          class="file-name">
+        </div>
 
         <img
           id="imagePreview"
           class="upload-preview"
-          alt="Aperçu"
-        >
+          alt="Aperçu de la photo">
+
 
         <button
           id="uploadButton"
           class="btn-upload"
-          onclick="televerserImage()"
-        >
+          onclick="televerserImage()">
           📤 Envoyer la photo
         </button>
+
+
+        <label
+          style="display:block;margin-top:12px;font-weight:bold;">
+          🔗 URL de l'image
+        </label>
 
         <input
           type="url"
           id="productImageUrl"
-          placeholder="URL de l'image (facultatif)"
-        >
+          placeholder="L'URL sera remplie automatiquement"
+          readonly>
+
 
         <input
           type="hidden"
-          id="uploadedImageUrl"
-        >
+          id="uploadedImageUrl">
+
 
         <button
           class="btn-success"
-          onclick="ajouterProduit()"
-        >
+          onclick="ajouterProduit()">
           ➕ Ajouter le produit
         </button>
 
         <button
           class="btn-light"
-          onclick="reinitialiserFormulaire()"
-        >
+          onclick="reinitialiserFormulaire()">
           Effacer
         </button>
+
       </div>
 
 
+      <!-- LISTE PRODUITS -->
+
       <div class="box">
+
         <h2>👜 Mes produits</h2>
 
-        <div id="productsMessage" class="message"></div>
-
-        <div id="productsList" class="product-grid">
-          <p>Chargement des produits...</p>
+        <div
+          id="productsMessage"
+          class="message">
         </div>
+
+        <div
+          id="productsList"
+          class="product-grid">
+
+          <p>Chargement des produits...</p>
+
+        </div>
+
       </div>
 
     </section>
 
 
     <!-- COMMANDES -->
-    <section id="sectionCommandes" class="hidden">
+
+    <section
+      id="sectionCommandes"
+      class="hidden">
 
       <div class="box">
+
         <h2>📦 Commandes</h2>
 
-        <div id="ordersMessage" class="message"></div>
+        <div
+          id="ordersMessage"
+          class="message">
+        </div>
 
         <div id="ordersList">
           <p>Chargement des commandes...</p>
         </div>
+
       </div>
 
     </section>
 
   </div>
+
 </div>
 
 
 <script>
 
-  /* =========================================================
-     SUPABASE
-  ========================================================= */
+/* =========================================================
+   SUPABASE
+========================================================= */
 
-  const SUPABASE_URL =
-    "https://ajprnhqphbtgfztspuio.supabase.co";
+const SUPABASE_URL =
+  "https://ajprnhqphbtgfztspuio.supabase.co";
 
-  const SUPABASE_ANON_KEY =
-    "sb_publishable_Qxr7ftKtVgB3y3lmx1agWg_UQxqrviy";
+const SUPABASE_ANON_KEY =
+  "sb_publishable_Qxr7ftKtVgB3y3lmx1agWg_UQxqrviy";
 
-  const supabaseClient =
-    window.supabase.createClient(
-      SUPABASE_URL,
-      SUPABASE_ANON_KEY
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_ANON_KEY
+  );
+
+const STORAGE_BUCKET =
+  "product-images";
+
+
+/* =========================================================
+   MESSAGES
+========================================================= */
+
+function afficherMessage(elementId,message,type){
+
+  const element =
+    document.getElementById(elementId);
+
+  if(!element) return;
+
+  element.textContent = message;
+
+  element.className =
+    "message " + type;
+}
+
+
+function cacherMessage(elementId){
+
+  const element =
+    document.getElementById(elementId);
+
+  if(!element) return;
+
+  element.className = "message";
+  element.textContent = "";
+}
+
+
+/* =========================================================
+   PRIX
+========================================================= */
+
+function formaterPrix(prix){
+
+  return Number(prix || 0)
+    .toLocaleString("fr-FR") +
+    " FCFA";
+}
+
+
+/* =========================================================
+   CONNEXION
+========================================================= */
+
+async function connexionAdmin(){
+
+  const email =
+    document.getElementById("email")
+      .value.trim();
+
+  const password =
+    document.getElementById("password")
+      .value;
+
+  cacherMessage("loginMessage");
+
+  if(!email || !password){
+
+    afficherMessage(
+      "loginMessage",
+      "Veuillez remplir l'email et le mot de passe.",
+      "error"
     );
 
-  const STORAGE_BUCKET = "product-images";
-
-
-  /* =========================================================
-     OUTILS
-  ========================================================= */
-
-  function afficherMessage(elementId, message, type){
-    const element = document.getElementById(elementId);
-
-    if(!element) return;
-
-    element.textContent = message;
-    element.className = "message " + type;
+    return;
   }
 
-
-  function cacherMessage(elementId){
-    const element = document.getElementById(elementId);
-
-    if(!element) return;
-
-    element.className = "message";
-    element.textContent = "";
-  }
-
-
-  function formaterPrix(prix){
-    return Number(prix || 0).toLocaleString("fr-FR") + " FCFA";
-  }
-
-
-  /* =========================================================
-     CONNEXION
-  ========================================================= */
-
-  async function connexionAdmin(){
-
-    const email =
-      document.getElementById("email").value.trim();
-
-    const password =
-      document.getElementById("password").value;
-
-    cacherMessage("loginMessage");
-
-    if(!email || !password){
-      afficherMessage(
-        "loginMessage",
-        "Veuillez remplir l'email et le mot de passe.",
-        "error"
-      );
-      return;
-    }
-
-    const { data, error } =
-      await supabaseClient.auth.signInWithPassword({
+  const { data, error } =
+    await supabaseClient.auth
+      .signInWithPassword({
         email,
         password
       });
 
-    if(error){
-
-      afficherMessage(
-        "loginMessage",
-        "Erreur de connexion : " + error.message,
-        "error"
-      );
-
-      return;
-    }
-
-    if(data.session){
-
-      afficherAdmin();
-
-    }
-  }
-
-
-  async function deconnexion(){
-
-    await supabaseClient.auth.signOut();
-
-    document.getElementById("adminBox")
-      .classList.add("hidden");
-
-    document.getElementById("logoutBtn")
-      .classList.add("hidden");
-
-    document.getElementById("refreshBtn")
-      .classList.add("hidden");
-
-    document.getElementById("connexionBox")
-      .classList.remove("hidden");
-
-    document.getElementById("password").value = "";
+  if(error){
 
     afficherMessage(
       "loginMessage",
-      "Vous êtes déconnecté.",
-      "success"
+      "Erreur de connexion : " +
+      error.message,
+      "error"
     );
+
+    return;
   }
 
+  if(data.session){
 
-  function afficherAdmin(){
+    afficherAdmin();
+  }
+}
 
-    document.getElementById("connexionBox")
-      .classList.add("hidden");
 
-    document.getElementById("recoveryBox")
-      .classList.add("hidden");
+async function deconnexion(){
 
-    document.getElementById("newPasswordBox")
-      .classList.add("hidden");
+  await supabaseClient.auth.signOut();
 
-    document.getElementById("adminBox")
-      .classList.remove("hidden");
+  document.getElementById("adminBox")
+    .classList.add("hidden");
 
-    document.getElementById("logoutBtn")
-      .classList.remove("hidden");
+  document.getElementById("logoutBtn")
+    .classList.add("hidden");
 
-    document.getElementById("refreshBtn")
-      .classList.remove("hidden");
+  document.getElementById("refreshBtn")
+    .classList.add("hidden");
 
-    chargerProduits();
-    chargerCommandes();
+  document.getElementById("connexionBox")
+    .classList.remove("hidden");
+
+  document.getElementById("password")
+    .value = "";
+
+  afficherMessage(
+    "loginMessage",
+    "Vous êtes déconnecté.",
+    "success"
+  );
+}
+
+
+function afficherAdmin(){
+
+  document.getElementById("connexionBox")
+    .classList.add("hidden");
+
+  document.getElementById("recoveryBox")
+    .classList.add("hidden");
+
+  document.getElementById("newPasswordBox")
+    .classList.add("hidden");
+
+  document.getElementById("adminBox")
+    .classList.remove("hidden");
+
+  document.getElementById("logoutBtn")
+    .classList.remove("hidden");
+
+  document.getElementById("refreshBtn")
+    .classList.remove("hidden");
+
+  chargerProduits();
+  chargerCommandes();
+}
+
+
+/* =========================================================
+   RECUPERATION MOT DE PASSE
+========================================================= */
+
+function afficherRecuperation(){
+
+  document.getElementById("connexionBox")
+    .classList.add("hidden");
+
+  document.getElementById("recoveryBox")
+    .classList.remove("hidden");
+}
+
+
+function retourConnexion(){
+
+  document.getElementById("recoveryBox")
+    .classList.add("hidden");
+
+  document.getElementById("connexionBox")
+    .classList.remove("hidden");
+}
+
+
+async function envoyerRecuperation(){
+
+  const email =
+    document.getElementById("recoveryEmail")
+      .value.trim();
+
+  cacherMessage("recoveryMessage");
+
+  if(!email){
+
+    afficherMessage(
+      "recoveryMessage",
+      "Entrez votre adresse email.",
+      "error"
+    );
+
+    return;
   }
 
+  const redirectTo =
+    window.location.origin +
+    window.location.pathname;
 
-  /* =========================================================
-     RECUPERATION MOT DE PASSE
-  ========================================================= */
-
-  function afficherRecuperation(){
-
-    document.getElementById("connexionBox")
-      .classList.add("hidden");
-
-    document.getElementById("recoveryBox")
-      .classList.remove("hidden");
-
-  }
-
-
-  function retourConnexion(){
-
-    document.getElementById("recoveryBox")
-      .classList.add("hidden");
-
-    document.getElementById("connexionBox")
-      .classList.remove("hidden");
-
-  }
-
-
-  async function envoyerRecuperation(){
-
-    const email =
-      document.getElementById("recoveryEmail")
-        .value.trim();
-
-    cacherMessage("recoveryMessage");
-
-    if(!email){
-
-      afficherMessage(
-        "recoveryMessage",
-        "Entrez votre adresse email.",
-        "error"
-      );
-
-      return;
-    }
-
-    const redirectTo =
-      window.location.origin + window.location.pathname;
-
-    const { error } =
-      await supabaseClient.auth.resetPasswordForEmail(
+  const { error } =
+    await supabaseClient.auth
+      .resetPasswordForEmail(
         email,
         {
           redirectTo
         }
       );
 
-    if(error){
-
-      afficherMessage(
-        "recoveryMessage",
-        "Erreur : " + error.message,
-        "error"
-      );
-
-      return;
-    }
+  if(error){
 
     afficherMessage(
       "recoveryMessage",
-      "Le lien de récupération a été envoyé à votre adresse email.",
-      "success"
+      "Erreur : " + error.message,
+      "error"
     );
+
+    return;
   }
 
+  afficherMessage(
+    "recoveryMessage",
+    "Le lien de récupération a été envoyé à votre adresse email.",
+    "success"
+  );
+}
 
-  async function changerMotDePasse(){
 
-    const password =
-      document.getElementById("newPassword").value;
+async function changerMotDePasse(){
 
-    const confirmation =
-      document.getElementById("confirmPassword").value;
+  const password =
+    document.getElementById("newPassword")
+      .value;
 
-    cacherMessage("passwordMessage");
+  const confirmation =
+    document.getElementById("confirmPassword")
+      .value;
 
-    if(!password || !confirmation){
+  cacherMessage("passwordMessage");
 
-      afficherMessage(
-        "passwordMessage",
-        "Remplissez les deux champs.",
-        "error"
-      );
-
-      return;
-    }
-
-    if(password.length < 6){
-
-      afficherMessage(
-        "passwordMessage",
-        "Le mot de passe doit contenir au moins 6 caractères.",
-        "error"
-      );
-
-      return;
-    }
-
-    if(password !== confirmation){
-
-      afficherMessage(
-        "passwordMessage",
-        "Les deux mots de passe ne correspondent pas.",
-        "error"
-      );
-
-      return;
-    }
-
-    const { error } =
-      await supabaseClient.auth.updateUser({
-        password
-      });
-
-    if(error){
-
-      afficherMessage(
-        "passwordMessage",
-        "Erreur : " + error.message,
-        "error"
-      );
-
-      return;
-    }
+  if(!password || !confirmation){
 
     afficherMessage(
       "passwordMessage",
-      "Mot de passe modifié avec succès.",
-      "success"
+      "Remplissez les deux champs.",
+      "error"
     );
 
-    setTimeout(() => {
-
-      document.getElementById("newPasswordBox")
-        .classList.add("hidden");
-
-      afficherAdmin();
-
-    }, 1500);
+    return;
   }
 
+  if(password.length < 6){
 
-  /* =========================================================
-     APERCU PHOTO
-  ========================================================= */
+    afficherMessage(
+      "passwordMessage",
+      "Le mot de passe doit contenir au moins 6 caractères.",
+      "error"
+    );
 
-  function previewImage(event){
+    return;
+  }
 
-    const file =
-      event.target.files[0];
+  if(password !== confirmation){
 
-    const preview =
-      document.getElementById("imagePreview");
+    afficherMessage(
+      "passwordMessage",
+      "Les deux mots de passe ne correspondent pas.",
+      "error"
+    );
 
-    const fileName =
-      document.getElementById("fileName");
+    return;
+  }
 
-    if(!file){
+  const { error } =
+    await supabaseClient.auth
+      .updateUser({
+        password
+      });
 
-      preview.style.display = "none";
-      fileName.style.display = "none";
+  if(error){
 
-      return;
-    }
+    afficherMessage(
+      "passwordMessage",
+      "Erreur : " + error.message,
+      "error"
+    );
 
-    fileName.textContent =
-      "📷 " + file.name;
+    return;
+  }
 
-    fileName.style.display = "block";
+  afficherMessage(
+    "passwordMessage",
+    "Mot de passe modifié avec succès.",
+    "success"
+  );
 
-    const reader =
-      new FileReader();
+  setTimeout(() => {
 
-    reader.onload = function(e){
+    document.getElementById("newPasswordBox")
+      .classList.add("hidden");
 
-      preview.src = e.target.result;
-      preview.style.display = "block";
+    afficherAdmin();
 
+  },1500);
+}
+
+
+/* =========================================================
+   APERCU PHOTO
+========================================================= */
+
+function previewImage(event){
+
+  const file =
+    event.target.files[0];
+
+  const preview =
+    document.getElementById("imagePreview");
+
+  const fileName =
+    document.getElementById("fileName");
+
+  if(!file){
+
+    preview.style.display = "none";
+    fileName.style.display = "none";
+
+    return;
+  }
+
+  fileName.textContent =
+    "📷 " + file.name;
+
+  fileName.style.display =
+    "block";
+
+  const reader =
+    new FileReader();
+
+  reader.onload =
+    function(e){
+
+      preview.src =
+        e.target.result;
+
+      preview.style.display =
+        "block";
     };
 
-    reader.readAsDataURL(file);
-  }
+  reader.readAsDataURL(file);
+}
 
 
-  /* =========================================================
-     UPLOAD PHOTO
-  ========================================================= */
+/* =========================================================
+   ENVOYER PHOTO
+========================================================= */
 
-  async function televerserImage(){
+async function televerserImage(){
 
-    const fileInput =
-      document.getElementById("productImageFile");
+  const fileInput =
+    document.getElementById(
+      "productImageFile"
+    );
 
-    const file =
-      fileInput.files[0];
+  const file =
+    fileInput.files[0];
 
-    if(!file){
-
-      afficherMessage(
-        "productMessage",
-        "Choisissez d'abord une photo.",
-        "error"
-      );
-
-      return;
-    }
-
-    const button =
-      document.getElementById("uploadButton");
-
-    button.disabled = true;
-    button.textContent = "⏳ Envoi de la photo...";
-
-    cacherMessage("productMessage");
-
-    try{
-
-      const extension =
-        file.name.split(".").pop().toLowerCase();
-
-      const safeExtension =
-        extension || "jpg";
-
-      const fileName =
-        "produit-" +
-        Date.now() +
-        "-" +
-        Math.random()
-          .toString(36)
-          .substring(2,8) +
-        "." +
-        safeExtension;
-
-      const filePath =
-        fileName;
-
-      const { data, error } =
-        await supabaseClient
-          .storage
-          .from(STORAGE_BUCKET)
-          .upload(
-            filePath,
-            file,
-            {
-              cacheControl:"3600",
-              upsert:false,
-              contentType:file.type
-            }
-          );
-
-      if(error){
-
-        throw error;
-      }
-
-      const { data: publicData } =
-        supabaseClient
-          .storage
-          .from(STORAGE_BUCKET)
-          .getPublicUrl(filePath);
-
-      const publicUrl =
-        publicData.publicUrl;
-
-      document.getElementById("uploadedImageUrl")
-        .value = publicUrl;
-
-      document.getElementById("productImageUrl")
-        .value = publicUrl;
-
-      afficherMessage(
-        "productMessage",
-        "✅ Photo envoyée avec succès. L'URL a été ajoutée automatiquement.",
-        "success"
-      );
-
-    }catch(error){
-
-      afficherMessage(
-        "productMessage",
-        "Erreur lors de l'envoi de la photo : " +
-        error.message,
-        "error"
-      );
-
-    }finally{
-
-      button.disabled = false;
-      button.textContent = "📤 Envoyer la photo";
-
-    }
-  }
-
-
-  /* =========================================================
-     AJOUT PRODUIT
-  ========================================================= */
-
-  async function ajouterProduit(){
-
-    const name =
-      document.getElementById("productName")
-        .value.trim();
-
-    const description =
-      document.getElementById("productDescription")
-        .value.trim();
-
-    const price =
-      Number(
-        document.getElementById("productPrice").value
-      );
-
-    const stock =
-      Number(
-        document.getElementById("productStock").value
-      );
-
-    const category =
-      document.getElementById("productCategory")
-        .value.trim();
-
-    const imageUrl =
-      document.getElementById("productImageUrl")
-        .value.trim();
-
-    cacherMessage("productMessage");
-
-    if(!name){
-
-      afficherMessage(
-        "productMessage",
-        "Le nom du produit est obligatoire.",
-        "error"
-      );
-
-      return;
-    }
-
-    if(!price || price < 0){
-
-      afficherMessage(
-        "productMessage",
-        "Veuillez indiquer un prix valide.",
-        "error"
-      );
-
-      return;
-    }
-
-    if(stock < 0 || isNaN(stock)){
-
-      afficherMessage(
-        "productMessage",
-        "Veuillez indiquer un stock valide.",
-        "error"
-      );
-
-      return;
-    }
-
-    const { data, error } =
-      await supabaseClient
-        .from("Products")
-        .insert([
-          {
-            name: name,
-            description: description,
-            Price: price,
-            Image_url: imageUrl || null,
-            Stock: stock,
-            Category: category || null
-          }
-        ])
-        .select()
-        .single();
-
-    if(error){
-
-      afficherMessage(
-        "productMessage",
-        "Erreur lors de l'ajout : " + error.message,
-        "error"
-      );
-
-      return;
-    }
+  if(!file){
 
     afficherMessage(
       "productMessage",
-      "✅ Produit ajouté avec succès.",
+      "Choisissez d'abord une photo.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  /* Vérification taille */
+
+  if(file.size > 50 * 1024 * 1024){
+
+    afficherMessage(
+      "productMessage",
+      "La photo dépasse la limite de 50 MB.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  const button =
+    document.getElementById(
+      "uploadButton"
+    );
+
+  button.disabled = true;
+
+  button.textContent =
+    "⏳ Envoi de la photo...";
+
+  cacherMessage("productMessage");
+
+
+  try{
+
+    const extension =
+      file.name
+        .split(".")
+        .pop()
+        .toLowerCase() ||
+      "jpg";
+
+
+    const fileName =
+      "produit-" +
+      Date.now() +
+      "-" +
+      Math.random()
+        .toString(36)
+        .substring(2,8) +
+      "." +
+      extension;
+
+
+    /*
+      ENVOI DANS LE BUCKET
+    */
+
+    const { error: uploadError } =
+      await supabaseClient
+        .storage
+        .from(STORAGE_BUCKET)
+        .upload(
+          fileName,
+          file,
+          {
+            cacheControl:"3600",
+            upsert:false,
+            contentType:file.type
+          }
+        );
+
+
+    if(uploadError){
+
+      throw uploadError;
+    }
+
+
+    /*
+      URL PUBLIQUE
+    */
+
+    const publicUrl =
+      SUPABASE_URL +
+      "/storage/v1/object/public/" +
+      STORAGE_BUCKET +
+      "/" +
+      encodeURIComponent(fileName);
+
+
+    /*
+      REMPLIR AUTOMATIQUEMENT
+      LE CHAMP URL
+    */
+
+    const urlField =
+      document.getElementById(
+        "productImageUrl"
+      );
+
+    const hiddenUrl =
+      document.getElementById(
+        "uploadedImageUrl"
+      );
+
+
+    urlField.value =
+      publicUrl;
+
+    hiddenUrl.value =
+      publicUrl;
+
+
+    /*
+      COULEUR VERTE POUR CONFIRMER
+    */
+
+    urlField.classList.add(
+      "url-ok"
+    );
+
+
+    /*
+      APERÇU DE L'IMAGE
+    */
+
+    document.getElementById(
+      "imagePreview"
+    ).src = publicUrl;
+
+
+    document.getElementById(
+      "imagePreview"
+    ).style.display = "block";
+
+
+    afficherMessage(
+      "productMessage",
+      "✅ Photo envoyée avec succès ! L'URL a été remplie automatiquement.",
       "success"
     );
 
-    reinitialiserFormulaire();
 
-    chargerProduits();
+    console.log(
+      "URL publique de l'image :",
+      publicUrl
+    );
+
+
+  }catch(error){
+
+    console.error(error);
+
+    afficherMessage(
+      "productMessage",
+      "❌ Erreur lors de l'envoi : " +
+      error.message,
+      "error"
+    );
+
+
+  }finally{
+
+    button.disabled = false;
+
+    button.textContent =
+      "📤 Envoyer la photo";
+  }
+}
+
+
+/* =========================================================
+   AJOUT PRODUIT
+========================================================= */
+
+async function ajouterProduit(){
+
+  const name =
+    document.getElementById(
+      "productName"
+    ).value.trim();
+
+  const description =
+    document.getElementById(
+      "productDescription"
+    ).value.trim();
+
+  const price =
+    Number(
+      document.getElementById(
+        "productPrice"
+      ).value
+    );
+
+  const stock =
+    Number(
+      document.getElementById(
+        "productStock"
+      ).value
+    );
+
+  const category =
+    document.getElementById(
+      "productCategory"
+    ).value.trim();
+
+  const imageUrl =
+    document.getElementById(
+      "productImageUrl"
+    ).value.trim();
+
+
+  cacherMessage("productMessage");
+
+
+  if(!name){
+
+    afficherMessage(
+      "productMessage",
+      "Le nom du produit est obligatoire.",
+      "error"
+    );
+
+    return;
   }
 
 
-  /* =========================================================
-     CHARGER PRODUITS
-  ========================================================= */
+  if(isNaN(price) || price < 0){
 
-  async function chargerProduits(){
+    afficherMessage(
+      "productMessage",
+      "Veuillez indiquer un prix valide.",
+      "error"
+    );
 
-    const container =
-      document.getElementById("productsList");
+    return;
+  }
+
+
+  if(isNaN(stock) || stock < 0){
+
+    afficherMessage(
+      "productMessage",
+      "Veuillez indiquer un stock valide.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  /*
+    IMPORTANT :
+    LA PHOTO DOIT AVOIR UNE URL
+  */
+
+  if(!imageUrl){
+
+    afficherMessage(
+      "productMessage",
+      "⚠️ Veuillez d'abord choisir une photo et cliquer sur « Envoyer la photo ».",
+      "error"
+    );
+
+    return;
+  }
+
+
+  /*
+    INSERTION DANS PRODUCTS
+  */
+
+  const { data, error } =
+    await supabaseClient
+      .from("Products")
+      .insert([
+        {
+          name:name,
+          description:description,
+          Price:price,
+          Image_url:imageUrl,
+          Stock:stock,
+          Category:category || null
+        }
+      ])
+      .select()
+      .single();
+
+
+  if(error){
+
+    afficherMessage(
+      "productMessage",
+      "❌ Erreur lors de l'ajout : " +
+      error.message,
+      "error"
+    );
+
+    return;
+  }
+
+
+  afficherMessage(
+    "productMessage",
+    "✅ Produit ajouté avec succès avec sa photo.",
+    "success"
+  );
+
+
+  reinitialiserFormulaire();
+
+  chargerProduits();
+}
+
+
+/* =========================================================
+   CHARGER PRODUITS
+========================================================= */
+
+async function chargerProduits(){
+
+  const container =
+    document.getElementById(
+      "productsList"
+    );
+
+  container.innerHTML =
+    "<p>Chargement des produits...</p>";
+
+
+  const { data, error } =
+    await supabaseClient
+      .from("Products")
+      .select("*")
+      .order("id",{
+        ascending:false
+      });
+
+
+  if(error){
 
     container.innerHTML =
-      "<p>Chargement des produits...</p>";
+      "<p>Erreur : " +
+      escapeHtml(error.message) +
+      "</p>";
 
-    const { data, error } =
-      await supabaseClient
-        .from("Products")
-        .select("*")
-        .order("id", {
-          ascending:false
-        });
+    return;
+  }
 
-    if(error){
 
-      container.innerHTML =
-        "<p>Erreur : " +
-        escapeHtml(error.message) +
-        "</p>";
-
-      return;
-    }
-
-    if(!data || data.length === 0){
-
-      container.innerHTML =
-        "<p>Aucun produit pour le moment.</p>";
-
-      return;
-    }
+  if(!data || data.length === 0){
 
     container.innerHTML =
-      data.map(product => {
+      "<p>Aucun produit pour le moment.</p>";
 
-        const image =
-          product.Image_url ||
-          "https://via.placeholder.com/600x500?text=Pas+de+photo";
+    return;
+  }
 
-        return `
-          <div class="product-card">
 
-            <img
-              src="${escapeAttribute(image)}"
-              alt="${escapeAttribute(product.name || "Produit")}"
-              onerror="this.src='https://via.placeholder.com/600x500?text=Image+indisponible'"
-            >
+  container.innerHTML =
+    data.map(product => {
 
-            <div class="product-content">
+      const image =
+        product.Image_url ||
+        "https://via.placeholder.com/600x500?text=Pas+de+photo";
 
-              <h3>
-                ${escapeHtml(product.name || "")}
-              </h3>
 
-              <div class="price">
-                ${formaterPrix(product.Price)}
-              </div>
+      return `
 
-              <div class="stock">
-                Stock : ${Number(product.Stock || 0)}
-              </div>
+        <div class="product-card">
 
-              <div class="small">
-                Catégorie :
-                ${escapeHtml(product.Category || "Non définie")}
-              </div>
+          <img
+            src="${escapeAttribute(image)}"
+            alt="${escapeAttribute(
+              product.name || "Produit"
+            )}"
+            onerror="this.src='https://via.placeholder.com/600x500?text=Image+indisponible'"
+          >
 
-              <div style="margin-top:10px;">
+          <div class="product-content">
 
-                <button
-                  onclick="modifierProduit(${product.id})"
-                >
-                  ✏️ Modifier
-                </button>
+            <h3>
+              ${escapeHtml(
+                product.name || ""
+              )}
+            </h3>
 
-                <button
-                  class="btn-danger"
-                  onclick="supprimerProduit(${product.id})"
-                >
-                  🗑️ Supprimer
-                </button>
-
-              </div>
-
+            <div class="price">
+              ${formaterPrix(
+                product.Price
+              )}
             </div>
 
-          </div>
-        `;
-
-      }).join("");
-  }
-
-
-  /* =========================================================
-     MODIFIER PRODUIT
-  ========================================================= */
-
-  async function modifierProduit(id){
-
-    const { data: product, error } =
-      await supabaseClient
-        .from("Products")
-        .select("*")
-        .eq("id", id)
-        .single();
-
-    if(error){
-
-      alert(
-        "Impossible de récupérer le produit : " +
-        error.message
-      );
-
-      return;
-    }
-
-    const newName =
-      prompt(
-        "Nom du produit :",
-        product.name || ""
-      );
-
-    if(newName === null) return;
-
-    const newPrice =
-      prompt(
-        "Prix en FCFA :",
-        product.Price || 0
-      );
-
-    if(newPrice === null) return;
-
-    const newStock =
-      prompt(
-        "Stock :",
-        product.Stock || 0
-      );
-
-    if(newStock === null) return;
-
-    const newCategory =
-      prompt(
-        "Catégorie :",
-        product.Category || ""
-      );
-
-    if(newCategory === null) return;
-
-    const newDescription =
-      prompt(
-        "Description :",
-        product.description || ""
-      );
-
-    if(newDescription === null) return;
-
-    const { error: updateError } =
-      await supabaseClient
-        .from("Products")
-        .update({
-          name: newName,
-          Price: Number(newPrice),
-          Stock: Number(newStock),
-          Category: newCategory,
-          description: newDescription
-        })
-        .eq("id", id);
-
-    if(updateError){
-
-      alert(
-        "Erreur lors de la modification : " +
-        updateError.message
-      );
-
-      return;
-    }
-
-    alert("✅ Produit modifié avec succès.");
-
-    chargerProduits();
-  }
-
-
-  /* =========================================================
-     SUPPRIMER PRODUIT
-  ========================================================= */
-
-  async function supprimerProduit(id){
-
-    const confirmation =
-      confirm(
-        "Voulez-vous vraiment supprimer ce produit ?"
-      );
-
-    if(!confirmation) return;
-
-    const { error } =
-      await supabaseClient
-        .from("Products")
-        .delete()
-        .eq("id", id);
-
-    if(error){
-
-      alert(
-        "Erreur lors de la suppression : " +
-        error.message
-      );
-
-      return;
-    }
-
-    alert("✅ Produit supprimé.");
-
-    chargerProduits();
-  }
-
-
-  /* =========================================================
-     COMMANDES
-  ========================================================= */
-
-  async function chargerCommandes(){
-
-    const container =
-      document.getElementById("ordersList");
-
-    container.innerHTML =
-      "<p>Chargement des commandes...</p>";
-
-    const { data: orders, error } =
-      await supabaseClient
-        .from("Orders")
-        .select("*")
-        .order("id", {
-          ascending:false
-        });
-
-    if(error){
-
-      container.innerHTML =
-        "<p>Erreur : " +
-        escapeHtml(error.message) +
-        "</p>";
-
-      return;
-    }
-
-    if(!orders || orders.length === 0){
-
-      container.innerHTML =
-        "<p>Aucune commande pour le moment.</p>";
-
-      return;
-    }
-
-    const { data: items } =
-      await supabaseClient
-        .from("Orders_items")
-        .select("*");
-
-    let products = [];
-
-    const { data: productData } =
-      await supabaseClient
-        .from("Products")
-        .select("id,name");
-
-    products = productData || [];
-
-    container.innerHTML =
-      orders.map(order => {
-
-        const orderItems =
-          (items || []).filter(
-            item =>
-              Number(item.order_id) ===
-              Number(order.id)
-          );
-
-        return `
-          <div class="orders-card">
-
-            <div class="order-header">
-
-              <div>
-                <strong>
-                  Commande #${order.id}
-                </strong>
-
-                <div class="small">
-                  ${formatDate(order.created_at)}
-                </div>
-              </div>
-
-              <span class="status">
-                ${escapeHtml(order.Status || "En attente")}
-              </span>
-
+            <div class="stock">
+              Stock :
+              ${Number(
+                product.Stock || 0
+              )}
             </div>
 
-            <p>
-              <strong>Client :</strong>
-              ${escapeHtml(order.Customer_name || "")}
-            </p>
-
-            <p>
-              <strong>Téléphone :</strong>
-              ${escapeHtml(order.Phone || "")}
-            </p>
-
-            <p>
-              <strong>Adresse :</strong>
-              ${escapeHtml(order.Address || "")}
-            </p>
-
-            <p style="margin-top:8px;">
-              <strong>Total :</strong>
-              ${formaterPrix(order.Total)}
-            </p>
-
-            <div class="order-items">
-
-              <strong>🛍️ Produits commandés</strong>
-
-              ${
-                orderItems.length
-                ?
-                orderItems.map(item => {
-
-                  const product =
-                    products.find(
-                      p =>
-                        Number(p.id) ===
-                        Number(item.product_id)
-                    );
-
-                  const productName =
-                    product
-                    ? product.name
-                    : "Produit #" + item.product_id;
-
-                  return `
-                    <div class="order-item">
-
-                      ${escapeHtml(productName)}
-
-                      × ${Number(item.quantity || 0)}
-
-                      — ${formaterPrix(item.price)}
-
-                    </div>
-                  `;
-
-                }).join("")
-                :
-                "<div class='small'>Aucun article trouvé.</div>"
-              }
-
+            <div class="small">
+              Catégorie :
+              ${escapeHtml(
+                product.Category ||
+                "Non définie"
+              )}
             </div>
 
-            <div style="margin-top:12px;">
-
-              <label>
-                <strong>Statut de la commande</strong>
-              </label>
-
-              <select
-                id="status-${order.id}"
-              >
-                <option
-                  value="En attente"
-                  ${order.Status === "En attente" ? "selected" : ""}
-                >
-                  En attente
-                </option>
-
-                <option
-                  value="Confirmée"
-                  ${order.Status === "Confirmée" ? "selected" : ""}
-                >
-                  Confirmée
-                </option>
-
-                <option
-                  value="Expédiée"
-                  ${order.Status === "Expédiée" ? "selected" : ""}
-                >
-                  Expédiée
-                </option>
-
-                <option
-                  value="Livrée"
-                  ${order.Status === "Livrée" ? "selected" : ""}
-                >
-                  Livrée
-                </option>
-
-                <option
-                  value="Annulée"
-                  ${order.Status === "Annulée" ? "selected" : ""}
-                >
-                  Annulée
-                </option>
-
-              </select>
+            <div style="margin-top:10px;">
 
               <button
-                class="btn-success"
-                onclick="enregistrerStatut(${order.id})"
-              >
-                💾 Enregistrer le statut
+                onclick="modifierProduit(${product.id})">
+                ✏️ Modifier
+              </button>
+
+              <button
+                class="btn-danger"
+                onclick="supprimerProduit(${product.id})">
+                🗑️ Supprimer
               </button>
 
             </div>
 
           </div>
-        `;
 
-      }).join("");
+        </div>
+
+      `;
+
+    }).join("");
+}
+
+
+/* =========================================================
+   MODIFIER PRODUIT
+========================================================= */
+
+async function modifierProduit(id){
+
+  const { data:product,error } =
+    await supabaseClient
+      .from("Products")
+      .select("*")
+      .eq("id",id)
+      .single();
+
+
+  if(error){
+
+    alert(
+      "Impossible de récupérer le produit : " +
+      error.message
+    );
+
+    return;
   }
 
 
-  /* =========================================================
-     STATUT COMMANDE
-  ========================================================= */
+  const newName =
+    prompt(
+      "Nom du produit :",
+      product.name || ""
+    );
 
-  async function enregistrerStatut(orderId){
+  if(newName === null) return;
 
-    const select =
-      document.getElementById(
-        "status-" + orderId
-      );
 
-    if(!select) return;
+  const newPrice =
+    prompt(
+      "Prix en FCFA :",
+      product.Price || 0
+    );
 
-    const status =
-      select.value;
+  if(newPrice === null) return;
 
-    const { error } =
-      await supabaseClient
-        .from("Orders")
-        .update({
-          Status: status
-        })
-        .eq("id", orderId);
 
-    if(error){
+  const newStock =
+    prompt(
+      "Stock :",
+      product.Stock || 0
+    );
 
-      alert(
-        "Erreur lors de l'enregistrement du statut : " +
-        error.message
-      );
+  if(newStock === null) return;
 
-      return;
-    }
 
-    alert("✅ Statut enregistré.");
+  const newCategory =
+    prompt(
+      "Catégorie :",
+      product.Category || ""
+    );
+
+  if(newCategory === null) return;
+
+
+  const newDescription =
+    prompt(
+      "Description :",
+      product.description || ""
+    );
+
+  if(newDescription === null) return;
+
+
+  const { error:updateError } =
+    await supabaseClient
+      .from("Products")
+      .update({
+        name:newName,
+        Price:Number(newPrice),
+        Stock:Number(newStock),
+        Category:newCategory,
+        description:newDescription
+      })
+      .eq("id",id);
+
+
+  if(updateError){
+
+    alert(
+      "Erreur lors de la modification : " +
+      updateError.message
+    );
+
+    return;
+  }
+
+
+  alert(
+    "✅ Produit modifié avec succès."
+  );
+
+  chargerProduits();
+}
+
+
+/* =========================================================
+   SUPPRIMER PRODUIT
+========================================================= */
+
+async function supprimerProduit(id){
+
+  const confirmation =
+    confirm(
+      "Voulez-vous vraiment supprimer ce produit ?"
+    );
+
+  if(!confirmation) return;
+
+
+  const { error } =
+    await supabaseClient
+      .from("Products")
+      .delete()
+      .eq("id",id);
+
+
+  if(error){
+
+    alert(
+      "Erreur lors de la suppression : " +
+      error.message
+    );
+
+    return;
+  }
+
+
+  alert(
+    "✅ Produit supprimé."
+  );
+
+  chargerProduits();
+}
+
+
+/* =========================================================
+   COMMANDES
+========================================================= */
+
+async function chargerCommandes(){
+
+  const container =
+    document.getElementById(
+      "ordersList"
+    );
+
+  container.innerHTML =
+    "<p>Chargement des commandes...</p>";
+
+
+  const { data:orders,error } =
+    await supabaseClient
+      .from("Orders")
+      .select("*")
+      .order("id",{
+        ascending:false
+      });
+
+
+  if(error){
+
+    container.innerHTML =
+      "<p>Erreur : " +
+      escapeHtml(error.message) +
+      "</p>";
+
+    return;
+  }
+
+
+  if(!orders || orders.length === 0){
+
+    container.innerHTML =
+      "<p>Aucune commande pour le moment.</p>";
+
+    return;
+  }
+
+
+  const { data:items } =
+    await supabaseClient
+      .from("Orders_items")
+      .select("*");
+
+
+  const { data:products } =
+    await supabaseClient
+      .from("Products")
+      .select("id,name");
+
+
+  container.innerHTML =
+    orders.map(order => {
+
+      const orderItems =
+        (items || []).filter(
+          item =>
+            Number(item.order_id) ===
+            Number(order.id)
+        );
+
+
+      return `
+
+        <div class="orders-card">
+
+          <div class="order-header">
+
+            <div>
+
+              <strong>
+                Commande #${order.id}
+              </strong>
+
+              <div class="small">
+                ${formatDate(
+                  order.created_at
+                )}
+              </div>
+
+            </div>
+
+            <span class="status">
+              ${escapeHtml(
+                order.Status ||
+                "En attente"
+              )}
+            </span>
+
+          </div>
+
+
+          <p>
+            <strong>Client :</strong>
+            ${escapeHtml(
+              order.Customer_name || ""
+            )}
+          </p>
+
+
+          <p>
+            <strong>Téléphone :</strong>
+            ${escapeHtml(
+              order.Phone || ""
+            )}
+          </p>
+
+
+          <p>
+            <strong>Adresse :</strong>
+            ${escapeHtml(
+              order.Address || ""
+            )}
+          </p>
+
+
+          <p style="margin-top:8px;">
+            <strong>Total :</strong>
+            ${formaterPrix(
+              order.Total
+            )}
+          </p>
+
+
+          <div class="order-items">
+
+            <strong>
+              🛍️ Produits commandés
+            </strong>
+
+
+            ${
+              orderItems.length
+              ?
+
+              orderItems.map(item => {
+
+                const product =
+                  (products || []).find(
+                    p =>
+                      Number(p.id) ===
+                      Number(item.product_id)
+                  );
+
+
+                const productName =
+                  product
+                  ?
+                  product.name
+                  :
+                  "Produit #" +
+                  item.product_id;
+
+
+                return `
+
+                  <div class="order-item">
+
+                    ${escapeHtml(
+                      productName
+                    )}
+
+                    ×
+                    ${Number(
+                      item.quantity || 0
+                    )}
+
+                    —
+                    ${formaterPrix(
+                      item.price
+                    )}
+
+                  </div>
+
+                `;
+
+              }).join("")
+
+              :
+
+              "<div class='small'>Aucun article trouvé.</div>"
+            }
+
+          </div>
+
+
+          <div style="margin-top:12px;">
+
+            <label>
+              <strong>
+                Statut de la commande
+              </strong>
+            </label>
+
+
+            <select
+              id="status-${order.id}">
+
+              <option
+                value="En attente"
+                ${order.Status === "En attente"
+                  ? "selected"
+                  : ""}>
+                En attente
+              </option>
+
+              <option
+                value="Confirmée"
+                ${order.Status === "Confirmée"
+                  ? "selected"
+                  : ""}>
+                Confirmée
+              </option>
+
+              <option
+                value="Expédiée"
+                ${order.Status === "Expédiée"
+                  ? "selected"
+                  : ""}>
+                Expédiée
+              </option>
+
+              <option
+                value="Livrée"
+                ${order.Status === "Livrée"
+                  ? "selected"
+                  : ""}>
+                Livrée
+              </option>
+
+              <option
+                value="Annulée"
+                ${order.Status === "Annulée"
+                  ? "selected"
+                  : ""}>
+                Annulée
+              </option>
+
+            </select>
+
+
+            <button
+              class="btn-success"
+              onclick="enregistrerStatut(${order.id})">
+
+              💾 Enregistrer le statut
+
+            </button>
+
+          </div>
+
+        </div>
+
+      `;
+
+    }).join("");
+}
+
+
+/* =========================================================
+   STATUT COMMANDE
+========================================================= */
+
+async function enregistrerStatut(orderId){
+
+  const select =
+    document.getElementById(
+      "status-" + orderId
+    );
+
+  if(!select) return;
+
+
+  const status =
+    select.value;
+
+
+  const { error } =
+    await supabaseClient
+      .from("Orders")
+      .update({
+        Status:status
+      })
+      .eq("id",orderId);
+
+
+  if(error){
+
+    alert(
+      "Erreur lors de l'enregistrement du statut : " +
+      error.message
+    );
+
+    return;
+  }
+
+
+  alert(
+    "✅ Statut enregistré."
+  );
+
+  chargerCommandes();
+}
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+function afficherSection(section){
+
+  const produits =
+    document.getElementById(
+      "sectionProduits"
+    );
+
+  const commandes =
+    document.getElementById(
+      "sectionCommandes"
+    );
+
+  const productsTab =
+    document.getElementById(
+      "productsTab"
+    );
+
+  const ordersTab =
+    document.getElementById(
+      "ordersTab"
+    );
+
+
+  if(section === "produits"){
+
+    produits.classList.remove(
+      "hidden"
+    );
+
+    commandes.classList.add(
+      "hidden"
+    );
+
+    productsTab.classList.add(
+      "active"
+    );
+
+    ordersTab.classList.remove(
+      "active"
+    );
+
+  }else{
+
+    produits.classList.add(
+      "hidden"
+    );
+
+    commandes.classList.remove(
+      "hidden"
+    );
+
+    productsTab.classList.remove(
+      "active"
+    );
+
+    ordersTab.classList.add(
+      "active"
+    );
 
     chargerCommandes();
   }
+}
 
 
-  /* =========================================================
-     NAVIGATION
-  ========================================================= */
+function actualiserTout(){
 
-  function afficherSection(section){
-
-    const produits =
-      document.getElementById("sectionProduits");
-
-    const commandes =
-      document.getElementById("sectionCommandes");
-
-    const productsTab =
-      document.getElementById("productsTab");
-
-    const ordersTab =
-      document.getElementById("ordersTab");
-
-    if(section === "produits"){
-
-      produits.classList.remove("hidden");
-      commandes.classList.add("hidden");
-
-      productsTab.classList.add("active");
-      ordersTab.classList.remove("active");
-
-    }else{
-
-      produits.classList.add("hidden");
-      commandes.classList.remove("hidden");
-
-      productsTab.classList.remove("active");
-      ordersTab.classList.add("active");
-
-      chargerCommandes();
-    }
-  }
+  chargerProduits();
+  chargerCommandes();
+}
 
 
-  function actualiserTout(){
+/* =========================================================
+   RESET FORMULAIRE
+========================================================= */
 
-    chargerProduits();
-    chargerCommandes();
-  }
+function reinitialiserFormulaire(){
 
+  document.getElementById(
+    "productName"
+  ).value = "";
 
-  /* =========================================================
-     REINITIALISER FORMULAIRE
-  ========================================================= */
+  document.getElementById(
+    "productDescription"
+  ).value = "";
 
-  function reinitialiserFormulaire(){
+  document.getElementById(
+    "productPrice"
+  ).value = "";
 
-    document.getElementById("productName").value = "";
-    document.getElementById("productDescription").value = "";
-    document.getElementById("productPrice").value = "";
-    document.getElementById("productStock").value = "";
-    document.getElementById("productCategory").value = "";
-    document.getElementById("productImageUrl").value = "";
-    document.getElementById("uploadedImageUrl").value = "";
-    document.getElementById("productImageFile").value = "";
+  document.getElementById(
+    "productStock"
+  ).value = "";
 
-    document.getElementById("imagePreview").style.display =
-      "none";
+  document.getElementById(
+    "productCategory"
+  ).value = "";
 
-    document.getElementById("imagePreview").src = "";
+  document.getElementById(
+    "productImageUrl"
+  ).value = "";
 
-    document.getElementById("fileName").style.display =
-      "none";
+  document.getElementById(
+    "uploadedImageUrl"
+  ).value = "";
 
-    cacherMessage("productMessage");
-  }
-
-
-  /* =========================================================
-     SECURITE AFFICHAGE
-  ========================================================= */
-
-  function escapeHtml(value){
-
-    return String(value ?? "")
-      .replace(/&/g,"&amp;")
-      .replace(/</g,"&lt;")
-      .replace(/>/g,"&gt;")
-      .replace(/"/g,"&quot;")
-      .replace(/'/g,"&#039;");
-  }
+  document.getElementById(
+    "productImageFile"
+  ).value = "";
 
 
-  function escapeAttribute(value){
+  document.getElementById(
+    "imagePreview"
+  ).style.display = "none";
 
-    return escapeHtml(value);
-  }
+
+  document.getElementById(
+    "imagePreview"
+  ).src = "";
 
 
-  function formatDate(date){
+  document.getElementById(
+    "fileName"
+  ).style.display = "none";
 
-    if(!date) return "";
 
-    try{
+  document.getElementById(
+    "productImageUrl"
+  ).classList.remove(
+    "url-ok"
+  );
+}
 
-      return new Date(date).toLocaleString(
+
+/* =========================================================
+   SECURITE HTML
+========================================================= */
+
+function escapeHtml(value){
+
+  return String(value ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+}
+
+
+function escapeAttribute(value){
+
+  return escapeHtml(value);
+}
+
+
+function formatDate(date){
+
+  if(!date) return "";
+
+  try{
+
+    return new Date(date)
+      .toLocaleString(
         "fr-FR",
         {
           dateStyle:"medium",
@@ -1680,85 +2050,104 @@
         }
       );
 
-    }catch(e){
+  }catch(e){
 
-      return date;
+    return date;
+  }
+}
+
+
+/* =========================================================
+   SESSION
+========================================================= */
+
+async function verifierSession(){
+
+  const {
+    data:{
+      session
     }
+  } =
+    await supabaseClient.auth
+      .getSession();
+
+
+  const hash =
+    window.location.hash || "";
+
+
+  if(hash.includes("type=recovery")){
+
+    document.getElementById(
+      "connexionBox"
+    ).classList.add("hidden");
+
+    document.getElementById(
+      "newPasswordBox"
+    ).classList.remove("hidden");
+
+    return;
   }
 
 
-  /* =========================================================
-     VERIFICATION SESSION
-  ========================================================= */
+  if(session){
 
-  async function verifierSession(){
+    afficherAdmin();
 
-    const {
-      data: {
-        session
-      }
-    } =
-      await supabaseClient.auth.getSession();
+  }else{
 
-    const hash =
-      window.location.hash || "";
+    document.getElementById(
+      "adminBox"
+    ).classList.add("hidden");
 
-    if(
-      hash.includes("type=recovery")
-    ){
+    document.getElementById(
+      "logoutBtn"
+    ).classList.add("hidden");
 
-      document.getElementById("connexionBox")
-        .classList.add("hidden");
+    document.getElementById(
+      "refreshBtn"
+    ).classList.add("hidden");
 
-      document.getElementById("newPasswordBox")
-        .classList.remove("hidden");
+    document.getElementById(
+      "connexionBox"
+    ).classList.remove("hidden");
+  }
+}
 
-      return;
-    }
 
-    if(session){
+/* =========================================================
+   AUTH STATE
+========================================================= */
+
+supabaseClient.auth.onAuthStateChange(
+  (event,session) => {
+
+    if(event === "SIGNED_IN"){
 
       afficherAdmin();
-
-    }else{
-
-      document.getElementById("adminBox")
-        .classList.add("hidden");
-
-      document.getElementById("logoutBtn")
-        .classList.add("hidden");
-
-      document.getElementById("refreshBtn")
-        .classList.add("hidden");
-
-      document.getElementById("connexionBox")
-        .classList.remove("hidden");
     }
+
+
+    if(event === "PASSWORD_RECOVERY"){
+
+      document.getElementById(
+        "connexionBox"
+      ).classList.add("hidden");
+
+      document.getElementById(
+        "newPasswordBox"
+      ).classList.remove("hidden");
+    }
+
   }
+);
 
 
-  supabaseClient.auth.onAuthStateChange(
-    (event, session) => {
+/* =========================================================
+   DEMARRAGE
+========================================================= */
 
-      if(event === "SIGNED_IN"){
-
-        afficherAdmin();
-      }
-
-      if(event === "PASSWORD_RECOVERY"){
-
-        document.getElementById("connexionBox")
-          .classList.add("hidden");
-
-        document.getElementById("newPasswordBox")
-          .classList.remove("hidden");
-      }
-
-    }
-  );
-
-
-  verifierSession();
+verifierSession();
 
 </script>
 
