@@ -574,86 +574,130 @@
 <!-- ==================== MODAL PANIER ==================== -->
 
 <div id="cartModal" class="modal-overlay">
+
   <div class="modal">
 
     <div class="modal-header">
       <h2>🛒 Votre panier</h2>
-      <button class="close-btn" onclick="fermerModal('cartModal')">×</button>
+
+      <button
+        class="close-btn"
+        onclick="fermerModal('cartModal')"
+      >
+        ×
+      </button>
     </div>
 
     <div id="cartContent"></div>
 
   </div>
+
 </div>
 
 
 <!-- ==================== MODAL PRODUIT ==================== -->
 
 <div id="productModal" class="modal-overlay">
+
   <div class="modal">
 
     <div class="modal-header">
-      <h2 id="detailName">Produit</h2>
-      <button class="close-btn" onclick="fermerModal('productModal')">×</button>
+      <h2 id="productModalTitle">Produit</h2>
+
+      <button
+        class="close-btn"
+        onclick="fermerModal('productModal')"
+      >
+        ×
+      </button>
     </div>
 
     <div id="productDetailContent"></div>
 
   </div>
+
 </div>
 
 
 <!-- ==================== MODAL COMMANDE ==================== -->
 
 <div id="checkoutModal" class="modal-overlay">
+
   <div class="modal">
 
     <div class="modal-header">
-      <h2>🧾 Passer la commande</h2>
-      <button class="close-btn" onclick="fermerModal('checkoutModal')">×</button>
+      <h2>📦 Finaliser la commande</h2>
+
+      <button
+        class="close-btn"
+        onclick="fermerModal('checkoutModal')"
+      >
+        ×
+      </button>
     </div>
 
-    <div id="checkoutNotice" class="notice"></div>
+    <div
+      id="checkoutNotice"
+      class="notice"
+    ></div>
 
-    <div id="checkoutSummary" class="checkout-summary"></div>
+    <div
+      id="checkoutSummary"
+      class="checkout-summary"
+    ></div>
 
-    <form id="checkoutForm" class="checkout-form">
+    <form
+      id="checkoutForm"
+      class="checkout-form"
+    >
 
       <div class="form-group">
-        <label for="customerName">Nom</label>
+        <label for="customerName">
+          Nom complet
+        </label>
+
         <input
           id="customerName"
           type="text"
-          placeholder="Votre nom"
           required
+          placeholder="Votre nom"
         >
       </div>
 
       <div class="form-group">
-        <label for="customerPhone">Téléphone</label>
+        <label for="customerPhone">
+          Téléphone
+        </label>
+
         <input
           id="customerPhone"
           type="tel"
-          placeholder="Votre numéro de téléphone"
           required
+          placeholder="77 000 00 00"
         >
       </div>
 
       <div class="form-group">
-        <label for="customerAddress">Adresse / Quartier</label>
+        <label for="customerAddress">
+          Adresse / Quartier
+        </label>
+
         <input
           id="customerAddress"
           type="text"
-          placeholder="Exemple : Dakar, Parcelles Assainies"
           required
+          placeholder="Exemple : Dakar, Parcelles..."
         >
       </div>
 
       <div class="form-group">
-        <label for="customerComment">Commentaire</label>
+        <label for="customerComment">
+          Commentaire
+        </label>
+
         <textarea
           id="customerComment"
-          placeholder="Un commentaire concernant votre commande..."
+          placeholder="Un commentaire pour votre commande..."
         ></textarea>
       </div>
 
@@ -668,32 +712,33 @@
     </form>
 
   </div>
+
 </div>
 
 
 <script>
+
   /* =========================================================
-     SUPABASE
+     CONFIGURATION SUPABASE
   ========================================================= */
 
-  const SUPABASE_URL = "https://ajprnhqphbtgfztspuio.supabase.co";
+  const SUPABASE_URL =
+    "https://ajprnhqphbtgfztspuio.supabase.co";
 
   const SUPABASE_ANON_KEY =
     "sb_publishable_Qxr7ftKtVgB3y3lmx1agWg_UQxqrviy";
 
-  const supabaseClient = window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_ANON_KEY
-  );
+  const supabaseClient =
+    window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_ANON_KEY
+    );
 
+  const WHATSAPP_NUMBER =
+    "221775124928";
 
-  /* =========================================================
-     CONFIGURATION
-  ========================================================= */
-
-  const WHATSAPP_NUMBER = "221775124928";
-
-  const CART_KEY = "yayounabysac_panier";
+  const CART_KEY =
+    "yayounabysac_panier";
 
 
   /* =========================================================
@@ -702,7 +747,7 @@
 
   let produits = [];
 
-  let panier = chargerPanier();
+  let panier = [];
 
   let categorieActive = "Toutes";
 
@@ -718,54 +763,67 @@
     }
 
     if(typeof valeur === "number"){
-      return Number.isFinite(valeur) ? valeur : 0;
+      return Number.isFinite(valeur)
+        ? valeur
+        : 0;
     }
 
-    const propre = String(valeur)
-      .replace(/\s/g, "")
-      .replace(/FCFA/gi, "")
-      .replace(/,/g, ".")
-      .trim();
+    const texte =
+      String(valeur)
+        .replace(/\s/g,"")
+        .replace(/FCFA/gi,"")
+        .replace(/,/g,".")
+        .trim();
 
-    const nombre = Number(propre);
+    const nombre =
+      parseFloat(texte);
 
-    return Number.isFinite(nombre) ? nombre : 0;
+    return Number.isFinite(nombre)
+      ? nombre
+      : 0;
   }
 
 
   function convertirNombre(valeur){
 
-    const nombre = Number(valeur);
+    const nombre =
+      Number(valeur);
 
-    return Number.isFinite(nombre) ? nombre : 0;
+    return Number.isFinite(nombre)
+      ? nombre
+      : 0;
   }
 
 
-  function formaterPrix(prix){
+  function formaterPrix(valeur){
 
-    const nombre = convertirPrix(prix);
+    const prix =
+      Math.round(
+        convertirPrix(valeur)
+      );
 
-    return nombre.toLocaleString("fr-FR") + " FCFA";
+    return prix.toLocaleString(
+      "fr-FR"
+    ) + " FCFA";
   }
 
 
   function imageProduit(produit){
 
-    const url =
-      produit.Image_url ||
-      produit.image_url ||
-      produit.image ||
-      "";
-
-    if(url){
-      return url;
-    }
-
-    return "https://via.placeholder.com/600x600?text=YAYOUNABYSAC";
+    return (
+      produit?.Image_url ||
+      produit?.image_url ||
+      produit?.image ||
+      ""
+    );
   }
 
 
   function getPrixProduit(produit){
+
+    if(!produit){
+      return 0;
+    }
 
     return convertirPrix(
       produit.Price ??
@@ -778,6 +836,10 @@
 
   function getStockProduit(produit){
 
+    if(!produit){
+      return 0;
+    }
+
     return convertirNombre(
       produit.Stock ??
       produit.stock ??
@@ -788,10 +850,14 @@
 
   function getCategorieProduit(produit){
 
+    if(!produit){
+      return "";
+    }
+
     return (
-      produit.Category ||
-      produit.category ||
-      "Autres"
+      produit.Category ??
+      produit.category ??
+      ""
     );
   }
 
@@ -804,33 +870,54 @@
 
     try{
 
-      const sauvegarde = localStorage.getItem(CART_KEY);
+      const sauvegarde =
+        localStorage.getItem(
+          CART_KEY
+        );
 
       if(!sauvegarde){
-        return [];
+
+        panier = [];
+
+        return;
       }
 
-      const donnees = JSON.parse(sauvegarde);
+      const contenu =
+        JSON.parse(sauvegarde);
 
-      return Array.isArray(donnees) ? donnees : [];
+      panier =
+        Array.isArray(contenu)
+          ? contenu
+          : [];
 
     }catch(erreur){
 
-      console.error("Erreur chargement panier :", erreur);
+      console.error(
+        "Erreur chargement panier :",
+        erreur
+      );
 
-      return [];
+      panier = [];
     }
   }
 
 
   function sauvegarderPanier(){
 
-    localStorage.setItem(
-      CART_KEY,
-      JSON.stringify(panier)
-    );
+    try{
 
-    mettreAJourCompteurPanier();
+      localStorage.setItem(
+        CART_KEY,
+        JSON.stringify(panier)
+      );
+
+    }catch(erreur){
+
+      console.error(
+        "Erreur sauvegarde panier :",
+        erreur
+      );
+    }
   }
 
 
@@ -840,6 +927,8 @@
 
     sauvegarderPanier();
 
+    mettreAJourCompteurPanier();
+
     afficherPanier();
   }
 
@@ -848,61 +937,68 @@
 
     return panier.reduce(
       (total, article) =>
-        total + convertirNombre(article.quantity),
+        total +
+        Number(article.quantity || 0),
       0
     );
   }
 
 
   /*
-    =========================================================
-    CORRECTION DU CALCUL DU TOTAL
-
-    Le prix est maintenant repris directement depuis
-    le produit actuellement chargé depuis Supabase.
-
-    Cela évite qu'un ancien prix présent dans localStorage
-    puisse provoquer un total incorrect ou égal à 0.
-
-    Si le produit n'est pas retrouvé, on utilise le prix
-    déjà présent dans le panier comme solution de secours.
-    =========================================================
+    IMPORTANT :
+    Le total est recalculé à partir des produits
+    réellement chargés depuis Supabase.
   */
 
   function calculerTotalPanier(){
 
-    return panier.reduce(
-      (total, article) => {
+    let total = 0;
 
-        const produit = produits.find(
-          p => Number(p.id) === Number(article.id)
+    panier.forEach(article => {
+
+      const produit =
+        produits.find(
+          p =>
+            Number(p.id) ===
+            Number(article.id)
         );
 
-        const prix = produit
-          ? getPrixProduit(produit)
-          : convertirPrix(article.price);
+      if(produit){
+
+        const prix =
+          getPrixProduit(produit);
 
         const quantite =
-          convertirNombre(article.quantity);
+          Number(article.quantity || 0);
 
-        if(prix > 0){
-          article.price = prix;
+        if(
+          Number.isFinite(prix) &&
+          Number.isFinite(quantite)
+        ){
+
+          total +=
+            Math.round(prix * quantite);
+
+          article.price =
+            Math.round(prix);
         }
+      }
 
-        return total + (prix * quantite);
+    });
 
-      },
-      0
-    );
+    return Math.round(total);
   }
 
 
   function mettreAJourCompteurPanier(){
 
     const compteur =
-      document.getElementById("cartCount");
+      document.getElementById(
+        "cartCount"
+      );
 
     if(compteur){
+
       compteur.textContent =
         nombreArticlesPanier();
     }
@@ -911,112 +1007,126 @@
 
   function ajouterAuPanier(produit){
 
-    const id =
-      Number(produit.id);
-
-    const prix =
-      getPrixProduit(produit);
+    if(!produit){
+      return;
+    }
 
     const stock =
       getStockProduit(produit);
 
-    if(!id){
-      alert("Produit invalide.");
-      return;
-    }
+    const prix =
+      getPrixProduit(produit);
 
     if(prix <= 0){
-      alert("Le prix de ce produit est invalide.");
+
+      alert(
+        "Le prix de ce produit est invalide."
+      );
+
       return;
     }
 
-    const articleExistant =
+    if(stock <= 0){
+
+      alert(
+        "Ce produit est actuellement en rupture de stock."
+      );
+
+      return;
+    }
+
+    const id =
+      Number(produit.id);
+
+    const existant =
       panier.find(
         article =>
           Number(article.id) === id
       );
 
-    if(articleExistant){
+    if(existant){
 
       if(
-        stock > 0 &&
-        convertirNombre(
-          articleExistant.quantity
-        ) >= stock
+        Number(existant.quantity) >=
+        stock
       ){
 
-        alert("Stock maximum atteint.");
+        alert(
+          "Vous avez atteint le stock disponible."
+        );
+
         return;
       }
 
-      articleExistant.quantity =
-        convertirNombre(
-          articleExistant.quantity
-        ) + 1;
+      existant.quantity =
+        Number(existant.quantity) + 1;
 
-      articleExistant.price =
-        prix;
+      existant.price =
+        Math.round(prix);
 
     }else{
 
       panier.push({
 
-        id:id,
+        id: id,
 
         name:
           produit.name ||
           "Produit",
 
-        description:
-          produit.description ||
-          "",
-
         price:
-          prix,
+          Math.round(prix),
 
-        image_url:
-          imageProduit(produit),
+        quantity: 1,
 
-        category:
-          getCategorieProduit(produit),
+        image:
+          imageProduit(produit)
 
-        stock:
-          stock,
-
-        quantity:
-          1
       });
     }
 
     sauvegarderPanier();
 
-    alert("Produit ajouté au panier.");
+    mettreAJourCompteurPanier();
 
-    ouvrirPanier();
+    alert(
+      "Produit ajouté au panier."
+    );
   }
 
 
-  function modifierQuantite(id, variation){
+  function modifierQuantite(
+    id,
+    changement
+  ){
 
     const article =
       panier.find(
         item =>
-          Number(item.id) === Number(id)
+          Number(item.id) ===
+          Number(id)
       );
 
     if(!article){
       return;
     }
 
-    let nouvelleQuantite =
-      convertirNombre(
-        article.quantity
-      ) + variation;
+    const produit =
+      produits.find(
+        p =>
+          Number(p.id) ===
+          Number(id)
+      );
 
     const stock =
-      convertirNombre(article.stock);
+      getStockProduit(produit);
+
+    let nouvelleQuantite =
+      Number(article.quantity || 0) +
+      Number(changement);
 
     if(nouvelleQuantite < 1){
+
       nouvelleQuantite = 1;
     }
 
@@ -1025,19 +1135,30 @@
       nouvelleQuantite > stock
     ){
 
-      alert("Stock maximum atteint.");
-
       nouvelleQuantite = stock;
+
+      alert(
+        "Stock disponible : " +
+        stock
+      );
     }
 
     article.quantity =
       nouvelleQuantite;
 
+    if(produit){
+
+      article.price =
+        Math.round(
+          getPrixProduit(produit)
+        );
+    }
+
     sauvegarderPanier();
 
-    afficherPanier();
+    mettreAJourCompteurPanier();
 
-    afficherResumeCommande();
+    afficherPanier();
   }
 
 
@@ -1045,15 +1166,16 @@
 
     panier =
       panier.filter(
-        item =>
-          Number(item.id) !== Number(id)
+        article =>
+          Number(article.id) !==
+          Number(id)
       );
 
     sauvegarderPanier();
 
-    afficherPanier();
+    mettreAJourCompteurPanier();
 
-    afficherResumeCommande();
+    afficherPanier();
   }
 
 
@@ -1068,22 +1190,33 @@
         "productsGrid"
       );
 
-    zone.innerHTML =
-      '<div class="loading">Chargement des produits...</div>';
-
     try{
 
-      const { data, error } =
+      const {
+        data,
+        error
+      } =
         await supabaseClient
           .from("Products")
           .select("*")
-          .order(
-            "id",
-            { ascending:false }
-          );
+          .order("id",{
+            ascending:false
+          });
 
       if(error){
-        throw error;
+
+        console.error(
+          "Erreur produits :",
+          error
+        );
+
+        zone.innerHTML = `
+          <div class="empty-products">
+            Impossible de charger les produits.
+          </div>
+        `;
+
+        return;
       }
 
       produits =
@@ -1091,19 +1224,26 @@
           ? data
           : [];
 
-      afficherCategories();
-
-      appliquerFiltres();
+      chargerPanier();
 
       synchroniserPrixPanier();
 
+      afficherCategories();
+
+      afficherProduits();
+
+      sauvegarderPanier();
+
     }catch(erreur){
 
-      console.error(erreur);
+      console.error(
+        "Erreur chargement produits :",
+        erreur
+      );
 
       zone.innerHTML = `
         <div class="empty-products">
-          Impossible de charger les produits.
+          Une erreur est survenue pendant le chargement.
         </div>
       `;
     }
@@ -1111,8 +1251,6 @@
 
 
   function synchroniserPrixPanier(){
-
-    let modification = false;
 
     panier.forEach(article => {
 
@@ -1125,44 +1263,21 @@
 
       if(produit){
 
-        const nouveauPrix =
-          getPrixProduit(produit);
-
-        const nouveauStock =
-          getStockProduit(produit);
-
-        if(
-          convertirPrix(
-            article.price
-          ) !== nouveauPrix
-        ){
-
-          article.price =
-            nouveauPrix;
-
-          modification = true;
-        }
-
-        article.stock =
-          nouveauStock;
+        article.price =
+          Math.round(
+            getPrixProduit(produit)
+          );
 
         article.name =
           produit.name ||
           article.name;
 
-        article.image_url =
-          imageProduit(produit);
-
-        article.category =
-          getCategorieProduit(produit);
+        article.image =
+          imageProduit(produit) ||
+          article.image;
       }
+
     });
-
-    if(modification){
-      sauvegarderPanier();
-    }
-
-    mettreAJourCompteurPanier();
   }
 
 
@@ -1178,34 +1293,45 @@
       );
 
     const categories = [
-      "Toutes",
-      ...new Set(
-        produits
-          .map(
-            p =>
-              getCategorieProduit(p)
-          )
-          .filter(Boolean)
-      )
+      "Toutes"
     ];
 
+    produits.forEach(produit => {
+
+      const categorie =
+        getCategorieProduit(produit);
+
+      if(
+        categorie &&
+        !categories.includes(categorie)
+      ){
+
+        categories.push(categorie);
+      }
+
+    });
+
     zone.innerHTML =
-      categories.map(
-        categorie => `
+      categories
+        .map(categorie => {
 
-      <button
-        class="category-btn ${
-          categorieActive === categorie
-            ? "active"
-            : ""
-        }"
-        onclick='choisirCategorie(${JSON.stringify(categorie)})'
-      >
-        ${echapperHTML(categorie)}
-      </button>
+          const active =
+            categorie ===
+            categorieActive
+              ? "active"
+              : "";
 
-    `
-      ).join("");
+          return `
+            <button
+              class="category-btn ${active}"
+              onclick="choisirCategorie(${JSON.stringify(categorie)})"
+            >
+              ${echapperHTML(categorie)}
+            </button>
+          `;
+
+        })
+        .join("");
   }
 
 
@@ -1216,86 +1342,69 @@
 
     afficherCategories();
 
-    appliquerFiltres();
+    afficherProduits();
   }
 
-
-  /* =========================================================
-     AFFICHAGE PRODUITS
-  ========================================================= */
 
   function appliquerFiltres(){
 
-    const recherche =
-      document
-        .getElementById(
-          "searchInput"
-        )
-        .value
-        .toLowerCase()
-        .trim();
-
-    let resultat =
-      [...produits];
-
-    if(
-      categorieActive !==
-      "Toutes"
-    ){
-
-      resultat =
-        resultat.filter(
-          produit =>
-            getCategorieProduit(
-              produit
-            ) === categorieActive
-        );
-    }
-
-    if(recherche){
-
-      resultat =
-        resultat.filter(
-          produit => {
-
-            const nom =
-              String(
-                produit.name || ""
-              ).toLowerCase();
-
-            const description =
-              String(
-                produit.description || ""
-              ).toLowerCase();
-
-            const categorie =
-              String(
-                getCategorieProduit(
-                  produit
-                )
-              ).toLowerCase();
-
-            return (
-              nom.includes(recherche) ||
-              description.includes(recherche) ||
-              categorie.includes(recherche)
-            );
-          }
-        );
-    }
-
-    afficherProduits(resultat);
+    afficherProduits();
   }
 
 
-  function afficherProduits(liste){
+  function afficherProduits(){
 
     const zone =
       document.getElementById(
         "productsGrid"
       );
 
-    if(!liste.length){
+    const recherche =
+      (
+        document.getElementById(
+          "searchInput"
+        )?.value || ""
+      )
+        .trim()
+        .toLowerCase();
+
+    let resultat =
+      produits.filter(produit => {
+
+        const nom =
+          String(
+            produit.name || ""
+          ).toLowerCase();
+
+        const description =
+          String(
+            produit.description || ""
+          ).toLowerCase();
+
+        const categorie =
+          String(
+            getCategorieProduit(produit)
+          ).toLowerCase();
+
+        const correspondRecherche =
+          !recherche ||
+          nom.includes(recherche) ||
+          description.includes(recherche) ||
+          categorie.includes(recherche);
+
+        const correspondCategorie =
+          categorieActive ===
+          "Toutes" ||
+          getCategorieProduit(produit) ===
+          categorieActive;
+
+        return (
+          correspondRecherche &&
+          correspondCategorie
+        );
+      });
+
+    if(!resultat.length){
 
       zone.innerHTML = `
         <div class="empty-products">
@@ -1307,93 +1416,112 @@
     }
 
     zone.innerHTML =
-      liste.map(
-        produit => {
+      resultat
+        .map(produit => {
+
+          const id =
+            Number(produit.id);
 
           const prix =
-            getPrixProduit(
-              produit
-            );
+            getPrixProduit(produit);
 
           const stock =
-            getStockProduit(
-              produit
+            getStockProduit(produit);
+
+          const image =
+            imageProduit(produit);
+
+          const nom =
+            echapperHTML(
+              produit.name ||
+              "Produit"
+            );
+
+          const description =
+            echapperHTML(
+              produit.description ||
+              ""
+            );
+
+          const categorie =
+            echapperHTML(
+              getCategorieProduit(produit)
             );
 
           return `
+            <article class="product-card">
 
-        <article class="product-card">
+              ${
+                image
+                  ? `
+                    <img
+                      class="product-image"
+                      src="${echapperAttribut(image)}"
+                      alt="${echapperAttribut(produit.name || "Produit")}"
+                    >
+                  `
+                  : `
+                    <div
+                      class="product-image"
+                      style="
+                        display:flex;
+                        align-items:center;
+                        justify-content:center;
+                        font-size:45px;
+                      "
+                    >
+                      👜
+                    </div>
+                  `
+              }
 
-          <img
-            class="product-image"
-            src="${echapperAttribut(
-              imageProduit(produit)
-            )}"
-            alt="${echapperAttribut(
-              produit.name ||
-              "Produit"
-            )}"
-            onerror="this.src='https://via.placeholder.com/600x600?text=YAYOUNABYSAC'"
-          >
+              <div class="product-info">
 
-          <div class="product-info">
+                <div class="product-category">
+                  ${categorie}
+                </div>
 
-            <div class="product-category">
-              ${echapperHTML(
-                getCategorieProduit(
-                  produit
-                )
-              )}
-            </div>
+                <div class="product-name">
+                  ${nom}
+                </div>
 
-            <div class="product-name">
-              ${echapperHTML(
-                produit.name ||
-                "Produit"
-              )}
-            </div>
+                <div class="product-description">
+                  ${description}
+                </div>
 
-            <div class="product-description">
-              ${echapperHTML(
-                produit.description ||
-                ""
-              )}
-            </div>
+                <div class="product-price">
+                  ${formaterPrix(prix)}
+                </div>
 
-            <div class="product-price">
-              ${formaterPrix(prix)}
-            </div>
+                <div class="product-actions">
 
-            <div class="product-actions">
+                  <button
+                    class="btn-secondary"
+                    onclick="ouvrirDetailProduit(${id})"
+                  >
+                    Voir
+                  </button>
 
-              <button
-                class="btn-primary"
-                onclick="ajouterAuPanierDepuisId(${Number(produit.id)})"
-                ${stock <= 0 ? "disabled" : ""}
-              >
-                ${
-                  stock <= 0
-                    ? "Rupture"
-                    : "Ajouter"
-                }
-              </button>
+                  <button
+                    class="btn-primary"
+                    onclick="ajouterAuPanierDepuisId(${id})"
+                    ${stock <= 0 ? "disabled" : ""}
+                  >
+                    ${
+                      stock <= 0
+                        ? "Rupture"
+                        : "Ajouter"
+                    }
+                  </button>
 
-              <button
-                class="btn-secondary"
-                onclick="ouvrirDetailProduit(${Number(produit.id)})"
-              >
-                Voir
-              </button>
+                </div>
 
-            </div>
+              </div>
 
-          </div>
-
-        </article>
-
-      `;
-        }
-      ).join("");
+            </article>
+          `;
+        })
+        .join("");
   }
 
 
@@ -1406,18 +1534,12 @@
           Number(id)
       );
 
-    if(!produit){
-      alert("Produit introuvable.");
-      return;
-    }
+    if(produit){
 
-    ajouterAuPanier(produit);
+      ajouterAuPanier(produit);
+    }
   }
 
-
-  /* =========================================================
-     DETAIL PRODUIT
-  ========================================================= */
 
   function ouvrirDetailProduit(id){
 
@@ -1432,58 +1554,79 @@
       return;
     }
 
-    const prix =
-      getPrixProduit(produit);
+    const modalTitle =
+      document.getElementById(
+        "productModalTitle"
+      );
 
-    const contenu =
+    const zone =
       document.getElementById(
         "productDetailContent"
       );
 
-    document.getElementById(
-      "detailName"
-    ).textContent =
+    modalTitle.textContent =
       produit.name ||
       "Produit";
 
-    contenu.innerHTML = `
+    const image =
+      imageProduit(produit);
 
-      <img
-        class="product-detail-image"
-        src="${echapperAttribut(
-          imageProduit(produit)
-        )}"
-        alt="${echapperAttribut(
-          produit.name ||
-          "Produit"
-        )}"
-        onerror="this.src='https://via.placeholder.com/600x600?text=YAYOUNABYSAC'"
-      >
+    const prix =
+      getPrixProduit(produit);
 
-      <div class="product-category">
-        ${echapperHTML(
-          getCategorieProduit(
-            produit
-          )
-        )}
-      </div>
+    const stock =
+      getStockProduit(produit);
+
+    zone.innerHTML = `
+
+      ${
+        image
+          ? `
+            <img
+              class="product-detail-image"
+              src="${echapperAttribut(image)}"
+              alt="${echapperAttribut(produit.name || "Produit")}"
+            >
+          `
+          : `
+            <div
+              class="product-detail-image"
+              style="
+                height:280px;
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                font-size:70px;
+              "
+            >
+              👜
+            </div>
+          `
+      }
 
       <div class="product-detail-price">
         ${formaterPrix(prix)}
       </div>
 
       <div class="product-detail-description">
-        ${echapperHTML(
-          produit.description ||
-          ""
-        )}
+        ${echapperHTML(produit.description || "")}
       </div>
+
+      <p style="margin-bottom:15px;">
+        <strong>Stock :</strong>
+        ${stock}
+      </p>
 
       <button
         class="btn-primary"
-        onclick="ajouterAuPanierDepuisId(${Number(produit.id)}); fermerModal('productModal');"
+        onclick="ajouterAuPanierDepuisId(${Number(produit.id)})"
+        ${stock <= 0 ? "disabled" : ""}
       >
-        🛒 Ajouter au panier
+        ${
+          stock <= 0
+            ? "Rupture de stock"
+            : "🛒 Ajouter au panier"
+        }
       </button>
     `;
 
@@ -1517,11 +1660,16 @@
     if(!panier.length){
 
       zone.innerHTML = `
-
-        <div class="empty-products">
+        <div
+          class="empty-products"
+          style="padding:30px 10px;"
+        >
+          <p style="font-size:18px;font-weight:700;margin-bottom:8px;">
+            Votre panier est vide.
+          </p>
 
           <p style="margin-bottom:18px;">
-            Votre panier est vide.
+            Ajoutez un produit pour continuer.
           </p>
 
           <button
@@ -1530,13 +1678,13 @@
           >
             Continuer mes achats
           </button>
-
         </div>
-
       `;
 
       return;
     }
+
+    synchroniserPrixPanier();
 
     const total =
       calculerTotalPanier();
@@ -1545,117 +1693,137 @@
 
       <div>
 
-        ${panier.map(
-          article => {
+        ${
+          panier
+            .map(article => {
 
-            const prix =
-              convertirPrix(
-                article.price
-              );
+              const produit =
+                produits.find(
+                  p =>
+                    Number(p.id) ===
+                    Number(article.id)
+                );
 
-            const quantite =
-              convertirNombre(
-                article.quantity
-              );
+              const image =
+                imageProduit(produit) ||
+                article.image ||
+                "";
 
-            return `
+              const prix =
+                produit
+                  ? getPrixProduit(produit)
+                  : convertirPrix(article.price);
 
-            <div class="cart-item">
+              const nom =
+                produit?.name ||
+                article.name ||
+                "Produit";
 
-              <img
-                class="cart-item-image"
-                src="${echapperAttribut(
-                  article.image_url ||
-                  ""
-                )}"
-                alt="${echapperAttribut(
-                  article.name ||
-                  "Produit"
-                )}"
-                onerror="this.src='https://via.placeholder.com/200x200?text=Sac'"
-              >
+              return `
 
-              <div class="cart-item-info">
+                <div class="cart-item">
 
-                <div class="cart-item-name">
-                  ${echapperHTML(
-                    article.name ||
-                    "Produit"
-                  )}
+                  ${
+                    image
+                      ? `
+                        <img
+                          class="cart-item-image"
+                          src="${echapperAttribut(image)}"
+                          alt="${echapperAttribut(nom)}"
+                        >
+                      `
+                      : `
+                        <div
+                          class="cart-item-image"
+                          style="
+                            display:flex;
+                            align-items:center;
+                            justify-content:center;
+                            font-size:30px;
+                          "
+                        >
+                          👜
+                        </div>
+                      `
+                  }
+
+                  <div class="cart-item-info">
+
+                    <div class="cart-item-name">
+                      ${echapperHTML(nom)}
+                    </div>
+
+                    <div class="cart-item-price">
+                      ${formaterPrix(prix)}
+                    </div>
+
+                    <div class="quantity-controls">
+
+                      <button
+                        class="quantity-btn"
+                        onclick="modifierQuantite(${Number(article.id)},-1)"
+                      >
+                        −
+                      </button>
+
+                      <strong>
+                        ${Number(article.quantity || 0)}
+                      </strong>
+
+                      <button
+                        class="quantity-btn"
+                        onclick="modifierQuantite(${Number(article.id)},1)"
+                      >
+                        +
+                      </button>
+
+                      <button
+                        class="delete-btn"
+                        onclick="supprimerDuPanier(${Number(article.id)})"
+                      >
+                        Supprimer
+                      </button>
+
+                    </div>
+
+                  </div>
+
                 </div>
-
-                <div class="cart-item-price">
-                  ${formaterPrix(prix)}
-                </div>
-
-                <div class="quantity-controls">
-
-                  <button
-                    class="quantity-btn"
-                    onclick="modifierQuantite(${Number(article.id)},-1)"
-                  >
-                    −
-                  </button>
-
-                  <strong>
-                    ${quantite}
-                  </strong>
-
-                  <button
-                    class="quantity-btn"
-                    onclick="modifierQuantite(${Number(article.id)},1)"
-                  >
-                    +
-                  </button>
-
-                  <button
-                    class="delete-btn"
-                    onclick="supprimerDuPanier(${Number(article.id)})"
-                  >
-                    Supprimer
-                  </button>
-
-                </div>
-
-              </div>
-
-            </div>
-
-          `;
-          }
-        ).join("")}
-
-        <div class="cart-total">
-          <span>Total</span>
-          <span>${formaterPrix(total)}</span>
-        </div>
-
-        <div class="cart-actions">
-
-          <button
-            class="btn-secondary"
-            onclick="fermerModal('cartModal')"
-          >
-            Continuer mes achats
-          </button>
-
-          <button
-            class="btn-primary"
-            onclick="ouvrirCommande()"
-          >
-            Passer à la commande
-          </button>
-
-        </div>
+              `;
+            })
+            .join("")
+        }
 
       </div>
 
+      <div class="cart-total">
+        <span>Total</span>
+        <span>${formaterPrix(total)}</span>
+      </div>
+
+      <div class="cart-actions">
+
+        <button
+          class="btn-secondary"
+          onclick="viderPanier()"
+        >
+          Vider
+        </button>
+
+        <button
+          class="btn-primary"
+          onclick="ouvrirCommande()"
+        >
+          Passer à la commande
+        </button>
+
+      </div>
     `;
   }
 
 
   /* =========================================================
-     CHECKOUT
+     COMMANDE
   ========================================================= */
 
   function ouvrirCommande(){
@@ -1675,7 +1843,7 @@
     if(total <= 0){
 
       alert(
-        "Le total du panier est invalide. Vérifiez le prix du produit."
+        "Le total de la commande est invalide."
       );
 
       return;
@@ -1686,11 +1854,6 @@
     fermerModal(
       "cartModal"
     );
-
-    document.getElementById(
-      "checkoutNotice"
-    ).className =
-      "notice";
 
     ouvrirModal(
       "checkoutModal"
@@ -1705,57 +1868,69 @@
         "checkoutSummary"
       );
 
-    if(!zone){
-      return;
-    }
-
     const total =
       calculerTotalPanier();
 
     zone.innerHTML = `
 
-      <strong>Votre commande</strong>
+      ${
+        panier
+          .map(article => {
 
-      ${panier.map(
-        article => {
+            const produit =
+              produits.find(
+                p =>
+                  Number(p.id) ===
+                  Number(article.id)
+              );
 
-          const prix =
-            convertirPrix(
-              article.price
-            );
+            const prix =
+              produit
+                ? getPrixProduit(produit)
+                : convertirPrix(article.price);
 
-          const quantite =
-            convertirNombre(
-              article.quantity
-            );
+            const nom =
+              produit?.name ||
+              article.name ||
+              "Produit";
 
-          return `
+            const quantite =
+              Number(
+                article.quantity || 0
+              );
 
-          <div class="checkout-summary-item">
-
-            <span>
-              ${echapperHTML(
-                article.name ||
-                "Produit"
-              )}
-              × ${quantite}
-            </span>
-
-            <span>
-              ${formaterPrix(
+            const sousTotal =
+              Math.round(
                 prix * quantite
-              )}
-            </span>
+              );
 
-          </div>
+            return `
+              <div class="checkout-summary-item">
 
-        `;
-        }
-      ).join("")}
+                <span>
+                  ${echapperHTML(nom)}
+                  × ${quantite}
+                </span>
+
+                <strong>
+                  ${formaterPrix(sousTotal)}
+                </strong>
+
+              </div>
+            `;
+
+          })
+          .join("")
+      }
 
       <div class="checkout-summary-total">
+
         <span>Total</span>
-        <span>${formaterPrix(total)}</span>
+
+        <span>
+          ${formaterPrix(total)}
+        </span>
+
       </div>
 
     `;
@@ -1767,9 +1942,7 @@
   ========================================================= */
 
   document
-    .getElementById(
-      "checkoutForm"
-    )
+    .getElementById("checkoutForm")
     .addEventListener(
       "submit",
       envoyerCommande
@@ -1790,21 +1963,135 @@
     }
 
     /*
-      Le total est recalculé juste avant
-      l'enregistrement dans Supabase.
+      IMPORTANT :
+      Le total est recalculé directement à partir
+      des produits actuellement chargés depuis Supabase.
+      On ne fait PAS confiance au prix anciennement
+      enregistré dans localStorage.
     */
 
-    const total =
-      calculerTotalPanier();
+    let totalCommande = 0;
 
-    if(total <= 0){
+    const lignesCommande = [];
+
+    for(const article of panier){
+
+      const produit =
+        produits.find(
+          p =>
+            Number(p.id) ===
+            Number(article.id)
+        );
+
+      if(!produit){
+
+        afficherErreurCommande(
+          "Impossible de retrouver le produit " +
+          (article.name || "") +
+          " dans la base de données."
+        );
+
+        return;
+      }
+
+      const prix =
+        Number(
+          produit.Price ??
+          produit.price ??
+          produit.prix ??
+          0
+        );
+
+      const quantite =
+        Number(
+          article.quantity || 0
+        );
+
+      if(
+        !Number.isFinite(prix) ||
+        prix <= 0
+      ){
+
+        afficherErreurCommande(
+          "Le prix du produit " +
+          (produit.name || "") +
+          " est invalide."
+        );
+
+        return;
+      }
+
+      if(
+        !Number.isFinite(quantite) ||
+        quantite <= 0
+      ){
+
+        afficherErreurCommande(
+          "La quantité du produit est invalide."
+        );
+
+        return;
+      }
+
+      const sousTotal =
+        Math.round(
+          prix * quantite
+        );
+
+      totalCommande +=
+        sousTotal;
+
+      /*
+        On met à jour le prix du panier.
+      */
+
+      article.price =
+        Math.round(prix);
+
+      lignesCommande.push({
+
+        productId:
+          Number(produit.id),
+
+        name:
+          produit.name ||
+          "Produit",
+
+        quantity:
+          quantite,
+
+        price:
+          Math.round(prix),
+
+        subtotal:
+          sousTotal
+
+      });
+    }
+
+    totalCommande =
+      Math.round(
+        totalCommande
+      );
+
+    console.log(
+      "TOTAL FINAL ENVOYÉ À SUPABASE :",
+      totalCommande
+    );
+
+    if(totalCommande <= 0){
 
       afficherErreurCommande(
-        "Le total de la commande est égal à 0 FCFA. Vérifiez le prix des produits."
+        "Le total de la commande est égal à 0 FCFA."
       );
 
       return;
     }
+
+
+    /* =====================================================
+       INFORMATIONS CLIENT
+    ===================================================== */
 
     const nom =
       document
@@ -1866,16 +2153,14 @@
 
     try{
 
-      /*
-        ======================================================
-        ÉTAPE 1
-        Création de la commande principale.
+      /* =====================================================
+         ÉTAPE 1 : CREATION DE LA COMMANDE
+         ===================================================== */
 
-        p_total reçoit le total réellement calculé.
-        ======================================================
-      */
-
-      const { data: orderData, error: orderError } =
+      const {
+        data: orderData,
+        error: orderError
+      } =
         await supabaseClient.rpc(
           "create_order",
           {
@@ -1889,10 +2174,10 @@
               adresse,
 
             p_total:
-              Math.round(total),
+              totalCommande,
 
             p_status:
-              "Depuis whatsapp"
+              "En attente"
           }
         );
 
@@ -1900,7 +2185,7 @@
       if(orderError){
 
         console.error(
-          "Erreur create_order :",
+          "ERREUR CREATE_ORDER :",
           orderError
         );
 
@@ -1911,11 +2196,15 @@
       }
 
 
-      /*
-        ======================================================
-        RÉCUPÉRATION DE L'ID DE COMMANDE
-        ======================================================
-      */
+      console.log(
+        "REPONSE CREATE_ORDER :",
+        orderData
+      );
+
+
+      /* =====================================================
+         RECUPERATION ID COMMANDE
+         ===================================================== */
 
       let orderId = null;
 
@@ -1947,6 +2236,7 @@
             orderId =
               premier;
           }
+
         }
 
       }else{
@@ -1976,66 +2266,15 @@
       }
 
 
-      /*
-        ======================================================
-        ÉTAPE 2
-        Création des produits de la commande.
-        ======================================================
-      */
+      /* =====================================================
+         ÉTAPE 2 : ENREGISTREMENT DES PRODUITS
+         ===================================================== */
 
       for(
-        const article of panier
+        const ligne of lignesCommande
       ){
 
-        const productId =
-          Number(
-            article.id
-          );
-
-        const quantity =
-          Math.max(
-            1,
-            Number(
-              article.quantity
-            )
-          );
-
-        const price =
-          Math.round(
-            convertirPrix(
-              article.price
-            )
-          );
-
-
-        if(
-          !productId ||
-          !Number.isFinite(
-            productId
-          )
-        ){
-
-          throw new Error(
-            "Un produit de la commande possède un identifiant invalide."
-          );
-        }
-
-
-        if(price <= 0){
-
-          throw new Error(
-            "Le prix du produit " +
-            (
-              article.name ||
-              ""
-            ) +
-            " est invalide."
-          );
-        }
-
-
         const {
-          data: itemData,
           error: itemError
         } =
           await supabaseClient.rpc(
@@ -2045,13 +2284,13 @@
                 orderId,
 
               p_product_id:
-                productId,
+                ligne.productId,
 
               p_quantity:
-                quantity,
+                ligne.quantity,
 
               p_price:
-                price
+                ligne.price
             }
           );
 
@@ -2059,58 +2298,49 @@
         if(itemError){
 
           console.error(
-            "Erreur add_order_item :",
+            "ERREUR ADD_ORDER_ITEM :",
             itemError
           );
 
           throw new Error(
             "Impossible d'enregistrer le produit " +
-            (
-              article.name ||
-              ""
-            ) +
+            (ligne.name || "") +
             " dans la commande : " +
             itemError.message
           );
         }
-
       }
 
 
-      /*
-        ======================================================
-        ÉTAPE 3
-        Préparation du message WhatsApp.
-        ======================================================
-      */
+      /* =====================================================
+         ETAPE 3 : MESSAGE WHATSAPP
+         ===================================================== */
 
       let message =
         "👜 *YAYOUNABYSAC — NOUVELLE COMMANDE*%0A%0A";
+
 
       message +=
         "*Commande :* #" +
         orderId +
         "%0A";
 
+
       message +=
         "*Client :* " +
-        encodeURIComponent(
-          nom
-        ) +
+        encodeURIComponent(nom) +
         "%0A";
+
 
       message +=
         "*Téléphone :* " +
-        encodeURIComponent(
-          telephone
-        ) +
+        encodeURIComponent(telephone) +
         "%0A";
+
 
       message +=
         "*Adresse :* " +
-        encodeURIComponent(
-          adresse
-        ) +
+        encodeURIComponent(adresse) +
         "%0A%0A";
 
 
@@ -2118,37 +2348,24 @@
         "*Produits commandés :*%0A";
 
 
-      panier.forEach(
-        article => {
-
-          const prix =
-            convertirPrix(
-              article.price
-            );
-
-          const quantite =
-            convertirNombre(
-              article.quantity
-            );
-
-          const sousTotal =
-            prix * quantite;
+      lignesCommande.forEach(
+        ligne => {
 
           message +=
             "• " +
             encodeURIComponent(
-              article.name ||
-              "Produit"
+              ligne.name
             ) +
             " × " +
-            quantite +
+            ligne.quantity +
             " — " +
             encodeURIComponent(
               formaterPrix(
-                sousTotal
+                ligne.subtotal
               )
             ) +
             "%0A";
+
         }
       );
 
@@ -2156,7 +2373,9 @@
       message +=
         "%0A*TOTAL : " +
         encodeURIComponent(
-          formaterPrix(total)
+          formaterPrix(
+            totalCommande
+          )
         ) +
         "*%0A";
 
@@ -2171,17 +2390,13 @@
       }
 
 
-      /*
-        ======================================================
-        ÉTAPE 4
-        Nettoyage du panier.
-        ======================================================
-      */
+      /* =====================================================
+         ETAPE 4 : NETTOYAGE PANIER
+         ===================================================== */
 
       panier = [];
 
       sauvegarderPanier();
-
 
       document
         .getElementById(
@@ -2190,12 +2405,9 @@
         .reset();
 
 
-      /*
-        ======================================================
-        ÉTAPE 5
-        Ouverture de WhatsApp.
-        ======================================================
-      */
+      /* =====================================================
+         ETAPE 5 : WHATSAPP
+         ===================================================== */
 
       const whatsappURL =
         "https://wa.me/" +
@@ -2211,7 +2423,7 @@
     }catch(erreur){
 
       console.error(
-        "Erreur commande :",
+        "ERREUR COMMANDE :",
         erreur
       );
 
@@ -2220,7 +2432,8 @@
         "Une erreur est survenue pendant la commande."
       );
 
-      bouton.disabled = false;
+      bouton.disabled =
+        false;
 
       bouton.textContent =
         "📱 Commander sur WhatsApp";
@@ -2228,7 +2441,9 @@
   }
 
 
-  function afficherErreurCommande(message){
+  function afficherErreurCommande(
+    message
+  ){
 
     const zone =
       document.getElementById(
@@ -2253,6 +2468,7 @@
       document.getElementById(id);
 
     if(modal){
+
       modal.classList.add(
         "show"
       );
@@ -2266,6 +2482,7 @@
       document.getElementById(id);
 
     if(modal){
+
       modal.classList.remove(
         "show"
       );
@@ -2293,6 +2510,7 @@
                 "show"
               );
             }
+
           }
         );
 
@@ -2304,7 +2522,9 @@
      PROTECTION AFFICHAGE HTML
   ========================================================= */
 
-  function echapperHTML(valeur){
+  function echapperHTML(
+    valeur
+  ){
 
     return String(
       valeur ?? ""
@@ -2332,7 +2552,9 @@
   }
 
 
-  function echapperAttribut(valeur){
+  function echapperAttribut(
+    valeur
+  ){
 
     return echapperHTML(
       valeur
