@@ -854,23 +854,40 @@
   }
 
 
+  /*
+    =========================================================
+    CORRECTION DU CALCUL DU TOTAL
+
+    Le prix est maintenant repris directement depuis
+    le produit actuellement chargé depuis Supabase.
+
+    Cela évite qu'un ancien prix présent dans localStorage
+    puisse provoquer un total incorrect ou égal à 0.
+
+    Si le produit n'est pas retrouvé, on utilise le prix
+    déjà présent dans le panier comme solution de secours.
+    =========================================================
+  */
+
   function calculerTotalPanier(){
-
-    /*
-      IMPORTANT :
-      Le prix est recalculé à partir du produit/prix
-      réellement présent dans le panier.
-
-      Cela évite que le total envoyé à Supabase
-      soit 0 FCFA.
-    */
 
     return panier.reduce(
       (total, article) => {
 
-        const prix = convertirPrix(article.price);
+        const produit = produits.find(
+          p => Number(p.id) === Number(article.id)
+        );
 
-        const quantite = convertirNombre(article.quantity);
+        const prix = produit
+          ? getPrixProduit(produit)
+          : convertirPrix(article.price);
+
+        const quantite =
+          convertirNombre(article.quantity);
+
+        if(prix > 0){
+          article.price = prix;
+        }
 
         return total + (prix * quantite);
 
@@ -882,21 +899,26 @@
 
   function mettreAJourCompteurPanier(){
 
-    const compteur = document.getElementById("cartCount");
+    const compteur =
+      document.getElementById("cartCount");
 
     if(compteur){
-      compteur.textContent = nombreArticlesPanier();
+      compteur.textContent =
+        nombreArticlesPanier();
     }
   }
 
 
   function ajouterAuPanier(produit){
 
-    const id = Number(produit.id);
+    const id =
+      Number(produit.id);
 
-    const prix = getPrixProduit(produit);
+    const prix =
+      getPrixProduit(produit);
 
-    const stock = getStockProduit(produit);
+    const stock =
+      getStockProduit(produit);
 
     if(!id){
       alert("Produit invalide.");
@@ -908,32 +930,38 @@
       return;
     }
 
-    const articleExistant = panier.find(
-      article => Number(article.id) === id
-    );
+    const articleExistant =
+      panier.find(
+        article =>
+          Number(article.id) === id
+      );
 
     if(articleExistant){
 
-      if(stock > 0 &&
-         convertirNombre(articleExistant.quantity) >= stock){
+      if(
+        stock > 0 &&
+        convertirNombre(
+          articleExistant.quantity
+        ) >= stock
+      ){
 
         alert("Stock maximum atteint.");
         return;
       }
 
       articleExistant.quantity =
-        convertirNombre(articleExistant.quantity) + 1;
+        convertirNombre(
+          articleExistant.quantity
+        ) + 1;
 
-      /*
-        On remet également le prix actuel du produit.
-      */
-      articleExistant.price = prix;
+      articleExistant.price =
+        prix;
 
     }else{
 
       panier.push({
 
-        id: id,
+        id:id,
 
         name:
           produit.name ||
@@ -970,31 +998,40 @@
 
   function modifierQuantite(id, variation){
 
-    const article = panier.find(
-      item => Number(item.id) === Number(id)
-    );
+    const article =
+      panier.find(
+        item =>
+          Number(item.id) === Number(id)
+      );
 
     if(!article){
       return;
     }
 
     let nouvelleQuantite =
-      convertirNombre(article.quantity) + variation;
+      convertirNombre(
+        article.quantity
+      ) + variation;
 
-    const stock = convertirNombre(article.stock);
+    const stock =
+      convertirNombre(article.stock);
 
     if(nouvelleQuantite < 1){
       nouvelleQuantite = 1;
     }
 
-    if(stock > 0 && nouvelleQuantite > stock){
+    if(
+      stock > 0 &&
+      nouvelleQuantite > stock
+    ){
 
       alert("Stock maximum atteint.");
 
       nouvelleQuantite = stock;
     }
 
-    article.quantity = nouvelleQuantite;
+    article.quantity =
+      nouvelleQuantite;
 
     sauvegarderPanier();
 
@@ -1006,9 +1043,11 @@
 
   function supprimerDuPanier(id){
 
-    panier = panier.filter(
-      item => Number(item.id) !== Number(id)
-    );
+    panier =
+      panier.filter(
+        item =>
+          Number(item.id) !== Number(id)
+      );
 
     sauvegarderPanier();
 
@@ -1025,7 +1064,9 @@
   async function chargerProduits(){
 
     const zone =
-      document.getElementById("productsGrid");
+      document.getElementById(
+        "productsGrid"
+      );
 
     zone.innerHTML =
       '<div class="loading">Chargement des produits...</div>';
@@ -1036,22 +1077,23 @@
         await supabaseClient
           .from("Products")
           .select("*")
-          .order("id", { ascending:false });
+          .order(
+            "id",
+            { ascending:false }
+          );
 
       if(error){
         throw error;
       }
 
-      produits = Array.isArray(data) ? data : [];
+      produits =
+        Array.isArray(data)
+          ? data
+          : [];
 
       afficherCategories();
 
       appliquerFiltres();
-
-      /*
-        Mise à jour du prix des articles déjà présents
-        dans le panier avec les prix Supabase actuels.
-      */
 
       synchroniserPrixPanier();
 
@@ -1074,9 +1116,12 @@
 
     panier.forEach(article => {
 
-      const produit = produits.find(
-        p => Number(p.id) === Number(article.id)
-      );
+      const produit =
+        produits.find(
+          p =>
+            Number(p.id) ===
+            Number(article.id)
+        );
 
       if(produit){
 
@@ -1087,13 +1132,19 @@
           getStockProduit(produit);
 
         if(
-          convertirPrix(article.price) !== nouveauPrix
+          convertirPrix(
+            article.price
+          ) !== nouveauPrix
         ){
-          article.price = nouveauPrix;
+
+          article.price =
+            nouveauPrix;
+
           modification = true;
         }
 
-        article.stock = nouveauStock;
+        article.stock =
+          nouveauStock;
 
         article.name =
           produit.name ||
@@ -1122,18 +1173,25 @@
   function afficherCategories(){
 
     const zone =
-      document.getElementById("categories");
+      document.getElementById(
+        "categories"
+      );
 
     const categories = [
       "Toutes",
       ...new Set(
         produits
-          .map(p => getCategorieProduit(p))
+          .map(
+            p =>
+              getCategorieProduit(p)
+          )
           .filter(Boolean)
       )
     ];
 
-    zone.innerHTML = categories.map(categorie => `
+    zone.innerHTML =
+      categories.map(
+        categorie => `
 
       <button
         class="category-btn ${
@@ -1146,13 +1204,15 @@
         ${echapperHTML(categorie)}
       </button>
 
-    `).join("");
+    `
+      ).join("");
   }
 
 
   function choisirCategorie(categorie){
 
-    categorieActive = categorie;
+    categorieActive =
+      categorie;
 
     afficherCategories();
 
@@ -1168,44 +1228,60 @@
 
     const recherche =
       document
-        .getElementById("searchInput")
+        .getElementById(
+          "searchInput"
+        )
         .value
         .toLowerCase()
         .trim();
 
-    let resultat = [...produits];
+    let resultat =
+      [...produits];
 
-    if(categorieActive !== "Toutes"){
+    if(
+      categorieActive !==
+      "Toutes"
+    ){
 
-      resultat = resultat.filter(
-        produit =>
-          getCategorieProduit(produit) ===
-          categorieActive
-      );
+      resultat =
+        resultat.filter(
+          produit =>
+            getCategorieProduit(
+              produit
+            ) === categorieActive
+        );
     }
 
     if(recherche){
 
-      resultat = resultat.filter(produit => {
+      resultat =
+        resultat.filter(
+          produit => {
 
-        const nom =
-          String(produit.name || "")
-            .toLowerCase();
+            const nom =
+              String(
+                produit.name || ""
+              ).toLowerCase();
 
-        const description =
-          String(produit.description || "")
-            .toLowerCase();
+            const description =
+              String(
+                produit.description || ""
+              ).toLowerCase();
 
-        const categorie =
-          String(getCategorieProduit(produit))
-            .toLowerCase();
+            const categorie =
+              String(
+                getCategorieProduit(
+                  produit
+                )
+              ).toLowerCase();
 
-        return (
-          nom.includes(recherche) ||
-          description.includes(recherche) ||
-          categorie.includes(recherche)
+            return (
+              nom.includes(recherche) ||
+              description.includes(recherche) ||
+              categorie.includes(recherche)
+            );
+          }
         );
-      });
     }
 
     afficherProduits(resultat);
@@ -1215,7 +1291,9 @@
   function afficherProduits(liste){
 
     const zone =
-      document.getElementById("productsGrid");
+      document.getElementById(
+        "productsGrid"
+      );
 
     if(!liste.length){
 
@@ -1228,36 +1306,57 @@
       return;
     }
 
-    zone.innerHTML = liste.map(produit => {
+    zone.innerHTML =
+      liste.map(
+        produit => {
 
-      const prix = getPrixProduit(produit);
+          const prix =
+            getPrixProduit(
+              produit
+            );
 
-      const stock = getStockProduit(produit);
+          const stock =
+            getStockProduit(
+              produit
+            );
 
-      return `
+          return `
 
         <article class="product-card">
 
           <img
             class="product-image"
-            src="${echapperAttribut(imageProduit(produit))}"
-            alt="${echapperAttribut(produit.name || "Produit")}"
+            src="${echapperAttribut(
+              imageProduit(produit)
+            )}"
+            alt="${echapperAttribut(
+              produit.name ||
+              "Produit"
+            )}"
             onerror="this.src='https://via.placeholder.com/600x600?text=YAYOUNABYSAC'"
           >
 
           <div class="product-info">
 
             <div class="product-category">
-              ${echapperHTML(getCategorieProduit(produit))}
+              ${echapperHTML(
+                getCategorieProduit(
+                  produit
+                )
+              )}
             </div>
 
             <div class="product-name">
-              ${echapperHTML(produit.name || "Produit")}
+              ${echapperHTML(
+                produit.name ||
+                "Produit"
+              )}
             </div>
 
             <div class="product-description">
               ${echapperHTML(
-                produit.description || ""
+                produit.description ||
+                ""
               )}
             </div>
 
@@ -1293,16 +1392,19 @@
         </article>
 
       `;
-
-    }).join("");
+        }
+      ).join("");
   }
 
 
   function ajouterAuPanierDepuisId(id){
 
-    const produit = produits.find(
-      p => Number(p.id) === Number(id)
-    );
+    const produit =
+      produits.find(
+        p =>
+          Number(p.id) ===
+          Number(id)
+      );
 
     if(!produit){
       alert("Produit introuvable.");
@@ -1319,35 +1421,51 @@
 
   function ouvrirDetailProduit(id){
 
-    const produit = produits.find(
-      p => Number(p.id) === Number(id)
-    );
+    const produit =
+      produits.find(
+        p =>
+          Number(p.id) ===
+          Number(id)
+      );
 
     if(!produit){
       return;
     }
 
-    const prix = getPrixProduit(produit);
+    const prix =
+      getPrixProduit(produit);
 
     const contenu =
       document.getElementById(
         "productDetailContent"
       );
 
-    document.getElementById("detailName").textContent =
-      produit.name || "Produit";
+    document.getElementById(
+      "detailName"
+    ).textContent =
+      produit.name ||
+      "Produit";
 
     contenu.innerHTML = `
 
       <img
         class="product-detail-image"
-        src="${echapperAttribut(imageProduit(produit))}"
-        alt="${echapperAttribut(produit.name || "Produit")}"
+        src="${echapperAttribut(
+          imageProduit(produit)
+        )}"
+        alt="${echapperAttribut(
+          produit.name ||
+          "Produit"
+        )}"
         onerror="this.src='https://via.placeholder.com/600x600?text=YAYOUNABYSAC'"
       >
 
       <div class="product-category">
-        ${echapperHTML(getCategorieProduit(produit))}
+        ${echapperHTML(
+          getCategorieProduit(
+            produit
+          )
+        )}
       </div>
 
       <div class="product-detail-price">
@@ -1356,7 +1474,8 @@
 
       <div class="product-detail-description">
         ${echapperHTML(
-          produit.description || ""
+          produit.description ||
+          ""
         )}
       </div>
 
@@ -1368,7 +1487,9 @@
       </button>
     `;
 
-    ouvrirModal("productModal");
+    ouvrirModal(
+      "productModal"
+    );
   }
 
 
@@ -1380,14 +1501,18 @@
 
     afficherPanier();
 
-    ouvrirModal("cartModal");
+    ouvrirModal(
+      "cartModal"
+    );
   }
 
 
   function afficherPanier(){
 
     const zone =
-      document.getElementById("cartContent");
+      document.getElementById(
+        "cartContent"
+      );
 
     if(!panier.length){
 
@@ -1420,29 +1545,43 @@
 
       <div>
 
-        ${panier.map(article => {
+        ${panier.map(
+          article => {
 
-          const prix =
-            convertirPrix(article.price);
+            const prix =
+              convertirPrix(
+                article.price
+              );
 
-          const quantite =
-            convertirNombre(article.quantity);
+            const quantite =
+              convertirNombre(
+                article.quantity
+              );
 
-          return `
+            return `
 
             <div class="cart-item">
 
               <img
                 class="cart-item-image"
-                src="${echapperAttribut(article.image_url || "")}"
-                alt="${echapperAttribut(article.name || "Produit")}"
+                src="${echapperAttribut(
+                  article.image_url ||
+                  ""
+                )}"
+                alt="${echapperAttribut(
+                  article.name ||
+                  "Produit"
+                )}"
                 onerror="this.src='https://via.placeholder.com/200x200?text=Sac'"
               >
 
               <div class="cart-item-info">
 
                 <div class="cart-item-name">
-                  ${echapperHTML(article.name || "Produit")}
+                  ${echapperHTML(
+                    article.name ||
+                    "Produit"
+                  )}
                 </div>
 
                 <div class="cart-item-price">
@@ -1483,8 +1622,8 @@
             </div>
 
           `;
-
-        }).join("")}
+          }
+        ).join("")}
 
         <div class="cart-total">
           <span>Total</span>
@@ -1523,7 +1662,9 @@
 
     if(!panier.length){
 
-      alert("Votre panier est vide.");
+      alert(
+        "Votre panier est vide."
+      );
 
       return;
     }
@@ -1542,13 +1683,18 @@
 
     afficherResumeCommande();
 
-    fermerModal("cartModal");
+    fermerModal(
+      "cartModal"
+    );
 
     document.getElementById(
       "checkoutNotice"
-    ).className = "notice";
+    ).className =
+      "notice";
 
-    ouvrirModal("checkoutModal");
+    ouvrirModal(
+      "checkoutModal"
+    );
   }
 
 
@@ -1570,32 +1716,42 @@
 
       <strong>Votre commande</strong>
 
-      ${panier.map(article => {
+      ${panier.map(
+        article => {
 
-        const prix =
-          convertirPrix(article.price);
+          const prix =
+            convertirPrix(
+              article.price
+            );
 
-        const quantite =
-          convertirNombre(article.quantity);
+          const quantite =
+            convertirNombre(
+              article.quantity
+            );
 
-        return `
+          return `
 
           <div class="checkout-summary-item">
 
             <span>
-              ${echapperHTML(article.name || "Produit")}
+              ${echapperHTML(
+                article.name ||
+                "Produit"
+              )}
               × ${quantite}
             </span>
 
             <span>
-              ${formaterPrix(prix * quantite)}
+              ${formaterPrix(
+                prix * quantite
+              )}
             </span>
 
           </div>
 
         `;
-
-      }).join("")}
+        }
+      ).join("")}
 
       <div class="checkout-summary-total">
         <span>Total</span>
@@ -1611,7 +1767,9 @@
   ========================================================= */
 
   document
-    .getElementById("checkoutForm")
+    .getElementById(
+      "checkoutForm"
+    )
     .addEventListener(
       "submit",
       envoyerCommande
@@ -1632,8 +1790,7 @@
     }
 
     /*
-      IMPORTANT :
-      On recalcule le total ICI, juste avant
+      Le total est recalculé juste avant
       l'enregistrement dans Supabase.
     */
 
@@ -1651,30 +1808,42 @@
 
     const nom =
       document
-        .getElementById("customerName")
+        .getElementById(
+          "customerName"
+        )
         .value
         .trim();
 
     const telephone =
       document
-        .getElementById("customerPhone")
+        .getElementById(
+          "customerPhone"
+        )
         .value
         .trim();
 
     const adresse =
       document
-        .getElementById("customerAddress")
+        .getElementById(
+          "customerAddress"
+        )
         .value
         .trim();
 
     const commentaire =
       document
-        .getElementById("customerComment")
+        .getElementById(
+          "customerComment"
+        )
         .value
         .trim();
 
 
-    if(!nom || !telephone || !adresse){
+    if(
+      !nom ||
+      !telephone ||
+      !adresse
+    ){
 
       afficherErreurCommande(
         "Veuillez remplir le nom, le téléphone et l'adresse."
@@ -1702,7 +1871,7 @@
         ÉTAPE 1
         Création de la commande principale.
 
-        p_total reçoit le total recalculé.
+        p_total reçoit le total réellement calculé.
         ======================================================
       */
 
@@ -1710,11 +1879,20 @@
         await supabaseClient.rpc(
           "create_order",
           {
-            p_customer_name: nom,
-            p_phone: telephone,
-            p_address: adresse,
-            p_total: Math.round(total),
-            p_status: "Depuis whatsapp"
+            p_customer_name:
+              nom,
+
+            p_phone:
+              telephone,
+
+            p_address:
+              adresse,
+
+            p_total:
+              Math.round(total),
+
+            p_status:
+              "Depuis whatsapp"
           }
         );
 
@@ -1736,26 +1914,27 @@
       /*
         ======================================================
         RÉCUPÉRATION DE L'ID DE COMMANDE
-
-        Selon le retour Supabase, la valeur peut être
-        directement un nombre ou être contenue dans un
-        tableau.
         ======================================================
       */
 
       let orderId = null;
 
 
-      if(Array.isArray(orderData)){
+      if(
+        Array.isArray(orderData)
+      ){
 
-        if(orderData.length > 0){
+        if(
+          orderData.length > 0
+        ){
 
           const premier =
             orderData[0];
 
           if(
             premier &&
-            typeof premier === "object"
+            typeof premier ===
+            "object"
           ){
 
             orderId =
@@ -1765,20 +1944,26 @@
 
           }else{
 
-            orderId = premier;
+            orderId =
+              premier;
           }
         }
 
       }else{
 
-        orderId = orderData;
+        orderId =
+          orderData;
       }
 
 
-      orderId = Number(orderId);
+      orderId =
+        Number(orderId);
 
 
-      if(!orderId || !Number.isFinite(orderId)){
+      if(
+        !orderId ||
+        !Number.isFinite(orderId)
+      ){
 
         console.error(
           "Retour create_order :",
@@ -1795,33 +1980,39 @@
         ======================================================
         ÉTAPE 2
         Création des produits de la commande.
-
-        On utilise la fonction add_order_item déjà mise
-        en place pour éviter le problème RLS rencontré
-        précédemment sur Orders_items.
         ======================================================
       */
 
-      for(const article of panier){
+      for(
+        const article of panier
+      ){
 
         const productId =
-          Number(article.id);
+          Number(
+            article.id
+          );
 
         const quantity =
           Math.max(
             1,
-            Number(article.quantity)
+            Number(
+              article.quantity
+            )
           );
 
         const price =
           Math.round(
-            convertirPrix(article.price)
+            convertirPrix(
+              article.price
+            )
           );
 
 
         if(
           !productId ||
-          !Number.isFinite(productId)
+          !Number.isFinite(
+            productId
+          )
         ){
 
           throw new Error(
@@ -1834,7 +2025,10 @@
 
           throw new Error(
             "Le prix du produit " +
-            (article.name || "") +
+            (
+              article.name ||
+              ""
+            ) +
             " est invalide."
           );
         }
@@ -1847,10 +2041,17 @@
           await supabaseClient.rpc(
             "add_order_item",
             {
-              p_order_id: orderId,
-              p_product_id: productId,
-              p_quantity: quantity,
-              p_price: price
+              p_order_id:
+                orderId,
+
+              p_product_id:
+                productId,
+
+              p_quantity:
+                quantity,
+
+              p_price:
+                price
             }
           );
 
@@ -1864,7 +2065,10 @@
 
           throw new Error(
             "Impossible d'enregistrer le produit " +
-            (article.name || "") +
+            (
+              article.name ||
+              ""
+            ) +
             " dans la commande : " +
             itemError.message
           );
@@ -1890,17 +2094,23 @@
 
       message +=
         "*Client :* " +
-        encodeURIComponent(nom) +
+        encodeURIComponent(
+          nom
+        ) +
         "%0A";
 
       message +=
         "*Téléphone :* " +
-        encodeURIComponent(telephone) +
+        encodeURIComponent(
+          telephone
+        ) +
         "%0A";
 
       message +=
         "*Adresse :* " +
-        encodeURIComponent(adresse) +
+        encodeURIComponent(
+          adresse
+        ) +
         "%0A%0A";
 
 
@@ -1908,30 +2118,39 @@
         "*Produits commandés :*%0A";
 
 
-      panier.forEach(article => {
+      panier.forEach(
+        article => {
 
-        const prix =
-          convertirPrix(article.price);
+          const prix =
+            convertirPrix(
+              article.price
+            );
 
-        const quantite =
-          convertirNombre(article.quantity);
+          const quantite =
+            convertirNombre(
+              article.quantity
+            );
 
-        const sousTotal =
-          prix * quantite;
+          const sousTotal =
+            prix * quantite;
 
-        message +=
-          "• " +
-          encodeURIComponent(
-            article.name || "Produit"
-          ) +
-          " × " +
-          quantite +
-          " — " +
-          encodeURIComponent(
-            formaterPrix(sousTotal)
-          ) +
-          "%0A";
-      });
+          message +=
+            "• " +
+            encodeURIComponent(
+              article.name ||
+              "Produit"
+            ) +
+            " × " +
+            quantite +
+            " — " +
+            encodeURIComponent(
+              formaterPrix(
+                sousTotal
+              )
+            ) +
+            "%0A";
+        }
+      );
 
 
       message +=
@@ -1964,12 +2183,10 @@
       sauvegarderPanier();
 
 
-      /*
-        Réinitialisation du formulaire.
-      */
-
       document
-        .getElementById("checkoutForm")
+        .getElementById(
+          "checkoutForm"
+        )
         .reset();
 
 
@@ -2036,7 +2253,9 @@
       document.getElementById(id);
 
     if(modal){
-      modal.classList.add("show");
+      modal.classList.add(
+        "show"
+      );
     }
   }
 
@@ -2047,29 +2266,38 @@
       document.getElementById(id);
 
     if(modal){
-      modal.classList.remove("show");
+      modal.classList.remove(
+        "show"
+      );
     }
   }
 
 
   document
-    .querySelectorAll(".modal-overlay")
-    .forEach(modal => {
+    .querySelectorAll(
+      ".modal-overlay"
+    )
+    .forEach(
+      modal => {
 
-      modal.addEventListener(
-        "click",
-        function(event){
+        modal.addEventListener(
+          "click",
+          function(event){
 
-          if(event.target === modal){
+            if(
+              event.target ===
+              modal
+            ){
 
-            modal.classList.remove(
-              "show"
-            );
+              modal.classList.remove(
+                "show"
+              );
+            }
           }
-        }
-      );
+        );
 
-    });
+      }
+    );
 
 
   /* =========================================================
@@ -2078,18 +2306,37 @@
 
   function echapperHTML(valeur){
 
-    return String(valeur ?? "")
-      .replace(/&/g,"&amp;")
-      .replace(/</g,"&lt;")
-      .replace(/>/g,"&gt;")
-      .replace(/"/g,"&quot;")
-      .replace(/'/g,"&#039;");
+    return String(
+      valeur ?? ""
+    )
+      .replace(
+        /&/g,
+        "&amp;"
+      )
+      .replace(
+        /</g,
+        "&lt;"
+      )
+      .replace(
+        />/g,
+        "&gt;"
+      )
+      .replace(
+        /"/g,
+        "&quot;"
+      )
+      .replace(
+        /'/g,
+        "&#039;"
+      );
   }
 
 
   function echapperAttribut(valeur){
 
-    return echapperHTML(valeur);
+    return echapperHTML(
+      valeur
+    );
   }
 
 
