@@ -207,6 +207,11 @@
       font-weight:700;
     }
 
+    .btn-primary:disabled{
+      opacity:.6;
+      cursor:not-allowed;
+    }
+
     .btn-secondary{
       border:1px solid #ddd;
       background:#fff;
@@ -574,130 +579,86 @@
 <!-- ==================== MODAL PANIER ==================== -->
 
 <div id="cartModal" class="modal-overlay">
-
   <div class="modal">
 
     <div class="modal-header">
       <h2>🛒 Votre panier</h2>
-
-      <button
-        class="close-btn"
-        onclick="fermerModal('cartModal')"
-      >
-        ×
-      </button>
+      <button class="close-btn" onclick="fermerModal('cartModal')">×</button>
     </div>
 
     <div id="cartContent"></div>
 
   </div>
-
 </div>
 
 
 <!-- ==================== MODAL PRODUIT ==================== -->
 
 <div id="productModal" class="modal-overlay">
-
   <div class="modal">
 
     <div class="modal-header">
-      <h2 id="productModalTitle">Produit</h2>
-
-      <button
-        class="close-btn"
-        onclick="fermerModal('productModal')"
-      >
-        ×
-      </button>
+      <h2 id="detailName">Produit</h2>
+      <button class="close-btn" onclick="fermerModal('productModal')">×</button>
     </div>
 
     <div id="productDetailContent"></div>
 
   </div>
-
 </div>
 
 
 <!-- ==================== MODAL COMMANDE ==================== -->
 
 <div id="checkoutModal" class="modal-overlay">
-
   <div class="modal">
 
     <div class="modal-header">
-      <h2>📦 Finaliser la commande</h2>
-
-      <button
-        class="close-btn"
-        onclick="fermerModal('checkoutModal')"
-      >
-        ×
-      </button>
+      <h2>🧾 Passer la commande</h2>
+      <button class="close-btn" onclick="fermerModal('checkoutModal')">×</button>
     </div>
 
-    <div
-      id="checkoutNotice"
-      class="notice"
-    ></div>
+    <div id="checkoutNotice" class="notice"></div>
 
-    <div
-      id="checkoutSummary"
-      class="checkout-summary"
-    ></div>
+    <div id="checkoutSummary" class="checkout-summary"></div>
 
-    <form
-      id="checkoutForm"
-      class="checkout-form"
-    >
+    <form id="checkoutForm" class="checkout-form">
 
       <div class="form-group">
-        <label for="customerName">
-          Nom complet
-        </label>
-
+        <label for="customerName">Nom</label>
         <input
           id="customerName"
           type="text"
-          required
           placeholder="Votre nom"
+          required
         >
       </div>
 
       <div class="form-group">
-        <label for="customerPhone">
-          Téléphone
-        </label>
-
+        <label for="customerPhone">Téléphone</label>
         <input
           id="customerPhone"
           type="tel"
+          placeholder="Votre numéro de téléphone"
           required
-          placeholder="77 000 00 00"
         >
       </div>
 
       <div class="form-group">
-        <label for="customerAddress">
-          Adresse / Quartier
-        </label>
-
+        <label for="customerAddress">Adresse / Quartier</label>
         <input
           id="customerAddress"
           type="text"
+          placeholder="Exemple : Dakar, Parcelles Assainies"
           required
-          placeholder="Exemple : Dakar, Parcelles..."
         >
       </div>
 
       <div class="form-group">
-        <label for="customerComment">
-          Commentaire
-        </label>
-
+        <label for="customerComment">Commentaire</label>
         <textarea
           id="customerComment"
-          placeholder="Un commentaire pour votre commande..."
+          placeholder="Un commentaire concernant votre commande..."
         ></textarea>
       </div>
 
@@ -712,14 +673,13 @@
     </form>
 
   </div>
-
 </div>
 
 
 <script>
 
   /* =========================================================
-     CONFIGURATION SUPABASE
+     SUPABASE
   ========================================================= */
 
   const SUPABASE_URL =
@@ -734,6 +694,11 @@
       SUPABASE_ANON_KEY
     );
 
+
+  /* =========================================================
+     CONFIGURATION
+  ========================================================= */
+
   const WHATSAPP_NUMBER =
     "221775124928";
 
@@ -747,7 +712,7 @@
 
   let produits = [];
 
-  let panier = [];
+  let panier = chargerPanier();
 
   let categorieActive = "Toutes";
 
@@ -768,15 +733,13 @@
         : 0;
     }
 
-    const texte =
-      String(valeur)
-        .replace(/\s/g,"")
-        .replace(/FCFA/gi,"")
-        .replace(/,/g,".")
-        .trim();
+    const propre = String(valeur)
+      .replace(/\s/g, "")
+      .replace(/FCFA/gi, "")
+      .replace(/,/g, ".")
+      .trim();
 
-    const nombre =
-      parseFloat(texte);
+    const nombre = Number(propre);
 
     return Number.isFinite(nombre)
       ? nombre
@@ -786,8 +749,7 @@
 
   function convertirNombre(valeur){
 
-    const nombre =
-      Number(valeur);
+    const nombre = Number(valeur);
 
     return Number.isFinite(nombre)
       ? nombre
@@ -795,35 +757,33 @@
   }
 
 
-  function formaterPrix(valeur){
+  function formaterPrix(prix){
 
-    const prix =
-      Math.round(
-        convertirPrix(valeur)
-      );
+    const nombre =
+      convertirPrix(prix);
 
-    return prix.toLocaleString(
-      "fr-FR"
-    ) + " FCFA";
+    return nombre.toLocaleString("fr-FR") +
+      " FCFA";
   }
 
 
   function imageProduit(produit){
 
-    return (
-      produit?.Image_url ||
-      produit?.image_url ||
-      produit?.image ||
-      ""
-    );
+    const url =
+      produit.Image_url ||
+      produit.image_url ||
+      produit.image ||
+      "";
+
+    if(url){
+      return url;
+    }
+
+    return "https://via.placeholder.com/600x600?text=YAYOUNABYSAC";
   }
 
 
   function getPrixProduit(produit){
-
-    if(!produit){
-      return 0;
-    }
 
     return convertirPrix(
       produit.Price ??
@@ -836,10 +796,6 @@
 
   function getStockProduit(produit){
 
-    if(!produit){
-      return 0;
-    }
-
     return convertirNombre(
       produit.Stock ??
       produit.stock ??
@@ -850,14 +806,10 @@
 
   function getCategorieProduit(produit){
 
-    if(!produit){
-      return "";
-    }
-
     return (
-      produit.Category ??
-      produit.category ??
-      ""
+      produit.Category ||
+      produit.category ||
+      "Autres"
     );
   }
 
@@ -871,24 +823,18 @@
     try{
 
       const sauvegarde =
-        localStorage.getItem(
-          CART_KEY
-        );
+        localStorage.getItem(CART_KEY);
 
       if(!sauvegarde){
-
-        panier = [];
-
-        return;
+        return [];
       }
 
-      const contenu =
+      const donnees =
         JSON.parse(sauvegarde);
 
-      panier =
-        Array.isArray(contenu)
-          ? contenu
-          : [];
+      return Array.isArray(donnees)
+        ? donnees
+        : [];
 
     }catch(erreur){
 
@@ -897,27 +843,19 @@
         erreur
       );
 
-      panier = [];
+      return [];
     }
   }
 
 
   function sauvegarderPanier(){
 
-    try{
+    localStorage.setItem(
+      CART_KEY,
+      JSON.stringify(panier)
+    );
 
-      localStorage.setItem(
-        CART_KEY,
-        JSON.stringify(panier)
-      );
-
-    }catch(erreur){
-
-      console.error(
-        "Erreur sauvegarde panier :",
-        erreur
-      );
-    }
+    mettreAJourCompteurPanier();
   }
 
 
@@ -926,8 +864,6 @@
     panier = [];
 
     sauvegarderPanier();
-
-    mettreAJourCompteurPanier();
 
     afficherPanier();
   }
@@ -938,67 +874,38 @@
     return panier.reduce(
       (total, article) =>
         total +
-        Number(article.quantity || 0),
+        convertirNombre(article.quantity),
       0
     );
   }
 
 
-  /*
-    IMPORTANT :
-    Le total est recalculé à partir des produits
-    réellement chargés depuis Supabase.
-  */
-
   function calculerTotalPanier(){
 
-    let total = 0;
-
-    panier.forEach(article => {
-
-      const produit =
-        produits.find(
-          p =>
-            Number(p.id) ===
-            Number(article.id)
-        );
-
-      if(produit){
+    return panier.reduce(
+      (total, article) => {
 
         const prix =
-          getPrixProduit(produit);
+          convertirPrix(article.price);
 
         const quantite =
-          Number(article.quantity || 0);
+          convertirNombre(article.quantity);
 
-        if(
-          Number.isFinite(prix) &&
-          Number.isFinite(quantite)
-        ){
+        return total +
+          (prix * quantite);
 
-          total +=
-            Math.round(prix * quantite);
-
-          article.price =
-            Math.round(prix);
-        }
-      }
-
-    });
-
-    return Math.round(total);
+      },
+      0
+    );
   }
 
 
   function mettreAJourCompteurPanier(){
 
     const compteur =
-      document.getElementById(
-        "cartCount"
-      );
+      document.getElementById("cartCount");
 
     if(compteur){
-
       compteur.textContent =
         nombreArticlesPanier();
     }
@@ -1007,97 +914,101 @@
 
   function ajouterAuPanier(produit){
 
-    if(!produit){
-      return;
-    }
-
-    const stock =
-      getStockProduit(produit);
+    const id =
+      Number(produit.id);
 
     const prix =
       getPrixProduit(produit);
 
-    if(prix <= 0){
+    const stock =
+      getStockProduit(produit);
 
+    if(!id){
+      alert("Produit invalide.");
+      return;
+    }
+
+    if(prix <= 0){
       alert(
         "Le prix de ce produit est invalide."
       );
-
       return;
     }
 
-    if(stock <= 0){
-
-      alert(
-        "Ce produit est actuellement en rupture de stock."
-      );
-
-      return;
-    }
-
-    const id =
-      Number(produit.id);
-
-    const existant =
+    const articleExistant =
       panier.find(
         article =>
           Number(article.id) === id
       );
 
-    if(existant){
+    if(articleExistant){
 
       if(
-        Number(existant.quantity) >=
-        stock
+        stock > 0 &&
+        convertirNombre(
+          articleExistant.quantity
+        ) >= stock
       ){
 
         alert(
-          "Vous avez atteint le stock disponible."
+          "Stock maximum atteint."
         );
 
         return;
       }
 
-      existant.quantity =
-        Number(existant.quantity) + 1;
+      articleExistant.quantity =
+        convertirNombre(
+          articleExistant.quantity
+        ) + 1;
 
-      existant.price =
-        Math.round(prix);
+      articleExistant.price =
+        prix;
 
     }else{
 
       panier.push({
 
-        id: id,
+        id:id,
 
         name:
           produit.name ||
           "Produit",
 
+        description:
+          produit.description ||
+          "",
+
         price:
-          Math.round(prix),
+          prix,
 
-        quantity: 1,
+        image_url:
+          imageProduit(produit),
 
-        image:
-          imageProduit(produit)
+        category:
+          getCategorieProduit(produit),
 
+        stock:
+          stock,
+
+        quantity:
+          1
       });
     }
 
     sauvegarderPanier();
 
-    mettreAJourCompteurPanier();
-
     alert(
       "Produit ajouté au panier."
     );
+
+    ouvrirPanier();
   }
 
 
   function modifierQuantite(
     id,
-    changement
+    variation
   ){
 
     const article =
@@ -1111,22 +1022,17 @@
       return;
     }
 
-    const produit =
-      produits.find(
-        p =>
-          Number(p.id) ===
-          Number(id)
-      );
+    let nouvelleQuantite =
+      convertirNombre(
+        article.quantity
+      ) + variation;
 
     const stock =
-      getStockProduit(produit);
-
-    let nouvelleQuantite =
-      Number(article.quantity || 0) +
-      Number(changement);
+      convertirNombre(
+        article.stock
+      );
 
     if(nouvelleQuantite < 1){
-
       nouvelleQuantite = 1;
     }
 
@@ -1135,30 +1041,21 @@
       nouvelleQuantite > stock
     ){
 
-      nouvelleQuantite = stock;
-
       alert(
-        "Stock disponible : " +
-        stock
+        "Stock maximum atteint."
       );
+
+      nouvelleQuantite = stock;
     }
 
     article.quantity =
       nouvelleQuantite;
 
-    if(produit){
-
-      article.price =
-        Math.round(
-          getPrixProduit(produit)
-        );
-    }
-
     sauvegarderPanier();
 
-    mettreAJourCompteurPanier();
-
     afficherPanier();
+
+    afficherResumeCommande();
   }
 
 
@@ -1166,16 +1063,16 @@
 
     panier =
       panier.filter(
-        article =>
-          Number(article.id) !==
+        item =>
+          Number(item.id) !==
           Number(id)
       );
 
     sauvegarderPanier();
 
-    mettreAJourCompteurPanier();
-
     afficherPanier();
+
+    afficherResumeCommande();
   }
 
 
@@ -1190,6 +1087,9 @@
         "productsGrid"
       );
 
+    zone.innerHTML =
+      '<div class="loading">Chargement des produits...</div>';
+
     try{
 
       const {
@@ -1199,24 +1099,15 @@
         await supabaseClient
           .from("Products")
           .select("*")
-          .order("id",{
-            ascending:false
-          });
+          .order(
+            "id",
+            {
+              ascending:false
+            }
+          );
 
       if(error){
-
-        console.error(
-          "Erreur produits :",
-          error
-        );
-
-        zone.innerHTML = `
-          <div class="empty-products">
-            Impossible de charger les produits.
-          </div>
-        `;
-
-        return;
+        throw error;
       }
 
       produits =
@@ -1224,26 +1115,19 @@
           ? data
           : [];
 
-      chargerPanier();
+      afficherCategories();
+
+      appliquerFiltres();
 
       synchroniserPrixPanier();
 
-      afficherCategories();
-
-      afficherProduits();
-
-      sauvegarderPanier();
-
     }catch(erreur){
 
-      console.error(
-        "Erreur chargement produits :",
-        erreur
-      );
+      console.error(erreur);
 
       zone.innerHTML = `
         <div class="empty-products">
-          Une erreur est survenue pendant le chargement.
+          Impossible de charger les produits.
         </div>
       `;
     }
@@ -1251,6 +1135,8 @@
 
 
   function synchroniserPrixPanier(){
+
+    let modification = false;
 
     panier.forEach(article => {
 
@@ -1263,21 +1149,46 @@
 
       if(produit){
 
-        article.price =
-          Math.round(
-            getPrixProduit(produit)
-          );
+        const nouveauPrix =
+          getPrixProduit(produit);
+
+        const nouveauStock =
+          getStockProduit(produit);
+
+        if(
+          convertirPrix(
+            article.price
+          ) !== nouveauPrix
+        ){
+
+          article.price =
+            nouveauPrix;
+
+          modification = true;
+        }
+
+        article.stock =
+          nouveauStock;
 
         article.name =
           produit.name ||
           article.name;
 
-        article.image =
-          imageProduit(produit) ||
-          article.image;
-      }
+        article.image_url =
+          imageProduit(produit);
 
+        article.category =
+          getCategorieProduit(
+            produit
+          );
+      }
     });
+
+    if(modification){
+      sauvegarderPanier();
+    }
+
+    mettreAJourCompteurPanier();
   }
 
 
@@ -1293,118 +1204,137 @@
       );
 
     const categories = [
-      "Toutes"
+      "Toutes",
+      ...new Set(
+        produits
+          .map(
+            p =>
+              getCategorieProduit(p)
+          )
+          .filter(Boolean)
+      )
     ];
 
-    produits.forEach(produit => {
-
-      const categorie =
-        getCategorieProduit(produit);
-
-      if(
-        categorie &&
-        !categories.includes(categorie)
-      ){
-
-        categories.push(categorie);
-      }
-
-    });
-
     zone.innerHTML =
-      categories
-        .map(categorie => {
+      categories.map(
+        categorie => `
 
-          const active =
-            categorie ===
-            categorieActive
-              ? "active"
-              : "";
+      <button
+        class="category-btn ${
+          categorieActive === categorie
+            ? "active"
+            : ""
+        }"
+        onclick='choisirCategorie(${JSON.stringify(categorie)})'
+      >
+        ${echapperHTML(categorie)}
+      </button>
 
-          return `
-            <button
-              class="category-btn ${active}"
-              onclick="choisirCategorie(${JSON.stringify(categorie)})"
-            >
-              ${echapperHTML(categorie)}
-            </button>
-          `;
-
-        })
-        .join("");
+    `
+      ).join("");
   }
 
 
-  function choisirCategorie(categorie){
+  function choisirCategorie(
+    categorie
+  ){
 
     categorieActive =
       categorie;
 
     afficherCategories();
 
-    afficherProduits();
+    appliquerFiltres();
   }
 
+
+  /* =========================================================
+     AFFICHAGE PRODUITS
+  ========================================================= */
 
   function appliquerFiltres(){
 
-    afficherProduits();
+    const recherche =
+      document
+        .getElementById(
+          "searchInput"
+        )
+        .value
+        .toLowerCase()
+        .trim();
+
+    let resultat =
+      [...produits];
+
+    if(
+      categorieActive !==
+      "Toutes"
+    ){
+
+      resultat =
+        resultat.filter(
+          produit =>
+            getCategorieProduit(
+              produit
+            ) === categorieActive
+        );
+    }
+
+    if(recherche){
+
+      resultat =
+        resultat.filter(
+          produit => {
+
+            const nom =
+              String(
+                produit.name || ""
+              ).toLowerCase();
+
+            const description =
+              String(
+                produit.description ||
+                ""
+              ).toLowerCase();
+
+            const categorie =
+              String(
+                getCategorieProduit(
+                  produit
+                )
+              ).toLowerCase();
+
+            return (
+              nom.includes(
+                recherche
+              ) ||
+              description.includes(
+                recherche
+              ) ||
+              categorie.includes(
+                recherche
+              )
+            );
+          }
+        );
+    }
+
+    afficherProduits(
+      resultat
+    );
   }
 
 
-  function afficherProduits(){
+  function afficherProduits(
+    liste
+  ){
 
     const zone =
       document.getElementById(
         "productsGrid"
       );
 
-    const recherche =
-      (
-        document.getElementById(
-          "searchInput"
-        )?.value || ""
-      )
-        .trim()
-        .toLowerCase();
-
-    let resultat =
-      produits.filter(produit => {
-
-        const nom =
-          String(
-            produit.name || ""
-          ).toLowerCase();
-
-        const description =
-          String(
-            produit.description || ""
-          ).toLowerCase();
-
-        const categorie =
-          String(
-            getCategorieProduit(produit)
-          ).toLowerCase();
-
-        const correspondRecherche =
-          !recherche ||
-          nom.includes(recherche) ||
-          description.includes(recherche) ||
-          categorie.includes(recherche);
-
-        const correspondCategorie =
-          categorieActive ===
-          "Toutes" ||
-          getCategorieProduit(produit) ===
-          categorieActive;
-
-        return (
-          correspondRecherche &&
-          correspondCategorie
-        );
-      });
-
-    if(!resultat.length){
+    if(!liste.length){
 
       zone.innerHTML = `
         <div class="empty-products">
@@ -1416,116 +1346,100 @@
     }
 
     zone.innerHTML =
-      resultat
-        .map(produit => {
-
-          const id =
-            Number(produit.id);
+      liste.map(
+        produit => {
 
           const prix =
-            getPrixProduit(produit);
+            getPrixProduit(
+              produit
+            );
 
           const stock =
-            getStockProduit(produit);
-
-          const image =
-            imageProduit(produit);
-
-          const nom =
-            echapperHTML(
-              produit.name ||
-              "Produit"
-            );
-
-          const description =
-            echapperHTML(
-              produit.description ||
-              ""
-            );
-
-          const categorie =
-            echapperHTML(
-              getCategorieProduit(produit)
+            getStockProduit(
+              produit
             );
 
           return `
-            <article class="product-card">
 
-              ${
-                image
-                  ? `
-                    <img
-                      class="product-image"
-                      src="${echapperAttribut(image)}"
-                      alt="${echapperAttribut(produit.name || "Produit")}"
-                    >
-                  `
-                  : `
-                    <div
-                      class="product-image"
-                      style="
-                        display:flex;
-                        align-items:center;
-                        justify-content:center;
-                        font-size:45px;
-                      "
-                    >
-                      👜
-                    </div>
-                  `
-              }
+        <article class="product-card">
 
-              <div class="product-info">
+          <img
+            class="product-image"
+            src="${echapperAttribut(
+              imageProduit(produit)
+            )}"
+            alt="${echapperAttribut(
+              produit.name ||
+              "Produit"
+            )}"
+            onerror="this.src='https://via.placeholder.com/600x600?text=YAYOUNABYSAC'"
+          >
 
-                <div class="product-category">
-                  ${categorie}
-                </div>
+          <div class="product-info">
 
-                <div class="product-name">
-                  ${nom}
-                </div>
+            <div class="product-category">
+              ${echapperHTML(
+                getCategorieProduit(
+                  produit
+                )
+              )}
+            </div>
 
-                <div class="product-description">
-                  ${description}
-                </div>
+            <div class="product-name">
+              ${echapperHTML(
+                produit.name ||
+                "Produit"
+              )}
+            </div>
 
-                <div class="product-price">
-                  ${formaterPrix(prix)}
-                </div>
+            <div class="product-description">
+              ${echapperHTML(
+                produit.description ||
+                ""
+              )}
+            </div>
 
-                <div class="product-actions">
+            <div class="product-price">
+              ${formaterPrix(prix)}
+            </div>
 
-                  <button
-                    class="btn-secondary"
-                    onclick="ouvrirDetailProduit(${id})"
-                  >
-                    Voir
-                  </button>
+            <div class="product-actions">
 
-                  <button
-                    class="btn-primary"
-                    onclick="ajouterAuPanierDepuisId(${id})"
-                    ${stock <= 0 ? "disabled" : ""}
-                  >
-                    ${
-                      stock <= 0
-                        ? "Rupture"
-                        : "Ajouter"
-                    }
-                  </button>
+              <button
+                class="btn-primary"
+                onclick="ajouterAuPanierDepuisId(${Number(produit.id)})"
+                ${stock <= 0 ? "disabled" : ""}
+              >
+                ${
+                  stock <= 0
+                    ? "Rupture"
+                    : "Ajouter"
+                }
+              </button>
 
-                </div>
+              <button
+                class="btn-secondary"
+                onclick="ouvrirDetailProduit(${Number(produit.id)})"
+              >
+                Voir
+              </button>
 
-              </div>
+            </div>
 
-            </article>
-          `;
-        })
-        .join("");
+          </div>
+
+        </article>
+
+      `;
+
+        }
+      ).join("");
   }
 
 
-  function ajouterAuPanierDepuisId(id){
+  function ajouterAuPanierDepuisId(
+    id
+  ){
 
     const produit =
       produits.find(
@@ -1534,14 +1448,28 @@
           Number(id)
       );
 
-    if(produit){
+    if(!produit){
 
-      ajouterAuPanier(produit);
+      alert(
+        "Produit introuvable."
+      );
+
+      return;
     }
+
+    ajouterAuPanier(
+      produit
+    );
   }
 
 
-  function ouvrirDetailProduit(id){
+  /* =========================================================
+     DETAIL PRODUIT
+  ========================================================= */
+
+  function ouvrirDetailProduit(
+    id
+  ){
 
     const produit =
       produits.find(
@@ -1554,79 +1482,60 @@
       return;
     }
 
-    const modalTitle =
-      document.getElementById(
-        "productModalTitle"
+    const prix =
+      getPrixProduit(
+        produit
       );
 
-    const zone =
+    const contenu =
       document.getElementById(
         "productDetailContent"
       );
 
-    modalTitle.textContent =
+    document.getElementById(
+      "detailName"
+    ).textContent =
       produit.name ||
       "Produit";
 
-    const image =
-      imageProduit(produit);
+    contenu.innerHTML = `
 
-    const prix =
-      getPrixProduit(produit);
+      <img
+        class="product-detail-image"
+        src="${echapperAttribut(
+          imageProduit(produit)
+        )}"
+        alt="${echapperAttribut(
+          produit.name ||
+          "Produit"
+        )}"
+        onerror="this.src='https://via.placeholder.com/600x600?text=YAYOUNABYSAC'"
+      >
 
-    const stock =
-      getStockProduit(produit);
-
-    zone.innerHTML = `
-
-      ${
-        image
-          ? `
-            <img
-              class="product-detail-image"
-              src="${echapperAttribut(image)}"
-              alt="${echapperAttribut(produit.name || "Produit")}"
-            >
-          `
-          : `
-            <div
-              class="product-detail-image"
-              style="
-                height:280px;
-                display:flex;
-                align-items:center;
-                justify-content:center;
-                font-size:70px;
-              "
-            >
-              👜
-            </div>
-          `
-      }
+      <div class="product-category">
+        ${echapperHTML(
+          getCategorieProduit(
+            produit
+          )
+        )}
+      </div>
 
       <div class="product-detail-price">
         ${formaterPrix(prix)}
       </div>
 
       <div class="product-detail-description">
-        ${echapperHTML(produit.description || "")}
+        ${echapperHTML(
+          produit.description ||
+          ""
+        )}
       </div>
-
-      <p style="margin-bottom:15px;">
-        <strong>Stock :</strong>
-        ${stock}
-      </p>
 
       <button
         class="btn-primary"
-        onclick="ajouterAuPanierDepuisId(${Number(produit.id)})"
-        ${stock <= 0 ? "disabled" : ""}
+        onclick="ajouterAuPanierDepuisId(${Number(produit.id)}); fermerModal('productModal');"
       >
-        ${
-          stock <= 0
-            ? "Rupture de stock"
-            : "🛒 Ajouter au panier"
-        }
+        🛒 Ajouter au panier
       </button>
     `;
 
@@ -1660,16 +1569,11 @@
     if(!panier.length){
 
       zone.innerHTML = `
-        <div
-          class="empty-products"
-          style="padding:30px 10px;"
-        >
-          <p style="font-size:18px;font-weight:700;margin-bottom:8px;">
-            Votre panier est vide.
-          </p>
+
+        <div class="empty-products">
 
           <p style="margin-bottom:18px;">
-            Ajoutez un produit pour continuer.
+            Votre panier est vide.
           </p>
 
           <button
@@ -1678,13 +1582,13 @@
           >
             Continuer mes achats
           </button>
+
         </div>
+
       `;
 
       return;
     }
-
-    synchroniserPrixPanier();
 
     const total =
       calculerTotalPanier();
@@ -1693,137 +1597,118 @@
 
       <div>
 
-        ${
-          panier
-            .map(article => {
+        ${panier.map(
+          article => {
 
-              const produit =
-                produits.find(
-                  p =>
-                    Number(p.id) ===
-                    Number(article.id)
-                );
+            const prix =
+              convertirPrix(
+                article.price
+              );
 
-              const image =
-                imageProduit(produit) ||
-                article.image ||
-                "";
+            const quantite =
+              convertirNombre(
+                article.quantity
+              );
 
-              const prix =
-                produit
-                  ? getPrixProduit(produit)
-                  : convertirPrix(article.price);
+            return `
 
-              const nom =
-                produit?.name ||
-                article.name ||
-                "Produit";
+            <div class="cart-item">
 
-              return `
+              <img
+                class="cart-item-image"
+                src="${echapperAttribut(
+                  article.image_url ||
+                  ""
+                )}"
+                alt="${echapperAttribut(
+                  article.name ||
+                  "Produit"
+                )}"
+                onerror="this.src='https://via.placeholder.com/200x200?text=Sac'"
+              >
 
-                <div class="cart-item">
+              <div class="cart-item-info">
 
-                  ${
-                    image
-                      ? `
-                        <img
-                          class="cart-item-image"
-                          src="${echapperAttribut(image)}"
-                          alt="${echapperAttribut(nom)}"
-                        >
-                      `
-                      : `
-                        <div
-                          class="cart-item-image"
-                          style="
-                            display:flex;
-                            align-items:center;
-                            justify-content:center;
-                            font-size:30px;
-                          "
-                        >
-                          👜
-                        </div>
-                      `
-                  }
+                <div class="cart-item-name">
+                  ${echapperHTML(
+                    article.name ||
+                    "Produit"
+                  )}
+                </div>
 
-                  <div class="cart-item-info">
+                <div class="cart-item-price">
+                  ${formaterPrix(prix)}
+                </div>
 
-                    <div class="cart-item-name">
-                      ${echapperHTML(nom)}
-                    </div>
+                <div class="quantity-controls">
 
-                    <div class="cart-item-price">
-                      ${formaterPrix(prix)}
-                    </div>
+                  <button
+                    class="quantity-btn"
+                    onclick="modifierQuantite(${Number(article.id)},-1)"
+                  >
+                    −
+                  </button>
 
-                    <div class="quantity-controls">
+                  <strong>
+                    ${quantite}
+                  </strong>
 
-                      <button
-                        class="quantity-btn"
-                        onclick="modifierQuantite(${Number(article.id)},-1)"
-                      >
-                        −
-                      </button>
+                  <button
+                    class="quantity-btn"
+                    onclick="modifierQuantite(${Number(article.id)},1)"
+                  >
+                    +
+                  </button>
 
-                      <strong>
-                        ${Number(article.quantity || 0)}
-                      </strong>
-
-                      <button
-                        class="quantity-btn"
-                        onclick="modifierQuantite(${Number(article.id)},1)"
-                      >
-                        +
-                      </button>
-
-                      <button
-                        class="delete-btn"
-                        onclick="supprimerDuPanier(${Number(article.id)})"
-                      >
-                        Supprimer
-                      </button>
-
-                    </div>
-
-                  </div>
+                  <button
+                    class="delete-btn"
+                    onclick="supprimerDuPanier(${Number(article.id)})"
+                  >
+                    Supprimer
+                  </button>
 
                 </div>
-              `;
-            })
-            .join("")
-        }
+
+              </div>
+
+            </div>
+
+          `;
+
+          }
+        ).join("")}
+
+        <div class="cart-total">
+          <span>Total</span>
+          <span>${formaterPrix(total)}</span>
+        </div>
+
+        <div class="cart-actions">
+
+          <button
+            class="btn-secondary"
+            onclick="fermerModal('cartModal')"
+          >
+            Continuer mes achats
+          </button>
+
+          <button
+            class="btn-primary"
+            onclick="ouvrirCommande()"
+          >
+            Passer à la commande
+          </button>
+
+        </div>
 
       </div>
 
-      <div class="cart-total">
-        <span>Total</span>
-        <span>${formaterPrix(total)}</span>
-      </div>
-
-      <div class="cart-actions">
-
-        <button
-          class="btn-secondary"
-          onclick="viderPanier()"
-        >
-          Vider
-        </button>
-
-        <button
-          class="btn-primary"
-          onclick="ouvrirCommande()"
-        >
-          Passer à la commande
-        </button>
-
-      </div>
     `;
   }
 
 
   /* =========================================================
-     COMMANDE
+     CHECKOUT
   ========================================================= */
 
   function ouvrirCommande(){
@@ -1843,7 +1728,7 @@
     if(total <= 0){
 
       alert(
-        "Le total de la commande est invalide."
+        "Le total du panier est invalide. Vérifiez le prix du produit."
       );
 
       return;
@@ -1854,6 +1739,11 @@
     fermerModal(
       "cartModal"
     );
+
+    document.getElementById(
+      "checkoutNotice"
+    ).className =
+      "notice";
 
     ouvrirModal(
       "checkoutModal"
@@ -1868,69 +1758,58 @@
         "checkoutSummary"
       );
 
+    if(!zone){
+      return;
+    }
+
     const total =
       calculerTotalPanier();
 
     zone.innerHTML = `
 
-      ${
-        panier
-          .map(article => {
+      <strong>Votre commande</strong>
 
-            const produit =
-              produits.find(
-                p =>
-                  Number(p.id) ===
-                  Number(article.id)
-              );
+      ${panier.map(
+        article => {
 
-            const prix =
-              produit
-                ? getPrixProduit(produit)
-                : convertirPrix(article.price);
+          const prix =
+            convertirPrix(
+              article.price
+            );
 
-            const nom =
-              produit?.name ||
-              article.name ||
-              "Produit";
+          const quantite =
+            convertirNombre(
+              article.quantity
+            );
 
-            const quantite =
-              Number(
-                article.quantity || 0
-              );
+          return `
 
-            const sousTotal =
-              Math.round(
+          <div class="checkout-summary-item">
+
+            <span>
+              ${echapperHTML(
+                article.name ||
+                "Produit"
+              )}
+              × ${quantite}
+            </span>
+
+            <span>
+              ${formaterPrix(
                 prix * quantite
-              );
+              )}
+            </span>
 
-            return `
-              <div class="checkout-summary-item">
+          </div>
 
-                <span>
-                  ${echapperHTML(nom)}
-                  × ${quantite}
-                </span>
+        `;
 
-                <strong>
-                  ${formaterPrix(sousTotal)}
-                </strong>
-
-              </div>
-            `;
-
-          })
-          .join("")
-      }
+        }
+      ).join("")}
 
       <div class="checkout-summary-total">
-
         <span>Total</span>
-
-        <span>
-          ${formaterPrix(total)}
-        </span>
-
+        <span>${formaterPrix(total)}</span>
       </div>
 
     `;
@@ -1942,14 +1821,18 @@
   ========================================================= */
 
   document
-    .getElementById("checkoutForm")
+    .getElementById(
+      "checkoutForm"
+    )
     .addEventListener(
       "submit",
       envoyerCommande
     );
 
 
-  async function envoyerCommande(event){
+  async function envoyerCommande(
+    event
+  ){
 
     event.preventDefault();
 
@@ -1962,17 +1845,15 @@
       return;
     }
 
-    /*
-      IMPORTANT :
-      Le total est recalculé directement à partir
-      des produits actuellement chargés depuis Supabase.
-      On ne fait PAS confiance au prix anciennement
-      enregistré dans localStorage.
-    */
+
+    /* =====================================================
+       RECALCUL DU TOTAL DIRECTEMENT DEPUIS SUPABASE
+       ===================================================== */
 
     let totalCommande = 0;
 
     const lignesCommande = [];
+
 
     for(const article of panier){
 
@@ -1994,6 +1875,7 @@
         return;
       }
 
+
       const prix =
         Number(
           produit.Price ??
@@ -2002,10 +1884,12 @@
           0
         );
 
+
       const quantite =
         Number(
           article.quantity || 0
         );
+
 
       if(
         !Number.isFinite(prix) ||
@@ -2021,8 +1905,11 @@
         return;
       }
 
+
       if(
-        !Number.isFinite(quantite) ||
+        !Number.isFinite(
+          quantite
+        ) ||
         quantite <= 0
       ){
 
@@ -2033,20 +1920,20 @@
         return;
       }
 
+
       const sousTotal =
         Math.round(
           prix * quantite
         );
 
+
       totalCommande +=
         sousTotal;
 
-      /*
-        On met à jour le prix du panier.
-      */
 
       article.price =
         Math.round(prix);
+
 
       lignesCommande.push({
 
@@ -2069,15 +1956,18 @@
       });
     }
 
+
     totalCommande =
       Math.round(
         totalCommande
       );
 
+
     console.log(
       "TOTAL FINAL ENVOYÉ À SUPABASE :",
       totalCommande
     );
+
 
     if(totalCommande <= 0){
 
@@ -2089,10 +1979,6 @@
     }
 
 
-    /* =====================================================
-       INFORMATIONS CLIENT
-    ===================================================== */
-
     const nom =
       document
         .getElementById(
@@ -2100,6 +1986,7 @@
         )
         .value
         .trim();
+
 
     const telephone =
       document
@@ -2109,6 +1996,7 @@
         .value
         .trim();
 
+
     const adresse =
       document
         .getElementById(
@@ -2116,6 +2004,7 @@
         )
         .value
         .trim();
+
 
     const commentaire =
       document
@@ -2145,7 +2034,10 @@
         "submitOrderBtn"
       );
 
-    bouton.disabled = true;
+
+    bouton.disabled =
+      true;
+
 
     bouton.textContent =
       "Enregistrement de la commande...";
@@ -2153,8 +2045,9 @@
 
     try{
 
+
       /* =====================================================
-         ÉTAPE 1 : CREATION DE LA COMMANDE
+         ÉTAPE 1 : CRÉATION DE LA COMMANDE
          ===================================================== */
 
       const {
@@ -2197,20 +2090,22 @@
 
 
       console.log(
-        "REPONSE CREATE_ORDER :",
+        "RÉPONSE CREATE_ORDER :",
         orderData
       );
 
 
       /* =====================================================
-         RECUPERATION ID COMMANDE
+         RÉCUPÉRATION DE L'ID DE COMMANDE
          ===================================================== */
 
       let orderId = null;
 
 
       if(
-        Array.isArray(orderData)
+        Array.isArray(
+          orderData
+        )
       ){
 
         if(
@@ -2219,6 +2114,7 @@
 
           const premier =
             orderData[0];
+
 
           if(
             premier &&
@@ -2236,7 +2132,6 @@
             orderId =
               premier;
           }
-
         }
 
       }else{
@@ -2252,7 +2147,9 @@
 
       if(
         !orderId ||
-        !Number.isFinite(orderId)
+        !Number.isFinite(
+          orderId
+        )
       ){
 
         console.error(
@@ -2271,7 +2168,8 @@
          ===================================================== */
 
       for(
-        const ligne of lignesCommande
+        const ligne
+        of lignesCommande
       ){
 
         const {
@@ -2313,90 +2211,86 @@
 
 
       /* =====================================================
-         ETAPE 3 : MESSAGE WHATSAPP
-         ===================================================== */
+         ÉTAPE 3 : MESSAGE WHATSAPP
+         =====================================================
 
-      let message =
-        "👜 *YAYOUNABYSAC — NOUVELLE COMMANDE*%0A%0A";
+         IMPORTANT :
+         On construit d'abord le message normalement
+         avec de vrais retours à la ligne.
 
+         Ensuite on encode UNE SEULE FOIS tout le message.
 
-      message +=
-        "*Commande :* #" +
-        orderId +
-        "%0A";
+         Cela évite le problème :
+         � *YAYOUNABYSAC — NOUVELLE COMMANDE*
 
-
-      message +=
-        "*Client :* " +
-        encodeURIComponent(nom) +
-        "%0A";
+         qui venait de l'ancien mélange entre %0A
+         et encodeURIComponent().
+      */
 
 
-      message +=
-        "*Téléphone :* " +
-        encodeURIComponent(telephone) +
-        "%0A";
-
-
-      message +=
-        "*Adresse :* " +
-        encodeURIComponent(adresse) +
-        "%0A%0A";
-
-
-      message +=
-        "*Produits commandés :*%0A";
-
-
-      lignesCommande.forEach(
-        ligne => {
-
-          message +=
+      const lignesWhatsApp =
+        lignesCommande.map(
+          ligne =>
             "• " +
-            encodeURIComponent(
-              ligne.name
-            ) +
+            ligne.name +
             " × " +
             ligne.quantity +
             " — " +
-            encodeURIComponent(
-              formaterPrix(
-                ligne.subtotal
-              )
-            ) +
-            "%0A";
+            formaterPrix(
+              ligne.subtotal
+            )
+        );
 
-        }
+
+      const message =
+        [
+          "👜 YAYOUNABYSAC — NOUVELLE COMMANDE",
+          "",
+          "Commande : #" +
+            orderId,
+          "Client : " +
+            nom,
+          "Téléphone : " +
+            telephone,
+          "Adresse : " +
+            adresse,
+          "",
+          "Produits commandés :",
+          ...lignesWhatsApp,
+          "",
+          "TOTAL : " +
+            formaterPrix(
+              totalCommande
+            ),
+          commentaire
+            ? ""
+            : null,
+          commentaire
+            ? "Commentaire : " +
+              commentaire
+            : null
+        ]
+        .filter(
+          valeur =>
+            valeur !== null
+        )
+        .join("\n");
+
+
+      console.log(
+        "MESSAGE WHATSAPP :",
+        message
       );
 
 
-      message +=
-        "%0A*TOTAL : " +
-        encodeURIComponent(
-          formaterPrix(
-            totalCommande
-          )
-        ) +
-        "*%0A";
-
-
-      if(commentaire){
-
-        message +=
-          "%0A*Commentaire :* " +
-          encodeURIComponent(
-            commentaire
-          );
-      }
-
-
       /* =====================================================
-         ETAPE 4 : NETTOYAGE PANIER
+         ÉTAPE 4 : NETTOYAGE DU PANIER
          ===================================================== */
 
       panier = [];
 
       sauvegarderPanier();
+
 
       document
         .getElementById(
@@ -2406,14 +2300,16 @@
 
 
       /* =====================================================
-         ETAPE 5 : WHATSAPP
+         ÉTAPE 5 : OUVERTURE DE WHATSAPP
          ===================================================== */
 
       const whatsappURL =
         "https://wa.me/" +
         WHATSAPP_NUMBER +
         "?text=" +
-        message;
+        encodeURIComponent(
+          message
+        );
 
 
       window.location.href =
@@ -2427,13 +2323,16 @@
         erreur
       );
 
+
       afficherErreurCommande(
         erreur.message ||
         "Une erreur est survenue pendant la commande."
       );
 
+
       bouton.disabled =
         false;
+
 
       bouton.textContent =
         "📱 Commander sur WhatsApp";
@@ -2450,8 +2349,10 @@
         "checkoutNotice"
       );
 
+
     zone.className =
       "notice error show";
+
 
     zone.textContent =
       message;
@@ -2465,7 +2366,9 @@
   function ouvrirModal(id){
 
     const modal =
-      document.getElementById(id);
+      document.getElementById(
+        id
+      );
 
     if(modal){
 
@@ -2479,7 +2382,9 @@
   function fermerModal(id){
 
     const modal =
-      document.getElementById(id);
+      document.getElementById(
+        id
+      );
 
     if(modal){
 
@@ -2510,7 +2415,6 @@
                 "show"
               );
             }
-
           }
         );
 
