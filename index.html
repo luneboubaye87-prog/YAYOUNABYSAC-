@@ -207,11 +207,6 @@
       font-weight:700;
     }
 
-    .btn-primary:disabled{
-      opacity:.6;
-      cursor:not-allowed;
-    }
-
     .btn-secondary{
       border:1px solid #ddd;
       background:#fff;
@@ -493,6 +488,7 @@
     }
 
     @media(max-width:600px){
+
       .hero h1{
         font-size:27px;
       }
@@ -535,21 +531,38 @@
 
 <header>
   <div class="header-inner">
-    <div class="logo">YAYOUNABYSAC</div>
 
-    <button class="cart-button" onclick="ouvrirPanier()">
+    <div class="logo">
+      YAYOUNABYSAC
+    </div>
+
+    <button
+      class="cart-button"
+      onclick="ouvrirPanier()"
+    >
       🛒 Panier
       <span id="cartCount">0</span>
     </button>
+
   </div>
 </header>
 
+
 <section class="hero">
-  <h1>Des sacs élégants pour femme</h1>
-  <p>Découvrez notre sélection YAYOUNABYSAC.</p>
+
+  <h1>
+    Des sacs élégants pour femme
+  </h1>
+
+  <p>
+    Découvrez notre sélection YAYOUNABYSAC.
+  </p>
+
 </section>
 
+
 <section class="search-area">
+
   <input
     id="searchInput"
     class="search-input"
@@ -557,110 +570,217 @@
     placeholder="🔎 Rechercher un sac..."
     oninput="appliquerFiltres()"
   >
+
 </section>
 
-<div id="categories" class="categories"></div>
+
+<div
+  id="categories"
+  class="categories"
+></div>
+
 
 <section class="products-section">
-  <div id="productsGrid" class="products-grid">
-    <div class="loading">Chargement des produits...</div>
+
+  <div
+    id="productsGrid"
+    class="products-grid"
+  >
+
+    <div class="loading">
+      Chargement des produits...
+    </div>
+
   </div>
+
 </section>
 
+
 <footer>
-  <p>© 2026 YAYOUNABYSAC — Sacs pour femme</p>
+
+  <p>
+    © 2026 YAYOUNABYSAC — Sacs pour femme
+  </p>
+
 </footer>
 
-<button class="floating-cart" onclick="ouvrirPanier()">
+
+<button
+  class="floating-cart"
+  onclick="ouvrirPanier()"
+>
   🛒 Voir le panier
 </button>
 
 
-<!-- ==================== MODAL PANIER ==================== -->
+<!-- =========================================================
+     MODAL PANIER
+========================================================= -->
 
-<div id="cartModal" class="modal-overlay">
+<div
+  id="cartModal"
+  class="modal-overlay"
+>
+
   <div class="modal">
 
     <div class="modal-header">
-      <h2>🛒 Votre panier</h2>
-      <button class="close-btn" onclick="fermerModal('cartModal')">×</button>
+
+      <h2>
+        🛒 Votre panier
+      </h2>
+
+      <button
+        class="close-btn"
+        onclick="fermerModal('cartModal')"
+      >
+        ×
+      </button>
+
     </div>
 
     <div id="cartContent"></div>
 
   </div>
+
 </div>
 
 
-<!-- ==================== MODAL PRODUIT ==================== -->
+<!-- =========================================================
+     MODAL PRODUIT
+========================================================= -->
 
-<div id="productModal" class="modal-overlay">
+<div
+  id="productModal"
+  class="modal-overlay"
+>
+
   <div class="modal">
 
     <div class="modal-header">
-      <h2 id="detailName">Produit</h2>
-      <button class="close-btn" onclick="fermerModal('productModal')">×</button>
+
+      <h2 id="detailName">
+        Produit
+      </h2>
+
+      <button
+        class="close-btn"
+        onclick="fermerModal('productModal')"
+      >
+        ×
+      </button>
+
     </div>
 
     <div id="productDetailContent"></div>
 
   </div>
+
 </div>
 
 
-<!-- ==================== MODAL COMMANDE ==================== -->
+<!-- =========================================================
+     MODAL COMMANDE
+========================================================= -->
 
-<div id="checkoutModal" class="modal-overlay">
+<div
+  id="checkoutModal"
+  class="modal-overlay"
+>
+
   <div class="modal">
 
     <div class="modal-header">
-      <h2>🧾 Passer la commande</h2>
-      <button class="close-btn" onclick="fermerModal('checkoutModal')">×</button>
+
+      <h2>
+        🧾 Passer la commande
+      </h2>
+
+      <button
+        class="close-btn"
+        onclick="fermerModal('checkoutModal')"
+      >
+        ×
+      </button>
+
     </div>
 
-    <div id="checkoutNotice" class="notice"></div>
+    <div
+      id="checkoutNotice"
+      class="notice"
+    ></div>
 
-    <div id="checkoutSummary" class="checkout-summary"></div>
+    <div
+      id="checkoutSummary"
+      class="checkout-summary"
+    ></div>
 
-    <form id="checkoutForm" class="checkout-form">
+    <form
+      id="checkoutForm"
+      class="checkout-form"
+    >
 
       <div class="form-group">
-        <label for="customerName">Nom</label>
+
+        <label for="customerName">
+          Nom
+        </label>
+
         <input
           id="customerName"
           type="text"
           placeholder="Votre nom"
           required
         >
+
       </div>
 
+
       <div class="form-group">
-        <label for="customerPhone">Téléphone</label>
+
+        <label for="customerPhone">
+          Téléphone
+        </label>
+
         <input
           id="customerPhone"
           type="tel"
           placeholder="Votre numéro de téléphone"
           required
         >
+
       </div>
 
+
       <div class="form-group">
-        <label for="customerAddress">Adresse / Quartier</label>
+
+        <label for="customerAddress">
+          Adresse / Quartier
+        </label>
+
         <input
           id="customerAddress"
           type="text"
           placeholder="Exemple : Dakar, Parcelles Assainies"
           required
         >
+
       </div>
 
+
       <div class="form-group">
-        <label for="customerComment">Commentaire</label>
+
+        <label for="customerComment">
+          Commentaire
+        </label>
+
         <textarea
           id="customerComment"
           placeholder="Un commentaire concernant votre commande..."
         ></textarea>
+
       </div>
+
 
       <button
         id="submitOrderBtn"
@@ -673,472 +793,510 @@
     </form>
 
   </div>
+
 </div>
 
 
 <script>
 
-  /* =========================================================
-     SUPABASE
-  ========================================================= */
+/* =========================================================
+   SUPABASE
+========================================================= */
 
-  const SUPABASE_URL =
-    "https://ajprnhqphbtgfztspuio.supabase.co";
+const SUPABASE_URL =
+  "https://ajprnhqphbtgfztspuio.supabase.co";
 
-  const SUPABASE_ANON_KEY =
-    "sb_publishable_Qxr7ftKtVgB3y3lmx1agWg_UQxqrviy";
+const SUPABASE_ANON_KEY =
+  "sb_publishable_Qxr7ftKtVgB3y3lmx1agWg_UQxqrviy";
 
-  const supabaseClient =
-    window.supabase.createClient(
-      SUPABASE_URL,
-      SUPABASE_ANON_KEY
-    );
-
-
-  /* =========================================================
-     CONFIGURATION
-  ========================================================= */
-
-  const WHATSAPP_NUMBER =
-    "221775124928";
-
-  const CART_KEY =
-    "yayounabysac_panier";
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_ANON_KEY
+  );
 
 
-  /* =========================================================
-     VARIABLES
-  ========================================================= */
+/* =========================================================
+   CONFIGURATION
+========================================================= */
 
-  let produits = [];
+const WHATSAPP_NUMBER =
+  "221775124928";
 
-  let panier = chargerPanier();
+const CART_KEY =
+  "yayounabysac_panier";
 
-  let categorieActive = "Toutes";
+
+/* =========================================================
+   VARIABLES
+========================================================= */
+
+let produits = [];
+
+let panier =
+  chargerPanier();
+
+let categorieActive =
+  "Toutes";
 
 
-  /* =========================================================
-     OUTILS
-  ========================================================= */
+/* =========================================================
+   OUTILS
+========================================================= */
 
-  function convertirPrix(valeur){
+function convertirPrix(valeur){
 
-    if(valeur === null || valeur === undefined){
-      return 0;
-    }
+  if(
+    valeur === null ||
+    valeur === undefined
+  ){
+    return 0;
+  }
 
-    if(typeof valeur === "number"){
-      return Number.isFinite(valeur)
-        ? valeur
-        : 0;
-    }
+  if(typeof valeur === "number"){
 
-    const propre = String(valeur)
-      .replace(/\s/g, "")
-      .replace(/FCFA/gi, "")
-      .replace(/,/g, ".")
+    return Number.isFinite(valeur)
+      ? valeur
+      : 0;
+  }
+
+  const propre =
+    String(valeur)
+      .replace(/\s/g,"")
+      .replace(/FCFA/gi,"")
+      .replace(/,/g,".")
       .trim();
 
-    const nombre = Number(propre);
+  const nombre =
+    Number(propre);
 
-    return Number.isFinite(nombre)
-      ? nombre
-      : 0;
+  return Number.isFinite(nombre)
+    ? nombre
+    : 0;
+}
+
+
+function convertirNombre(valeur){
+
+  const nombre =
+    Number(valeur);
+
+  return Number.isFinite(nombre)
+    ? nombre
+    : 0;
+}
+
+
+function formaterPrix(prix){
+
+  const nombre =
+    convertirPrix(prix);
+
+  return (
+    nombre.toLocaleString("fr-FR") +
+    " FCFA"
+  );
+}
+
+
+function imageProduit(produit){
+
+  const url =
+    produit.Image_url ||
+    produit.image_url ||
+    produit.image ||
+    "";
+
+  if(url){
+    return url;
   }
 
-
-  function convertirNombre(valeur){
-
-    const nombre = Number(valeur);
-
-    return Number.isFinite(nombre)
-      ? nombre
-      : 0;
-  }
+  return "https://via.placeholder.com/600x600?text=YAYOUNABYSAC";
+}
 
 
-  function formaterPrix(prix){
+function getPrixProduit(produit){
 
-    const nombre =
-      convertirPrix(prix);
-
-    return nombre.toLocaleString("fr-FR") +
-      " FCFA";
-  }
-
-
-  function imageProduit(produit){
-
-    const url =
-      produit.Image_url ||
-      produit.image_url ||
-      produit.image ||
-      "";
-
-    if(url){
-      return url;
-    }
-
-    return "https://via.placeholder.com/600x600?text=YAYOUNABYSAC";
-  }
+  return convertirPrix(
+    produit.Price ??
+    produit.price ??
+    produit.prix ??
+    0
+  );
+}
 
 
-  function getPrixProduit(produit){
+function getStockProduit(produit){
 
-    return convertirPrix(
-      produit.Price ??
-      produit.price ??
-      produit.prix ??
-      0
-    );
-  }
-
-
-  function getStockProduit(produit){
-
-    return convertirNombre(
-      produit.Stock ??
-      produit.stock ??
-      0
-    );
-  }
+  return convertirNombre(
+    produit.Stock ??
+    produit.stock ??
+    0
+  );
+}
 
 
-  function getCategorieProduit(produit){
+function getCategorieProduit(produit){
 
-    return (
-      produit.Category ||
-      produit.category ||
-      "Autres"
-    );
-  }
+  return (
+    produit.Category ||
+    produit.category ||
+    "Autres"
+  );
+}
 
 
-  /* =========================================================
-     PANIER
-  ========================================================= */
+/* =========================================================
+   PANIER
+========================================================= */
 
-  function chargerPanier(){
+function chargerPanier(){
 
-    try{
+  try{
 
-      const sauvegarde =
-        localStorage.getItem(CART_KEY);
-
-      if(!sauvegarde){
-        return [];
-      }
-
-      const donnees =
-        JSON.parse(sauvegarde);
-
-      return Array.isArray(donnees)
-        ? donnees
-        : [];
-
-    }catch(erreur){
-
-      console.error(
-        "Erreur chargement panier :",
-        erreur
+    const sauvegarde =
+      localStorage.getItem(
+        CART_KEY
       );
 
+    if(!sauvegarde){
       return [];
     }
-  }
 
+    const donnees =
+      JSON.parse(sauvegarde);
 
-  function sauvegarderPanier(){
+    return Array.isArray(donnees)
+      ? donnees
+      : [];
 
-    localStorage.setItem(
-      CART_KEY,
-      JSON.stringify(panier)
+  }catch(erreur){
+
+    console.error(
+      "Erreur chargement panier :",
+      erreur
     );
 
-    mettreAJourCompteurPanier();
+    return [];
   }
+}
 
 
-  function viderPanier(){
+function sauvegarderPanier(){
 
-    panier = [];
+  localStorage.setItem(
+    CART_KEY,
+    JSON.stringify(panier)
+  );
 
-    sauvegarderPanier();
-
-    afficherPanier();
-  }
-
-
-  function nombreArticlesPanier(){
-
-    return panier.reduce(
-      (total, article) =>
-        total +
-        convertirNombre(article.quantity),
-      0
-    );
-  }
+  mettreAJourCompteurPanier();
+}
 
 
-  function calculerTotalPanier(){
+function viderPanier(){
 
-    return panier.reduce(
-      (total, article) => {
+  panier = [];
 
-        const prix =
-          convertirPrix(article.price);
+  sauvegarderPanier();
 
-        const quantite =
-          convertirNombre(article.quantity);
-
-        return total +
-          (prix * quantite);
-
-      },
-      0
-    );
-  }
+  afficherPanier();
+}
 
 
-  function mettreAJourCompteurPanier(){
+function nombreArticlesPanier(){
 
-    const compteur =
-      document.getElementById("cartCount");
-
-    if(compteur){
-      compteur.textContent =
-        nombreArticlesPanier();
-    }
-  }
-
-
-  function ajouterAuPanier(produit){
-
-    const id =
-      Number(produit.id);
-
-    const prix =
-      getPrixProduit(produit);
-
-    const stock =
-      getStockProduit(produit);
-
-    if(!id){
-      alert("Produit invalide.");
-      return;
-    }
-
-    if(prix <= 0){
-      alert(
-        "Le prix de ce produit est invalide."
-      );
-      return;
-    }
-
-    const articleExistant =
-      panier.find(
-        article =>
-          Number(article.id) === id
-      );
-
-    if(articleExistant){
-
-      if(
-        stock > 0 &&
-        convertirNombre(
-          articleExistant.quantity
-        ) >= stock
-      ){
-
-        alert(
-          "Stock maximum atteint."
-        );
-
-        return;
-      }
-
-      articleExistant.quantity =
-        convertirNombre(
-          articleExistant.quantity
-        ) + 1;
-
-      articleExistant.price =
-        prix;
-
-    }else{
-
-      panier.push({
-
-        id:id,
-
-        name:
-          produit.name ||
-          "Produit",
-
-        description:
-          produit.description ||
-          "",
-
-        price:
-          prix,
-
-        image_url:
-          imageProduit(produit),
-
-        category:
-          getCategorieProduit(produit),
-
-        stock:
-          stock,
-
-        quantity:
-          1
-      });
-    }
-
-    sauvegarderPanier();
-
-    alert(
-      "Produit ajouté au panier."
-    );
-
-    ouvrirPanier();
-  }
-
-
-  function modifierQuantite(
-    id,
-    variation
-  ){
-
-    const article =
-      panier.find(
-        item =>
-          Number(item.id) ===
-          Number(id)
-      );
-
-    if(!article){
-      return;
-    }
-
-    let nouvelleQuantite =
+  return panier.reduce(
+    (total, article) =>
+      total +
       convertirNombre(
         article.quantity
-      ) + variation;
+      ),
+    0
+  );
+}
 
-    const stock =
-      convertirNombre(
-        article.stock
-      );
 
-    if(nouvelleQuantite < 1){
-      nouvelleQuantite = 1;
-    }
+function calculerTotalPanier(){
+
+  return panier.reduce(
+    (total, article) => {
+
+      const prix =
+        convertirPrix(
+          article.price
+        );
+
+      const quantite =
+        convertirNombre(
+          article.quantity
+        );
+
+      return total +
+        (prix * quantite);
+
+    },
+    0
+  );
+}
+
+
+function mettreAJourCompteurPanier(){
+
+  const compteur =
+    document.getElementById(
+      "cartCount"
+    );
+
+  if(compteur){
+
+    compteur.textContent =
+      nombreArticlesPanier();
+
+  }
+}
+
+
+function ajouterAuPanier(produit){
+
+  const id =
+    Number(produit.id);
+
+  const prix =
+    getPrixProduit(produit);
+
+  const stock =
+    getStockProduit(produit);
+
+  if(!id){
+
+    alert(
+      "Produit invalide."
+    );
+
+    return;
+  }
+
+  if(prix <= 0){
+
+    alert(
+      "Le prix de ce produit est invalide."
+    );
+
+    return;
+  }
+
+  const articleExistant =
+    panier.find(
+      article =>
+        Number(article.id) === id
+    );
+
+  if(articleExistant){
 
     if(
       stock > 0 &&
-      nouvelleQuantite > stock
+      convertirNombre(
+        articleExistant.quantity
+      ) >= stock
     ){
 
       alert(
         "Stock maximum atteint."
       );
 
-      nouvelleQuantite = stock;
+      return;
     }
 
-    article.quantity =
-      nouvelleQuantite;
+    articleExistant.quantity =
+      convertirNombre(
+        articleExistant.quantity
+      ) + 1;
 
-    sauvegarderPanier();
+    articleExistant.price =
+      prix;
 
-    afficherPanier();
+  }else{
 
-    afficherResumeCommande();
+    panier.push({
+
+      id:id,
+
+      name:
+        produit.name ||
+        "Produit",
+
+      description:
+        produit.description ||
+        "",
+
+      price:
+        prix,
+
+      image_url:
+        imageProduit(produit),
+
+      category:
+        getCategorieProduit(produit),
+
+      stock:
+        stock,
+
+      quantity:
+        1
+
+    });
+
   }
 
+  sauvegarderPanier();
 
-  function supprimerDuPanier(id){
+  alert(
+    "Produit ajouté au panier."
+  );
 
-    panier =
-      panier.filter(
-        item =>
-          Number(item.id) !==
-          Number(id)
-      );
+  ouvrirPanier();
+}
 
-    sauvegarderPanier();
 
-    afficherPanier();
+function modifierQuantite(
+  id,
+  variation
+){
 
-    afficherResumeCommande();
+  const article =
+    panier.find(
+      item =>
+        Number(item.id) ===
+        Number(id)
+    );
+
+  if(!article){
+    return;
   }
 
+  let nouvelleQuantite =
+    convertirNombre(
+      article.quantity
+    ) + variation;
 
-  /* =========================================================
-     PRODUITS SUPABASE
-  ========================================================= */
+  const stock =
+    convertirNombre(
+      article.stock
+    );
 
-  async function chargerProduits(){
+  if(nouvelleQuantite < 1){
 
-    const zone =
-      document.getElementById(
-        "productsGrid"
-      );
+    nouvelleQuantite = 1;
 
-    zone.innerHTML =
-      '<div class="loading">Chargement des produits...</div>';
+  }
 
-    try{
+  if(
+    stock > 0 &&
+    nouvelleQuantite > stock
+  ){
 
-      const {
-        data,
-        error
-      } =
-        await supabaseClient
-          .from("Products")
-          .select("*")
-          .order(
-            "id",
-            {
-              ascending:false
-            }
-          );
+    alert(
+      "Stock maximum atteint."
+    );
 
-      if(error){
-        throw error;
-      }
+    nouvelleQuantite =
+      stock;
 
-      produits =
-        Array.isArray(data)
-          ? data
-          : [];
+  }
 
-      afficherCategories();
+  article.quantity =
+    nouvelleQuantite;
 
-      appliquerFiltres();
+  sauvegarderPanier();
 
-      synchroniserPrixPanier();
+  afficherPanier();
 
-    }catch(erreur){
+  afficherResumeCommande();
+}
 
-      console.error(erreur);
 
-      zone.innerHTML = `
-        <div class="empty-products">
-          Impossible de charger les produits.
-        </div>
-      `;
+function supprimerDuPanier(id){
+
+  panier =
+    panier.filter(
+      item =>
+        Number(item.id) !==
+        Number(id)
+    );
+
+  sauvegarderPanier();
+
+  afficherPanier();
+
+  afficherResumeCommande();
+}
+
+
+/* =========================================================
+   PRODUITS SUPABASE
+========================================================= */
+
+async function chargerProduits(){
+
+  const zone =
+    document.getElementById(
+      "productsGrid"
+    );
+
+  zone.innerHTML =
+    '<div class="loading">Chargement des produits...</div>';
+
+  try{
+
+    const {
+      data,
+      error
+    } =
+      await supabaseClient
+        .from("Products")
+        .select("*")
+        .order(
+          "id",
+          {
+            ascending:false
+          }
+        );
+
+    if(error){
+      throw error;
     }
+
+    produits =
+      Array.isArray(data)
+        ? data
+        : [];
+
+    afficherCategories();
+
+    appliquerFiltres();
+
+    synchroniserPrixPanier();
+
+  }catch(erreur){
+
+    console.error(erreur);
+
+    zone.innerHTML = `
+      <div class="empty-products">
+        Impossible de charger les produits.
+      </div>
+    `;
   }
+}
 
 
-  function synchroniserPrixPanier(){
+function synchroniserPrixPanier(){
 
-    let modification = false;
+  let modification =
+    false;
 
-    panier.forEach(article => {
+  panier.forEach(
+    article => {
 
       const produit =
         produits.find(
@@ -1150,10 +1308,14 @@
       if(produit){
 
         const nouveauPrix =
-          getPrixProduit(produit);
+          getPrixProduit(
+            produit
+          );
 
         const nouveauStock =
-          getStockProduit(produit);
+          getStockProduit(
+            produit
+          );
 
         if(
           convertirPrix(
@@ -1164,7 +1326,8 @@
           article.price =
             nouveauPrix;
 
-          modification = true;
+          modification =
+            true;
         }
 
         article.stock =
@@ -1175,49 +1338,58 @@
           article.name;
 
         article.image_url =
-          imageProduit(produit);
+          imageProduit(
+            produit
+          );
 
         article.category =
           getCategorieProduit(
             produit
           );
       }
-    });
 
-    if(modification){
-      sauvegarderPanier();
     }
+  );
 
-    mettreAJourCompteurPanier();
+  if(modification){
+    sauvegarderPanier();
   }
 
+  mettreAJourCompteurPanier();
+}
 
-  /* =========================================================
-     CATEGORIES
-  ========================================================= */
 
-  function afficherCategories(){
+/* =========================================================
+   CATEGORIES
+========================================================= */
 
-    const zone =
-      document.getElementById(
-        "categories"
-      );
+function afficherCategories(){
 
-    const categories = [
-      "Toutes",
-      ...new Set(
-        produits
-          .map(
-            p =>
-              getCategorieProduit(p)
-          )
-          .filter(Boolean)
-      )
-    ];
+  const zone =
+    document.getElementById(
+      "categories"
+    );
 
-    zone.innerHTML =
-      categories.map(
-        categorie => `
+  const categories = [
+
+    "Toutes",
+
+    ...new Set(
+
+      produits
+        .map(
+          p =>
+            getCategorieProduit(p)
+        )
+        .filter(Boolean)
+
+    )
+
+  ];
+
+  zone.innerHTML =
+    categories.map(
+      categorie => `
 
       <button
         class="category-btn ${
@@ -1231,386 +1403,389 @@
       </button>
 
     `
-      ).join("");
-  }
+    ).join("");
+}
 
 
-  function choisirCategorie(
-    categorie
+function choisirCategorie(
+  categorie
+){
+
+  categorieActive =
+    categorie;
+
+  afficherCategories();
+
+  appliquerFiltres();
+}
+
+
+/* =========================================================
+   AFFICHAGE PRODUITS
+========================================================= */
+
+function appliquerFiltres(){
+
+  const recherche =
+    document
+      .getElementById(
+        "searchInput"
+      )
+      .value
+      .toLowerCase()
+      .trim();
+
+  let resultat =
+    [...produits];
+
+  if(
+    categorieActive !==
+    "Toutes"
   ){
 
-    categorieActive =
-      categorie;
-
-    afficherCategories();
-
-    appliquerFiltres();
-  }
-
-
-  /* =========================================================
-     AFFICHAGE PRODUITS
-  ========================================================= */
-
-  function appliquerFiltres(){
-
-    const recherche =
-      document
-        .getElementById(
-          "searchInput"
-        )
-        .value
-        .toLowerCase()
-        .trim();
-
-    let resultat =
-      [...produits];
-
-    if(
-      categorieActive !==
-      "Toutes"
-    ){
-
-      resultat =
-        resultat.filter(
-          produit =>
-            getCategorieProduit(
-              produit
-            ) === categorieActive
-        );
-    }
-
-    if(recherche){
-
-      resultat =
-        resultat.filter(
-          produit => {
-
-            const nom =
-              String(
-                produit.name || ""
-              ).toLowerCase();
-
-            const description =
-              String(
-                produit.description ||
-                ""
-              ).toLowerCase();
-
-            const categorie =
-              String(
-                getCategorieProduit(
-                  produit
-                )
-              ).toLowerCase();
-
-            return (
-              nom.includes(
-                recherche
-              ) ||
-              description.includes(
-                recherche
-              ) ||
-              categorie.includes(
-                recherche
-              )
-            );
-          }
-        );
-    }
-
-    afficherProduits(
-      resultat
-    );
-  }
-
-
-  function afficherProduits(
-    liste
-  ){
-
-    const zone =
-      document.getElementById(
-        "productsGrid"
-      );
-
-    if(!liste.length){
-
-      zone.innerHTML = `
-        <div class="empty-products">
-          Aucun produit trouvé.
-        </div>
-      `;
-
-      return;
-    }
-
-    zone.innerHTML =
-      liste.map(
-        produit => {
-
-          const prix =
-            getPrixProduit(
-              produit
-            );
-
-          const stock =
-            getStockProduit(
-              produit
-            );
-
-          return `
-
-        <article class="product-card">
-
-          <img
-            class="product-image"
-            src="${echapperAttribut(
-              imageProduit(produit)
-            )}"
-            alt="${echapperAttribut(
-              produit.name ||
-              "Produit"
-            )}"
-            onerror="this.src='https://via.placeholder.com/600x600?text=YAYOUNABYSAC'"
-          >
-
-          <div class="product-info">
-
-            <div class="product-category">
-              ${echapperHTML(
-                getCategorieProduit(
-                  produit
-                )
-              )}
-            </div>
-
-            <div class="product-name">
-              ${echapperHTML(
-                produit.name ||
-                "Produit"
-              )}
-            </div>
-
-            <div class="product-description">
-              ${echapperHTML(
-                produit.description ||
-                ""
-              )}
-            </div>
-
-            <div class="product-price">
-              ${formaterPrix(prix)}
-            </div>
-
-            <div class="product-actions">
-
-              <button
-                class="btn-primary"
-                onclick="ajouterAuPanierDepuisId(${Number(produit.id)})"
-                ${stock <= 0 ? "disabled" : ""}
-              >
-                ${
-                  stock <= 0
-                    ? "Rupture"
-                    : "Ajouter"
-                }
-              </button>
-
-              <button
-                class="btn-secondary"
-                onclick="ouvrirDetailProduit(${Number(produit.id)})"
-              >
-                Voir
-              </button>
-
-            </div>
-
-          </div>
-
-        </article>
-
-      `;
-
-        }
-      ).join("");
-  }
-
-
-  function ajouterAuPanierDepuisId(
-    id
-  ){
-
-    const produit =
-      produits.find(
-        p =>
-          Number(p.id) ===
-          Number(id)
-      );
-
-    if(!produit){
-
-      alert(
-        "Produit introuvable."
-      );
-
-      return;
-    }
-
-    ajouterAuPanier(
-      produit
-    );
-  }
-
-
-  /* =========================================================
-     DETAIL PRODUIT
-  ========================================================= */
-
-  function ouvrirDetailProduit(
-    id
-  ){
-
-    const produit =
-      produits.find(
-        p =>
-          Number(p.id) ===
-          Number(id)
-      );
-
-    if(!produit){
-      return;
-    }
-
-    const prix =
-      getPrixProduit(
-        produit
-      );
-
-    const contenu =
-      document.getElementById(
-        "productDetailContent"
-      );
-
-    document.getElementById(
-      "detailName"
-    ).textContent =
-      produit.name ||
-      "Produit";
-
-    contenu.innerHTML = `
-
-      <img
-        class="product-detail-image"
-        src="${echapperAttribut(
-          imageProduit(produit)
-        )}"
-        alt="${echapperAttribut(
-          produit.name ||
-          "Produit"
-        )}"
-        onerror="this.src='https://via.placeholder.com/600x600?text=YAYOUNABYSAC'"
-      >
-
-      <div class="product-category">
-        ${echapperHTML(
+    resultat =
+      resultat.filter(
+        produit =>
           getCategorieProduit(
             produit
-          )
-        )}
-      </div>
+          ) ===
+          categorieActive
+      );
+  }
 
-      <div class="product-detail-price">
-        ${formaterPrix(prix)}
-      </div>
+  if(recherche){
 
-      <div class="product-detail-description">
-        ${echapperHTML(
-          produit.description ||
-          ""
-        )}
-      </div>
+    resultat =
+      resultat.filter(
+        produit => {
 
-      <button
-        class="btn-primary"
-        onclick="ajouterAuPanierDepuisId(${Number(produit.id)}); fermerModal('productModal');"
-      >
-        🛒 Ajouter au panier
-      </button>
+          const nom =
+            String(
+              produit.name ||
+              ""
+            ).toLowerCase();
+
+          const description =
+            String(
+              produit.description ||
+              ""
+            ).toLowerCase();
+
+          const categorie =
+            String(
+              getCategorieProduit(
+                produit
+              )
+            ).toLowerCase();
+
+          return (
+            nom.includes(recherche) ||
+            description.includes(recherche) ||
+            categorie.includes(recherche)
+          );
+        }
+      );
+  }
+
+  afficherProduits(
+    resultat
+  );
+}
+
+
+function afficherProduits(
+  liste
+){
+
+  const zone =
+    document.getElementById(
+      "productsGrid"
+    );
+
+  if(!liste.length){
+
+    zone.innerHTML = `
+      <div class="empty-products">
+        Aucun produit trouvé.
+      </div>
     `;
 
-    ouvrirModal(
-      "productModal"
-    );
+    return;
   }
 
+  zone.innerHTML =
+    liste.map(
+      produit => {
 
-  /* =========================================================
-     PANIER AFFICHAGE
-  ========================================================= */
+        const prix =
+          getPrixProduit(
+            produit
+          );
 
-  function ouvrirPanier(){
+        const stock =
+          getStockProduit(
+            produit
+          );
 
-    afficherPanier();
+        return `
 
-    ouvrirModal(
-      "cartModal"
+          <article class="product-card">
+
+            <img
+              class="product-image"
+              src="${echapperAttribut(
+                imageProduit(produit)
+              )}"
+              alt="${echapperAttribut(
+                produit.name ||
+                "Produit"
+              )}"
+              onerror="this.src='https://via.placeholder.com/600x600?text=YAYOUNABYSAC'"
+            >
+
+            <div class="product-info">
+
+              <div class="product-category">
+                ${echapperHTML(
+                  getCategorieProduit(
+                    produit
+                  )
+                )}
+              </div>
+
+              <div class="product-name">
+                ${echapperHTML(
+                  produit.name ||
+                  "Produit"
+                )}
+              </div>
+
+              <div class="product-description">
+                ${echapperHTML(
+                  produit.description ||
+                  ""
+                )}
+              </div>
+
+              <div class="product-price">
+                ${formaterPrix(prix)}
+              </div>
+
+              <div class="product-actions">
+
+                <button
+                  class="btn-primary"
+                  onclick="ajouterAuPanierDepuisId(${Number(produit.id)})"
+                  ${
+                    stock <= 0
+                      ? "disabled"
+                      : ""
+                  }
+                >
+                  ${
+                    stock <= 0
+                      ? "Rupture"
+                      : "Ajouter"
+                  }
+                </button>
+
+                <button
+                  class="btn-secondary"
+                  onclick="ouvrirDetailProduit(${Number(produit.id)})"
+                >
+                  Voir
+                </button>
+
+              </div>
+
+            </div>
+
+          </article>
+
+        `;
+
+      }
+    ).join("");
+}
+
+
+function ajouterAuPanierDepuisId(
+  id
+){
+
+  const produit =
+    produits.find(
+      p =>
+        Number(p.id) ===
+        Number(id)
     );
+
+  if(!produit){
+
+    alert(
+      "Produit introuvable."
+    );
+
+    return;
   }
 
+  ajouterAuPanier(
+    produit
+  );
+}
 
-  function afficherPanier(){
 
-    const zone =
-      document.getElementById(
-        "cartContent"
-      );
+/* =========================================================
+   DETAIL PRODUIT
+========================================================= */
 
-    if(!panier.length){
+function ouvrirDetailProduit(
+  id
+){
 
-      zone.innerHTML = `
+  const produit =
+    produits.find(
+      p =>
+        Number(p.id) ===
+        Number(id)
+    );
 
-        <div class="empty-products">
+  if(!produit){
+    return;
+  }
 
-          <p style="margin-bottom:18px;">
-            Votre panier est vide.
-          </p>
+  const prix =
+    getPrixProduit(
+      produit
+    );
 
-          <button
-            class="btn-primary"
-            onclick="fermerModal('cartModal')"
-          >
-            Continuer mes achats
-          </button>
+  const contenu =
+    document.getElementById(
+      "productDetailContent"
+    );
 
-        </div>
+  document.getElementById(
+    "detailName"
+  ).textContent =
+    produit.name ||
+    "Produit";
 
-      `;
+  contenu.innerHTML = `
 
-      return;
-    }
+    <img
+      class="product-detail-image"
+      src="${echapperAttribut(
+        imageProduit(produit)
+      )}"
+      alt="${echapperAttribut(
+        produit.name ||
+        "Produit"
+      )}"
+      onerror="this.src='https://via.placeholder.com/600x600?text=YAYOUNABYSAC'"
+    >
 
-    const total =
-      calculerTotalPanier();
+    <div class="product-category">
+      ${echapperHTML(
+        getCategorieProduit(
+          produit
+        )
+      )}
+    </div>
+
+    <div class="product-detail-price">
+      ${formaterPrix(prix)}
+    </div>
+
+    <div class="product-detail-description">
+      ${echapperHTML(
+        produit.description ||
+        ""
+      )}
+    </div>
+
+    <button
+      class="btn-primary"
+      onclick="ajouterAuPanierDepuisId(${Number(produit.id)}); fermerModal('productModal');"
+    >
+      🛒 Ajouter au panier
+    </button>
+
+  `;
+
+  ouvrirModal(
+    "productModal"
+  );
+}
+
+
+/* =========================================================
+   PANIER AFFICHAGE
+========================================================= */
+
+function ouvrirPanier(){
+
+  afficherPanier();
+
+  ouvrirModal(
+    "cartModal"
+  );
+}
+
+
+function afficherPanier(){
+
+  const zone =
+    document.getElementById(
+      "cartContent"
+    );
+
+  if(!panier.length){
 
     zone.innerHTML = `
 
-      <div>
+      <div class="empty-products">
 
-        ${panier.map(
-          article => {
+        <p
+          style="margin-bottom:18px;"
+        >
+          Votre panier est vide.
+        </p>
 
-            const prix =
-              convertirPrix(
-                article.price
-              );
+        <button
+          class="btn-primary"
+          onclick="fermerModal('cartModal')"
+        >
+          Continuer mes achats
+        </button>
 
-            const quantite =
-              convertirNombre(
-                article.quantity
-              );
+      </div>
 
-            return `
+    `;
+
+    return;
+  }
+
+  const total =
+    calculerTotalPanier();
+
+  zone.innerHTML = `
+
+    <div>
+
+      ${panier.map(
+        article => {
+
+          const prix =
+            convertirPrix(
+              article.price
+            );
+
+          const quantite =
+            convertirNombre(
+              article.quantity
+            );
+
+          return `
 
             <div class="cart-item">
 
@@ -1675,114 +1850,123 @@
 
           `;
 
-          }
-        ).join("")}
+        }
+      ).join("")}
 
-        <div class="cart-total">
-          <span>Total</span>
-          <span>${formaterPrix(total)}</span>
-        </div>
+      <div class="cart-total">
 
-        <div class="cart-actions">
+        <span>
+          Total
+        </span>
 
-          <button
-            class="btn-secondary"
-            onclick="fermerModal('cartModal')"
-          >
-            Continuer mes achats
-          </button>
-
-          <button
-            class="btn-primary"
-            onclick="ouvrirCommande()"
-          >
-            Passer à la commande
-          </button>
-
-        </div>
+        <span>
+          ${formaterPrix(total)}
+        </span>
 
       </div>
 
-    `;
-  }
+      <div class="cart-actions">
+
+        <button
+          class="btn-secondary"
+          onclick="fermerModal('cartModal')"
+        >
+          Continuer mes achats
+        </button>
+
+        <button
+          class="btn-primary"
+          onclick="ouvrirCommande()"
+        >
+          Passer à la commande
+        </button>
+
+      </div>
+
+    </div>
+
+  `;
+}
 
 
-  /* =========================================================
-     CHECKOUT
-  ========================================================= */
+/* =========================================================
+   CHECKOUT
+========================================================= */
 
-  function ouvrirCommande(){
+function ouvrirCommande(){
 
-    if(!panier.length){
+  if(!panier.length){
 
-      alert(
-        "Votre panier est vide."
-      );
-
-      return;
-    }
-
-    const total =
-      calculerTotalPanier();
-
-    if(total <= 0){
-
-      alert(
-        "Le total du panier est invalide. Vérifiez le prix du produit."
-      );
-
-      return;
-    }
-
-    afficherResumeCommande();
-
-    fermerModal(
-      "cartModal"
+    alert(
+      "Votre panier est vide."
     );
 
+    return;
+  }
+
+  const total =
+    calculerTotalPanier();
+
+  if(total <= 0){
+
+    alert(
+      "Le total du panier est invalide. Vérifiez le prix du produit."
+    );
+
+    return;
+  }
+
+  afficherResumeCommande();
+
+  fermerModal(
+    "cartModal"
+  );
+
+  document.getElementById(
+    "checkoutNotice"
+  ).className =
+    "notice";
+
+  ouvrirModal(
+    "checkoutModal"
+  );
+}
+
+
+function afficherResumeCommande(){
+
+  const zone =
     document.getElementById(
-      "checkoutNotice"
-    ).className =
-      "notice";
-
-    ouvrirModal(
-      "checkoutModal"
+      "checkoutSummary"
     );
+
+  if(!zone){
+    return;
   }
 
+  const total =
+    calculerTotalPanier();
 
-  function afficherResumeCommande(){
+  zone.innerHTML = `
 
-    const zone =
-      document.getElementById(
-        "checkoutSummary"
-      );
+    <strong>
+      Votre commande
+    </strong>
 
-    if(!zone){
-      return;
-    }
+    ${panier.map(
+      article => {
 
-    const total =
-      calculerTotalPanier();
+        const prix =
+          convertirPrix(
+            article.price
+          );
 
-    zone.innerHTML = `
+        const quantite =
+          convertirNombre(
+            article.quantity
+          );
 
-      <strong>Votre commande</strong>
-
-      ${panier.map(
-        article => {
-
-          const prix =
-            convertirPrix(
-              article.price
-            );
-
-          const quantite =
-            convertirNombre(
-              article.quantity
-            );
-
-          return `
+        return `
 
           <div class="checkout-summary-item">
 
@@ -1804,684 +1988,694 @@
 
         `;
 
-        }
-      ).join("")}
+      }
+    ).join("")}
 
-      <div class="checkout-summary-total">
-        <span>Total</span>
-        <span>${formaterPrix(total)}</span>
-      </div>
+    <div class="checkout-summary-total">
 
-    `;
+      <span>
+        Total
+      </span>
+
+      <span>
+        ${formaterPrix(total)}
+      </span>
+
+    </div>
+
+  `;
+}
+
+
+/* =========================================================
+   ENVOI DE LA COMMANDE
+========================================================= */
+
+document
+  .getElementById(
+    "checkoutForm"
+  )
+  .addEventListener(
+    "submit",
+    envoyerCommande
+  );
+
+
+async function envoyerCommande(
+  event
+){
+
+  event.preventDefault();
+
+  if(!panier.length){
+
+    afficherErreurCommande(
+      "Votre panier est vide."
+    );
+
+    return;
   }
 
 
-  /* =========================================================
-     ENVOI DE LA COMMANDE
-  ========================================================= */
+  /* =======================================================
+     RECALCUL DU TOTAL DIRECTEMENT DEPUIS SUPABASE
+  ======================================================= */
 
-  document
-    .getElementById(
-      "checkoutForm"
-    )
-    .addEventListener(
-      "submit",
-      envoyerCommande
-    );
+  let totalCommande =
+    0;
+
+  const lignesCommande =
+    [];
 
 
-  async function envoyerCommande(
-    event
+  for(
+    const article of panier
   ){
 
-    event.preventDefault();
+    const produit =
+      produits.find(
+        p =>
+          Number(p.id) ===
+          Number(article.id)
+      );
 
-    if(!panier.length){
+
+    if(!produit){
 
       afficherErreurCommande(
-        "Votre panier est vide."
+        "Impossible de retrouver le produit " +
+        (article.name || "") +
+        " dans la base de données."
       );
 
       return;
     }
 
 
-    /* =====================================================
-       RECALCUL DU TOTAL DIRECTEMENT DEPUIS SUPABASE
-       ===================================================== */
-
-    let totalCommande = 0;
-
-    const lignesCommande = [];
-
-
-    for(const article of panier){
-
-      const produit =
-        produits.find(
-          p =>
-            Number(p.id) ===
-            Number(article.id)
-        );
-
-      if(!produit){
-
-        afficherErreurCommande(
-          "Impossible de retrouver le produit " +
-          (article.name || "") +
-          " dans la base de données."
-        );
-
-        return;
-      }
-
-
-      const prix =
-        Number(
-          produit.Price ??
-          produit.price ??
-          produit.prix ??
-          0
-        );
-
-
-      const quantite =
-        Number(
-          article.quantity || 0
-        );
-
-
-      if(
-        !Number.isFinite(prix) ||
-        prix <= 0
-      ){
-
-        afficherErreurCommande(
-          "Le prix du produit " +
-          (produit.name || "") +
-          " est invalide."
-        );
-
-        return;
-      }
-
-
-      if(
-        !Number.isFinite(
-          quantite
-        ) ||
-        quantite <= 0
-      ){
-
-        afficherErreurCommande(
-          "La quantité du produit est invalide."
-        );
-
-        return;
-      }
-
-
-      const sousTotal =
-        Math.round(
-          prix * quantite
-        );
-
-
-      totalCommande +=
-        sousTotal;
-
-
-      article.price =
-        Math.round(prix);
-
-
-      lignesCommande.push({
-
-        productId:
-          Number(produit.id),
-
-        name:
-          produit.name ||
-          "Produit",
-
-        quantity:
-          quantite,
-
-        price:
-          Math.round(prix),
-
-        subtotal:
-          sousTotal
-
-      });
-    }
-
-
-    totalCommande =
-      Math.round(
-        totalCommande
+    const prix =
+      Number(
+        produit.Price ??
+        produit.price ??
+        produit.prix ??
+        0
       );
 
 
-    console.log(
-      "TOTAL FINAL ENVOYÉ À SUPABASE :",
+    const quantite =
+      Number(
+        article.quantity ||
+        0
+      );
+
+
+    if(
+      !Number.isFinite(prix) ||
+      prix <= 0
+    ){
+
+      afficherErreurCommande(
+        "Le prix du produit " +
+        (produit.name || "") +
+        " est invalide."
+      );
+
+      return;
+    }
+
+
+    if(
+      !Number.isFinite(quantite) ||
+      quantite <= 0
+    ){
+
+      afficherErreurCommande(
+        "La quantité du produit est invalide."
+      );
+
+      return;
+    }
+
+
+    const sousTotal =
+      Math.round(
+        prix * quantite
+      );
+
+
+    totalCommande +=
+      sousTotal;
+
+
+    article.price =
+      Math.round(prix);
+
+
+    lignesCommande.push({
+
+      productId:
+        Number(produit.id),
+
+      name:
+        produit.name ||
+        "Produit",
+
+      quantity:
+        quantite,
+
+      price:
+        Math.round(prix),
+
+      subtotal:
+        sousTotal
+
+    });
+
+  }
+
+
+  totalCommande =
+    Math.round(
       totalCommande
     );
 
 
-    if(totalCommande <= 0){
+  console.log(
+    "TOTAL FINAL ENVOYÉ À SUPABASE :",
+    totalCommande
+  );
 
-      afficherErreurCommande(
-        "Le total de la commande est égal à 0 FCFA."
+
+  if(totalCommande <= 0){
+
+    afficherErreurCommande(
+      "Le total de la commande est égal à 0 FCFA."
+    );
+
+    return;
+  }
+
+
+  const nom =
+    document
+      .getElementById(
+        "customerName"
+      )
+      .value
+      .trim();
+
+
+  const telephone =
+    document
+      .getElementById(
+        "customerPhone"
+      )
+      .value
+      .trim();
+
+
+  const adresse =
+    document
+      .getElementById(
+        "customerAddress"
+      )
+      .value
+      .trim();
+
+
+  const commentaire =
+    document
+      .getElementById(
+        "customerComment"
+      )
+      .value
+      .trim();
+
+
+  if(
+    !nom ||
+    !telephone ||
+    !adresse
+  ){
+
+    afficherErreurCommande(
+      "Veuillez remplir le nom, le téléphone et l'adresse."
+    );
+
+    return;
+  }
+
+
+  const bouton =
+    document.getElementById(
+      "submitOrderBtn"
+    );
+
+
+  bouton.disabled =
+    true;
+
+
+  bouton.textContent =
+    "Enregistrement de la commande...";
+
+
+  try{
+
+    /* =====================================================
+       ÉTAPE 1 : CRÉATION DE LA COMMANDE
+    ===================================================== */
+
+    const {
+      data: orderData,
+      error: orderError
+    } =
+      await supabaseClient.rpc(
+        "create_order",
+        {
+          p_customer_name:
+            nom,
+
+          p_phone:
+            telephone,
+
+          p_address:
+            adresse,
+
+          p_total:
+            totalCommande,
+
+          p_status:
+            "En attente"
+        }
       );
 
-      return;
+
+    if(orderError){
+
+      console.error(
+        "ERREUR CREATE_ORDER :",
+        orderError
+      );
+
+      throw new Error(
+        "Impossible d'enregistrer la commande : " +
+        orderError.message
+      );
     }
 
 
-    const nom =
-      document
-        .getElementById(
-          "customerName"
-        )
-        .value
-        .trim();
+    console.log(
+      "RÉPONSE CREATE_ORDER :",
+      orderData
+    );
 
 
-    const telephone =
-      document
-        .getElementById(
-          "customerPhone"
-        )
-        .value
-        .trim();
+    /* =====================================================
+       RÉCUPÉRATION DE L'ID DE COMMANDE
+    ===================================================== */
 
-
-    const adresse =
-      document
-        .getElementById(
-          "customerAddress"
-        )
-        .value
-        .trim();
-
-
-    const commentaire =
-      document
-        .getElementById(
-          "customerComment"
-        )
-        .value
-        .trim();
+    let orderId =
+      null;
 
 
     if(
-      !nom ||
-      !telephone ||
-      !adresse
+      Array.isArray(
+        orderData
+      )
     ){
 
-      afficherErreurCommande(
-        "Veuillez remplir le nom, le téléphone et l'adresse."
-      );
+      if(
+        orderData.length > 0
+      ){
 
-      return;
+        const premier =
+          orderData[0];
+
+
+        if(
+          premier &&
+          typeof premier ===
+          "object"
+        ){
+
+          orderId =
+            premier.id ??
+            premier.order_id ??
+            premier.create_order;
+
+        }else{
+
+          orderId =
+            premier;
+        }
+      }
+
+    }else{
+
+      orderId =
+        orderData;
     }
 
 
-    const bouton =
-      document.getElementById(
-        "submitOrderBtn"
+    orderId =
+      Number(
+        orderId
       );
 
 
-    bouton.disabled =
-      true;
+    if(
+      !orderId ||
+      !Number.isFinite(orderId)
+    ){
 
-
-    bouton.textContent =
-      "Enregistrement de la commande...";
-
-
-    try{
-
-
-      /* =====================================================
-         ÉTAPE 1 : CRÉATION DE LA COMMANDE
-         ===================================================== */
-
-      const {
-        data: orderData,
-        error: orderError
-      } =
-        await supabaseClient.rpc(
-          "create_order",
-          {
-            p_customer_name:
-              nom,
-
-            p_phone:
-              telephone,
-
-            p_address:
-              adresse,
-
-            p_total:
-              totalCommande,
-
-            p_status:
-              "En attente"
-          }
-        );
-
-
-      if(orderError){
-
-        console.error(
-          "ERREUR CREATE_ORDER :",
-          orderError
-        );
-
-        throw new Error(
-          "Impossible d'enregistrer la commande : " +
-          orderError.message
-        );
-      }
-
-
-      console.log(
-        "RÉPONSE CREATE_ORDER :",
+      console.error(
+        "Retour create_order :",
         orderData
       );
 
-
-      /* =====================================================
-         RÉCUPÉRATION DE L'ID DE COMMANDE
-         ===================================================== */
-
-      let orderId = null;
+      throw new Error(
+        "La commande a été créée mais son identifiant n'a pas pu être récupéré."
+      );
+    }
 
 
-      if(
-        Array.isArray(
-          orderData
-        )
-      ){
+    /* =====================================================
+       ÉTAPE 2 : ENREGISTREMENT DES PRODUITS
+    ===================================================== */
 
-        if(
-          orderData.length > 0
-        ){
+    for(
+      const ligne of lignesCommande
+    ){
 
-          const premier =
-            orderData[0];
+      const {
+        error: itemError
+      } =
+        await supabaseClient.rpc(
+          "add_order_item",
+          {
+            p_order_id:
+              orderId,
 
+            p_product_id:
+              ligne.productId,
 
-          if(
-            premier &&
-            typeof premier ===
-            "object"
-          ){
+            p_quantity:
+              ligne.quantity,
 
-            orderId =
-              premier.id ??
-              premier.order_id ??
-              premier.create_order;
-
-          }else{
-
-            orderId =
-              premier;
+            p_price:
+              ligne.price
           }
-        }
-
-      }else{
-
-        orderId =
-          orderData;
-      }
+        );
 
 
-      orderId =
-        Number(orderId);
-
-
-      if(
-        !orderId ||
-        !Number.isFinite(
-          orderId
-        )
-      ){
+      if(itemError){
 
         console.error(
-          "Retour create_order :",
-          orderData
+          "ERREUR ADD_ORDER_ITEM :",
+          itemError
         );
 
         throw new Error(
-          "La commande a été créée mais son identifiant n'a pas pu être récupéré."
+          "Impossible d'enregistrer le produit " +
+          (ligne.name || "") +
+          " dans la commande : " +
+          itemError.message
         );
       }
+    }
 
 
-      /* =====================================================
-         ÉTAPE 2 : ENREGISTREMENT DES PRODUITS
-         ===================================================== */
+    /* =====================================================
+       ÉTAPE 3 : CONSTRUCTION DU MESSAGE WHATSAPP
 
-      for(
-        const ligne
-        of lignesCommande
-      ){
+       IMPORTANT :
+       On construit d'abord un message normal.
+       On encode ensuite TOUT le message UNE SEULE FOIS.
+       Cela évite les %0A mélangés avec encodeURIComponent().
+    ===================================================== */
 
-        const {
-          error: itemError
-        } =
-          await supabaseClient.rpc(
-            "add_order_item",
-            {
-              p_order_id:
-                orderId,
-
-              p_product_id:
-                ligne.productId,
-
-              p_quantity:
-                ligne.quantity,
-
-              p_price:
-                ligne.price
-            }
-          );
+    const lignesWhatsApp =
+      lignesCommande.map(
+        ligne =>
+          "* " +
+          ligne.name +
+          " × " +
+          ligne.quantity +
+          " — " +
+          formaterPrix(
+            ligne.subtotal
+          )
+      );
 
 
-        if(itemError){
-
-          console.error(
-            "ERREUR ADD_ORDER_ITEM :",
-            itemError
-          );
-
-          throw new Error(
-            "Impossible d'enregistrer le produit " +
-            (ligne.name || "") +
-            " dans la commande : " +
-            itemError.message
-          );
-        }
-      }
-
-
-      /* =====================================================
-         ÉTAPE 3 : MESSAGE WHATSAPP
-         =====================================================
-
-         IMPORTANT :
-         On construit d'abord le message normalement
-         avec de vrais retours à la ligne.
-
-         Ensuite on encode UNE SEULE FOIS tout le message.
-
-         Cela évite le problème :
-         � *YAYOUNABYSAC — NOUVELLE COMMANDE*
-
-         qui venait de l'ancien mélange entre %0A
-         et encodeURIComponent().
-      */
-
-
-      const lignesWhatsApp =
-        lignesCommande.map(
-          ligne =>
-            "• " +
-            ligne.name +
-            " × " +
-            ligne.quantity +
-            " — " +
-            formaterPrix(
-              ligne.subtotal
-            )
-        );
+    const message =
+      [
+        "YAYOUNABYSAC — NOUVELLE COMMANDE",
+        "",
+        "Commande : #" +
+          orderId,
+        "Client : " +
+          nom,
+        "Téléphone : " +
+          telephone,
+        "Adresse : " +
+          adresse,
+        "",
+        "Produits commandés :",
+        ...lignesWhatsApp,
+        "",
+        "TOTAL : " +
+          formaterPrix(
+            totalCommande
+          ),
+        commentaire
+          ? ""
+          : null,
+        commentaire
+          ? "Commentaire : " +
+            commentaire
+          : null
+      ]
+      .filter(
+        valeur =>
+          valeur !== null
+      )
+      .join("\n");
 
 
-      const message =
-        [
-          "👜 YAYOUNABYSAC — NOUVELLE COMMANDE",
-          "",
-          "Commande : #" +
-            orderId,
-          "Client : " +
-            nom,
-          "Téléphone : " +
-            telephone,
-          "Adresse : " +
-            adresse,
-          "",
-          "Produits commandés :",
-          ...lignesWhatsApp,
-          "",
-          "TOTAL : " +
-            formaterPrix(
-              totalCommande
-            ),
-          commentaire
-            ? ""
-            : null,
-          commentaire
-            ? "Commentaire : " +
-              commentaire
-            : null
-        ]
-        .filter(
-          valeur =>
-            valeur !== null
-        )
-        .join("\n");
+    console.log(
+      "MESSAGE WHATSAPP :",
+      message
+    );
 
 
-      console.log(
-        "MESSAGE WHATSAPP :",
+    /* =====================================================
+       ÉTAPE 4 : NETTOYAGE DU PANIER
+    ===================================================== */
+
+    panier = [];
+
+    sauvegarderPanier();
+
+
+    document
+      .getElementById(
+        "checkoutForm"
+      )
+      .reset();
+
+
+    /* =====================================================
+       ÉTAPE 5 : ENCODAGE COMPLET DU MESSAGE
+    ===================================================== */
+
+    const whatsappURL =
+      "https://wa.me/" +
+      WHATSAPP_NUMBER +
+      "?text=" +
+      encodeURIComponent(
         message
       );
 
 
-      /* =====================================================
-         ÉTAPE 4 : NETTOYAGE DU PANIER
-         ===================================================== */
+    /* =====================================================
+       ÉTAPE 6 : OUVERTURE WHATSAPP
+    ===================================================== */
 
-      panier = [];
-
-      sauvegarderPanier();
-
-
-      document
-        .getElementById(
-          "checkoutForm"
-        )
-        .reset();
+    window.location.href =
+      whatsappURL;
 
 
-      /* =====================================================
-         ÉTAPE 5 : OUVERTURE DE WHATSAPP
-         ===================================================== */
+  }catch(erreur){
 
-      const whatsappURL =
-        "https://wa.me/" +
-        WHATSAPP_NUMBER +
-        "?text=" +
-        encodeURIComponent(
-          message
-        );
+    console.error(
+      "ERREUR COMMANDE :",
+      erreur
+    );
 
 
-      window.location.href =
-        whatsappURL;
+    afficherErreurCommande(
+      erreur.message ||
+      "Une erreur est survenue pendant la commande."
+    );
 
 
-    }catch(erreur){
-
-      console.error(
-        "ERREUR COMMANDE :",
-        erreur
-      );
+    bouton.disabled =
+      false;
 
 
-      afficherErreurCommande(
-        erreur.message ||
-        "Une erreur est survenue pendant la commande."
-      );
-
-
-      bouton.disabled =
-        false;
-
-
-      bouton.textContent =
-        "📱 Commander sur WhatsApp";
-    }
+    bouton.textContent =
+      "📱 Commander sur WhatsApp";
   }
+}
 
 
-  function afficherErreurCommande(
-    message
-  ){
+function afficherErreurCommande(
+  message
+){
 
-    const zone =
-      document.getElementById(
-        "checkoutNotice"
-      );
-
-
-    zone.className =
-      "notice error show";
+  const zone =
+    document.getElementById(
+      "checkoutNotice"
+    );
 
 
-    zone.textContent =
-      message;
+  zone.className =
+    "notice error show";
+
+
+  zone.textContent =
+    message;
+}
+
+
+/* =========================================================
+   MODALES
+========================================================= */
+
+function ouvrirModal(id){
+
+  const modal =
+    document.getElementById(
+      id
+    );
+
+  if(modal){
+
+    modal.classList.add(
+      "show"
+    );
+
   }
+}
 
 
-  /* =========================================================
-     MODALES
-  ========================================================= */
+function fermerModal(id){
 
-  function ouvrirModal(id){
+  const modal =
+    document.getElementById(
+      id
+    );
 
-    const modal =
-      document.getElementById(
-        id
-      );
+  if(modal){
 
-    if(modal){
+    modal.classList.remove(
+      "show"
+    );
 
-      modal.classList.add(
-        "show"
-      );
-    }
   }
+}
 
 
-  function fermerModal(id){
+document
+  .querySelectorAll(
+    ".modal-overlay"
+  )
+  .forEach(
+    modal => {
 
-    const modal =
-      document.getElementById(
-        id
-      );
+      modal.addEventListener(
+        "click",
+        function(event){
 
-    if(modal){
+          if(
+            event.target ===
+            modal
+          ){
 
-      modal.classList.remove(
-        "show"
-      );
-    }
-  }
+            modal.classList.remove(
+              "show"
+            );
 
-
-  document
-    .querySelectorAll(
-      ".modal-overlay"
-    )
-    .forEach(
-      modal => {
-
-        modal.addEventListener(
-          "click",
-          function(event){
-
-            if(
-              event.target ===
-              modal
-            ){
-
-              modal.classList.remove(
-                "show"
-              );
-            }
           }
-        );
 
-      }
-    );
-
-
-  /* =========================================================
-     PROTECTION AFFICHAGE HTML
-  ========================================================= */
-
-  function echapperHTML(
-    valeur
-  ){
-
-    return String(
-      valeur ?? ""
-    )
-      .replace(
-        /&/g,
-        "&amp;"
-      )
-      .replace(
-        /</g,
-        "&lt;"
-      )
-      .replace(
-        />/g,
-        "&gt;"
-      )
-      .replace(
-        /"/g,
-        "&quot;"
-      )
-      .replace(
-        /'/g,
-        "&#039;"
+        }
       );
-  }
-
-
-  function echapperAttribut(
-    valeur
-  ){
-
-    return echapperHTML(
-      valeur
-    );
-  }
-
-
-  /* =========================================================
-     INITIALISATION
-  ========================================================= */
-
-  document.addEventListener(
-    "DOMContentLoaded",
-    async function(){
-
-      mettreAJourCompteurPanier();
-
-      await chargerProduits();
-
-      mettreAJourCompteurPanier();
 
     }
   );
+
+
+/* =========================================================
+   PROTECTION AFFICHAGE HTML
+========================================================= */
+
+function echapperHTML(
+  valeur
+){
+
+  return String(
+    valeur ?? ""
+  )
+    .replace(
+      /&/g,
+      "&amp;"
+    )
+    .replace(
+      /</g,
+      "&lt;"
+    )
+    .replace(
+      />/g,
+      "&gt;"
+    )
+    .replace(
+      /"/g,
+      "&quot;"
+    )
+    .replace(
+      /'/g,
+      "&#039;"
+    );
+}
+
+
+function echapperAttribut(
+  valeur
+){
+
+  return echapperHTML(
+    valeur
+  );
+}
+
+
+/* =========================================================
+   INITIALISATION
+========================================================= */
+
+document.addEventListener(
+  "DOMContentLoaded",
+  async function(){
+
+    mettreAJourCompteurPanier();
+
+    await chargerProduits();
+
+    mettreAJourCompteurPanier();
+
+  }
+);
 
 </script>
 
