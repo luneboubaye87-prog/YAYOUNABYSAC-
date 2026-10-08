@@ -729,12 +729,6 @@
   const SUPABASE_URL =
     "https://ajprnhqphbtgfztspuio.supabase.co";
 
-  /*
-    IMPORTANT :
-    Remplace seulement cette valeur par ta vraie clé anon
-    si elle n'est pas déjà présente dans ton ancien admin.html.
-  */
-
   const SUPABASE_ANON_KEY =
     "sb_publishable_Qxr7ftKtVgB3y3lmx1agWg_UQxqrviy";
 
@@ -1407,14 +1401,14 @@
 
       /*
         Le bucket utilisé pour les photos des produits
-        est "products".
+        est "product-images".
       */
 
       const {
         error: uploadError
       } = await supabaseClient
         .storage
-        .from("products")
+        .from("product-images")
         .upload(
           nomUnique,
           fichier,
@@ -1443,7 +1437,7 @@
         data
       } = supabaseClient
         .storage
-        .from("products")
+        .from("product-images")
         .getPublicUrl(nomUnique);
 
       if(!data || !data.publicUrl){
@@ -1708,7 +1702,6 @@
         Chargement des commandes...
       </div>`;
 
-
     /*
       IMPORTANT :
       Les vrais noms des colonnes de Orders sont :
@@ -1718,10 +1711,9 @@
       customer_name
       phone
       address
-      price
+      total
       status
     */
-
 
     const {
       data:commandes,
@@ -1781,8 +1773,8 @@
 
       /*
         CORRECTION PRINCIPALE :
-        On lit maintenant les vrais champs
-        lowercase de la table Orders.
+        On lit les vrais champs lowercase
+        de la table Orders.
       */
 
       const nomClient =
@@ -1794,8 +1786,14 @@
       const adresse =
         commande.address || "Non renseignée";
 
+      /*
+        IMPORTANT :
+        Le total est dans la colonne "total",
+        pas dans "price".
+      */
+
       const total =
-        Number(commande.price || 0);
+        Number(commande.total || 0);
 
       const statut =
         commande.status || "En attente";
@@ -2087,6 +2085,10 @@
         Number(item.price || 0);
 
 
+      const sousTotal =
+        prix * quantite;
+
+
       const ligne =
         document.createElement("div");
 
@@ -2111,7 +2113,7 @@
 
         <div style="font-weight:bold;white-space:nowrap;">
 
-          ${formatPrix(prix)}
+          ${formatPrix(sousTotal)}
           FCFA
 
         </div>
