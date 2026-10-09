@@ -2242,38 +2242,33 @@ async function envoyerCommande(
   try{
 
     /* =====================================================
-       ÉTAPE 1 : CRÉATION DE LA COMMANDE
+       ÉTAPE 1 : CRÉATION SÉCURISÉE DE LA COMMANDE
+       Supabase recalcule les prix et le total côté serveur.
+       La commande et ses articles sont enregistrés ensemble.
     ===================================================== */
+
+    const articlesSecurises =
+      lignesCommande.map(ligne => ({
+        product_id: ligne.productId,
+        quantity: ligne.quantity
+      }));
 
     const {
       data: orderData,
       error: orderError
-    } =
-      await supabaseClient.rpc(
-        "create_order",
-        {
-          p_customer_name:
-            nom,
-
-          p_phone:
-            telephone,
-
-          p_address:
-            adresse,
-
-          p_total:
-            totalCommande,
-
-          p_status:
-            "En attente"
-        }
-      );
-
+    } = await supabaseClient.rpc(
+      "create_order_secure",
+      {
+        p_customer_name: nom,
+        p_phone: telephone,
+        p_address: adresse,
+        p_items: articlesSecurises
+      }
+    );
 
     if(orderError){
-
       console.error(
-        "ERREUR CREATE_ORDER :",
+        "ERREUR CREATE_ORDER_SECURE :",
         orderError
       );
 
@@ -2283,127 +2278,51 @@ async function envoyerCommande(
       );
     }
 
-
     console.log(
-      "RÉPONSE CREATE_ORDER :",
+      "RÉPONSE CREATE_ORDER_SECURE :",
       orderData
     );
-
 
     /* =====================================================
        RÉCUPÉRATION DE L'ID DE COMMANDE
     ===================================================== */
 
-    let orderId =
-      null;
+    let orderId = null;
 
+    if(Array.isArray(orderData)){
+      if(orderData.length > 0){
+        const premier = orderData[0];
 
-    if(
-      Array.isArray(
-        orderData
-      )
-    ){
-
-      if(
-        orderData.length > 0
-      ){
-
-        const premier =
-          orderData[0];
-
-
-        if(
-          premier &&
-          typeof premier ===
-          "object"
-        ){
-
+        if(premier && typeof premier === "object"){
           orderId =
             premier.id ??
             premier.order_id ??
-            premier.create_order;
-
+            premier.create_order_secure;
         }else{
-
-          orderId =
-            premier;
+          orderId = premier;
         }
       }
-
     }else{
-
-      orderId =
-        orderData;
+      orderId = orderData;
     }
 
+    orderId = Number(orderId);
 
-    orderId =
-      Number(
-        orderId
-      );
-
-
-    if(
-      !orderId ||
-      !Number.isFinite(orderId)
-    ){
-
+    if(!orderId || !Number.isFinite(orderId)){
       console.error(
-        "Retour create_order :",
+        "Retour create_order_secure :",
         orderData
       );
 
       throw new Error(
-        "La commande a été créée mais son identifiant n'a pas pu être récupéré."
+        "La commande a été enregistrée mais son identifiant n'a pas pu être récupéré."
       );
     }
 
-
     /* =====================================================
-       ÉTAPE 2 : ENREGISTREMENT DES PRODUITS
+       ÉTAPE 2 : LE SERVEUR A DÉJÀ ENREGISTRÉ LES ARTICLES.
+       On conserve les lignes validées pour WhatsApp.
     ===================================================== */
-
-    for(
-      const ligne of lignesCommande
-    ){
-
-      const {
-        error: itemError
-      } =
-        await supabaseClient.rpc(
-          "add_order_item",
-          {
-            p_order_id:
-              orderId,
-
-            p_product_id:
-              ligne.productId,
-
-            p_quantity:
-              ligne.quantity,
-
-            p_price:
-              ligne.price
-          }
-        );
-
-
-      if(itemError){
-
-        console.error(
-          "ERREUR ADD_ORDER_ITEM :",
-          itemError
-        );
-
-        throw new Error(
-          "Impossible d'enregistrer le produit " +
-          (ligne.name || "") +
-          " dans la commande : " +
-          itemError.message
-        );
-      }
-    }
-
 
     /* =====================================================
        ÉTAPE 3 : CONSTRUCTION DU MESSAGE WHATSAPP
