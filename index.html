@@ -33,6 +33,11 @@
       cursor:pointer;
     }
 
+    button:disabled{
+      cursor:not-allowed;
+      opacity:.55;
+    }
+
     header{
       position:sticky;
       top:0;
@@ -326,6 +331,7 @@
       display:flex;
       align-items:center;
       gap:8px;
+      flex-wrap:wrap;
     }
 
     .quantity-btn{
@@ -1056,32 +1062,28 @@ function mettreAJourCompteurPanier(){
 }
 
 
+/* =========================================================
+   AJOUT AU PANIER — PROTECTION DU STOCK
+========================================================= */
+
 function ajouterAuPanier(produit){
 
-  const id =
-    Number(produit.id);
-
-  const prix =
-    getPrixProduit(produit);
-
-  const stock =
-    getStockProduit(produit);
+  const id = Number(produit.id);
+  const prix = getPrixProduit(produit);
+  const stock = getStockProduit(produit);
 
   if(!id){
-
-    alert(
-      "Produit invalide."
-    );
-
+    alert("Produit invalide.");
     return;
   }
 
   if(prix <= 0){
+    alert("Le prix de ce produit est invalide.");
+    return;
+  }
 
-    alert(
-      "Le prix de ce produit est invalide."
-    );
-
+  if(stock <= 0){
+    alert("Ce produit est en rupture de stock. Il ne peut pas être ajouté au panier.");
     return;
   }
 
@@ -1093,33 +1095,34 @@ function ajouterAuPanier(produit){
 
   if(articleExistant){
 
-    if(
-      stock > 0 &&
+    const quantiteActuelle =
       convertirNombre(
         articleExistant.quantity
-      ) >= stock
-    ){
-
-      alert(
-        "Stock maximum atteint."
       );
 
+    if(quantiteActuelle >= stock){
+      alert(
+        "Stock maximum atteint. Quantité disponible : " +
+        stock +
+        "."
+      );
       return;
     }
 
     articleExistant.quantity =
-      convertirNombre(
-        articleExistant.quantity
-      ) + 1;
+      quantiteActuelle + 1;
 
     articleExistant.price =
       prix;
+
+    articleExistant.stock =
+      stock;
 
   }else{
 
     panier.push({
 
-      id:id,
+      id: id,
 
       name:
         produit.name ||
@@ -1158,6 +1161,10 @@ function ajouterAuPanier(produit){
 }
 
 
+/* =========================================================
+   MODIFICATION DES QUANTITÉS — PROTECTION DU STOCK
+========================================================= */
+
 function modifierQuantite(
   id,
   variation
@@ -1174,34 +1181,41 @@ function modifierQuantite(
     return;
   }
 
-  let nouvelleQuantite =
-    convertirNombre(
-      article.quantity
-    ) + variation;
-
   const stock =
     convertirNombre(
       article.stock
     );
 
-  if(nouvelleQuantite < 1){
-
-    nouvelleQuantite = 1;
-
-  }
-
-  if(
-    stock > 0 &&
-    nouvelleQuantite > stock
-  ){
+  if(stock <= 0){
 
     alert(
-      "Stock maximum atteint."
+      "Ce produit est en rupture de stock. Il va être retiré du panier."
+    );
+
+    supprimerDuPanier(id);
+
+    return;
+  }
+
+  let nouvelleQuantite =
+    convertirNombre(
+      article.quantity
+    ) + variation;
+
+  if(nouvelleQuantite < 1){
+    nouvelleQuantite = 1;
+  }
+
+  if(nouvelleQuantite > stock){
+
+    alert(
+      "Stock maximum atteint. Quantité disponible : " +
+      stock +
+      "."
     );
 
     nouvelleQuantite =
       stock;
-
   }
 
   article.quantity =
@@ -1290,77 +1304,102 @@ async function chargerProduits(){
 }
 
 
+/* =========================================================
+   SYNCHRONISATION DU PANIER AVEC LE STOCK RÉEL
+========================================================= */
+
 function synchroniserPrixPanier(){
 
-  let modification =
-    false;
+  let modification = false;
+  let produitsRetires = 0;
 
-  panier.forEach(
-    article => {
+  panier = panier.filter(article => {
 
-      const produit =
-        produits.find(
-          p =>
-            Number(p.id) ===
-            Number(article.id)
-        );
+    const produit =
+      produits.find(
+        p =>
+          Number(p.id) ===
+          Number(article.id)
+      );
 
-      if(produit){
-
-        const nouveauPrix =
-          getPrixProduit(
-            produit
-          );
-
-        const nouveauStock =
-          getStockProduit(
-            produit
-          );
-
-        if(
-          convertirPrix(
-            article.price
-          ) !== nouveauPrix
-        ){
-
-          article.price =
-            nouveauPrix;
-
-          modification =
-            true;
-        }
-
-        article.stock =
-          nouveauStock;
-
-        article.name =
-          produit.name ||
-          article.name;
-
-        article.image_url =
-          imageProduit(
-            produit
-          );
-
-        article.category =
-          getCategorieProduit(
-            produit
-          );
-      }
-
+    if(!produit){
+      modification = true;
+      produitsRetires++;
+      return false;
     }
-  );
+
+    const nouveauStock =
+      getStockProduit(produit);
+
+    if(nouveauStock <= 0){
+      modification = true;
+      produitsRetires++;
+      return false;
+    }
+
+    const nouveauPrix =
+      getPrixProduit(produit);
+
+    if(
+      convertirPrix(article.price) !==
+      nouveauPrix
+    ){
+
+      article.price =
+        nouveauPrix;
+
+      modification = true;
+    }
+
+    article.stock =
+      nouveauStock;
+
+    if(
+      convertirNombre(article.quantity) >
+      nouveauStock
+    ){
+
+      article.quantity =
+        nouveauStock;
+
+      modification = true;
+    }
+
+    article.name =
+      produit.name ||
+      article.name;
+
+    article.description =
+      produit.description ||
+      article.description ||
+      "";
+
+    article.image_url =
+      imageProduit(produit);
+
+    article.category =
+      getCategorieProduit(produit);
+
+    return true;
+  });
 
   if(modification){
     sauvegarderPanier();
   }
 
   mettreAJourCompteurPanier();
+
+  if(produitsRetires > 0){
+
+    alert(
+      "Un ou plusieurs produits indisponibles ont été retirés du panier. Vérifiez votre panier avant de commander."
+    );
+  }
 }
 
 
 /* =========================================================
-   CATEGORIES
+   CATÉGORIES
 ========================================================= */
 
 function afficherCategories(){
@@ -1421,7 +1460,7 @@ function choisirCategorie(
 
 
 /* =========================================================
-   AFFICHAGE PRODUITS
+   AFFICHAGE DES PRODUITS
 ========================================================= */
 
 function appliquerFiltres(){
@@ -1636,7 +1675,7 @@ function ajouterAuPanierDepuisId(
 
 
 /* =========================================================
-   DETAIL PRODUIT
+   DÉTAIL PRODUIT
 ========================================================= */
 
 function ouvrirDetailProduit(
@@ -1656,6 +1695,11 @@ function ouvrirDetailProduit(
 
   const prix =
     getPrixProduit(
+      produit
+    );
+
+  const stock =
+    getStockProduit(
       produit
     );
 
@@ -1705,10 +1749,22 @@ function ouvrirDetailProduit(
 
     <button
       class="btn-primary"
-      onclick="ajouterAuPanierDepuisId(${Number(produit.id)}); fermerModal('productModal');"
+      ${stock <= 0 ? "disabled" : ""}
+      onclick="ajouterAuPanierDepuisId(${Number(produit.id)}); if(getStockProduit(produits.find(p => Number(p.id) === ${Number(produit.id)})) > 0) fermerModal('productModal');"
     >
-      🛒 Ajouter au panier
+      ${stock <= 0 ? "Rupture de stock" : "🛒 Ajouter au panier"}
     </button>
+
+    <p
+      class="product-detail-stock"
+      style="margin-top:10px;color:${stock <= 0 ? '#b42318' : '#52734d'};font-size:14px;"
+    >
+      ${
+        stock <= 0
+          ? "Ce produit est actuellement indisponible."
+          : "En stock : " + stock + " exemplaire(s)"
+      }
+    </p>
 
   `;
 
@@ -1719,7 +1775,7 @@ function ouvrirDetailProduit(
 
 
 /* =========================================================
-   PANIER AFFICHAGE
+   AFFICHAGE DU PANIER
 ========================================================= */
 
 function ouvrirPanier(){
@@ -1785,6 +1841,11 @@ function afficherPanier(){
               article.quantity
             );
 
+          const stock =
+            convertirNombre(
+              article.stock
+            );
+
           return `
 
             <div class="cart-item">
@@ -1820,6 +1881,7 @@ function afficherPanier(){
                   <button
                     class="quantity-btn"
                     onclick="modifierQuantite(${Number(article.id)},-1)"
+                    ${quantite <= 1 ? "disabled" : ""}
                   >
                     −
                   </button>
@@ -1831,6 +1893,7 @@ function afficherPanier(){
                   <button
                     class="quantity-btn"
                     onclick="modifierQuantite(${Number(article.id)},1)"
+                    ${quantite >= stock ? "disabled" : ""}
                   >
                     +
                   </button>
@@ -1843,6 +1906,10 @@ function afficherPanier(){
                   </button>
 
                 </div>
+
+                <small style="display:block;margin-top:6px;color:#766b66;">
+                  Stock disponible : ${stock}
+                </small>
 
               </div>
 
@@ -1890,7 +1957,7 @@ function afficherPanier(){
 
 
 /* =========================================================
-   CHECKOUT
+   COMMANDE
 ========================================================= */
 
 function ouvrirCommande(){
@@ -2038,7 +2105,7 @@ async function envoyerCommande(
 
 
   /* =======================================================
-     RECALCUL DU TOTAL DIRECTEMENT DEPUIS SUPABASE
+     RECALCUL DU TOTAL DEPUIS SUPABASE
   ======================================================= */
 
   let totalCommande =
@@ -2088,6 +2155,10 @@ async function envoyerCommande(
       );
 
 
+    const stock =
+      getStockProduit(produit);
+
+
     if(
       !Number.isFinite(prix) ||
       prix <= 0
@@ -2110,6 +2181,32 @@ async function envoyerCommande(
 
       afficherErreurCommande(
         "La quantité du produit est invalide."
+      );
+
+      return;
+    }
+
+
+    if(stock <= 0){
+
+      afficherErreurCommande(
+        "Le produit " +
+        (produit.name || "") +
+        " est en rupture de stock. Retirez-le du panier."
+      );
+
+      return;
+    }
+
+
+    if(quantite > stock){
+
+      afficherErreurCommande(
+        "Stock insuffisant pour " +
+        (produit.name || "ce produit") +
+        ". Stock disponible : " +
+        stock +
+        "."
       );
 
       return;
@@ -2242,7 +2339,7 @@ async function envoyerCommande(
   try{
 
     /* =====================================================
-       ÉTAPE 1 : CRÉATION SÉCURISÉE DE LA COMMANDE
+       CRÉATION SÉCURISÉE DE LA COMMANDE
        Supabase recalcule les prix et le total côté serveur.
        La commande et ses articles sont enregistrés ensemble.
     ===================================================== */
@@ -2267,6 +2364,7 @@ async function envoyerCommande(
     );
 
     if(orderError){
+
       console.error(
         "ERREUR CREATE_ORDER_SECURE :",
         orderError
@@ -2283,32 +2381,53 @@ async function envoyerCommande(
       orderData
     );
 
+
     /* =====================================================
-       RÉCUPÉRATION DE L'ID DE COMMANDE
+       RÉCUPÉRATION DE L'IDENTIFIANT DE COMMANDE
     ===================================================== */
 
     let orderId = null;
 
     if(Array.isArray(orderData)){
-      if(orderData.length > 0){
-        const premier = orderData[0];
 
-        if(premier && typeof premier === "object"){
+      if(orderData.length > 0){
+
+        const premier =
+          orderData[0];
+
+        if(
+          premier &&
+          typeof premier === "object"
+        ){
+
           orderId =
             premier.id ??
             premier.order_id ??
             premier.create_order_secure;
+
         }else{
-          orderId = premier;
+
+          orderId =
+            premier;
+
         }
       }
+
     }else{
-      orderId = orderData;
+
+      orderId =
+        orderData;
+
     }
 
-    orderId = Number(orderId);
+    orderId =
+      Number(orderId);
 
-    if(!orderId || !Number.isFinite(orderId)){
+    if(
+      !orderId ||
+      !Number.isFinite(orderId)
+    ){
+
       console.error(
         "Retour create_order_secure :",
         orderData
@@ -2319,18 +2438,9 @@ async function envoyerCommande(
       );
     }
 
-    /* =====================================================
-       ÉTAPE 2 : LE SERVEUR A DÉJÀ ENREGISTRÉ LES ARTICLES.
-       On conserve les lignes validées pour WhatsApp.
-    ===================================================== */
 
     /* =====================================================
-       ÉTAPE 3 : CONSTRUCTION DU MESSAGE WHATSAPP
-
-       IMPORTANT :
-       On construit d'abord un message normal.
-       On encode ensuite TOUT le message UNE SEULE FOIS.
-       Cela évite les %0A mélangés avec encodeURIComponent().
+       CONSTRUCTION DU MESSAGE WHATSAPP
     ===================================================== */
 
     const lignesWhatsApp =
@@ -2389,7 +2499,7 @@ async function envoyerCommande(
 
 
     /* =====================================================
-       ÉTAPE 4 : NETTOYAGE DU PANIER
+       NETTOYAGE DU PANIER APRÈS ENREGISTREMENT
     ===================================================== */
 
     panier = [];
@@ -2405,7 +2515,7 @@ async function envoyerCommande(
 
 
     /* =====================================================
-       ÉTAPE 5 : ENCODAGE COMPLET DU MESSAGE
+       ENCODAGE ET OUVERTURE WHATSAPP
     ===================================================== */
 
     const whatsappURL =
@@ -2416,10 +2526,6 @@ async function envoyerCommande(
         message
       );
 
-
-    /* =====================================================
-       ÉTAPE 6 : OUVERTURE WHATSAPP
-    ===================================================== */
 
     window.location.href =
       whatsappURL;
