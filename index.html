@@ -537,10 +537,7 @@
 
 <header>
   <div class="header-inner">
-
-    <div class="logo">
-      YAYOUNABYSAC
-    </div>
+    <div class="logo">YAYOUNABYSAC</div>
 
     <button
       class="cart-button"
@@ -549,26 +546,15 @@
       🛒 Panier
       <span id="cartCount">0</span>
     </button>
-
   </div>
 </header>
 
-
 <section class="hero">
-
-  <h1>
-    Des sacs élégants pour femme
-  </h1>
-
-  <p>
-    Découvrez notre sélection YAYOUNABYSAC.
-  </p>
-
+  <h1>Des sacs élégants pour femme</h1>
+  <p>Découvrez notre sélection YAYOUNABYSAC.</p>
 </section>
 
-
 <section class="search-area">
-
   <input
     id="searchInput"
     class="search-input"
@@ -576,40 +562,19 @@
     placeholder="🔎 Rechercher un sac..."
     oninput="appliquerFiltres()"
   >
-
 </section>
 
-
-<div
-  id="categories"
-  class="categories"
-></div>
-
+<div id="categories" class="categories"></div>
 
 <section class="products-section">
-
-  <div
-    id="productsGrid"
-    class="products-grid"
-  >
-
-    <div class="loading">
-      Chargement des produits...
-    </div>
-
+  <div id="productsGrid" class="products-grid">
+    <div class="loading">Chargement des produits...</div>
   </div>
-
 </section>
 
-
 <footer>
-
-  <p>
-    © 2026 YAYOUNABYSAC — Sacs pour femme
-  </p>
-
+  <p>© 2026 YAYOUNABYSAC — Sacs pour femme</p>
 </footer>
-
 
 <button
   class="floating-cart"
@@ -618,175 +583,93 @@
   🛒 Voir le panier
 </button>
 
+<!-- MODAL PANIER -->
 
-<!-- =========================================================
-     MODAL PANIER
-========================================================= -->
-
-<div
-  id="cartModal"
-  class="modal-overlay"
->
-
+<div id="cartModal" class="modal-overlay">
   <div class="modal">
-
     <div class="modal-header">
-
-      <h2>
-        🛒 Votre panier
-      </h2>
-
+      <h2>🛒 Votre panier</h2>
       <button
         class="close-btn"
         onclick="fermerModal('cartModal')"
-      >
-        ×
-      </button>
-
+      >×</button>
     </div>
 
     <div id="cartContent"></div>
-
   </div>
-
 </div>
 
+<!-- MODAL PRODUIT -->
 
-<!-- =========================================================
-     MODAL PRODUIT
-========================================================= -->
-
-<div
-  id="productModal"
-  class="modal-overlay"
->
-
+<div id="productModal" class="modal-overlay">
   <div class="modal">
-
     <div class="modal-header">
-
-      <h2 id="detailName">
-        Produit
-      </h2>
-
+      <h2 id="detailName">Produit</h2>
       <button
         class="close-btn"
         onclick="fermerModal('productModal')"
-      >
-        ×
-      </button>
-
+      >×</button>
     </div>
 
     <div id="productDetailContent"></div>
-
   </div>
-
 </div>
 
+<!-- MODAL COMMANDE -->
 
-<!-- =========================================================
-     MODAL COMMANDE
-========================================================= -->
-
-<div
-  id="checkoutModal"
-  class="modal-overlay"
->
-
+<div id="checkoutModal" class="modal-overlay">
   <div class="modal">
-
     <div class="modal-header">
-
-      <h2>
-        🧾 Passer la commande
-      </h2>
-
+      <h2>🧾 Passer la commande</h2>
       <button
         class="close-btn"
         onclick="fermerModal('checkoutModal')"
-      >
-        ×
-      </button>
-
+      >×</button>
     </div>
 
-    <div
-      id="checkoutNotice"
-      class="notice"
-    ></div>
+    <div id="checkoutNotice" class="notice"></div>
 
-    <div
-      id="checkoutSummary"
-      class="checkout-summary"
-    ></div>
+    <div id="checkoutSummary" class="checkout-summary"></div>
 
-    <form
-      id="checkoutForm"
-      class="checkout-form"
-    >
+    <form id="checkoutForm" class="checkout-form">
 
       <div class="form-group">
-
-        <label for="customerName">
-          Nom
-        </label>
-
+        <label for="customerName">Nom</label>
         <input
           id="customerName"
           type="text"
           placeholder="Votre nom"
           required
         >
-
       </div>
 
-
       <div class="form-group">
-
-        <label for="customerPhone">
-          Téléphone
-        </label>
-
+        <label for="customerPhone">Téléphone</label>
         <input
           id="customerPhone"
           type="tel"
           placeholder="Votre numéro de téléphone"
           required
         >
-
       </div>
 
-
       <div class="form-group">
-
-        <label for="customerAddress">
-          Adresse / Quartier
-        </label>
-
+        <label for="customerAddress">Adresse / Quartier</label>
         <input
           id="customerAddress"
           type="text"
           placeholder="Exemple : Dakar, Parcelles Assainies"
           required
         >
-
       </div>
 
-
       <div class="form-group">
-
-        <label for="customerComment">
-          Commentaire
-        </label>
-
+        <label for="customerComment">Commentaire</label>
         <textarea
           id="customerComment"
           placeholder="Un commentaire concernant votre commande..."
         ></textarea>
-
       </div>
-
 
       <button
         id="submitOrderBtn"
@@ -797,11 +680,8 @@
       </button>
 
     </form>
-
   </div>
-
 </div>
-
 
 <script>
 
@@ -831,6 +711,15 @@ const WHATSAPP_NUMBER =
 
 const CART_KEY =
   "yayounabysac_panier";
+
+/*
+  Cette clé conserve l'identifiant de la tentative de commande.
+  Elle est conservée en cas d'erreur pour permettre de réessayer
+  avec le même identifiant.
+*/
+
+const ORDER_REQUEST_KEY =
+  "yayounabysac_demande_commande";
 
 
 /* =========================================================
@@ -949,6 +838,181 @@ function getCategorieProduit(produit){
     produit.category ||
     "Autres"
   );
+}
+
+
+/* =========================================================
+   IDENTIFIANT UNIQUE DE TENTATIVE DE COMMANDE
+========================================================= */
+
+function creerUuidDemande(){
+
+  if(
+    window.crypto &&
+    typeof window.crypto.randomUUID === "function"
+  ){
+
+    return window.crypto.randomUUID();
+
+  }
+
+  /*
+    Solution de secours pour les navigateurs qui ne proposent
+    pas crypto.randomUUID().
+  */
+
+  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(
+    /[xy]/g,
+    function(caractere){
+
+      const aleatoire =
+        Math.floor(Math.random() * 16);
+
+      const valeur =
+        caractere === "x"
+          ? aleatoire
+          : ((aleatoire & 3) | 8);
+
+      return valeur.toString(16);
+    }
+  );
+}
+
+
+function obtenirIdentifiantDemande(signature){
+
+  /*
+    Le même panier et les mêmes coordonnées réutilisent
+    l'identifiant sauvegardé si une tentative précédente
+    n'a pas pu être confirmée.
+
+    Si le panier ou les coordonnées changent, un nouvel
+    identifiant est créé.
+  */
+
+  let sauvegarde = null;
+
+  try{
+
+    const texte =
+      localStorage.getItem(
+        ORDER_REQUEST_KEY
+      );
+
+    if(texte){
+
+      sauvegarde =
+        JSON.parse(texte);
+    }
+
+  }catch(erreur){
+
+    console.error(
+      "Impossible de lire l'identifiant de commande :",
+      erreur
+    );
+
+  }
+
+
+  if(
+    sauvegarde &&
+    sauvegarde.signature === signature &&
+    typeof sauvegarde.requestId === "string" &&
+    sauvegarde.requestId.length > 0
+  ){
+
+    return sauvegarde.requestId;
+
+  }
+
+
+  const requestId =
+    creerUuidDemande();
+
+
+  const nouvelleSauvegarde = {
+
+    signature:
+      signature,
+
+    requestId:
+      requestId
+
+  };
+
+
+  /*
+    Nous devons sauvegarder l'identifiant avant l'appel
+    à Supabase. Si la réponse réseau est perdue, la prochaine
+    tentative pourra réutiliser le même identifiant.
+  */
+
+  try{
+
+    localStorage.setItem(
+      ORDER_REQUEST_KEY,
+      JSON.stringify(
+        nouvelleSauvegarde
+      )
+    );
+
+  }catch(erreur){
+
+    console.error(
+      "Impossible de sauvegarder l'identifiant de commande :",
+      erreur
+    );
+
+    throw new Error(
+      "Impossible de sécuriser cette tentative de commande sur cet appareil. Vérifiez que le stockage du navigateur est autorisé, puis réessayez."
+    );
+  }
+
+
+  return requestId;
+}
+
+
+function effacerIdentifiantDemande(requestId){
+
+  try{
+
+    const texte =
+      localStorage.getItem(
+        ORDER_REQUEST_KEY
+      );
+
+    if(!texte){
+      return;
+    }
+
+    const sauvegarde =
+      JSON.parse(texte);
+
+    /*
+      Ne supprimer que l'identifiant correspondant à cette
+      commande, afin de ne pas effacer une autre tentative.
+    */
+
+    if(
+      sauvegarde &&
+      sauvegarde.requestId === requestId
+    ){
+
+      localStorage.removeItem(
+        ORDER_REQUEST_KEY
+      );
+    }
+
+  }catch(erreur){
+
+    console.error(
+      "Impossible de nettoyer l'identifiant de commande :",
+      erreur
+    );
+
+  }
 }
 
 
@@ -1801,9 +1865,7 @@ function afficherPanier(){
 
       <div class="empty-products">
 
-        <p
-          style="margin-bottom:18px;"
-        >
+        <p style="margin-bottom:18px;">
           Votre panier est vide.
         </p>
 
@@ -1922,9 +1984,7 @@ function afficherPanier(){
 
       <div class="cart-total">
 
-        <span>
-          Total
-        </span>
+        <span>Total</span>
 
         <span>
           ${formaterPrix(total)}
@@ -2016,9 +2076,7 @@ function afficherResumeCommande(){
 
   zone.innerHTML = `
 
-    <strong>
-      Votre commande
-    </strong>
+    <strong>Votre commande</strong>
 
     ${panier.map(
       article => {
@@ -2060,9 +2118,7 @@ function afficherResumeCommande(){
 
     <div class="checkout-summary-total">
 
-      <span>
-        Total
-      </span>
+      <span>Total</span>
 
       <span>
         ${formaterPrix(total)}
@@ -2079,18 +2135,14 @@ function afficherResumeCommande(){
 ========================================================= */
 
 document
-  .getElementById(
-    "checkoutForm"
-  )
+  .getElementById("checkoutForm")
   .addEventListener(
     "submit",
     envoyerCommande
   );
 
 
-async function envoyerCommande(
-  event
-){
+async function envoyerCommande(event){
 
   event.preventDefault();
 
@@ -2104,20 +2156,28 @@ async function envoyerCommande(
   }
 
 
+  /* Empêcher plusieurs soumissions simultanées dans la page */
+
+  const bouton =
+    document.getElementById(
+      "submitOrderBtn"
+    );
+
+  if(bouton.disabled){
+    return;
+  }
+
+
   /* =======================================================
      RECALCUL DU TOTAL DEPUIS SUPABASE
   ======================================================= */
 
-  let totalCommande =
-    0;
+  let totalCommande = 0;
 
-  const lignesCommande =
-    [];
+  const lignesCommande = [];
 
 
-  for(
-    const article of panier
-  ){
+  for(const article of panier){
 
     const produit =
       produits.find(
@@ -2150,8 +2210,7 @@ async function envoyerCommande(
 
     const quantite =
       Number(
-        article.quantity ||
-        0
+        article.quantity || 0
       );
 
 
@@ -2176,7 +2235,8 @@ async function envoyerCommande(
 
     if(
       !Number.isFinite(quantite) ||
-      quantite <= 0
+      quantite <= 0 ||
+      !Number.isInteger(quantite)
     ){
 
       afficherErreurCommande(
@@ -2251,9 +2311,7 @@ async function envoyerCommande(
 
 
   totalCommande =
-    Math.round(
-      totalCommande
-    );
+    Math.round(totalCommande);
 
 
   console.log(
@@ -2262,10 +2320,13 @@ async function envoyerCommande(
   );
 
 
-  if(totalCommande <= 0){
+  if(
+    !Number.isFinite(totalCommande) ||
+    totalCommande <= 0
+  ){
 
     afficherErreurCommande(
-      "Le total de la commande est égal à 0 FCFA."
+      "Le total de la commande est invalide."
     );
 
     return;
@@ -2274,36 +2335,28 @@ async function envoyerCommande(
 
   const nom =
     document
-      .getElementById(
-        "customerName"
-      )
+      .getElementById("customerName")
       .value
       .trim();
 
 
   const telephone =
     document
-      .getElementById(
-        "customerPhone"
-      )
+      .getElementById("customerPhone")
       .value
       .trim();
 
 
   const adresse =
     document
-      .getElementById(
-        "customerAddress"
-      )
+      .getElementById("customerAddress")
       .value
       .trim();
 
 
   const commentaire =
     document
-      .getElementById(
-        "customerComment"
-      )
+      .getElementById("customerComment")
       .value
       .trim();
 
@@ -2322,26 +2375,19 @@ async function envoyerCommande(
   }
 
 
-  const bouton =
-    document.getElementById(
-      "submitOrderBtn"
-    );
-
-
-  bouton.disabled =
-    true;
-
+  bouton.disabled = true;
 
   bouton.textContent =
     "Enregistrement de la commande...";
 
 
+  let requestId = null;
+
+
   try{
 
     /* =====================================================
-       CRÉATION SÉCURISÉE DE LA COMMANDE
-       Supabase recalcule les prix et le total côté serveur.
-       La commande et ses articles sont enregistrés ensemble.
+       PRÉPARATION DE LA DEMANDE UNIQUE
     ===================================================== */
 
     const articlesSecurises =
@@ -2350,12 +2396,65 @@ async function envoyerCommande(
         quantity: ligne.quantity
       }));
 
+
+    /*
+      La signature représente les données de cette tentative.
+      Elle sert à réutiliser l'identifiant en cas de nouvel
+      envoi des mêmes données.
+
+      Le commentaire est inclus car il fait partie du message
+      WhatsApp associé à la commande.
+    */
+
+    const signatureDemande =
+      JSON.stringify({
+
+        customer_name:
+          nom,
+
+        phone:
+          telephone,
+
+        address:
+          adresse,
+
+        items:
+          articlesSecurises,
+
+        comment:
+          commentaire
+
+      });
+
+
+    requestId =
+      obtenirIdentifiantDemande(
+        signatureDemande
+      );
+
+
+    console.log(
+      "IDENTIFIANT DE DEMANDE :",
+      requestId
+    );
+
+
+    /* =====================================================
+       CRÉATION SÉCURISÉE ET IDEMPOTENTE DE LA COMMANDE
+
+       La fonction v2 reçoit le même request_id lors d'une
+       nouvelle tentative identique. Côté serveur, cet
+       identifiant permet de retrouver une commande déjà
+       enregistrée sans déduire le stock une seconde fois.
+    ===================================================== */
+
     const {
       data: orderData,
       error: orderError
     } = await supabaseClient.rpc(
-      "create_order_secure",
+      "create_order_secure_v2",
       {
+        p_request_id: requestId,
         p_customer_name: nom,
         p_phone: telephone,
         p_address: adresse,
@@ -2363,10 +2462,11 @@ async function envoyerCommande(
       }
     );
 
+
     if(orderError){
 
       console.error(
-        "ERREUR CREATE_ORDER_SECURE :",
+        "ERREUR CREATE_ORDER_SECURE_V2 :",
         orderError
       );
 
@@ -2376,8 +2476,9 @@ async function envoyerCommande(
       );
     }
 
+
     console.log(
-      "RÉPONSE CREATE_ORDER_SECURE :",
+      "RÉPONSE CREATE_ORDER_SECURE_V2 :",
       orderData
     );
 
@@ -2387,6 +2488,7 @@ async function envoyerCommande(
     ===================================================== */
 
     let orderId = null;
+
 
     if(Array.isArray(orderData)){
 
@@ -2403,6 +2505,7 @@ async function envoyerCommande(
           orderId =
             premier.id ??
             premier.order_id ??
+            premier.create_order_secure_v2 ??
             premier.create_order_secure;
 
         }else{
@@ -2420,8 +2523,10 @@ async function envoyerCommande(
 
     }
 
+
     orderId =
       Number(orderId);
+
 
     if(
       !orderId ||
@@ -2429,12 +2534,12 @@ async function envoyerCommande(
     ){
 
       console.error(
-        "Retour create_order_secure :",
+        "Retour create_order_secure_v2 :",
         orderData
       );
 
       throw new Error(
-        "La commande a été enregistrée mais son identifiant n'a pas pu être récupéré."
+        "La commande a peut-être été enregistrée, mais son identifiant n'a pas pu être récupéré. Réessayez avec les mêmes informations et le même panier."
       );
     }
 
@@ -2498,6 +2603,19 @@ async function envoyerCommande(
     );
 
 
+    /*
+      La commande est enregistrée et son numéro a été récupéré.
+      Nous pouvons maintenant effacer l'identifiant de tentative.
+
+      Cette suppression se fait uniquement après la réussite
+      de l'appel et la validation du numéro de commande.
+    */
+
+    effacerIdentifiantDemande(
+      requestId
+    );
+
+
     /* =====================================================
        NETTOYAGE DU PANIER APRÈS ENREGISTREMENT
     ===================================================== */
@@ -2508,9 +2626,7 @@ async function envoyerCommande(
 
 
     document
-      .getElementById(
-        "checkoutForm"
-      )
+      .getElementById("checkoutForm")
       .reset();
 
 
@@ -2522,9 +2638,7 @@ async function envoyerCommande(
       "https://wa.me/" +
       WHATSAPP_NUMBER +
       "?text=" +
-      encodeURIComponent(
-        message
-      );
+      encodeURIComponent(message);
 
 
     window.location.href =
@@ -2545,19 +2659,21 @@ async function envoyerCommande(
     );
 
 
-    bouton.disabled =
-      false;
+    /*
+      En cas d'erreur, nous conservons l'identifiant dans
+      localStorage. Un nouvel envoi avec les mêmes données
+      pourra donc réutiliser le même identifiant.
+    */
 
+    bouton.disabled = false;
 
     bouton.textContent =
-      "📱 Commander sur WhatsApp";
+      "📱 Réessayer la commande";
   }
 }
 
 
-function afficherErreurCommande(
-  message
-){
+function afficherErreurCommande(message){
 
   const zone =
     document.getElementById(
@@ -2581,15 +2697,11 @@ function afficherErreurCommande(
 function ouvrirModal(id){
 
   const modal =
-    document.getElementById(
-      id
-    );
+    document.getElementById(id);
 
   if(modal){
 
-    modal.classList.add(
-      "show"
-    );
+    modal.classList.add("show");
 
   }
 }
@@ -2598,24 +2710,18 @@ function ouvrirModal(id){
 function fermerModal(id){
 
   const modal =
-    document.getElementById(
-      id
-    );
+    document.getElementById(id);
 
   if(modal){
 
-    modal.classList.remove(
-      "show"
-    );
+    modal.classList.remove("show");
 
   }
 }
 
 
 document
-  .querySelectorAll(
-    ".modal-overlay"
-  )
+  .querySelectorAll(".modal-overlay")
   .forEach(
     modal => {
 
@@ -2623,14 +2729,9 @@ document
         "click",
         function(event){
 
-          if(
-            event.target ===
-            modal
-          ){
+          if(event.target === modal){
 
-            modal.classList.remove(
-              "show"
-            );
+            modal.classList.remove("show");
 
           }
 
@@ -2645,43 +2746,20 @@ document
    PROTECTION AFFICHAGE HTML
 ========================================================= */
 
-function echapperHTML(
-  valeur
-){
+function echapperHTML(valeur){
 
-  return String(
-    valeur ?? ""
-  )
-    .replace(
-      /&/g,
-      "&amp;"
-    )
-    .replace(
-      /</g,
-      "&lt;"
-    )
-    .replace(
-      />/g,
-      "&gt;"
-    )
-    .replace(
-      /"/g,
-      "&quot;"
-    )
-    .replace(
-      /'/g,
-      "&#039;"
-    );
+  return String(valeur ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
 }
 
 
-function echapperAttribut(
-  valeur
-){
+function echapperAttribut(valeur){
 
-  return echapperHTML(
-    valeur
-  );
+  return echapperHTML(valeur);
 }
 
 
