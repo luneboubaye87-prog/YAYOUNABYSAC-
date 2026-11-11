@@ -425,26 +425,6 @@
       transition: transform .7s cubic-bezier(.2,.8,.2,1), filter .5s;
     }
 
-    .gallery-arrow {
-      position: absolute; z-index: 4; top: 50%; transform: translateY(-50%);
-      width: 34px; height: 34px; border: 1px solid rgba(197,161,91,.7);
-      border-radius: 50%; background: rgba(255,253,249,.92); color: var(--chocolate);
-      font-size: 21px; line-height: 1; display: grid; place-items: center;
-      box-shadow: 0 3px 12px rgba(48,32,22,.14);
-    }
-    .gallery-arrow.prev { left: 9px; }
-    .gallery-arrow.next { right: 9px; }
-    .gallery-count {
-      position: absolute; z-index: 4; right: 10px; bottom: 10px;
-      padding: 5px 9px; border-radius: 15px; background: rgba(48,32,22,.72);
-      color: white; font-size: 10px; letter-spacing: .5px;
-    }
-    .detail-gallery { position: relative; min-width: 0; }
-    .detail-gallery img { display:block; width:100%; max-height:340px; height:340px;
-      object-fit:contain; border:1px solid var(--gold-light); border-radius:15px; background:var(--cream-dark); }
-
-    .detail-gallery .gallery-count { bottom: 12px; right: 12px; }
-
     .product-card:hover .product-image {
       transform: scale(1.09);
       filter: saturate(1.05);
@@ -882,7 +862,10 @@
 
     .notice.show { display: block; }
     .notice.error { background: #fff0ee; color: #942f25; border: 1px solid #efc4be; }
-    .notice.success { background: #edf8ee; color: #236a35; border: 1px solid #b9dfbf; }    @keyframes heroReveal {
+    .notice.success { background: #edf8ee; color: #236a35; border: 1px solid #b9dfbf; }
+    .submit-button:disabled { opacity: .6; cursor: wait; }
+
+    @keyframes heroReveal {
       from { opacity: 0; transform: translateY(22px); }
       to { opacity: 1; transform: translateY(0); }
     }
@@ -1001,8 +984,8 @@
 
       .detail-layout { grid-template-columns: 1fr; }
 
-      .detail-layout img, .detail-gallery img {
-        max-height: 250px; height: 250px;
+      .detail-layout img {
+        max-height: 250px;
         object-fit: contain;
       }
 
@@ -1247,37 +1230,11 @@
       return Math.round(convertirPrix(prix)).toLocaleString("fr-FR") + " FCFA";
     }
 
-    const indexImagesCartes = {};
-    const indexImagesDetails = {};
-    const IMAGE_DEFAUT = "https://placehold.co/600x700/f1e5d3/60402e?text=YAYOUNABY+STORE";
-
-    function imagesProduit(produit) {
-      let images = produit?.Images_urls ?? produit?.images_urls ?? produit?.ImagesUrls ?? [];
-      if (typeof images === "string") {
-        try { images = JSON.parse(images); } catch (_) { images = []; }
-      }
-      if (!Array.isArray(images)) images = [];
-      images = images.map(item => typeof item === "string" ? item : (item?.url || item?.src || ""))
-        .filter(url => typeof url === "string" && url.trim()).map(url => url.trim()).slice(0, 4);
-      const principale = produit?.Image_url ?? produit?.image_url ?? produit?.imageUrl ?? "";
-      if (!images.length && typeof principale === "string" && principale.trim()) images = [principale.trim()];
-      if (!images.length) images = [IMAGE_DEFAUT];
-      return images;
-    }
-
-    function imageProduit(produit) { return imagesProduit(produit)[0]; }
-
-    function changerImageProduit(id, delta, zone) {
-      const produit = produitParId(id);
-      if (!produit) return;
-      const images = imagesProduit(produit);
-      if (images.length < 2) return;
-      const indexeurs = zone === "detail" ? indexImagesDetails : indexImagesCartes;
-      const prochain = ((Number(indexeurs[id] || 0) + delta) % images.length + images.length) % images.length;
-      indexeurs[id] = prochain;      const img = document.getElementById((zone === "detail" ? "detail-image-" : "card-image-") + id);
-      const compteur = document.getElementById((zone === "detail" ? "detail-count-" : "card-count-") + id);
-      if (img) img.src = images[prochain];
-      if (compteur) compteur.textContent = (prochain + 1) + " / " + images.length;
+    function imageProduit(produit) {
+      const url = produit?.Image_url ?? produit?.image_url ?? produit?.imageUrl ?? "";
+      return typeof url === "string" && url.trim()
+        ? url.trim()
+        : "https://placehold.co/600x700/f1e5d3/60402e?text=YAYOUNABY+STORE";
     }
 
     function getPrixProduit(produit) {
@@ -1467,18 +1424,13 @@
         const categorie = getCategorieProduit(produit);
         const stock = getStockProduit(produit);
         const prix = getPrixProduit(produit);
-        const images = imagesProduit(produit);
-        const pid = echapperAttribut(produit.id);
-        const indexImage = Number(indexImagesCartes[produit.id] || 0) % images.length;
+        const image = imageProduit(produit);
         const indisponible = stock <= 0;
 
         return '<article class="product-card" style="animation-delay:' + Math.min(index * 60, 420) + 'ms">' +
-          '<div class="product-image-wrap" onclick="ouvrirDetailProduit(\'' + pid + '\')">' +
-            '<img id="card-image-' + pid + '" class="product-image" src="' + echapperAttribut(images[indexImage]) + '" alt="' + echapperAttribut(nom) +
-              '" loading="lazy" onerror="this.onerror=null;this.src=\'' + IMAGE_DEFAUT + '\'">' +
-            (images.length > 1 ? '<button class="gallery-arrow prev" type="button" aria-label="Photo précédente" onclick="event.stopPropagation();changerImageProduit(\'' + pid + '\',-1,\'carte\')">‹</button>' +
-              '<button class="gallery-arrow next" type="button" aria-label="Photo suivante" onclick="event.stopPropagation();changerImageProduit(\'' + pid + '\',1,\'carte\')">›</button>' +
-              '<span class="gallery-count" id="card-count-' + pid + '">' + (indexImage + 1) + ' / ' + images.length + '</span>' : '') +
+          '<div class="product-image-wrap" onclick="ouvrirDetailProduit(\'' + echapperAttribut(produit.id) + '\')">' +
+            '<img class="product-image" src="' + echapperAttribut(image) + '" alt="' + echapperAttribut(nom) +
+              '" loading="lazy" onerror="this.onerror=null;this.src=\'https://placehold.co/600x700/f1e5d3/60402e?text=YAYOUNABY+STORE\'">' +
             '<span class="product-label">✦ Collection</span>' +
           '</div>' +
           '<div class="product-info">' +
@@ -1582,18 +1534,10 @@
 
       const nom = produit.name || "Sac élégant";
       document.getElementById("detailName").textContent = nom;
-      const images = imagesProduit(produit);
-      const pid = echapperAttribut(produit.id);
-      const indexImage = Number(indexImagesDetails[produit.id] || 0) % images.length;
       document.getElementById("productDetailContent").innerHTML =
         '<div class="detail-layout">' +
-          '<div class="detail-gallery">' +
-            '<img id="detail-image-' + pid + '" src="' + echapperAttribut(images[indexImage]) + '" alt="' + echapperAttribut(nom) +
-              '" onerror="this.onerror=null;this.src=\'' + IMAGE_DEFAUT + '\'">' +
-            (images.length > 1 ? '<button class="gallery-arrow prev" type="button" aria-label="Photo précédente" onclick="changerImageProduit(\'' + pid + '\',-1,\'detail\')">‹</button>' +
-              '<button class="gallery-arrow next" type="button" aria-label="Photo suivante" onclick="changerImageProduit(\'' + pid + '\',1,\'detail\')">›</button>' +
-              '<span class="gallery-count" id="detail-count-' + pid + '">' + (indexImage + 1) + ' / ' + images.length + '</span>' : '') +
-          '</div>' +
+          '<img src="' + echapperAttribut(imageProduit(produit)) + '" alt="' + echapperAttribut(nom) +
+            '" onerror="this.onerror=null;this.src=\'https://placehold.co/600x700/f1e5d3/60402e?text=YAYOUNABY+STORE\'">' +
           '<div><div class="product-category">' + echapperHTML(getCategorieProduit(produit)) + '</div>' +
             '<h3>' + echapperHTML(nom) + '</h3>' +
             '<div class="detail-price">' + formaterPrix(getPrixProduit(produit)) + '</div>' +
@@ -1864,4 +1808,3 @@
   </script>
 </body>
 </html>
-    .submit-button:disabled { opacity: .6; cursor: wait; }
